@@ -517,17 +517,21 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 })
             },
             pass(){
-                if(this.itemManageDetail.status!=2||this.itemManageDetail.status!=3){
-                    this.$message.info('项目已审核！');
+                if(this.itemManageDetail.status==21&&this.itemManageDetail.status==31){
+                    this.$message.info('审核未通过');
                     return;
                 }
-                let param={
-                    id:this.$route.params.projectId,
-                    flag:this.itemManageDetail.phase==4?'first':'recheck',
-                    pass:'yes',
-                    rejection:''
+                if(this.itemManageDetail.status==2&&this.itemManageDetail.phase==4||this.itemManageDetail.status==3&&this.itemManageDetail.phase==5){
+                    let param={
+                        id:this.$route.params.projectId,
+                        flag:this.itemManageDetail.phase==4?'first':'recheck',
+                        pass:'yes',
+                        rejection:''
+                    }
+                    this.$store.dispatch('item_setResultInfo',{param,vue:this});
+                }else{
+                    this.$message.warning('项目状态异常，无法审核')
                 }
-                this.$store.dispatch('item_setResultInfo',{param,vue:this});
             },
             fangkuan() {
                 this.$confirm('项目方、领投两笔资金均已到位，现在申请将跟投有限合伙人全部投资款注入项目企业基本存款账户。', '放款申请', {
@@ -548,25 +552,28 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 });
             },
             refuse(reject) {
-                if(this.itemManageDetail.status!=2||this.itemManageDetail.status!=3){
-                    this.$message.info('项目已审核！');
+                if(this.itemManageDetail.status==21&&this.itemManageDetail.status==31){
+                    this.$message.info('审核未通过');
                     return;
                 }
-                this.$refs['reject'].validate((valid) => {
-                    if (valid) {
-                        let param={
-                            id:this.$route.params.projectId,
-                            flag:this.itemManageDetail.phase==4?'first':'recheck',
-                            pass:'no',
-                            rejection:this.reject.desc
+                if(this.itemManageDetail.status==2&&this.itemManageDetail.phase==4||this.itemManageDetail.status==3&&this.itemManageDetail.phase==5){
+                    this.$refs['reject'].validate((valid) => {
+                        if (valid) {
+                            let param={
+                                id:this.$route.params.projectId,
+                                flag:this.itemManageDetail.phase==4?'first':'recheck',
+                                pass:'no',
+                                rejection:this.reject.desc
+                            }
+                            this.$store.dispatch('item_setResultInfo',{param,vue:this});
+                            this.dialogStopVisible = false;
+                        } else {
+                            return false;
                         }
-                        this.$store.dispatch('item_setResultInfo',{param,vue:this});
-                        this.dialogStopVisible = false;
-                    } else {
-                        return false;
-                    }
-                });
-                
+                    });
+                }else{
+                    this.$message.warning('项目状态异常，无法审核')
+                }
             },
             cancel(reject) {
                 this.$refs['reject'].resetFields();

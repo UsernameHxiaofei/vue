@@ -385,5 +385,13 @@ module.exports = function client(router, sc, passport) {
         stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
         sc.send(stuff).then((resp) => { res.json(resp.object) });
     });
+    //上传图片
+    router.all('/getQuestionnaire',function (req, res, next) {
+        let param = req.body;
+        const stuff = sc.instanceRequest("QuestionnaireTask", "selectQuestionnaireByActorId", "customerManage");
+        stuff.auxiliary = { [passport]: req.session.passport };
+        stuff.items = [param.id];
+        sc.send(stuff).then((resp) => { res.json(resp.object) });
+    });
 
 }

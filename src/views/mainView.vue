@@ -60,6 +60,8 @@
 				</el-input>
 			</div>
 			<div class="date-box">
+				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="hover" clearable :options="options3" v-model="where" @change="handleChange">
+				</el-cascader>
 				<el-select v-model="industry" clearable placeholder="所属行业" @change="industryChange">
 					<el-option v-for="item in industryOption" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
@@ -68,8 +70,7 @@
 					<el-option v-for="item in projectPhaseOption" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
 				</el-select>
-				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="hover" clearable :options="options3" v-model="where" @change="handleChange">
-				</el-cascader>
+				
 			</div>
 		</div>
 		<!--表格-->

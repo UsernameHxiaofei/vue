@@ -6,7 +6,7 @@
         <!--<div class="hangjiashenhe" v-if="investorData">-->
         <div class="hangjiashenhe">
             <div class="look-btn">
-                <el-button type="warning" @click="lookAssessment">{{look?"返回记录":"查看个人投资者风险承受能力评估问卷"}}</el-button>
+                <el-button type="warning" @click="lookAssessment">{{look?"查看合格投资人认证记录":"查看个人投资者风险承受能力评估问卷"}}</el-button>
             </div>
             <assessment v-if="look"></assessment>
             <ul v-if="!look">

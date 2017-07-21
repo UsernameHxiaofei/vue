@@ -37,6 +37,7 @@ export const customerModule = {
         investorData:'',
         expertData:'',
         leadData:'',
+        questionnaire:{},
     },
     actions: {
         //客户信息维护列表
@@ -252,6 +253,18 @@ export const customerModule = {
                 commit("leadByActorId_setData",data);
             });
         },
+        //actorId 领投人查询
+        getQuestionnaire({ commit },param) {
+          return  api.getQuestionnaire(param).then((data) => {
+                commit("leadByActorId_setData",data);
+            });
+        },
+        //actorId 领投人查询
+        getQuestionnaire({ commit },param) {
+          return  api.getQuestionnaire(param).then((data) => {
+                commit("customer_setQuestionnaire",data);
+            });
+        },
     },
     mutations: {
         customer_setList(state, data) {
@@ -358,6 +371,9 @@ export const customerModule = {
         },
         leadByActorId_setData(state,data){
             state.leadData = data;
+        },
+        customer_setQuestionnaire(state,data){
+            state.questionnaire = data;
         },
     }
 }

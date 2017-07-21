@@ -180,6 +180,11 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
+      getQuestionnaire: (param) => {
+        return Vue.http.post('getQuestionnaire',param).then(response => {
+          return response.body;
+        });
+      },
 
     } 
 }
