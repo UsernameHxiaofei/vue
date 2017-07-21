@@ -1,0 +1,9 @@
+module.exports = {
+  extractCSS: process.env.NODE_ENV === 'production',
+  preserveWhitespace: false,
+  postcss: [
+    require('autoprefixer')({
+            browsers: ['last 10 Chrome versions', 'ie > 9', 'last 5 Firefox versions', 'Safari >= 6', '> 1%']
+    })
+  ]
+}
