@@ -121,7 +121,7 @@
                 </div>
             </el-col>
             <el-col :span="7">
-                <div class="ac-col-3-3">评价推荐项目，获取高额佣金，行家推广传播，提高个人品牌</div>
+                <div class="ac-col-3-3">评价推荐项目，获取高额佣金<br>行家推广传播，提高个人品牌</div>
             </el-col>
             <el-col :span="5">
                 <div class="ac-col-4" @click="expertClick" v-if="customer.expert==0">认证</div>
@@ -142,7 +142,7 @@
                 </div>
             </el-col>
             <el-col :span="7">
-                <div class="ac-col-3-3">领投实业项目，获取超额收益，领投推广传播，提升品牌形象</div>
+                <div class="ac-col-3-3">领投实业项目，获取超额收益<br>领投推广传播，提升品牌形象</div>
             </el-col>
             <el-col :span="5">
                 <div class="ac-col-4" @click="leadClick" v-if="customer.leadInvestor==0">认证</div>

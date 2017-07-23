@@ -6,7 +6,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>企业照面信息</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseBasic" :key="item.businessId">
+            <el-form class="form-block" :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseBasic" :key="item.businessId">
               <el-form-item label="企业名称">
                 {{item.entname}}
               </el-form-item>
@@ -96,7 +96,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>股东信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseShareholder" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseShareholder" :key="item.businessId" >
               <el-form-item label="股东名称">
                 {{item.shaname}}
               </el-form-item>
@@ -132,7 +132,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>高管信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterprisePerson" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterprisePerson" :key="item.businessId" >
               <el-form-item label="姓名">
                 {{item.pername}}
               </el-form-item>
@@ -153,7 +153,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>法人对外投资信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFrinv" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFrinv" :key="item.businessId" >
               <el-form-item label="法定代表人姓名">
                 {{item.name}}
               </el-form-item>
@@ -207,7 +207,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>法人其他任职信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFrposition" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFrposition" :key="item.businessId" >
               <el-form-item label="法定代表人姓名">
                 {{item.name}}
               </el-form-item>
@@ -255,7 +255,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>企业对外投资信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseEntinv" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseEntinv" :key="item.businessId" >
               <el-form-item label="企业(机构)名称">
                 {{item.entname}}
               </el-form-item>
@@ -309,7 +309,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>变更信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseAlter" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseAlter" :key="item.businessId" >
               <el-form-item label="变更日期">
                 {{item.altdate }}
               </el-form-item>
@@ -330,7 +330,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>分支机构信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFiliation" :key="item.brname" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFiliation" :key="item.brname" >
               <el-form-item label="分支机构名称">
                 {{item.brname}}
               </el-form-item>
@@ -354,7 +354,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>股权出质历史信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseSharesimpawn" :key="item.imporg" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseSharesimpawn" :key="item.imporg" >
               <el-form-item label="质权人姓名">
                 {{item.imporg}}
               </el-form-item>
@@ -384,7 +384,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>动产抵押信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseMordetail" :key="item.morreg_id" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseMordetail" :key="item.morreg_id" >
               <el-form-item label="抵押ID">
                 {{item.morreg_id }}
               </el-form-item>
@@ -432,7 +432,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>动产抵押物信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.morguainfo" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.morguainfo" :key="item.businessId" >
               <el-form-item label="变更日期">
                 {{item.altdate }}
               </el-form-item>
@@ -444,7 +444,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>失信被执行人信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterprisePunishbreak" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterprisePunishbreak" :key="item.businessId" >
               <el-form-item label="案号">
                 {{item.casecode }}
               </el-form-item>
@@ -510,7 +510,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>被执行人信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterprisePunished" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterprisePunished" :key="item.businessId" >
               <el-form-item label="案号">
                 {{item.casecode }}
               </el-form-item>
@@ -552,7 +552,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>股权冻结历史信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseSharesfrost" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseSharesfrost" :key="item.businessId" >
               <el-form-item label="冻结文号">
                 {{item.frodocno }}
               </el-form-item>
@@ -588,7 +588,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>清算信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseLiquidation" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseLiquidation" :key="item.businessId" >
               <el-form-item label="清算责任人">
                 {{item.ligentity }}
               </el-form-item>
@@ -614,63 +614,7 @@
               </el-form-item>
             </el-form>
           </el-col>
-          <el-col class="businessTitle">
-            <img src="../../../assets/images/linear.png"  /> <span>行政处罚历史信息</span>
-          </el-col>
-          <el-col class="businessinfo-content">  
-            <el-form :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseCaseinfo" :key="item.businessId" >
-              <el-form-item label="案发时间">
-                {{item.casetime }}
-              </el-form-item>
-              <el-form-item label="案由">
-                {{item.casereason }}
-              </el-form-item>
-              <el-form-item label="案值">
-                {{item.caseval }}
-              </el-form-item>
-              <el-form-item label="案件类型">
-                {{item.casetype }}
-              </el-form-item>
-              <el-form-item label="执行类别">
-                {{item.exesort }}
-              </el-form-item>
-              <el-form-item label="案件结果">
-                {{item.caseresult }}
-              </el-form-item>
-              <el-form-item label="处罚决定文书">
-                {{item.pendecno }}
-              </el-form-item>
-              <el-form-item label="处罚决定书签发日期">
-                {{item.pendecissdate }}
-              </el-form-item>
-              <el-form-item label="作出行政处罚决定机关名称">
-                {{item.penauth }}
-              </el-form-item>
-              <el-form-item label="主要违法事实">
-                {{item.illegfact }}
-              </el-form-item>
-              <el-form-item label="处罚依据">
-                {{item.penbasis }}
-              </el-form-item>
-              <el-form-item label="处罚种类">
-                {{item.pentype }}
-              </el-form-item>
-              <el-form-item label="处罚结果">
-                {{item.penresult }}
-              </el-form-item>
-              <el-form-item label="处罚金额">
-                {{item.penresult }}
-              </el-form-item>
-              <el-form-item label="案发时间">
-                {{item.penam }}
-              </el-form-item>
-              <el-form-item label="处罚执行情况">
-                {{item.penexest }}
-              </el-form-item>
-              <el-form-item label="    ">
-              </el-form-item>
-            </el-form>
-          </el-col>
+          
       </el-row>
   </div>
 </template>
@@ -699,11 +643,15 @@
   height:30px;
   font-size: 18px;
   font-weight: bold
-}
- #industryTab .businessTitle img{
-  text-indent: 20px;
-  margin-right:5px;
-}
+  }
+  #industryTab .businessTitle img{
+    text-indent: 20px;
+    margin-right:5px;
+  }
+  #industryTab .form-block{
+    border-bottom: 1px solid #06ccb7;
+    margin-bottom: 10px;
+  }
   #industryTab .businessinfo-content .el-form-item__label {
     text-align: right;
     vertical-align: middle;

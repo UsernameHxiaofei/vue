@@ -103,8 +103,8 @@
 						<router-link :to="{path: '/itemDetail/'+scope.row.id}">
 							<el-button class="btn-style">详情</el-button>
 						</router-link>
-						<router-link :to="{path: '/itemStep1/'+scope.row.id}">
-							<el-button class="btn-style">修改</el-button>
+						<router-link v-if="operator.category==2" :to="{path: '/itemStep1/'+scope.row.id}">
+							<el-button  class="btn-style">修改</el-button>
 						</router-link>
 					</template>
 				</el-table-column>
@@ -209,6 +209,9 @@ export default {
          },
 		 customerList:function(){
 			 return this.$store.state.item.customerList||{};
+		 },
+	     operator:function(){
+			 return this.$store.state.login.actor
 		 }
     },
 	beforeMount () {
@@ -220,7 +223,8 @@ export default {
                 keyword:this.keyword,
                 pageSize:10,
                 pageNo:1
-            }
+			}
+		console.log(this.$store.state.login.actor)
         this.$store.dispatch('item_getManageList',this.param);
 		this.$store.commit('enterprise_setMemberInfo',{});
 		this.$store.commit('enterprise_setInfo',{});

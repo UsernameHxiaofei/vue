@@ -29,7 +29,7 @@
         </div>
         <el-dialog class="p-form" :title="title" :visible.sync="dialogFormVisible"  @close="cancel">
             <el-form :rules="rules" ref="postalAddress" :model="postalAddress" label-width="90px">
-                <el-form-item label="收货人" prop="receiver">
+                <el-form-item label="收件人" prop="receiver">
                     <el-input placeholder="请填写真实姓名" v-model="postalAddress.receiver" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item label="手机号码" prop="receiverMobileNumber">

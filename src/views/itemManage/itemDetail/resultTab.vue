@@ -55,7 +55,7 @@
                 </div>
                 <p v-show="isShowSecond">{{resultInfo.rejection}}</p>
             </div>
-            <el-button class="again"  :disabled="itemManageDetail.status==11" type="success" @click="open2">{{itemManageDetail.status==11?'已重新发起':'重新发起'}}</el-button>
+            <el-button class="again" v-if="operator.category==2"  :disabled="itemManageDetail.status==11" type="success" @click="open2">{{itemManageDetail.status==11?'已重新发起':'重新发起'}}</el-button>
         </div>
     </div>
 </template>

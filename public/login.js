@@ -5,23 +5,15 @@ window.addEventListener('load', function () {
     }
   });
 }, false)
-
 function load(){
   document.getElementById('userName').value=sessionStorage.getItem('rea')
   document.getElementById('password').value=sessionStorage.getItem('rep')
 }
-
 function loginOn() {
-
-
   var username = document.getElementById('userName').value;
   var password = document.getElementById('password').value;
-  
-
-
   if (!username) { alert('用户名不能为空'); return; }
   if (!password) { alert('密码不能为空'); return; }
-
   var data = 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
   var xhr = new XMLHttpRequest();
   xhr.open('post', '/ajax/login_auth');
