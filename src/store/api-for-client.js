@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Resource from 'vue-resource';
-import { Loading } from 'element-ui';
-
+import { Loading,Message } from 'element-ui';
 Vue.use(Resource);
 Vue.http.options.root = '/ajax';
 
@@ -12,6 +11,11 @@ Vue.http.interceptors.push(function (request, next) {
   // continue to next interceptor
   next(function (response) {
     service.close();
+    if(response.body.assignUniqueSecretMessage){
+      Message.warning(response.body.assignUniqueSecretMessage);
+      let aa=response.body;
+      delete aa.assignUniqueSecretMessage;
+    }
   });
 });
 

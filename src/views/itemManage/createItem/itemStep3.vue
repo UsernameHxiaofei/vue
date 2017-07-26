@@ -12,7 +12,7 @@
 .choose-list .grid-content{border: 1px solid #dedede;overflow: hidden;background: #fafafa;height:120px;}
 .choose-list .grid-content img{width:120px;height: 120px;border-radius: 50%;float:left;}
 .choose-list .grid-content .info-content{background: white;padding: 10px;display:block;height:120px;margin-left:120px;}
-.choose-list .grid-content .info-content p{color:#999;margin-top:10px;text-indent: 20px;overflow: auto;}
+.choose-list .grid-content .info-content p{color:#999;margin-top:10px;text-indent: 20px;overflow: none;text-overflow: ellipsis;}
 .choose-list .el-col-12 .grid-content:hover{border-color: #06ccb7;}
 .choose-list .choosed{
     border-color: #06ccb7;
@@ -47,12 +47,12 @@
                 </el-select>
             </div>
             <div class="choose-list">
-                <el-row :gutter="20">
+                <el-row :gutter="20" style="height:710px">
                     <el-col :span="12" v-for="(item,index) in expertList.list" :key="index">
-                        <div class="grid-content" :class="{'choosed':experter==item.actorId}"   @click="chooseExport(item)">
+                        <div class="grid-content" :class="{'choosed':experter==item.actorId}" :title="item.profile"  @click="chooseExport(item)">
                             <img :src="item.headFigureURL" />
                             <div class="info-content">
-                                <h4>{{item.name}}&emsp;</h4>
+                                <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
                                 <p>{{item.profile}}</p>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                 </el-select>
             </div>
             <div class="choose-list">
-                <el-row :gutter="20">
+                <el-row :gutter="20" style="height:710px">
                     <el-col :span="12" v-for="(item,index) in leadList.list" :key="index" >
                         <div class="grid-content" :class="{'choosed':leader==item.actorId}"   @click="chooseLead(item)">
                             <img :src="item.headFigureURL" />

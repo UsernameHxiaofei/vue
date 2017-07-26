@@ -361,10 +361,10 @@ module.exports = function client(router, sc, passport) {
             res.json(resp.object)
         });
     });
-    //领投人信息byActorId
+    //个人领投的信息byActorId
     router.all('/leadByActorId', function (req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("LeadInvestorCertificationTask", "selectLeadInvestorCertificationByActorId", "customerManage");
+        const stuff = sc.instanceRequest("LeadInvestorCertificationTask", "selectLeadInvestorAllInfoByActorId", "customerManage");
         stuff.auxiliary = { [passport]: req.session.passport };
         stuff.items = [
             param.id
@@ -373,7 +373,6 @@ module.exports = function client(router, sc, passport) {
             res.json(resp.object)
         });
     });
-
     //上传图片
     router.all('/image_uploadByFile', multer().single('file'), function (req, res, next) {
         let param = req.body;

@@ -83,6 +83,9 @@
             },
             isShowSecond:function(){
                 return this.resultInfo.rejection&&this.resultInfo.rejection.length>0&&this.resultInfo.phase==5;
+            },
+            operator:function(){
+                return this.$store.state.login.actor;
             }
         },
         methods: {

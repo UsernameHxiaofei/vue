@@ -9,7 +9,7 @@
         router.all('/risk_getList', function (req, res, next) {
             console.log(req.body+'=>client data');
             let param=req.body;
-            const stuff = sc.instanceRequest("RiskTask", "selectRiskProjectList", "riskManage");
+            const stuff = sc.instanceRequest("RiskProjectMapTask", "selectRiskProjectList", "riskManage");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items = [
                 param.industry,
@@ -25,7 +25,7 @@
         router.all('/risk_getOne', function (req, res, next) {
             console.log(req.body+'=>client data');
             let param=req.body;
-            const stuff = sc.instanceRequest("RiskTask", "selectRiskProjectList", "riskManage");
+            const stuff = sc.instanceRequest("RiskProjectMapTask", "selectRiskProjectList", "riskManage");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items = [
                 param.industry,
@@ -47,7 +47,7 @@
         router.all('/risk_getHistoryList', function (req, res, next) {
             console.log(req.body+'=>client data');
             let param=req.body;
-            const stuff = sc.instanceRequest("RiskTask", "selectRiskWarningByProjectId", "riskManage");
+            const stuff = sc.instanceRequest("RiskProjectWarningTask", "selectRiskWarningByProjectId", "riskManage");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items = [
                 param.projectId,
@@ -70,7 +70,7 @@
         router.all('/risk_getRiskIndexList', function (req, res, next) {
             console.log(req.body+'=>client data');
             let param=req.body;
-            const stuff = sc.instanceRequest("RiskTask", "selectRiskWarningByProjectId", "riskManage");
+            const stuff = sc.instanceRequest("RiskProjectWarningTask", "selectRiskWarningByProjectId", "riskManage");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items = [
                 param.projectId,
@@ -224,7 +224,7 @@
         //查看预警信息详情
         router.all('/risk_selectRiskWarningById',function(req, res, next){
             let param=req.body;
-            const stuff = sc.instanceRequest("RiskTask", "selectRiskWarningById", "riskManage");
+            const stuff = sc.instanceRequest("RiskProjectWarningTask", "selectRiskWarningById", "riskManage");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items=[param.id];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});

@@ -77,7 +77,7 @@
                 </el-table-column>
                 <el-table-column prop="institution" label="领投类型">
                     <template scope="scope">
-                        {{scope.row.scope==1?'机构':'个人'}}
+                        {{scope.row.institution==1?'机构':'个人'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="mobileNumber" label="手机号" width="115px">

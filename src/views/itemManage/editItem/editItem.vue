@@ -84,6 +84,40 @@
 .myhead .el-upload__input {
     display: none !important;
 }
+.upload-projectImg .el-upload{
+    width:80%;
+    height:300px;
+    border:1px solid rgb(191, 217, 217);
+    border-radius: 10px;
+}
+.upload-projectImg .el-upload:hover{
+    border:1px dashed #06ccb7;
+    border-radius: 10px;
+}
+.upload-projectImg img{
+    width:100%;
+    height:300px;
+    line-height: 300px;
+    vertical-align: middle;
+    border:1px solid rgb(191, 217, 217);
+    border-radius: 10px;
+}
+.upload-projectImg img:hover{
+    width:100%;
+    height:300px;
+    line-height: 300px;
+    vertical-align: middle;
+    border:1px dashed #06ccb7;
+    border-radius: 10px;
+}
+.avatar-uploader-icon{
+    width:100%;
+    height:300px;
+    color:rgb(191, 217, 217);
+    line-height: 300px;
+    font-size:40px;
+    vertical-align: middle;
+}
 </style>
 <template>
     <div class="content" style="background:#f5f5f5;">
@@ -97,11 +131,11 @@
                     <span>项目情况</span>
                 </div>
                 <el-form-item class="money" label-width="140px">
-                    <el-upload class="upload-img" action="/ajax/fileupload" :data="{fileType:1}"  accept="image/*"
-                        :file-list="projectImgs"  :auto-upload="true"
-                        :on-success="successUpload_projectURL"  :disabled="hasProjectImg" :before-upload="uploadBeforeForProjectImage" 
-                        list-type="picture-card" :on-remove="handleprojectURLRemove">
-                        <el-button size="small" type="primary">上传形象图</el-button>
+                    <el-upload class="upload-img upload-projectImg" action="/ajax/fileupload" :data="{fileType:1}"  accept="image/*"
+                         :auto-upload="true" :show-file-list="false" v-loading="projectImgLoading"
+                        :on-success="successUpload_projectURL"  :before-upload="uploadBeforeForImage" >
+                        <img v-if="projectImg" :src="projectImg" v-loading="projectImgLoading">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过2M</div>
                     </el-upload>
                 </el-form-item>
@@ -272,9 +306,6 @@ export default {
         },
         materials:function(){
             return this.$store.state.item.materials||{};
-        },
-        hasProjectImg:function(){
-            return !!(this.projectImg&&this.projectImg.length&&this.projectImg.length>0);
         }
     },
     mounted () {
@@ -284,7 +315,6 @@ export default {
             }else{
                 return;
             }
-            this.projectImgs=[{name:'项目展示图',response:{objectLiteral:this.itemManageDetail.imageURL},url:this.itemManageDetail.imageURL}];
             this.projectImg=this.itemManageDetail.imageURL;
             this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
                 this.form.existProjectNum=this.enterpriseInfo.existProjectNum;
@@ -317,7 +347,6 @@ export default {
             industryData:industryData,
             editFlag:false,
             content: '<h2>这里是项目详细介绍信息</h2>',
-            projectImgs:[],
             plan_materials:[],
             others_materials:[],
             enterpriseMemberImageUrl:[],
@@ -325,6 +354,7 @@ export default {
             dialogTeamVisible: false,
             title1: "添加团队成员",
             projectImg:'',
+            projectImgLoading:false,
             planFile:'',
             otherFiles:[],
             isRepresent:false,
@@ -405,8 +435,16 @@ export default {
                 this.$message.warning('上传文件大小不能超过2mb')
                 return false;
             }
+            this.projectImgLoading=true;
+        },
+        uploadBeforeForImage(file){
+            if(file.size>=2*1024*1024){
+                this.$message.warning('上传文件大小不能超过2mb')
+                return false;
+            }
         },
         successUpload_projectURL(response,file,fileList){
+            this.projectImgLoading=false;
             this.projectImg=JSON.parse(response.objectLiteral);
         },
         successUpload_memberimageURL(response,file,fileList){

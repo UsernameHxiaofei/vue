@@ -7,6 +7,19 @@ import personalData from '../constant/personal'
 import enterpriseData from '../constant/enterprise'
 import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
+import funFlowTypes from '../constant/funFlowType'
+
+export function funFlowType(value){
+    let type=parseInt(value)
+    if(!type){
+        return '';
+    }
+    try {
+        return funFlowTypes[type]
+    } catch (error) {
+        return '';
+    }
+}
 
 export function riskRegion(value){
     let name='';

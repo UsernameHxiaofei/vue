@@ -34,12 +34,12 @@ body {
 }
 
 .hangjiashenhe label {
-	display: inline-block;
 	width: 120px;
 	font-weight: 400;
 	color: #999;
 	text-align: right;
 	margin-right: 20px;
+	float: left;
 }
 
 .hangjiashenhe li>span {

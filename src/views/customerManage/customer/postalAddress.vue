@@ -4,7 +4,7 @@
         <div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;" v-for="item in postalAddressList">
             <div style="height: 30px;line-height: 30px;">
                 <span>{{item.receiver}}</span>
-                <div style="    float: right;">
+                <div style="float: right;">
                     <el-button style="width: 70px;" @click="updatePostalAddress(item)">修改</el-button>
                     <el-button style="width: 70px;" @click="deletePostalAddress(item.id)">删除</el-button>
                 </div>

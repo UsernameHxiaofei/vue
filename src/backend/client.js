@@ -21,7 +21,17 @@ class StuffClient {
 
     send(stuff) {
         return new Promise((resolve) => {
-            this.sendc(stuff, (resp) => resolve(resp));
+            this.sendc(stuff, (resp) => {
+                console.log(resp);
+                if(resp.head.success){
+                    resolve(resp);
+                }else{
+                    let response=resp.object;
+                    Object.assign(response,{assignUniqueSecretMessage:resp.head.information});
+                    resp.object=response;
+                    resolve(resp);
+                }
+                });
         });
     }
 

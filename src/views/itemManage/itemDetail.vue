@@ -298,7 +298,6 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             }
         },
         mounted() {
-            this.$store.dispatch('item_getThirdReport',{id:this.projectId})
             this.$store.dispatch('item_getManageDetail',  {id:this.projectId}).then(()=>{
                 this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId})
                 this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
@@ -315,6 +314,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                     this.isEdit=true;
                 }
             })
+            this.$store.dispatch('item_getThirdReport',{id:this.projectId})
             this.$store.dispatch('item_getTimeInfo',{id:this.projectId});
             this.$store.dispatch('item_getResultInfo',{id:this.projectId});
             this.$store.dispatch('item_getExpertAd',{id:this.projectId});
@@ -528,7 +528,10 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                         pass:'yes',
                         rejection:''
                     }
-                    this.$store.dispatch('item_setResultInfo',{param,vue:this});
+                    this.$store.dispatch('item_setResultInfo',{param,vue:this}).then(()=>{
+                        this.$store.dispatch('item_getThirdReport',{id:this.projectId})
+                    })
+                    
                 }else{
                     this.$message.warning('项目状态异常，无法审核')
                 }

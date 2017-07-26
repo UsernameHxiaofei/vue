@@ -150,7 +150,7 @@
 					</el-table-column>
 					<el-table-column prop="audit" label="认证" width="140px">
 						<template scope="scope">
-							<span class="btn-small" :class="scope.row.projectParty==2 ? active : ''">项</span>
+							<span class="btn-small" :class="scope.row.projectParty==1 ? active : ''">项</span>
 							<span class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>
 							<span class="btn-small" :class="scope.row.leadInvestor==2 ? active : ''">领</span>
 							<span class="btn-small" :class="scope.row.investor==1 ? active : ''">投</span>

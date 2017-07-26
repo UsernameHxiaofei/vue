@@ -127,6 +127,7 @@
         width: 230px;
         bottom:0;
         overflow:auto;
+        user-select: none;
         background-color: #111118 !important;
     }
 

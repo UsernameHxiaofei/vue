@@ -903,7 +903,7 @@ export default {
                 ],
                 identNumber: [
                     { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
             },
 
@@ -918,7 +918,7 @@ export default {
                 ],
                 identNumber: [
                     { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
                 organization: [
                     { required: true, message: '请输入单位名称', trigger: 'blur' },
@@ -947,7 +947,7 @@ export default {
                 ],
                 identNumber: [
                     { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
                 industryList: [
                     { required: true, message: '请选择行业', trigger: 'blur', type: 'array' },
@@ -976,7 +976,7 @@ export default {
                 ],
                 representativeIdentNumber: [
                     { required: true, message: '请输入法人身份证', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern:/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
                 representativeMobileNumber: [
                     { required: true, message: '请输入法人手机号', trigger: 'blur' },
@@ -1003,7 +1003,7 @@ export default {
                 ],
                 identNumber: [
                     { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
                 organization: [
                     { required: true, message: '请输入单位名称', trigger: 'blur' },
@@ -1186,7 +1186,7 @@ export default {
                             this.customerInit();
                             this.cancel('realName');
                         } else {
-                            this.$message.error('认证失败!');
+                            this.$message.error(this.realNameVaildate.information);
                         }
                     })
                 }
@@ -1216,7 +1216,7 @@ export default {
                                 });
                                 this.expertVaildate();
                             } else {
-                                this.$message.error('实名认证失败!');
+                                this.$message.error(this.realNameVaildate.information);
                             }
                         })
                     } else {
@@ -1241,7 +1241,7 @@ export default {
                     this.customerInit();
                     this.cancel('expert');
                 } else {
-                    this.$message.error('提交认证失败!');
+                    this.$message.error(this.expertVaildateStatus.information);
                 }
             })
         },
@@ -1344,7 +1344,7 @@ export default {
                                 });
                                 this.leadValidate();
                             } else {
-                                this.$message.error('实名认证失败!');
+                                this.$message.error(this.realNameVaildate.information);
                             }
                         })
                     } else {
@@ -1371,7 +1371,7 @@ export default {
                         this.customerInit();
                         this.cancel('lead');
                     } else {
-                        this.$message.error('提交认证失败!');
+                        this.$message.error(this.personalLeadVaildateStatus.information);
                     }
                 })
             } else {
@@ -1384,7 +1384,7 @@ export default {
                         this.customerInit();
                         this.cancel('lead');
                     } else {
-                        this.$message.error('提交认证失败!');
+                        this.$message.error(this.organizationLeadVaildateStatus.information);
                     }
                 })
             }
@@ -1495,7 +1495,7 @@ export default {
                                 });
                                 this.investorValidate();
                             } else {
-                                this.$message.error('实名认证失败!');
+                                this.$message.error(this.realNameVaildate.information);
                             }
                         })
                     } else {
@@ -1518,7 +1518,7 @@ export default {
                         this.customerInit();
                         this.cancel('investor');
                     } else {
-                        this.$message.error('认证失败!');
+                        this.$message.error(this.investorVaildateStatus.information);
                     }
                 })
         },

@@ -3,9 +3,9 @@ const express = require('express');
 const router = express.Router();
 // 10.240.240.144
 // let sc=new StuffClient("10.151.30.121", 9880);
-let sc=new StuffClient("10.151.31.31", 9880);
+let sc=new StuffClient("127.0.0.1", 8886);
 if(process.env.NODE_ENV === 'production'){
-    sc=new StuffClient("10.151.31.31", 9880);
+    sc=new StuffClient("10.240.240.147", 9880);
 }
 
 const passport = "linktou.base.task.data.Passport";//放置通行证对象的字段名

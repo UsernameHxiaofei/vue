@@ -46,16 +46,16 @@
                     <el-table-column prop="pay_amount" width="110" label="实付金额" align="center"> </el-table-column>
                     <el-table-column prop="dlb_discount" width="130" label="哆啦宝补贴" align="center"> </el-table-column>
                     <el-table-column prop="merchant_discount" width="100" label="商家补贴" align="center"> </el-table-column>
-                    <el-table-column prop="batch_num" width="130" label="批次号" align="center"> </el-table-column>
+                    <el-table-column prop="balance_account_time" width="180" label="入账时间" align="center"> </el-table-column>
+                    <el-table-column prop="complete_time" width="180" label="完成时间" align="center"> </el-table-column>
                     <el-table-column prop="refund_time" width="180"  label="退款时间" align="center"> </el-table-column>
                     <el-table-column prop="fee"  width="120"  label="交易费率" align="center"> </el-table-column>
                     <el-table-column prop="fee_value"  width="80"  label="手续费" align="center"> </el-table-column>
                     <el-table-column prop="status"  label="订单状态" width="110" align="center"> </el-table-column>
+                    <el-table-column prop="batch_num" width="130" label="批次号" align="center"> </el-table-column>
                     <el-table-column prop="machine_num" width="110" label="机具号" align="center"> </el-table-column>
                     <el-table-column prop="shop_name" width="110" label="店铺名称" align="center"> </el-table-column>
                     <el-table-column prop="shop_num" width="110" label="店铺编号" align="center"> </el-table-column>
-                    <el-table-column prop="balance_account_time" width="180" label="入账时间" align="center"> </el-table-column>
-                    <el-table-column prop="complete_time" width="180" label="完成时间" align="center"> </el-table-column>
                 </el-table>
                 <pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
             </el-col>
@@ -148,9 +148,6 @@
                         lineStyle: { normal: { width: 3 } }
                     }],
                     dataZoom: [{
-                        startValue: new Date().getTime(),
-                        endValue: new Date().getTime()+1000*60*60*24*7
-                    }, {
                         type: 'inside'
                     }]
                 };

@@ -84,6 +84,41 @@
 .myhead .el-upload__input {
     display: none !important;
 }
+
+.upload-projectImg .el-upload{
+    width:80%;
+    height:300px;
+    border:1px solid rgb(191, 217, 217);
+    border-radius: 10px;
+}
+.upload-projectImg .el-upload:hover{
+    border:1px dashed #06ccb7;
+    border-radius: 10px;
+}
+.upload-projectImg img{
+    width:100%;
+    height:300px;
+    line-height: 300px;
+    vertical-align: middle;
+    border:1px solid rgb(191, 217, 217);
+    border-radius: 10px;
+}
+.upload-projectImg img:hover{
+    width:100%;
+    height:300px;
+    line-height: 300px;
+    vertical-align: middle;
+    border:1px dashed #06ccb7;
+    border-radius: 10px;
+}
+.avatar-uploader-icon{
+    width:100%;
+    height:300px;
+    color:rgb(191, 217, 217);
+    line-height: 300px;
+    font-size:40px;
+    vertical-align: middle;
+}
 </style>
 <template>
     <div class="content" style="background:#f5f5f5;">
@@ -97,11 +132,11 @@
                     <span>项目情况</span>
                 </div>
                 <el-form-item class="money" label-width="140px">
-                    <el-upload class="upload-img" action="/ajax/fileupload" :data="{fileType:1}"  accept="image/*"
-                        :file-list="projectImgs"  :auto-upload="true"
-                        :on-success="successUpload_projectURL"  :disabled="hasProjectImg" :before-upload="uploadBeforeForProjectImage" 
-                        list-type="picture-card" :on-remove="handleprojectURLRemove">
-                        <el-button size="small" type="primary">上传形象图</el-button>
+                    <el-upload class="upload-img upload-projectImg" action="/ajax/fileupload" :data="{fileType:1}"  accept="image/*"
+                         :auto-upload="true" :show-file-list="false" v-loading="projectImgLoading"
+                        :on-success="successUpload_projectURL"  :before-upload="uploadBeforeForProjectImage" >
+                        <img v-if="projectImg" :src="projectImg" v-loading="projectImgLoading">
+                        <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过2M</div>
                     </el-upload>
                 </el-form-item>
@@ -117,7 +152,7 @@
                 </el-form-item>
                 <el-form-item label="所属行业" label-width="140px" required prop="industry">
                     <el-radio-group v-model="form.industry">
-                        <el-radio v-for="(item,index) in industryData" :key="item.value" :label="item.value">{{item.label}}</el-radio>
+                        <el-radio v-for="(item,index) in industryData" :key="index" :label="item.value">{{item.label}}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item class="description" label="统一社会信用代码" :maxlength="32" prop="creditCode" label-width="140px">
@@ -203,7 +238,7 @@
                     <el-form-item class="myhead" prop="imageURL" label="上传头像" label-width="170px">
                         <el-upload class="upload-img" action="/ajax/fileupload" :auto-upload="true" :data="{fileType:2}"  accept="image/*"
                          :on-success="successUpload_memberimageURL" :disabled="teamform.imageURL.length!=0" :file-list="enterpriseMemberImageUrl" 
-                         :before-upload="uploadBeforeForProjectImage" 
+                         :before-upload="uploadBeforeForImage" 
                          list-type="picture-card" :on-remove="handle_memberimageURLRemove"> 
                             <el-button size="small" type="primary">上传头像</el-button>
                             <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过2M</div>
@@ -223,7 +258,7 @@
                     </el-form-item>
                     <el-form-item label="学历" prop="education" label-width="140px">
                         <el-select v-model="teamform.education" style="width:300px;" placeholder="请选择">
-                            <el-option v-for="item in educations" :key="item.value"  :value="item.value" :label="item.lable">
+                            <el-option v-for="(item,index) in educations" :key="index"  :value="item.value" :label="item.lable">
                             </el-option>
                         </el-select>
                     </el-form-item>
@@ -273,9 +308,6 @@ export default {
         },
         materials:function(){
             return this.$store.state.item.materials||{};
-        },
-        hasProjectImg:function(){
-            return !!(this.projectImg&&this.projectImg.length&&this.projectImg.length>0);
         }
     },
     mounted () {
@@ -286,7 +318,6 @@ export default {
                 return;
             }
             if(this.itemManageDetail.imageURL){
-                this.projectImgs=[{name:'项目展示图',response:{objectLiteral:this.itemManageDetail.imageURL},url:this.itemManageDetail.imageURL}];
                 this.projectImg=this.itemManageDetail.imageURL||'';
             }
             if(this.itemManageDetail.enterpriseId){
@@ -322,7 +353,6 @@ export default {
             industryData:industryData,
             editFlag:false,
             content: '',
-            projectImgs:[],
             plan_materials:[],
             others_materials:[],
             enterpriseMemberImageUrl:[],
@@ -330,6 +360,7 @@ export default {
             dialogTeamVisible: false,
             title1: "添加团队成员",
             projectImg:'',
+            projectImgLoading:false,
             planFile:'',
             otherFiles:[],
             isRepresent:true,
@@ -410,9 +441,17 @@ export default {
                 this.$message.warning('上传文件大小不能超过2mb')
                 return false;
             }
+            this.projectImgLoading=true;
+        },
+        uploadBeforeForImage(file){
+            if(file.size>=2*1024*1024){
+                this.$message.warning('上传文件大小不能超过2mb')
+                return false;
+            }
         },
         successUpload_projectURL(response,file,fileList){
             this.projectImg=JSON.parse(response.objectLiteral);
+            this.projectImgLoading=false;
         },
         successUpload_memberimageURL(response,file,fileList){
             this.teamform.imageURL=JSON.parse(response.objectLiteral);
@@ -431,9 +470,6 @@ export default {
         },
         handleOtherFileRemove(file, fileList){
             this.otherFiles=fileList;
-        },
-        handleprojectURLRemove(file, fileList) {
-            this.projectImg='';
         },
         prevstep() {
             this.$router.go(-1);

@@ -74,9 +74,9 @@ app.use(session({
   })
 }))
 app.use(bodyParser.json({limit:'20000kb'}));
-app.use(bodyParser.urlencoded({ extended: true,limit:'30000kb'}));
+app.use(bodyParser.urlencoded({ extended: true,limit:'20000kb'}));
 app.use(compression({ threshold: 0 }))
-app.use('/favicon.ico',serve('./public/logo.ico', true))
+app.use('/favicon.ico',serve('./public/favico.png', true))
 app.use('/dist', serve('./dist', true))
 app.use('/public', serve('./public', true))
 app.use('/assets',serve('./src/assets',true))
@@ -85,11 +85,11 @@ app.use('/service-worker.js', serve('./dist/service-worker.js'))
 const { router } = require('./src/backend/process');
 app.use('/ajax', router);
 app.use('/login',  serve('./src/login.html'));
-// app.use('/forgotPassword',  serve('./src/forgotPassword.html'));
+app.use('/forgotPassword',  serve('./src/forgotPassword.html'));
 // app.use('/register',  serve('./src/register.html'));
 
 
-app.use(function (req, res, next) {
+app.use('*',function (req, res, next) {
     var url = req.originalUrl;
     if (url != '/login' && !req.session.passport) {
         return res.redirect('/login');

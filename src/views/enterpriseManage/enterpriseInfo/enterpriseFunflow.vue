@@ -17,21 +17,21 @@
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24"   style="margin-top:45px">
+            <el-col :span="24" style="margin-top:45px">
                 <div id="balance">
 
                 </div>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24"   style="margin-top:45px">
+            <el-col :span="24" style="margin-top:45px">
                 <div id="funflowIn">
 
                 </div>
             </el-col>
         </el-row>
         <el-row style="margin-top:60px">
-            <el-col style="margin-top:-40px">
+            <el-col >
                 <div style="float:right;font-size: 18px;color: rgb(6, 204, 182);font-weight:600">
                     <span>合计：贷</span>
                     <span>{{totalData.totalb}}</span>
@@ -55,7 +55,11 @@
                     <el-table-column prop="balance" label="余额" align="center"> </el-table-column>
                     <el-table-column prop="recAccountNumber" label="对方账户" align="center"> </el-table-column>
                     <el-table-column prop="recAccountName" width="140" label="对方账户名称" align="center"> </el-table-column>
-                    <el-table-column prop="voucherKind" label="凭证种类" align="center"> </el-table-column>
+                    <el-table-column prop="voucherKind" label="凭证种类" align="center">
+                        <template scope="scope">
+                            <span>{{scope.row.voucherKind|funFlowType}}</span>
+                        </template>
+                    </el-table-column>
                     <el-table-column prop="voucherNumber" label="凭证号码" align="center"> </el-table-column>
                     <el-table-column prop="businessNumber" width="140" label="企业业务编号" align="center"> </el-table-column>
                     <el-table-column prop="cardNumber" label="卡号" align="center"> </el-table-column>
@@ -100,7 +104,7 @@
                     for (let i=0;this.dataList.list&&i<this.dataList.list.length;i++){
                         let item=this.dataList.list[i];
                         let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
-                        leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount]);
+                        leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
                         bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount]);
                         time.push(new Date(item.transactionTime).getTime());
                         balance.push([new Date(item.transactionTime).getTime(),item.balance]);
@@ -109,7 +113,8 @@
                             totalLeanNum+=item.debitAmount;
                         }else{
                             totalb++;
-                            totalbNum+=item.creditAmount;
+                            item.creditAmoun=item.creditAmoun||0;
+                            totalbNum+=item.creditAmoun;
                         }
                         
                     }
@@ -170,7 +175,8 @@
                     axisPointer: {
                         link: {xAxisIndex: 'all'}
                     },
-                    yAxis:[{ name: '金额(元)', nameLocation: 'start',gridIndex: 0 },
+                    yAxis:[
+                        { name: '金额(元)', nameLocation: 'start',gridIndex: 0 },
                         { name: '金额(元)', nameLocation: 'start',inverse: true,gridIndex: 1}
                     ],
                     series: [{
