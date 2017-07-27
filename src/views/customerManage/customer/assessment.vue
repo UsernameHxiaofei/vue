@@ -71,7 +71,7 @@
                 <div id="radio-select">
                     <p class="questions">1.请问您的年龄处于：</p>
                     <el-radio-group  v-model="answers[0]" >
-                        <el-radio  :label="'A'">30岁以下</el-radio>
+                        <el-radio disabled :label="'A'">30岁以下</el-radio>
                         <el-radio disabled :label="'B'">31-40岁</el-radio>
                         <el-radio disabled :label="'C'">41-50岁</el-radio>
                         <el-radio disabled :label="'D'">51-60岁</el-radio>
@@ -215,7 +215,7 @@ export default {
     },
     computed:{
         questionnaire:function(){
-            return this.$store.customer.questionnaire||{};
+            return this.$store.customer.questionnaire;
         }
     },
     mounted() {

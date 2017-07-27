@@ -2,6 +2,9 @@
 .el-form-item__content span {
   word-break: break-all;
 }
+.marginLeft{
+  margin-left: 30px;
+}
 </style>
 
 <template>
@@ -9,7 +12,16 @@
     <!--搜索-->
     <div class="search-box">
       <div class="output">
-        <el-input placeholder="操作人 | 部件码 | 输入输出关键字" icon="search" v-model.trim="search_value" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
+        <el-input placeholder="操作人" icon="search" v-model.trim="operatorName" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
+        </el-input>
+        
+      </div>
+      <div class="output marginLeft">
+        <el-input placeholder="部件码" icon="search" v-model.trim="componentCode" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
+        </el-input>
+      </div>
+      <div class="output marginLeft">
+        <el-input placeholder="输入输出关键字" icon="search" v-model.trim="inputAndOutData" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
         </el-input>
       </div>
       <div class="date-box">
@@ -77,7 +89,9 @@ export default {
     this.param = {
       beginTime: this.startTime,
       endTime: this.endTime,
-      keyword: this.search_value,
+      operatorName:this.operatorName,
+      componentCode:this.componentCode,
+      inputAndOutData:this.inputAndOutData,
       pageNo: 1,
       pageSize: 10
     }
@@ -87,7 +101,9 @@ export default {
     return {
       startTime: '',
       endTime: '',
-      search_value: '',
+      operatorName:'',
+      componentCode:'',
+      inputAndOutData:'',
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -121,7 +137,9 @@ export default {
   methods: {
     // 搜索
     handleIconClick() {
-      this.param.keyword = this.search_value;
+      this.param.operatorName=this.operatorName;
+      this.param.componentCode=this.componentCode;
+      this.param.inputAndOutData=this.inputAndOutData;
       this.param.pageNo = 1;
       this.$store.dispatch('system_logList', this.param);
     },

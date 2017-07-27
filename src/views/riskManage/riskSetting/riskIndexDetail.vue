@@ -66,7 +66,8 @@
                 this.$router.go(-1);
             },
             del(){
-                //todo
+                this.$store.dispatch('/risk_deleteRiskRuleInfo',{param:{id:this.$route.params.id},vue:this})
+                this.$router.go(-1);
             },
             edit(){
                 this.$router.push('/editRiskIndex/'+this.$route.params.id);

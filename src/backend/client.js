@@ -22,7 +22,7 @@ class StuffClient {
     send(stuff) {
         return new Promise((resolve) => {
             this.sendc(stuff, (resp) => {
-                console.log(resp);
+                console.log('服务器接口调用完成',resp);
                 if(resp.head.success){
                     resolve(resp);
                 }else{
@@ -49,7 +49,6 @@ class StuffClient {
             client.end();
             try {
                 response = assembler.read();
-                console.log('服务器接口调用完成');
                 oper(response);
             } catch (ex) {
                 console.log(ex);

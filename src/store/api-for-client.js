@@ -12,9 +12,12 @@ Vue.http.interceptors.push(function (request, next) {
   next(function (response) {
     service.close();
     if(response.body.assignUniqueSecretMessage){
+      if(response.body.assignUniqueSecretMessage=='账号未登录！'){
+        setTimeout(()=>{
+          location.href='/login';
+        },2000)
+      }
       Message.warning(response.body.assignUniqueSecretMessage);
-      let aa=response.body;
-      delete aa.assignUniqueSecretMessage;
     }
   });
 });

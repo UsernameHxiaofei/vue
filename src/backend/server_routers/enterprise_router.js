@@ -37,7 +37,7 @@
         });
         router.all('/enterprise_getAccountDetail', function (req, res, next) {//获取企业账户信息
             let param=req.body;
-            const stuff = sc.instanceRequest("EnterpriseAccountDetailTask", "selectByEnterprisetId", "enterpriseManger");
+            const stuff = sc.instanceRequest("EnterpriseAccountDetailTask", "selectAccountDetailByEnterprisetId", "enterpriseManger");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items = [param.type,param.id,param.beginTime,param.endTime,param.pageSize,param.pageNo];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});

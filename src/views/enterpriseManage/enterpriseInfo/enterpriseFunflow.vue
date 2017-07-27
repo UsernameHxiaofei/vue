@@ -90,6 +90,9 @@
         },
         methods: {
             getTotalData(){
+                if(this.listData.totalCount&&this.listData.totalCount==0){
+                    return;
+                }
                 let totalLean=0,totalb=0,totalLeanNum=0,totalbNum=0;
                 let leanOut=[],bIn=[],time=[],balance=[];
                 this.paramImg={
@@ -245,7 +248,7 @@
             }
             this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                  this.listData=JSON.parse(JSON.stringify(this.dataList));
-                 this.getTotalData()
+                 this.getTotalData();
             });
 
         },

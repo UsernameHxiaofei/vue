@@ -170,7 +170,9 @@
             stuff.items = [
                 param.beginTime,
                 param.endTime,
-                param.keyword,
+                param.operatorName,
+                param.componentCode,
+                param.inputAndOutData,
                 param.pageNo,
                 param.pageSize
             ];
