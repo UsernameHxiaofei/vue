@@ -175,43 +175,8 @@ import { regionData } from 'element-china-area-data'
 				options: regionData,
         		selectedOptions: [],
 				uploadList:[],
-            	fileParam:{},
-				// rules: {
-				// 	nickname: [
-				// 		{ required: true, message: '请输入昵称', trigger: 'blur' },
-				// 		{ min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur' }
-				// 	],
-				// 	gender: [
-				// 		{ required: true, message: '请选择性别', trigger: 'change', type:'number'}
-				// 	],
-				// 	organization: [
-				// 		{ required: true, message: '请输入公司名称', trigger: 'blur' }
-				// 	],
-				// 	wechatNumber: [
-				// 		{ required: true, message: '请输入微信号', trigger: 'blur' }
-				// 	],
-				// 	position: [
-				// 		{ required: true, message: '请输入职位', trigger: 'blur' }
-				// 	],
-				// 	investment: [
-				// 		{ required: true, message: '请输入已投项目', trigger: 'blur' }
-				// 	],
-				// 	personProfile: [
-				// 		{ required: true, message: '请输入个人简介', trigger: 'blur' }
-				// 	],
-				// 	expertProfile: [
-				// 		{ required: true, message: '请输入行家简介', trigger: 'blur' }
-				// 	],
-				// 	birthdate: [
-				// 		{ type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-				// 	],
-				// 	absorbedIndustry: [
-				// 		{ type: 'array', required: true, message: '请至少选择一个专注行业', trigger: 'change' }
-				// 	],
-				// 	followIndustry: [
-				// 		{ type: 'array', required: true, message: '请至少选择一个关注行业', trigger: 'change' }
-				// 	]
-       			// }
+            	fileParam:{}
+				
 				
 			}
 		},

@@ -256,12 +256,6 @@ export const customerModule = {
         //actorId 领投人查询
         getQuestionnaire({ commit },param) {
           return  api.getQuestionnaire(param).then((data) => {
-                commit("leadByActorId_setData",data);
-            });
-        },
-        //actorId 领投人查询
-        getQuestionnaire({ commit },param) {
-          return  api.getQuestionnaire(param).then((data) => {
                 commit("customer_setQuestionnaire",data);
             });
         },

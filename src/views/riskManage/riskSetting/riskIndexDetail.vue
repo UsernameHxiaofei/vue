@@ -40,7 +40,7 @@
     import riskRegion from '../../../constant/riskRegion.js';
 
     export default {
-        name: 'riskIndexDetail',
+        name: 'riskIndexDetail', 
         mounted () {
             this.$store.dispatch('risk_selectRiskInfo',{id:this.$route.params.id}).then(()=>{
                 for (let i = 0; this.indexInfo.riskRuleGroup&&i < this.indexInfo.riskRuleGroup.length; i++) {
@@ -66,7 +66,7 @@
                 this.$router.go(-1);
             },
             del(){
-                this.$store.dispatch('/risk_deleteRiskRuleInfo',{param:{id:this.$route.params.id},vue:this})
+                this.$message.warning('接口开发中')
                 this.$router.go(-1);
             },
             edit(){

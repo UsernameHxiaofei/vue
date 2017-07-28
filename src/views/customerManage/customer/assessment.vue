@@ -182,7 +182,7 @@
                 
             </el-col>
         </el-row>
-        <div class="assAdvice">评估意见：您的风险承受能力评级属于：<el-tag type="success">相对积极</el-tag>型</div>
+        <div class="assAdvice">评估意见：您的风险承受能力评级属于：<el-tag type="success">{{grade.lable||''}}</el-tag>型</div>
         <p class="aboutAss">关于不同风险承受能力类型的说明</p>
         <el-row style="margin-bottom:30px;">
             <div v-for="item in result">
@@ -202,26 +202,34 @@ export default {
     name:'assessment',
     data() {
         return {
-            radio2: 'A',
             result:[
-                {lable:'保守型',discription:'此类投资者对于投资产品的任何下跌都不愿意接受，甚至不能承受极小的资产波动，属于风险厌恶型的投资者，首要目的是保持投资的稳定性与资产的保值，这类投资者需要注意为达到上述目标回报率可能很低，以换取本金免于受损和较高的流动性。'},
-                {lable:'相对保守型',discription:'此类投资者不愿意接受暂时的投资损失，关注本金的安全，往往是稍微有些风险厌恶型的投资者，首要投资目标是资产一定程度的增值，为了获得一定的收益能承受少许本金损失和波动，此类投资者可以承受少许的资产波动和本金损失风险。'},
-                {lable:'稳健型',discription:'此类投资者愿意承担一定程度的风险，主要强调投资风险和资产增值之间的平衡，为了获得一定收益可以承受投资产品价格的波动，甚至可以承受一段时间内投资产品价格的下跌，此类投资者可以承受一定程度的资产波动风险和本金亏损风险。'},
-                {lable:'相对积极型',discription:'此类投资者为了获得高回报的投资收益，能够承受投资产品价格的显著波动，主要投资目标是实现资产增值，为实现目标往往愿意承担相当程度的风险，此类投资者可以承受相当大的资产波动风险和本金亏损风险。'},
-                {lable:'积极型',discription:'此类投资者能够承受投资产品价格的剧烈波动，也可以承担这种波动所带来的结果，投资目标主要是取得超额收益，为实现投资目标愿意冒更大的风险，此类投资者能够承担相当大的投资风险和更大的本金亏损风险。'}
+                {level:'A',lable:'保守型',discription:'此类投资者对于投资产品的任何下跌都不愿意接受，甚至不能承受极小的资产波动，属于风险厌恶型的投资者，首要目的是保持投资的稳定性与资产的保值，这类投资者需要注意为达到上述目标回报率可能很低，以换取本金免于受损和较高的流动性。'},
+                {level:'B',lable:'相对保守型',discription:'此类投资者不愿意接受暂时的投资损失，关注本金的安全，往往是稍微有些风险厌恶型的投资者，首要投资目标是资产一定程度的增值，为了获得一定的收益能承受少许本金损失和波动，此类投资者可以承受少许的资产波动和本金损失风险。'},
+                {level:'C',lable:'稳健型',discription:'此类投资者愿意承担一定程度的风险，主要强调投资风险和资产增值之间的平衡，为了获得一定收益可以承受投资产品价格的波动，甚至可以承受一段时间内投资产品价格的下跌，此类投资者可以承受一定程度的资产波动风险和本金亏损风险。'},
+                {level:'D',lable:'相对积极型',discription:'此类投资者为了获得高回报的投资收益，能够承受投资产品价格的显著波动，主要投资目标是实现资产增值，为实现目标往往愿意承担相当程度的风险，此类投资者可以承受相当大的资产波动风险和本金亏损风险。'},
+                {level:'E',lable:'积极型',discription:'此类投资者能够承受投资产品价格的剧烈波动，也可以承担这种波动所带来的结果，投资目标主要是取得超额收益，为实现投资目标愿意冒更大的风险，此类投资者能够承担相当大的投资风险和更大的本金亏损风险。'}
             ],
-            answers:[]
+            answers:[],
+            grade:{},
         }
     },
     computed:{
         questionnaire:function(){
-            return this.$store.customer.questionnaire;
+            return this.$store.state.customer.questionnaire;
         }
     },
     mounted() {
         this.$store.dispatch('getQuestionnaire',{id:this.$route.params.actorId}).then(()=>{
-            if(this.questionnaire.answer&&this.questionnaire.answer.length&&this.questionnaire.answer.indexOf(',')!=-1){
-                this.answers=this.questionnaire.split(',');
+            if(this.questionnaire.answer&&this.questionnaire.answerArray.length){
+                this.answers=this.questionnaire.answerArray;
+                for (let i = 0; i < this.result.length; i++) {
+                    let element = this.result[i];
+                    if(element.level==this.questionnaire.grade){
+                        this.grade=element;
+                        break;
+                    }
+                    
+                }
             }
         })
     },

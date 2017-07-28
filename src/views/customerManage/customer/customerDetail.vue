@@ -272,9 +272,7 @@ export default {
 							type: 'success'
 						})
 						this.customerInit();
-
 						this.dialogFormVisible = false;
-
 					} else {
 						this.$message.error('激活失败');
 					}
