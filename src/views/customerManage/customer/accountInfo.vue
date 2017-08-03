@@ -225,27 +225,18 @@
                         <el-input v-model="expert.identNumber" auto-complete="off" :readonly="customer.realName?true:false">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="关注行业">
+                    <el-form-item label="专注行业">
                         <div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
                             <el-checkbox v-model="industryArr.industry[i]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
                             <input type="number" v-model="industryArr.workYears[i]" :disabled="industryArr.industry[i]?false:true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
                         </div>
                     </el-form-item>
-                    <el-form-item label="专注行业">
-                        <el-checkbox-group v-model="expert.newIndustryList">
-                            <el-checkbox v-for="item in industryList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
-                        </el-checkbox-group>
-                    </el-form-item>
                     <el-form-item label="所属单位" :label-width="formLabelWidth" prop="organization">
                         <el-input v-model="expert.organization" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="职位" :label-width="formLabelWidth" prop="position">
                         <el-input v-model="expert.position" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="籍贯 " prop="expertRegionOptions">
-                        <el-cascader size="large" :options="options" v-model="expert.expertRegionOptions" @change="handleChange">
-                        </el-cascader>
                     </el-form-item>
                     <el-form-item label="常驻地区 " prop="expertUsualPlaceOptions">
                         <el-cascader size="large" :options="options" v-model="expert.expertUsualPlaceOptions" @change="handleChange">
@@ -288,24 +279,18 @@
                     <el-form-item label="身份证号" :label-width="formLabelWidth">
                         <span>{{expertData.identNumber}}</span>
                     </el-form-item>
-                    <el-form-item label="关注行业">
+                    <el-form-item label="专注行业">
                         <div style="float: left;padding-right: 20px;" v-for="(item,i) in industryList">
                             <el-checkbox :disabled="true" v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
                             <input type="number" v-model="workYearsObj[i]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
                         </div>
                     </el-form-item>
-                    <el-form-item label="专注行业">
-                        <span>{{expertData.newIndustry|industry}}</span>
-                    </el-form-item>
                     <el-form-item label="所属单位" :label-width="formLabelWidth">
                         <span>{{expertData.organization}}</span>
                     </el-form-item>
                     <el-form-item label="职位" :label-width="formLabelWidth">
                         <span>{{expertData.position}}</span>
-                    </el-form-item>
-                    <el-form-item label="籍贯 ">
-                        <span>{{expertData.regionCode|address}}</span>
                     </el-form-item>
                     <el-form-item label="常驻地区 ">
                         <span>{{expertData.usualPlace|address}}</span>
@@ -339,27 +324,18 @@
                         <el-input v-model="expertData.identNumber" auto-complete="off" :readonly="customer.realName?true:false">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="关注行业">
+                    <el-form-item label="专注行业">
                         <div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
                             <el-checkbox v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
                             <input type="number" v-model="workYearsObj[i]" :disabled="industryObj[i]?false:true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
                         </div>
                     </el-form-item>
-                    <el-form-item label="专注行业">
-                        <el-checkbox-group v-model="newIndustryList">
-                            <el-checkbox v-for="item in industryList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
-                        </el-checkbox-group>
-                    </el-form-item>
                     <el-form-item label="所属单位" :label-width="formLabelWidth" prop="organization">
                         <el-input v-model="expertData.organization" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="职位" :label-width="formLabelWidth" prop="position">
                         <el-input v-model="expertData.position" auto-complete="off"></el-input>
-                    </el-form-item>
-                    <el-form-item label="籍贯 " prop="expertRegionOptions">
-                        <el-cascader size="large" :options="options" v-model="expertData.expertRegionOptions" @change="handleChange">
-                        </el-cascader>
                     </el-form-item>
                     <el-form-item label="常驻地区 " prop="expertUsualPlaceOptions">
                         <el-cascader size="large" :options="options" v-model="expertData.expertUsualPlaceOptions" @change="handleChange">
@@ -539,11 +515,9 @@
                     <el-form-item v-if="show==2" label="企业情况">
                         <span>{{leadData.industryLevel|industryLevel}}</span>
                     </el-form-item>
-    
                     <el-form-item label="已投项目">
                         <span>{{leadData.investment}}</span>
                     </el-form-item>
-    
                     <el-form-item v-if="show==2" label="姓名" :label-width="formLabelWidth" >
                         <span>{{leadData.representative}}</span>
                     </el-form-item>
@@ -1523,7 +1497,9 @@ export default {
                 })
         },
         cancel(formName) {
-            this.$refs[formName].resetFields();
+            if(this.$refs[formName]){
+                this.$refs[formName].resetFields();
+            }
             this.editPasswordDialog = false;
             this.expertDialog = false;
             this.leadDialog = false;

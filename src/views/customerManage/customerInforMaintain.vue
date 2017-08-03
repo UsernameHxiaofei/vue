@@ -149,6 +149,26 @@
     
             </el-dialog>
         </div>
+        <div class="p-form">
+            <el-dialog title="客户信息" :visible.sync="showCustomerInfo" @close="cancelShow">
+                <el-form :model="customerInfo" ref="customer1">
+                    <el-form-item label="手机号" :label-width="formLabelWidth" >
+                        {{customerInfo.mobileNumber}}
+                    </el-form-item>
+                    <el-form-item label="姓名" :label-width="formLabelWidth" >
+                        {{customerInfo.name}}
+                    </el-form-item>
+                    <el-form-item label="身份证号" :label-width="formLabelWidth">
+                        {{customerInfo.identNumber}}
+                    </el-form-item>
+                    <el-form-item label="登录口令" :label-width="formLabelWidth">
+                        <span style="color:red">{{customerInfo.password}}</span>    
+                    </el-form-item>
+                </el-form>
+                <div slot="footer" class="dialog-footer">
+                </div>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
@@ -182,6 +202,7 @@ export default {
             { value: 'E', label: '领投人' }],
             active: 'border-orange',
             dialogFormVisible: false,
+            showCustomerInfo:false,
             formLabelWidth: '120px',
             keyword: '',
             certifi: '',
@@ -192,6 +213,7 @@ export default {
                 mobileNumber: '',
                 name: '',
             },
+            customerInfo:{},
             customerRules: {
                 mobileNumber: [
                     { required: true, message: '请输入手机号码', trigger: 'blur' },
@@ -203,7 +225,7 @@ export default {
                 ],
                 identNumber: [
                     { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
             }
         }
@@ -252,10 +274,14 @@ export default {
         addActor() {
             this.$refs['customer'].validate((valid) => {
                 if (valid) {
-                    this.$store.dispatch('add_actor', this.customer).then(() => {
+                    this.$store.dispatch('add_actor',this.customer ).then(() => {
                         if (this.customerActorData.head.success) {
-                            this.customerActorData.objectLiteral = this.customerActorData.objectLiteral.replace(/"/g, "")
+                            this.customerInfo=JSON.parse(JSON.stringify(this.customer));
+                            this.customerActorData.objectLiteral=JSON.parse(this.customerActorData.objectLiteral)
+                            this.customerInfo.password=this.customerActorData.objectLiteral.loginPassword;
                             this.addCustomer();
+                            this.dialogFormVisible = false;
+                            this.showCustomerInfo = true;
                         } else {
                             this.$message.error(this.customerActorData.head.information)
                         }
@@ -266,11 +292,10 @@ export default {
         },
         addCustomer() {
             let customerParam = {
-                actorId: this.customerActorData.objectLiteral,
+                actorId: this.customerActorData.objectLiteral.id,
                 mobileNumber: this.customer.mobileNumber,
                 name: this.customer.name,
-                identNumber: this.customer.identNumber,
-                // birthdate: '1960-01-01 00:00:00'
+                identNumber: this.customer.identNumber
             }
             this.$store.dispatch('add_customer', customerParam).then(() => {
                 if (this.customerData.success) {
@@ -278,20 +303,23 @@ export default {
                         message: '添加成功！',
                         type: 'success'
                     });
+                    this.param.pageNum = 1;
+                    this.$store.dispatch('customer_getList', this.param);
                 } else {
                     this.$message.error(this.customerData.information)
                 }
 
-                this.param.pageNum = 1;
-                this.$store.dispatch('customer_getList', this.param);
-                this.dialogFormVisible = false;
+                
             });
         },
         cancel() {
-            this.$refs['customer'].resetFields();
             this.dialogFormVisible = false;
+            this.$refs['customer'].resetFields();
+        },
+        cancelShow(){
+            this.showCustomerInfo = false;
+            
         }
-
     }
 }
 

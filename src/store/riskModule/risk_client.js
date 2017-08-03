@@ -99,6 +99,11 @@ module.exports=function client(Vue){
         return Vue.http.post('risk_selectRiskWarningById',param).then(response=>{
           return response.body;
         })
+      },
+      risk_deleteRiskInfo:(param)=>{
+        return Vue.http.post('risk_deleteRiskInfo',param).then(response=>{
+          return response.body;
+        })
       }
     } 
 }

@@ -28,13 +28,7 @@
   #enterpriseRelation{
     margin: 0 auto;
     padding-top: 30px;
-    width: 80%;
-    min-width: 890px;
-  }
-  #enterpriseRelation{
-    margin: 0 auto;
-    padding-top: 30px;
-    width: 80%;
+    width: 90%;
     min-width: 890px;
   }
   #enterpriseRelation .businessTitle{

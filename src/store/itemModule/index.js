@@ -14,6 +14,7 @@ export const itemModule = {
         resultInfo:{},//审核结果
         isAuthInfo:false,//
         isFun:{},
+        isAuth:false,
         thirdReport:{},
         show:{},//项目展示数据
 
@@ -208,6 +209,7 @@ export const itemModule = {
                 console.log('银账信息审核', data);
                 if(data.success){
                     vue.$message.success(data.information);
+                    commit('item_isAuth',true);
                     dispatch('item_getManageDetail',{id:param.id});
                 }else{
                     vue.$message.warning(data.information);
@@ -467,6 +469,9 @@ export const itemModule = {
         }
     },
     mutations: {
+        item_isAuth(state,data){
+            state.isAuth=data;
+        },
         item_setThirdReport(state,data){
             state.thirdReport=data;
         },

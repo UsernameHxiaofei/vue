@@ -182,6 +182,9 @@ export default {
 	components: {
 		pagination
 	},
+	asyncData ({ store,session,router }) {
+            return store.dispatch('item_getHeadData',session);
+    },
 	data() {
 		return {
 			param:{},
@@ -215,7 +218,6 @@ export default {
 		 }
     },
 	beforeMount () {
-        this.$store.dispatch('item_getHeadData');
         this.param={
                 industry:this.industry,
                 phase:this.phase,
@@ -224,7 +226,6 @@ export default {
                 pageSize:10,
                 pageNo:1
 			}
-		console.log(this.$store.state.login.actor)
         this.$store.dispatch('item_getManageList',this.param);
 		this.$store.commit('enterprise_setMemberInfo',{});
 		this.$store.commit('enterprise_setInfo',{});

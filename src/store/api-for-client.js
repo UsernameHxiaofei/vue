@@ -12,18 +12,18 @@ Vue.http.interceptors.push(function (request, next) {
   next(function (response) {
     service.close();
     if(response.body.assignUniqueSecretMessage){
+      Message.warning(response.body.assignUniqueSecretMessage);
       if(response.body.assignUniqueSecretMessage=='账号未登录！'){
         setTimeout(()=>{
           location.href='/login';
         },2000)
       }
-      Message.warning(response.body.assignUniqueSecretMessage);
+      response.body=null;
     }
   });
 });
 
 const loginApi = require('./login/login_client')(Vue);
-
 const riskApi = require('./riskModule/risk_client')(Vue);
 const customerApi = require('./customerModule/customer_client')(Vue);
 const enterpriseApi = require('./enterpriseModule/enterprise_client')(Vue);

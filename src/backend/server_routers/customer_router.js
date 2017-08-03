@@ -108,9 +108,8 @@ module.exports = function client(router, sc, passport) {
     });
     router.all('/add_actor', function (req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("ActorTask", "addActorForSys", "securityCenter");
+        const stuff = sc.instanceRequest("ActorTask", "addActorForWeb", "securityCenter");
         stuff.auxiliary = { [passport]: req.session.passport };
-        // stuff.items = ['','','',1,20];
         stuff.items = [param.mobileNumber, param.name, param.identNumber];
         sc.send(stuff).then((resp) => {
             res.json(resp)
@@ -120,7 +119,6 @@ module.exports = function client(router, sc, passport) {
         let param = req.body;
         const stuff = sc.instanceRequest("CustomerIndividualInfoTask", "createCustomerIndividualInfo", "customerManage");
         stuff.auxiliary = { [passport]: req.session.passport };
-        // stuff.items = ['','','',1,20];
         stuff.items = [param];
         sc.send(stuff).then((resp) => {
             res.json(resp.head)
@@ -218,11 +216,11 @@ module.exports = function client(router, sc, passport) {
     //重置登录密码
     router.all('/resetLoginPwById', function (req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("ActorTask", "resetLoginPwById", "securityCenter");
+        const stuff = sc.instanceRequest("ActorTask", "resetLoginPwForWeb", "securityCenter");
         stuff.auxiliary = { [passport]: req.session.passport };
         stuff.items = [param.id];
         sc.send(stuff).then((resp) => {
-            res.json(resp.head)
+            res.json(resp)
         });
     });
     //修改手机及email

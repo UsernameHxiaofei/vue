@@ -6,7 +6,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>行政处罚信息</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseCaseinfo" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in (thirdReport&&thirdReport.tcEnterpriseBusinessInfo&&thirdReport.tcEnterpriseBusinessInfo.tcEnterpriseCaseinfo)" :key="item.businessId" >
               <el-form-item label="案发时间">
                 {{item.casetime }}
               </el-form-item>
@@ -63,7 +63,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>列入经营异常名录信息</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form :label-width="'200px'"  label="conent">
+            <el-form :label-width="'200px'"  >
                 <el-form-item>
 
                 </el-form-item>
@@ -73,7 +73,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>主要人员公安不良记录</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form :label-width="'200px'"  label="conent">
+            <el-form :label-width="'200px'" >
                 <el-form-item>
 
                 </el-form-item>
@@ -83,7 +83,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>主要人员法院涉诉信息</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form :label-width="'200px'"  label="conent">
+            <el-form :label-width="'200px'"  >
                 <el-form-item>
 
                 </el-form-item>
@@ -93,9 +93,27 @@
             <img src="../../../assets/images/linear.png"  /> <span>企业法院涉诉信息</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form :label-width="'200px'"  label="conent">
-                <el-form-item>
-
+            <el-form :label-width="'200px'"  v-for="item in (thirdReport&&thirdReport.tcLitigationEnterprise)" :key="item.id">
+                <el-form-item label="标题" >
+                  {{item.title}}
+                </el-form-item>
+                <el-form-item label="内容" >
+                  {{item.body}}
+                </el-form-item>
+                <el-form-item label="时间" >
+                  {{item.sortTime}}
+                </el-form-item>
+                <el-form-item label="名称" >
+                  {{item.count}}
+                </el-form-item>
+                <el-form-item label="案号" >
+                  {{item.caseNo}}
+                </el-form-item>
+                <el-form-item label="当事人/被执行人" >
+                  {{item.pname}}
+                </el-form-item>
+                <el-form-item label="类型" >
+                  {{item.datatype=='cpws'?'裁判文书':item.datatype=='ktgg'?'开庭公告':item.datatype=='zxgg'?'执行公告':item.datatype=='sxgg'?'失信公告':item.datatype=='fygg'?'法院公告':item.datatype=='wdhmd'?'网贷黑名单':item.datatype=='ajlc'?'案件流程信息':item.datatype=='bgt'?'曝光台':'未知来源'}}
                 </el-form-item>
             </el-form>
           </el-col>
@@ -106,11 +124,8 @@
   export default {
     name:'riskTab',
     computed: {
-        businessInfo:function(){
-          if(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo;
-          }
-          return {};
+        thirdReport:function(){
+          return this.$store.state.item.thirdReport;
         }
     },
     data() {
@@ -124,7 +139,7 @@
   #riskTab{
     margin: 0 auto;
     padding-top: 30px;
-    width: 80%;
+    width: 90%;
     min-width: 890px;
   }
   #riskTab .businessTitle{

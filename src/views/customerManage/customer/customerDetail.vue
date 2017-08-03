@@ -161,6 +161,18 @@
 				</div>
 			</el-dialog>
 		</div>
+		<div class="p-form">
+			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false">
+				<el-form>
+					<el-form-item  label="">
+						{{resetPassword}}
+					</el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+					
+				</div>
+			</el-dialog>
+		</div>
 	</div>
 </template>
 <script>
@@ -199,6 +211,7 @@ export default {
 			activeName: 'first',
 			dialogFormVisible: false,
 			dialogClosureVisible: false,
+			resetPasswordVisible:false,
 			title: "编辑账号",
 			formLabelWidth: '120px',
 			actor: {
@@ -221,7 +234,8 @@ export default {
 					{ required: true, message: '请输入邮箱地址', trigger: 'blur' },
 					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
 				]
-			}
+			},
+			resetPassword:''
 		}
 	},
 	mounted() {
@@ -248,9 +262,10 @@ export default {
 								message: '修改成功！',
 								type: 'success'
 							})
+							this.resetPassword=JSON.parse(this.updateMobileAndEmailByIdStatus.objectLiteral)||'';
 							this.customerInit();
 							this.dialogFormVisible = false;
-
+							this.resetPasswordVisible = true;
 						} else {
 							this.customerInit();
 							this.$message.error('修改失败');
@@ -310,7 +325,7 @@ export default {
 					id: this.customerInfoByActorId.id
 				}
 				this.$store.dispatch('resetLoginPwById', resetParam).then(() => {
-					if (this.resetLoginPasswordStatus.success) {
+					if (this.resetLoginPasswordStatus.head.success) {
 						this.$message({
 							message: '重置口令成功！',
 							type: 'success'

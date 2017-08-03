@@ -7,7 +7,7 @@
                 <span>6</span>
             </div>
             <span class="sepreate">|</span>
-            <img src="../../assets/images/headimg.png" class="headimg" />
+            <img src="../../assets/images/headimg.png" class="headimg" @click="editHeadImg" />
             <span class="username" v-html="actor.name"></span>
             <span class="setting">
                 <el-dropdown>
@@ -67,13 +67,22 @@
                 </div>
             </el-dialog>
         </div>
+        <div class="p-form">
+            <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
+                <imageCropper></imageCropper>
+            </el-dialog>
+        </div>
     </div>
 </template>
 
 <script>
+import imageCropper from '../common/imageCropper'
 
 export default {
     name: 'header',
+    components: {
+      imageCropper  
+    },
     data() {
         var validatePass = (rule, value, callback) => {
             if (value === '') {
@@ -95,6 +104,7 @@ export default {
             }
         };
         return {
+            editHeadImgChange:false,
             password: {
                 newPassword: '',
                 password: ''
@@ -113,7 +123,7 @@ export default {
                 ],
                 identNumber: [
                     { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/, message: '身份证号格式不正确', trigger: 'blur' }
+                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
             },
             editPasswordRule: {
@@ -148,6 +158,9 @@ export default {
         },
     },
     methods: {
+        editHeadImg(){
+            this.editHeadImgChange=true;
+        },
         updateMyself() {
             this.dialogeditUserVisible = true;
             // this.$store.dispatch('login_out',this);
@@ -211,7 +224,6 @@ export default {
                             type: 'success'
                         })
                         this.exit();
-                        // this.cancel();
                     } else {
                         this.$message.error('重置口令失败');
                     }
@@ -259,6 +271,11 @@ export default {
         width: 54px;
         height:54px;
         border-radius: 50%;
+    }
+    .headimg:hover{
+        
+        border: 1px dashed rgb(6, 204, 182);
+        cursor: pointer;
     }
     .sepreate {
         cursor: default;

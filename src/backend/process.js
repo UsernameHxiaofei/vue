@@ -3,9 +3,17 @@ const express = require('express');
 const router = express.Router();
 // 10.240.240.144
 // let sc=new StuffClient("10.151.30.121", 9880);
-let sc=new StuffClient("127.0.0.1", 8886);
+let sc=new StuffClient("127.0.0.1", 8883);
 if(process.env.NODE_ENV === 'production'){
-    sc=new StuffClient("10.240.240.147", 9880);
+    if(process.env.server === 'test'){
+        sc=new StuffClient("10.240.240.147", 9880);
+    }else if(process.env.server === 'demonstration'){
+        sc=new StuffClient("10.240.240.150", 9880);
+    }else if(process.env.server === 'dev'){
+        sc=new StuffClient("10.240.240.144", 9880)
+    }else{
+        sc=new StuffClient("10.240.240.152", 9880)
+    }
 }
 
 const passport = "linktou.base.task.data.Passport";//放置通行证对象的字段名

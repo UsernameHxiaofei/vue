@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="main-pic" v-show="leadAd.surveyReportURL&&leadAd.surveyReportURL.length>0">
-                <a :href="'/ajax/filedownload?url='+encodeURIComponent(leadAd.surveyReportURL)">领投资料</a>
+                <a v-for="item in JSON.parse(leadAd.surveyReportURL)" :href="'/ajax/filedownload?url='+encodeURIComponent(item)">领投资料{{''+item}}</a>
             </div>
         </div>
     </div>

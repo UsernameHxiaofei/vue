@@ -27,7 +27,7 @@ class StuffClient {
                     resolve(resp);
                 }else{
                     let response=resp.object;
-                    Object.assign(response,{assignUniqueSecretMessage:resp.head.information});
+                    Object.assign(response||{},{assignUniqueSecretMessage:resp.head.information});
                     resp.object=response;
                     resolve(resp);
                 }

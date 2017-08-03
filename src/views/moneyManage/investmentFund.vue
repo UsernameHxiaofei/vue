@@ -8,7 +8,7 @@
             <img class="pic" src="../../assets/images/fund4.png" />
             <div class="num-box">
               <span class="color-blue">全部项目</span>
-              <p>{{ investGetHeadInfo.projectNum }}</p>
+              <p>{{ investGetHeadInfo.projectNum ||0}}</p>
             </div>
           </div>
         </el-col>
@@ -18,7 +18,7 @@
             <div class="num-box">
               <span class="color-yellow">总融资额</span>
               <p>
-                <sup>￥</sup>{{ investGetHeadInfo.allAmounts }}</p>
+                <sup>￥</sup>{{ investGetHeadInfo.allAmounts|| 0 }}</p>
             </div>
           </div>
         </el-col>
@@ -86,6 +86,8 @@
 </template>
 <script>
 import pagination from '../../components/common/pagination'
+import pstatus from '../../constant/projectStatus.js'
+
 export default {
   components: {
     pagination
@@ -112,13 +114,7 @@ export default {
     return {
       keyword: '',
       itemStatus: '',
-      itemSelectStatus: [
-        { value: 6, label: '专享期' },        
-        { value: 7, label: '众投中' },
-        { value: 8, label: '已成功' },
-        { value: 9, label: '已分红' },
-        { value: 10, label: '募资失败' }
-      ],
+      itemSelectStatus: pstatus,
     }
   },
   methods: {

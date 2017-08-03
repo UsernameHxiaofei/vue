@@ -8,7 +8,7 @@
 .item-info{padding:30px;border-top: 1px solid #eeeeee;border-bottom: 1px solid #eeeeee;overflow: hidden; }
 .com-img{float: left;margin-right: 20px;width: 26%;height: 230px;}
 .item-con{float: left;width: 70%;}
-.item-title{font-weight: bold;margin-bottom: 20px;font-size: 20px;}
+.item-title{font-weight: bold;font-size: 20px;    line-height: 60px;}
 .item-list-info .grid-content{color: #666666;line-height: 29px;}
 .btn-team{overflow: hidden;margin-top: 20px;}
 #btnt-l{float: left;}
@@ -17,6 +17,8 @@
 #btnt-l .el-button:hover{background: #fff;border-color: #06ccb6;color: #06ccb6;min-width: 100px;}
 #btnt-r .el-button{border-color: #06ccb6;color: #06ccb6;min-width: 100px;margin-left: 10px;}
 #btnt-r .el-button:hover{border-color: #06ccb6;background: #06ccb6;color: #fff;min-width: 100px;margin-left: 10px;}
+#btnt-r .reCreate{background-color: #fbc937;color: white;border:1px solid #fbc937}
+#btnt-r .reCreate:hover{background-color: white;color: #fbc937;border:1px solid #fbc937}
 /*tabber*/
 #tabber .el-tabs__header{background: #fcfcfc;padding: 20px 30px 10px 30px;margin: 0;border-color: #eeeeee;}
 #tabber .el-tabs__item{height: 30px;line-height: 30px;padding: 0 13px;background: #e2e6ef;color: #a3abbe;
@@ -81,16 +83,17 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 </el-row>
             </div>
             <div class="btn-team">
-                <div id="btnt-l" v-if="itemManageDetail.status!=11">
+                <div id="btnt-l" v-if="itemManageDetail.status!=12">
                     <el-button @click="pass"  v-show="itemManageDetail.phase==4||itemManageDetail.phase==5">通过</el-button>
                     <el-button v-show="itemManageDetail.phase==4||itemManageDetail.phase==5" @click="dialogStopVisible = true">拒绝</el-button>
                     <el-button @click="editProject" :disabled="isEdit" v-show="itemManageDetail.phase==6">{{isEdit?'项目已编辑':'编辑项目'}}</el-button>
                     <el-button @click="setTimeInfo" v-show="itemManageDetail.phase==7">设置上线时间</el-button>
                     <el-button @click="dialogPartnerVisible = true" :disabled="isPartner" v-show="itemManageDetail.phase==10">{{isPartner?'已关联有限合伙':'关联有限合伙'}}</el-button>
-                    <el-button @click="dialogAuthVisible = true" v-show="itemManageDetail.phase==10">银账信息审核</el-button>
+                    <el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-show="itemManageDetail.phase==10">银账信息审核</el-button>
                     <el-button @click="fangkuan" :disabled="isFun" v-show="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
                 </div>
                 <div id="btnt-r">
+                    <el-button class="reCreate" v-if="operator.category==2"  :disabled="itemManageDetail.status==12"  @click="open2">{{itemManageDetail.status==12?'已重新发起':'重新发起'}}</el-button>
                     <router-link :to="{path: '/enterpriseDetail/'+enterpriseInfo.id}" >
                         <el-button v-show="enterpriseInfo.id" >企业详情</el-button>
                     </router-link>
@@ -104,7 +107,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
     <!--tabber-->
     <div id="tabber">
         <el-tabs v-model="activeName">
-            <el-tab-pane label="行家建议" name="1"  v-if="itemManageDetail.phase>=4">
+            <el-tab-pane label="行家建议" name="1"  v-if="itemManageDetail.phase>=3">
                <expertTab v-show="activeName=='1'"></expertTab>
             </el-tab-pane>
             <el-tab-pane label="领投意向" name="2"  v-if="itemManageDetail.leadInvestorIntentionId||itemManageDetail.phase>=4">
@@ -295,12 +298,22 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             },
             isPartner:function () {
                 return !!this.partnerInfo.name;
+            },
+            isAuth:function(){
+                return !!this.$store.state.item.isAuth;
+            },
+            operator:function(){
+                return this.$store.state.login.actor;
             }
         },
         mounted() {
             this.$store.dispatch('item_getManageDetail',  {id:this.projectId}).then(()=>{
-                this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId})
-                this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
+                if(this.itemManageDetail.enterpriseId){
+                    this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId})
+                }
+                if(this.itemManageDetail.leadInvestorIntentionId){
+                    this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
+                }
                 if(this.itemManageDetail.phase==11){
                     this.$store.dispatch('item_getIsFun',{id:this.projectId,size:10,num:1}).then(()=>{
                         if(!!this.$store.state.item.isFun&&!!this.$store.state.item.isFun.content&&this.$store.state.item.isFun.content.length>0){
@@ -313,11 +326,14 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 }else if(this.itemManageDetail.auxiliary&&this.itemManageDetail.auxiliary.currentNodeId=='contentAffirm'){
                     this.isEdit=true;
                 }
-            })
-            this.$store.dispatch('item_getThirdReport',{id:this.projectId})
-            this.$store.dispatch('item_getTimeInfo',{id:this.projectId});
-            this.$store.dispatch('item_getResultInfo',{id:this.projectId});
-            this.$store.dispatch('item_getExpertAd',{id:this.projectId});
+                if(this.itemManageDetail.phase>=2){
+                    this.$store.dispatch('item_getTimeInfo',{id:this.projectId});
+                    this.$store.dispatch('item_getExpertAd',{id:this.projectId});
+                }
+                if(this.itemManageDetail.phase>=4){
+                    this.$store.dispatch('item_getResultInfo',{id:this.projectId});
+                }
+            })           
         },
         data() {
             return {
@@ -376,6 +392,8 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                         {trigger: 'change',validator:(rule, value, callback) => {
                                     if (value =='') {
                                         callback(new Error('请选择预约开始时间!'));
+                                    }else if(!moment(value).isAfter(new Date())){
+                                        callback(new Error('请选择当前时间之后!'));
                                     }else{
                                         callback();
                                     }
@@ -440,6 +458,20 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             };
         },
         methods: {
+             open2() {
+                this.$confirm('重新发起项目将终止当前项目流程，在保留相关信息的基础上回到起点，再完整经历一遍项目周期。（请谨慎使用该功能）', '重新发起', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'info'
+                }).then(() => {
+                    this.$store.dispatch('item_reset',{param:{id:this.projectId},vue:this})
+                }).catch(() => {
+                    this.$message({
+                        type: 'info',
+                        message: '已取消操作'
+                    });
+                });
+            },
             back(){
                 this.$router.go(-1);
             },

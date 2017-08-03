@@ -27,7 +27,6 @@ function loginOn() {
       }
       alert(xhr.response.information);
     } else {
-      alert('登录成功');
       location.href = '/main';
     }
   };

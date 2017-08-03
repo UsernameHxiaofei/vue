@@ -144,11 +144,22 @@ module.exports = function client(router, sc, passport) {
         ];
         sc.send(stuff).then((resp) => { res.json(resp.object) });
     });
-
+    //todo
+    
     ///////////费率设置-按所属ID查询资金规则
     router.all('/id_fundRule', function (req, res, next) {
         let param = req.body;
         const stuff = sc.instanceRequest("LtFundsRuleTask", "findLtFundsRule", "ltSystemManagement");
+        stuff.auxiliary = { [passport]: req.session.passport };
+        stuff.items = [
+            param.ownId
+        ];
+        sc.send(stuff).then((resp) => { res.json(resp.object) });
+    });
+    ///////////费率设置-按所属ID查询资金规则
+    router.all('/id_fundRule2', function (req, res, next) {
+        let param = req.body;
+        const stuff = sc.instanceRequest("LtFundsRuleTask", "findLtFundsRuleByOwnId", "ltSystemManagement");
         stuff.auxiliary = { [passport]: req.session.passport };
         stuff.items = [
             param.ownId

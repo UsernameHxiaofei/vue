@@ -229,4 +229,12 @@
             stuff.items=[param.id];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
+        //删除风险指标
+        router.all('/risk_deleteRiskInfo',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskTask", "deleteRiskInfo", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items=[param.id];
+            sc.send(stuff).then((resp) =>{res.json(resp.head)});
+        });
     }

@@ -75,6 +75,11 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
+    id_fundRule2: (param) => {
+      return Vue.http.post('id_fundRule2', param).then(response => {
+        return response.body;
+      });
+    },
      overall_fundRule: (param) => {
       return Vue.http.post('overall_fundRule', param).then(response => {
         return response.body;

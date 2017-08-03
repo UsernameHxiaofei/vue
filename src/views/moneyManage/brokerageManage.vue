@@ -249,6 +249,7 @@
 </template>
 <script>
 import pagination from '../../components/common/pagination'
+import pstatus from '../../constant/projectStatus.js'
 export default {
     components: {
         pagination
@@ -267,13 +268,7 @@ export default {
                 { value: 4, label: '部分成功' }
             ],
             itemStatusOption: '',
-            itemStatusOptions: [
-                { value: 6, label: '专享期' },
-                { value: 7, label: '众投中' },
-                { value: 8, label: '募资成功' },
-                { value: 9, label: '已分红' },
-                { value: 10, label: '募资失败' }
-            ],
+            itemStatusOptions: pstatus,
             search_value: '',
             projectId:''
         }

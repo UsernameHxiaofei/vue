@@ -88,6 +88,8 @@
 </template>
 <script>
 import pagination from '../../components/common/pagination'
+import pstatus from '../../constant/projectStatus.js'
+
 export default {
     components: {
         pagination
@@ -119,15 +121,7 @@ export default {
         return {
             param: {},
             projectStatu: '',
-            projectStatus: [
-                { value: 4, label: '待上线' },
-                { value: 5, label: '预热中' },
-                { value: 6, label: '专享期' },
-                { value: 7, label: '众投中' },
-                { value: 8, label: '已成功' },
-                { value: 9, label: '已分红' },
-                { value: 10, label: '募资失败' },
-            ],
+            projectStatus: pstatus,
             keyword: '',
         }
     },

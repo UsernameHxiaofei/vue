@@ -64,7 +64,7 @@
         },
         methods: {
             go(path,index){
-                sessionStorage.setItem('menu_index',index);
+                sessionStorage.setItem('menu_index',JSON.stringify({path,index}));
                 this.$store.commit('risk_projectInfo',{});
                 this.$store.commit('risk_setRiskSettingData',{});
                 this.$store.commit('enterprise_clear');
@@ -73,8 +73,9 @@
                 this.$router.push(path);
             }
         },
-        mounted() {
-            this.index=sessionStorage.getItem('menu_index');
+        beforeMount () {
+            let remeber=JSON.parse(sessionStorage.getItem('menu_index'))||{}
+            this.index=remeber.index||'1';
         }
     }
 

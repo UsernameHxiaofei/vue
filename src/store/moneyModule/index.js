@@ -172,6 +172,12 @@ export const moneyModule = {
                 commit("setIdFundRule", data);
             });
         },
+        //查看费率  阶段之后查看费率
+        id_fundRule2({ commit }, param) {
+            return api.id_fundRule2(param).then((data) => {
+                commit("setIdFundRule", data);
+            });
+        },
         overall_fundRule({ commit }, param) {
             return api.overall_fundRule(param).then((data) => {
                 commit("setOverallFundRule", data);

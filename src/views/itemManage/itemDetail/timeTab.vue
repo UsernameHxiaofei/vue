@@ -39,22 +39,22 @@
                     {{timeInfo.createTime}}
                 </el-form-item>
                 <el-form-item label="预约开始">
-                    {{timeInfo.reserveBegin}}
+                    {{timeInfo.reserveBegin||'未设置'}}
                 </el-form-item>
                 <el-form-item label="预约结束">
-                    {{timeInfo.reserveEnd}}
+                    {{timeInfo.reserveEnd||'未设置'}}
                 </el-form-item>
                 <el-form-item label="专享认购开始">
-                    {{timeInfo.subscriptionStartTime}}
+                    {{timeInfo.subscriptionStartTime||'未设置'}}
                 </el-form-item>
                 <el-form-item label="专享认购结束">
-                    {{timeInfo.subscriptionEndTime}}
+                    {{timeInfo.subscriptionEndTime||'未设置'}}
                 </el-form-item>
                 <el-form-item label="众投开始">
-                    {{timeInfo.crowdFundingBegin}}
+                    {{timeInfo.crowdFundingBegin||'未设置'}}
                 </el-form-item>
                 <el-form-item label="众投结束">
-                    {{timeInfo.crowdFundingEnd}}
+                    {{timeInfo.crowdFundingEnd||'未设置'}}
                 </el-form-item>
                 <el-form-item>
                     <el-button  class="again"  type="success" @click="edit">修改</el-button>
@@ -141,6 +141,8 @@ import moment from 'moment'
                 {trigger: 'change',validator:(rule, value, callback) => {
                     if (value =='') {
                         callback(new Error('请选择预约开始时间!'));
+                    }else if(!moment(value).isAfter(new Date())){
+                        callback(new Error('请选择当前时间之后!'));
                     }else{
                         callback();
                     }

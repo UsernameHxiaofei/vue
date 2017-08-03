@@ -526,6 +526,7 @@ output {
   right:0;
   overflow: auto;
   bottom:0;
+  min-width: 1020px;
   padding-bottom:10px;
 }
 /*返回按钮*/

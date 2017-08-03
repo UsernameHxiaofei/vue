@@ -6,7 +6,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>企业照面信息</span>
           </el-col>
           <el-col class="businessinfo-content" >  
-            <el-form class="form-block" :label-width="'150px'" v-for="item in businessInfo.tcEnterpriseBasic" :key="item.businessId">
+            <el-form class="form-block" :label-width="'150px'" v-for="item in businessInfo.tcBasic" :key="item.businessId">
               <el-form-item label="企业名称">
                 {{item.entname}}
               </el-form-item>
@@ -96,7 +96,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>股东信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseShareholder" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcShareholder" :key="item.businessId" >
               <el-form-item label="股东名称">
                 {{item.shaname}}
               </el-form-item>
@@ -132,7 +132,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>高管信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterprisePerson" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcPerson" :key="item.businessId" >
               <el-form-item label="姓名">
                 {{item.pername}}
               </el-form-item>
@@ -153,7 +153,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>法人对外投资信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFrinv" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcFrinv" :key="item.businessId" >
               <el-form-item label="法定代表人姓名">
                 {{item.name}}
               </el-form-item>
@@ -207,7 +207,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>法人其他任职信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFrposition" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcFrposition" :key="item.businessId" >
               <el-form-item label="法定代表人姓名">
                 {{item.name}}
               </el-form-item>
@@ -255,7 +255,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>企业对外投资信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseEntinv" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEntinv" :key="item.businessId" >
               <el-form-item label="企业(机构)名称">
                 {{item.entname}}
               </el-form-item>
@@ -309,7 +309,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>变更信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseAlter" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcAlter" :key="item.businessId" >
               <el-form-item label="变更日期">
                 {{item.altdate }}
               </el-form-item>
@@ -330,7 +330,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>分支机构信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseFiliation" :key="item.brname" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcFiliation" :key="item.brname" >
               <el-form-item label="分支机构名称">
                 {{item.brname}}
               </el-form-item>
@@ -354,7 +354,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>股权出质历史信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseSharesimpawn" :key="item.imporg" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcSharesimpawn" :key="item.imporg" >
               <el-form-item label="质权人姓名">
                 {{item.imporg}}
               </el-form-item>
@@ -384,7 +384,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>动产抵押信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseMordetail" :key="item.morreg_id" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcMordetail" :key="item.morreg_id" >
               <el-form-item label="抵押ID">
                 {{item.morreg_id }}
               </el-form-item>
@@ -432,7 +432,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>动产抵押物信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.morguainfo" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcMorguainfo" :key="item.businessId" >
               <el-form-item label="变更日期">
                 {{item.altdate }}
               </el-form-item>
@@ -444,7 +444,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>失信被执行人信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterprisePunishbreak" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcPunishbreak" :key="item.businessId" >
               <el-form-item label="案号">
                 {{item.casecode }}
               </el-form-item>
@@ -510,7 +510,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>被执行人信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterprisePunished" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcPunished" :key="item.businessId" >
               <el-form-item label="案号">
                 {{item.casecode }}
               </el-form-item>
@@ -552,7 +552,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>股权冻结历史信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseSharesfrost" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcSharesfrost" :key="item.businessId" >
               <el-form-item label="冻结文号">
                 {{item.frodocno }}
               </el-form-item>
@@ -588,7 +588,7 @@
             <img src="../../../assets/images/linear.png"  /> <span>清算信息</span>
           </el-col>
           <el-col class="businessinfo-content">  
-            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcEnterpriseLiquidation" :key="item.businessId" >
+            <el-form class="form-block":label-width="'150px'" v-for="item in businessInfo.tcLiquidation" :key="item.businessId" >
               <el-form-item label="清算责任人">
                 {{item.ligentity }}
               </el-form-item>
@@ -623,12 +623,19 @@
   export default {
     name:'industryTab',
     computed: {
-        businessInfo:function(){
-          if(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo;
-          }
-          return {};
-        }
+      thirdReport:function(){
+        return this.$store.state.item.thirdReport;
+      }
+    },
+    mounted () {
+        this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId}).then(()=>{
+          this.businessInfo=(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo)||{}
+        })
+    },
+    data () {
+      return {
+        businessInfo:{}
+      }
     }
   };
 </script>
@@ -636,7 +643,7 @@
   #industryTab{
     margin: 0 auto;
     padding-top: 30px;
-    width: 80%;
+    width: 90%;
     min-width: 890px;
   }
  #industryTab .businessTitle{

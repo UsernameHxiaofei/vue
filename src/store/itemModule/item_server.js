@@ -5,11 +5,12 @@
    */
 module.exports=function server(sc,passport){
     return {
-      item_getManageList:(param)=>{
-        console.log(JSON.stringify(param)+'=>server data')
-        console.log('run in the server');
-        const req = sc.instanceRequest("LinktouTask", "takeActor", "securityCenter");
-        req.items = ["12356485489",null];
+      item_getHeadData:(param)=>{
+        const req = sc.instanceRequest("ProjectManageTask", "seletProjectManageTaskTatol", "projectManage");
+        req.items = [];
+        req.auxiliary = {
+            [passport]: param.passport
+        };
         return sc.send(req).then((resp)=>{
             return resp.object
         });

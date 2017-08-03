@@ -33,9 +33,6 @@
         padding: 0 10px;
         margin-bottom: 0;
     }
-    .eighth .again{
-        margin-top:10%;
-    }
 </style>
 <template>
     <div class="eighth">
@@ -55,7 +52,6 @@
                 </div>
                 <p v-show="isShowSecond">{{resultInfo.rejection}}</p>
             </div>
-            <el-button class="again" v-if="operator.category==2"  :disabled="itemManageDetail.status==11" type="success" @click="open2">{{itemManageDetail.status==11?'已重新发起':'重新发起'}}</el-button>
         </div>
     </div>
 </template>
@@ -83,25 +79,6 @@
             },
             isShowSecond:function(){
                 return this.resultInfo.rejection&&this.resultInfo.rejection.length>0&&this.resultInfo.phase==5;
-            },
-            operator:function(){
-                return this.$store.state.login.actor;
-            }
-        },
-        methods: {
-            open2() {
-                this.$confirm('重新发起项目将终止当前项目流程，在保留相关信息的基础上回到起点，再完整经历一遍项目周期。（请谨慎使用该功能）', '重新发起', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
-                    type: 'info'
-                }).then(() => {
-                    this.$store.dispatch('item_reset',{param:{id:this.$route.params.projectId},vue:this})
-                }).catch(() => {
-                    this.$message({
-                        type: 'info',
-                        message: '已取消操作'
-                    });
-                });
             }
         }
     };

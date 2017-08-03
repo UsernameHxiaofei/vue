@@ -66,7 +66,7 @@
                 this.$router.go(-1);
             },
             del(){
-                this.$message.warning('接口开发中')
+                this.$store.dispatch('risk_deleteRiskInfo',{param:{id:this.$route.params.id},vue:this})
                 this.$router.go(-1);
             },
             edit(){

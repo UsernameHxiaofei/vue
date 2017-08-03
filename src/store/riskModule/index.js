@@ -152,6 +152,15 @@ export const riskModule = {
             return api.risk_selectRiskWarningById(param).then((data)=>{
                 commit('risk_riskIndex',data)
             })
+        },
+        risk_deleteRiskInfo({commit},{param,vue}){
+            return api.risk_deleteRiskInfo(param).then((data)=>{
+                if(data.success){
+                    vue.$message.success('操作成功');
+                }else{
+                    vue.$message.warning(data.informatiom);
+                }
+            })
         }
     },
     mutations: {

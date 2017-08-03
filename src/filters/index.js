@@ -31,7 +31,7 @@ export function riskRegion(value){
         }
     }
     if(name==''){
-        return '暂无数据';
+        return '未填写';
     }
     return name;
 }
@@ -52,7 +52,7 @@ export function education(value) {
 export function industry(value) { //行业代码过滤器
     let label = '';
     if (!parseInt(value)) {
-        return '暂无数据';
+        return '未填写';
     }
     let codes = parseInt(value).toString(2).split('').reverse();
     for (let index = 0; index < codes.length; index++) {
@@ -72,7 +72,7 @@ export function industry(value) { //行业代码过滤器
 export function address(code) { //区域代码过滤器
     const rootCode = '86';
     code = code + '';
-    if (code.length != 6) return '未识别地区';
+    if (code.length != 6) return '未填写';
     let province = code.slice(0, 2) + '0000';
     let state = code.slice(0, 4) + '00';
     let result;
@@ -209,4 +209,16 @@ export function getNowFormatDate(x) {
 
     return currentdate || "";
 
+}
+//金额
+export function currency(number) {
+    number = number || 0;
+    var places = !isNaN(places = Math.abs(places)) ? places : 2;
+    var symbol = symbol !== undefined ? symbol : "";
+    var thousand = thousand || ",";
+    var decimal = decimal || ".";
+    var negative = number < 0 ? "-" : "",
+        i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 }
