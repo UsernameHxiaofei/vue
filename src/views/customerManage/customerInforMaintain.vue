@@ -191,7 +191,7 @@ export default {
         },
         customerData: function () {
             return this.$store.state.customer.customerData;
-        },
+        }
     },
     data() {
         return {

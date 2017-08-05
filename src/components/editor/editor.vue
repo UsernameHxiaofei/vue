@@ -2,11 +2,11 @@
     <div class="quill-editor">
       <slot name="toolbar"></slot> 
       
-      <form action="#" method="post" id="uploadFormMulti">
+      <form action="#" method="post">
         <input style="display: none" id="quill" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
           @change="uploadImage"/>
       </form>
-      <div ref="editor" style="min-height:200px"> 
+      <div ref="editor" style="min-height:200px;max-height:800px;overflow:auto"> 
 
       </div>
     </div>

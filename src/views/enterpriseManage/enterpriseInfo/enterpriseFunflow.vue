@@ -131,6 +131,7 @@
                 this.param.endTime = this.daterange[1];
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.changeFlag=true;
                     this.getTotalData()
                 });
             },
@@ -200,15 +201,15 @@
                     }],
                     dataZoom: [{
                         show:true,
-                         realtime: true,
+                        realtime: true,
                         startValue: new Date().getTime(),
                         endValue: new Date().getTime()-1000*60*60*24*7,
-                         xAxisIndex: [0, 1]
+                        xAxisIndex: [0, 1]
                     },{
-                         realtime: true,
+                        realtime: true,
                         startValue: new Date().getTime(),
                         endValue: new Date().getTime()-1000*60*60*24*7,
-                         xAxisIndex: [0, 1],
+                        xAxisIndex: [0, 1],
                         type: 'inside'
                     }]
                 };
@@ -254,6 +255,7 @@
         },
         data() {
             return {
+                changeFlag:{},
                 listData:{},
                 daterange: [],
                 param: {},

@@ -49,7 +49,7 @@
             <div class="choose-list">
                 <el-row :gutter="20" style="height:710px">
                     <el-col :span="12" v-for="(item,index) in expertList.list" :key="index">
-                        <div class="grid-content" :class="{'choosed':experter==item.actorId}" :title="item.profile"  @click="chooseExport(item)">
+                        <div class="grid-content" :class="{'choosed':experter==item.actorId}" v-if="itemManageDetail.initiatorId!=item.actorId" :title="item.profile"  @click="chooseExport(item)">
                             <img :src="item.headFigureURL" />
                             <div class="info-content">
                                 <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
@@ -92,11 +92,11 @@
             <div class="choose-list">
                 <el-row :gutter="20" style="height:710px">
                     <el-col :span="12" v-for="(item,index) in leadList.list" :key="index" >
-                        <div class="grid-content" :class="{'choosed':leader==item.actorId}"   @click="chooseLead(item)">
+                        <div class="grid-content" :class="{'choosed':leader==item.actorId}" v-if="itemManageDetail.initiatorId!=item.actorId"   @click="chooseLead(item)">
                             <img :src="item.headFigureURL" />
                             <div class="info-content">
-                                <h4>{{item.name}}&emsp;</h4>
-                                <p>{{item.investment}}</p>
+                                <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
+                                <p>{{item.personProfile}}</p>
                             </div>
                         </div>
                     </el-col>
@@ -135,6 +135,9 @@ import industryData from '../../../constant/industry.js'
           },
           itemManageDetail: function () {
                 return this.$store.state.item.itemManageDetail||{};
+          },
+          actor:function(){
+              return this.$store.state.login.actor;
           }
         },
         mounted(){
@@ -225,11 +228,16 @@ import industryData from '../../../constant/industry.js'
                     this.$message.warning('只有选择行家和领投之后才能完成融资申请');
                     return;
                 }
+                if(this.experter==this.itemManageDetail.initiatorId||this.leader==this.itemManageDetail.initiatorId||this.leader==this.experter){
+                    this.$message.warning('行家领头和发起人不能重复')
+                    return;
+                }
 				let projectParam={
                     expertId:this.experter,
                     leadInvestorId:this.leader,
                     id: this.$route.params.id
                 }
+                
                 if(this.flag){
                     this.$store.dispatch('item_updateProjectForAffrim', { param:projectParam, vue: this })
                 }else{

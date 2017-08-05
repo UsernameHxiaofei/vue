@@ -10,9 +10,9 @@ if(process.env.NODE_ENV === 'production'){
     }else if(process.env.server === 'demonstration'){
         sc=new StuffClient("10.240.240.150", 9880);
     }else if(process.env.server === 'dev'){
-        sc=new StuffClient("10.240.240.144", 9880)
+        sc=new StuffClient("10.240.240.144", 9880);
     }else{
-        sc=new StuffClient("10.240.240.152", 9880)
+        sc=new StuffClient("10.240.240.152", 9880);
     }
 }
 
@@ -37,7 +37,18 @@ router.all('/fileupload',multer().single('file'),function (req, res, next) {//�
             let param=req.body;
             const stuff = sc.instanceRequest("FileManage", "fileUpload", "fileManage");
             stuff.items=[req.file.originalname,param.fileType||1,'N'];// fileType：1文件，2图片
-            // stuff.items=[req.file.originalname,param.fileType||1];// fileType：1文件，2图片
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.essences=[sc.instanceEssence(null,req.file.buffer)];
+            sc.send(stuff).then((resp) =>{
+                console.log(JSON.stringify(resp)+'<====上传返回的数据数据');
+                res.json(resp)
+            });
+        });
+//上传头像截图信息
+router.all('/fileuploadBlob',multer().single('file'),function (req, res, next) {//上传组件必须有data{fileType:1}
+            let param=req.body;
+            const stuff = sc.instanceRequest("FileManage", "fileUpload", "fileManage");
+            stuff.items=[param.name,2,'N'];// fileType：1文件，2图片
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.essences=[sc.instanceEssence(null,req.file.buffer)];
             sc.send(stuff).then((resp) =>{

@@ -70,7 +70,7 @@ body {
 	
 		<div class="hangjiashenhe" style="position: relative;" v-if="status">
 			<div v-if="!enterpriseInfo.enterpriseName" style=" height: 100px;text-align: center; line-height: 100px; font-size: 18px;">
-				当前无记录
+				未添加企业信息
 			</div>
 			<el-button type="primary" style="position: absolute; right: 0;top: 30px;" @click="addEnterpriseInfo">{{enterpriseInfo.id?"编辑":"添加"}}</el-button>
 	
@@ -114,7 +114,7 @@ body {
 			</el-form-item>
 	
 			<el-form-item label="所在地区">
-				<el-cascader size="large" expand-trigger="hover" :options="options" v-model="selectedOptions" @change="handleChange">
+				<el-cascader expand-trigger="click" style="width:280px;" change-on-select clearable :options="options" v-model="selectedOptions" @change="handleChange">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="企业形象图" prop="img">
@@ -137,10 +137,10 @@ body {
 				</el-dialog>
 			</el-form-item>
 			<el-form-item label="企业简介" prop="profile">
-				<el-input type="textarea" v-model="enterpriseInfo.profile"></el-input>
+				<el-input type="textarea"  :rows="6" v-model="enterpriseInfo.profile"></el-input>
 			</el-form-item>
 			<el-form-item label="已投项目" prop="investment">
-				<el-input type="textarea" v-model="enterpriseInfo.investment"></el-input>
+				<el-input type="textarea"  :rows="6" v-model="enterpriseInfo.investment"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button style="width: 120px;" @click="cancel">取消</el-button>
@@ -153,34 +153,18 @@ body {
 </template>
 <script>
 import { regionData } from 'element-china-area-data'
+import { getSelectArray } from '../../../util/index.js'
 	export default {
-		components: { 
-		},
 		computed: {
             enterpriseInfo:function(){
-                if(!this.$store.state.customer.enterpriseInfoByActorId){
-                	return {
-						id:'',
-						enterpriseName:'',
-						creditCode:'',
-						imageURL:'',
-						profile:'',
-						investment:'',
-						regionCode:'',
-					};
-				}else{
-					return this.$store.state.customer.enterpriseInfoByActorId;
-				}
+               return this.$store.state.customer.enterpriseInfoByActorId;
             },
 			enterpriseInfoAdd:function(){
 				return this.$store.state.customer.enterpriseInfoAdd;
 			},
 			enterpriseInfoUpdate:function(){
 				return this.$store.state.customer.enterpriseInfoUpdate;
-			},
-            // customerUpdate:function(){
-            //     return this.$store.state.customer.customerUpdate;
-            // },
+			}
         },
 		mounted(){
 			this.enterpriseInit();
@@ -191,30 +175,11 @@ import { regionData } from 'element-china-area-data'
 				options: regionData,
         		selectedOptions: [],
 				uploadList:[],
-				// rules: {
-				// 	enterpriseName: [
-				// 		{ required: true, message: '请输入昵称', trigger: 'blur' },
-				// 		{ min: 2, max: 6, message: '长度在 2 到 6 个字符', trigger: 'blur' }
-				// 	],
-				// 	creditCode: [
-				// 		{ required: true, message: '请输入公司代码', trigger: 'change' }
-				// 	],
-				// 	investment: [
-				// 		{ required: true, message: '请输入已投项目', trigger: 'change' }
-				// 	],
-				// 	profile: [
-				// 		{ required: true, message: '请输入企业简介', trigger: 'change' }
-				// 	],
-					
-       			// },
 				dialogVisible:false,
 				dialogImageUrl:'',
 				fileParam:{},
 			}
 		},
-		
-
-
 		methods: {
 			enterpriseInit(){
 				let enterpriseParams = {
@@ -222,11 +187,7 @@ import { regionData } from 'element-china-area-data'
 				}
 				this.$store.dispatch('enterpriseInfoByActorId',enterpriseParams).then(()=>{
 					if(this.enterpriseInfo.regionCode){
-						this.province =  this.enterpriseInfo.regionCode.substring(0,3)
-						this.city =  this.enterpriseInfo.regionCode.substring(3,4)
-						this.selectedOptions[0] = this.province+'000';
-						this.selectedOptions[1] = this.province+this.city+'00';
-						this.selectedOptions[2] = this.enterpriseInfo.regionCode;
+						this.selectedOptions=getSelectArray(this.enterpriseInfo.regionCode)
 					}
 				});
 			},
@@ -237,43 +198,38 @@ import { regionData } from 'element-china-area-data'
 				this.status = false;
 			},
 			onSubmit() {
-				// this.$refs['enterpriseInfo'].validate((valid) => {
-				// 	if (valid) {
-						if(this.selectedOptions)this.enterpriseInfo.regionCode = this.selectedOptions[2];
-						if(this.enterpriseInfo.id){
-								this.$store.dispatch('update_enterpriseInfo',this.enterpriseInfo).then(()=>{
-								if(this.enterpriseInfoUpdate.success){
-									this.$message({
-										message: '编辑成功！',
-										type: 'success'
-									})
-									this.status = true;
-								}else{
-									this.$message.error('编辑失败');
-									this.cancel();
-								}
+				if(this.selectedOptions){
+					this.enterpriseInfo.regionCode = this.selectedOptions.length>0?this.selectedOptions[this.selectedOptions.length-1]:'';
+				}
+				if(this.enterpriseInfo.id){
+					this.$store.dispatch('update_enterpriseInfo',this.enterpriseInfo).then(()=>{
+						if(this.enterpriseInfoUpdate.success){
+							this.$message({
+								message: '编辑成功！',
+								type: 'success'
 							})
+							this.status = true;
 						}else{
-							this.enterpriseInfo.actorId = this.$route.params.actorId
-							this.enterpriseInfo.id='';
-							this.$store.dispatch('add_enterpriseInfo',this.enterpriseInfo).then(()=>{
-								if(this.enterpriseInfoAdd.success){
-									this.$message({
-										message: '添加成功！',
-										type: 'success'
-									})
-									this.status = true;
-								}else{
-									this.$message.error('编辑失败');
-									this.cancel();
-								}
-							})
+							this.$message.error('编辑失败');
+							this.cancel();
 						}
-						
-				// 	} else {
-				// 		return false;
-				// 	}
-				// });
+					})
+				}else{
+					this.enterpriseInfo.actorId = this.$route.params.actorId
+					this.enterpriseInfo.id='';
+					this.$store.dispatch('add_enterpriseInfo',this.enterpriseInfo).then(()=>{
+						if(this.enterpriseInfoAdd.success){
+							this.$message({
+								message: '添加成功！',
+								type: 'success'
+							})
+							this.status = true;
+						}else{
+							this.$message.error('编辑失败');
+							this.cancel();
+						}
+					})
+				}
 			},
 			cancel(){
 				let enterpriseParams = {

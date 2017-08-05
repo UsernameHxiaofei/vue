@@ -49,7 +49,6 @@
 					<el-button type="text" icon="arrow-left">返回上一级</el-button>
 				</router-link>
 			</div>
-			<!--经营管理团队-->
 			<div style="width:70%;height: 200px;background: #fff;margin: auto;">
 	
 				<div class="media-left" style="float:left;">
@@ -61,7 +60,6 @@
 							<label>姓名：</label>
 							<span>{{customerInfoByActorId.name}}</span>
 						</div>
-	
 						<div style="    margin: 5px 10px 5px 5px;" class=" ">
 							<label>手机号：</label>
 							<span>{{customerInfoByActorId.mobileNumber}}</span>
@@ -72,7 +70,7 @@
 						</div>
 						<div style="    margin: 5px 10px 5px 5px;" class=" ">
 							<label>E-mail：</label>
-							<span>{{customerInfoByActorId.email}}</span>
+							<span>{{customerInfoByActorId.email||'未填写'}}</span>
 						</div>
 					</div>
 					<div style=" float:left; width: 100px;height: 200px;margin-left: 180px;line-height:200px;">
@@ -164,12 +162,11 @@
 		<div class="p-form">
 			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false">
 				<el-form>
-					<el-form-item  label="">
-						{{resetPassword}}
+					<el-form-item  label="重置口令：">
+						<span style="color:red">{{resetPassword}}</span>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
-					
 				</div>
 			</el-dialog>
 		</div>
@@ -207,7 +204,6 @@ export default {
 	},
 	data() {
 		return {
-			// id:this.$route.params.id,
 			activeName: 'first',
 			dialogFormVisible: false,
 			dialogClosureVisible: false,
@@ -262,10 +258,10 @@ export default {
 								message: '修改成功！',
 								type: 'success'
 							})
-							this.resetPassword=JSON.parse(this.updateMobileAndEmailByIdStatus.objectLiteral)||'';
+							
 							this.customerInit();
 							this.dialogFormVisible = false;
-							this.resetPasswordVisible = true;
+							
 						} else {
 							this.customerInit();
 							this.$message.error('修改失败');
@@ -330,6 +326,8 @@ export default {
 							message: '重置口令成功！',
 							type: 'success'
 						})
+						this.resetPassword=JSON.parse(this.resetLoginPasswordStatus.objectLiteral);
+						this.resetPasswordVisible = true;
 						this.customerInit();
 					} else {
 						this.$message.error('重置口令失败');

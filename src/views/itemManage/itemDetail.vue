@@ -87,7 +87,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                     <el-button @click="pass"  v-show="itemManageDetail.phase==4||itemManageDetail.phase==5">通过</el-button>
                     <el-button v-show="itemManageDetail.phase==4||itemManageDetail.phase==5" @click="dialogStopVisible = true">拒绝</el-button>
                     <el-button @click="editProject" :disabled="isEdit" v-show="itemManageDetail.phase==6">{{isEdit?'项目已编辑':'编辑项目'}}</el-button>
-                    <el-button @click="setTimeInfo" v-show="itemManageDetail.phase==7">设置上线时间</el-button>
+                    <el-button @click="setTimeInfo" :disabled="isSetTime" v-show="itemManageDetail.phase==7">{{isSetTime?'已设置上线时间':'设置上线时间'}}</el-button>
                     <el-button @click="dialogPartnerVisible = true" :disabled="isPartner" v-show="itemManageDetail.phase==10">{{isPartner?'已关联有限合伙':'关联有限合伙'}}</el-button>
                     <el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-show="itemManageDetail.phase==10">银账信息审核</el-button>
                     <el-button @click="fangkuan" :disabled="isFun" v-show="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
@@ -314,6 +314,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 if(this.itemManageDetail.leadInvestorIntentionId){
                     this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
                 }
+                
                 if(this.itemManageDetail.phase==11){
                     this.$store.dispatch('item_getIsFun',{id:this.projectId,size:10,num:1}).then(()=>{
                         if(!!this.$store.state.item.isFun&&!!this.$store.state.item.isFun.content&&this.$store.state.item.isFun.content.length>0){
@@ -326,8 +327,14 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 }else if(this.itemManageDetail.auxiliary&&this.itemManageDetail.auxiliary.currentNodeId=='contentAffirm'){
                     this.isEdit=true;
                 }
+                if(this.itemManageDetail.phase==7){
+                    this.$store.dispatch('item_getTimeInfo',{id:this.projectId}).then(()=>{
+                    if(this.$store.state.item.timeInfo.reserveBegin){
+                        this.isSetTime=true;
+                    }    
+                });
+                }
                 if(this.itemManageDetail.phase>=2){
-                    this.$store.dispatch('item_getTimeInfo',{id:this.projectId});
                     this.$store.dispatch('item_getExpertAd',{id:this.projectId});
                 }
                 if(this.itemManageDetail.phase>=4){
@@ -337,6 +344,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
         },
         data() {
             return {
+                isSetTime:false,
                 isFun:false,
                 isEdit:false,
                 projectId:this.$route.params.projectId,

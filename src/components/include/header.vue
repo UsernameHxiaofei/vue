@@ -69,14 +69,14 @@
         </div>
         <div class="p-form">
             <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
-                <imageCropper></imageCropper>
+                    <imageCropper @result="getUrl"></imageCropper>
             </el-dialog>
         </div>
     </div>
 </template>
 
 <script>
-import imageCropper from '../common/imageCropper'
+import imageCropper from '../common/ImageDialogCropper'
 
 export default {
     name: 'header',
@@ -105,6 +105,7 @@ export default {
         };
         return {
             editHeadImgChange:false,
+            editHeadImage:'',
             password: {
                 newPassword: '',
                 password: ''
@@ -158,6 +159,9 @@ export default {
         },
     },
     methods: {
+        getUrl(data){
+            this.editHeadImage=data;
+        },
         editHeadImg(){
             this.editHeadImgChange=true;
         },

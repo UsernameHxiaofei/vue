@@ -98,13 +98,13 @@
                         <el-input v-model.number="rateForm.financingEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="领投保证金比例" prop="quotaUnder">
-                        <el-input v-model.number="rateForm.quotaUnder"></el-input> 万及以下
+                        <el-input v-model.number="rateForm.quotaUnder"></el-input> 万元及以下
                     </el-form-item>
                     <el-form-item label="" prop="underEnsurePercent">
                         <el-input v-model.number="rateForm.underEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="" prop="quotaAbove">
-                        <el-input v-model.number="rateForm.quotaAbove"></el-input> 万及以上
+                        <el-input v-model.number="rateForm.quotaAbove"></el-input> 万元及以上
                     </el-form-item>
                     <el-form-item label="" prop="aboveEnsurePercent">
                         <el-input v-model.number="rateForm.aboveEnsurePercent"></el-input> %
@@ -151,13 +151,13 @@
                         <el-input v-model.number="overallForm.financingEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="领投保证金比例" prop="quotaUnder">
-                        <el-input v-model.number="overallForm.quotaUnder"></el-input> 万及以下
+                        <el-input v-model.number="overallForm.quotaUnder"></el-input> 万元及以下
                     </el-form-item>
                     <el-form-item label="" prop="underEnsurePercent">
                         <el-input v-model.number="overallForm.underEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="" prop="quotaAbove">
-                        <el-input v-model.number="overallForm.quotaAbove"></el-input> 万及以上
+                        <el-input v-model.number="overallForm.quotaAbove"></el-input> 万元及以上
                     </el-form-item>
                     <el-form-item label="" prop="aboveEnsurePercent">
                         <el-input v-model.number="overallForm.aboveEnsurePercent"></el-input> %

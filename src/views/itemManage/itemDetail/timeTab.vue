@@ -57,7 +57,7 @@
                     {{timeInfo.crowdFundingEnd||'未设置'}}
                 </el-form-item>
                 <el-form-item>
-                    <el-button  class="again"  type="success" @click="edit">修改</el-button>
+                    <el-button  class="again" v-if="operator.category==2"  type="success" @click="edit">修改</el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -121,6 +121,9 @@ import moment from 'moment'
     computed: {
       timeInfo:function(){
           return this.$store.state.item.timeInfo||{};
+      },
+      operator:function(){
+          return this.$store.state.login.actor;
       }  
     },
     data() {

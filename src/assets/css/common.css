@@ -451,7 +451,7 @@ output {
     box-shadow:0 0 5px #eee;
 }
 .p-form .el-dialog__body{
-    padding:25px 20px 0;
+    padding:25px 20px 10px;
     margin-top:15px;
     border-top:1px solid #eee;
     border-bottom:1px solid #eee;

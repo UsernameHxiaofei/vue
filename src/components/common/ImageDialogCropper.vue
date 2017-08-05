@@ -1,0 +1,126 @@
+<template>
+    <div class="imageDialogCropper">
+        <div>
+            <el-button @click="selectImage">选择图片</el-button>
+            <el-button @click="commit">确定</el-button>
+        </div>
+        <div style="height:300px;width:300px;float:left;">
+            <imageCropper ref="cropper" style="margin:0 auto;width:98%;"
+                :img="option.img"
+                :outputSize="option.size"
+                :outputType="option.outputType"
+                :autoCrop="option.autoCrop"
+                :canScale="option.canScale"
+                :fixed="option.fixed"
+                :fixedNumber="option.fixedNumber"
+                :autoCropWidth="option.autoCropWidth"
+                :autoCropHeight="option.autoCropHeight"
+                @realTime="realTime">
+            </imageCropper>
+        </div>
+        <div class="preview-image-center">
+            <div class="show-preview"  :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden','display':'inline-block','border':'1px solid gray',
+                        'margin': '5px'}">
+                    <div :style="previews.div">
+                        <img :src="option.img" :style="previews.img">
+                    </div>
+            </div>
+        </div>
+        <form action="#" method="post">
+            <input style="display: none" id="uploadImgForCropper" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
+            @change="uploadImage"/>
+        </form>
+    </div>
+</template>
+<style>
+    .show-preview{
+        float: right;
+    }
+    .preview-image-center{
+        display:flex;
+        height:300px;
+        width:320px;
+        justify-content:center;
+        align-items:center;
+    }
+</style>
+<script>
+import imageCropper from '../imageCropper/imageCropper'
+import { Loading } from 'element-ui';
+export default {
+    name: 'imageDialogCropper',
+    data () {
+        return {
+            option: {
+				img: '', //url 地址 || base64 || blob     截图地址
+				size: 1,//截图质量  （0.1到1）
+                outputType: 'png',//截图格式
+                canScale:true,//是否允许缩放
+                autoCrop:true,//默认生成截图框
+                autoCropWidth:130,//默认生成截图框宽度
+                autoCropHeight:130,//默认生成截图框高度
+                fixed: true,
+				fixedNumber: [1,1]
+            },
+            fileName:{},
+            previews:{}
+        }
+    },
+    methods: {
+        realTime (data) {
+            this.previews = data;
+            console.log(data);
+        },
+        commit(){
+            this.$refs.cropper.getCropBlob((data) => {
+                    console.log(data);
+                    let formData = new FormData();
+                    formData.append('file', data);
+                    formData.append('name',this.fileName)
+                    let xhr = new XMLHttpRequest();
+                    xhr.open('post', '/ajax/fileuploadBlob');
+                    let self = this;
+                    const loading = Loading.service({
+                        target: document.getElementsByClassName('imageDialogCropper')[0],
+                        text: '正在上传'
+                    });
+                    xhr.onload = function () {
+                        loading.close();
+                        if (!xhr.response) {
+                            self.$message.warning(JSON.parse(xhr.response).information);
+                        } else if (xhr.status == 200) {
+                            self.$message.success('上传完成');
+                            self.$emit('result',JSON.parse(JSON.parse(xhr.response).objectLiteral));
+                            self.$refs.cropper.clearCrop();//清除截图
+                            
+                        }
+                    };
+                    xhr.send(formData);
+			})
+        },
+        selectImage(){
+            document.getElementById('uploadImgForCropper').click();
+        },
+        uploadImage() {
+            let fileInput=document.getElementById('uploadImgForCropper');
+            let file = fileInput.files[0];
+            this.fileName=file.name;
+            var reader = new FileReader();
+            if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(fileInput.value)) {
+                alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
+                return false
+            }
+            reader.onload = (e) => {
+                this.option.img = e.target.result;
+                this.$refs.cropper.startCrop();
+            }
+            reader.readAsDataURL(file)
+        }, 
+        // 实时预览函数
+         
+    },
+    components: {
+        imageCropper
+    }
+}
+</script>

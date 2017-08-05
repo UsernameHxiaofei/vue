@@ -39,18 +39,17 @@
             <table  v-for="(presonItem,i) in credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==1">
                  <tbody>
                     <tr ><td class="tit" colspan="3">法人-{{presonItem.name}}</td></tr>
-                    <tr  v-for="(Item,index) in presonItem.detail" :key="index">
+                    <tr  v-for="(Item,index) in presonItem.adminDetail" :key="index">
                         <td> {{Item.nameCn}}</td>
                         <td> {{Item.result}}</td>
                         <td> {{Item.message}}</td>
                     </tr>
-                    
                 </tbody>
             </table>  
             <table v-for="(presonItem,i) in credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==2">
                 <tbody >
                     <tr ><td class="tit" colspan="3">高管-{{presonItem.name}}</td></tr>
-                    <tr  v-for="(Item,index) in presonItem.detail" :key="index">
+                    <tr  v-for="(Item,index) in presonItem.adminDetail" :key="index">
                         <td> {{Item.nameCn}}</td>
                         <td> {{Item.result}}</td>
                         <td> {{Item.message}}</td>
@@ -159,7 +158,7 @@
                 <p> </p>
             </div>
 
-            <h5>法人代表在其企业任职</h5>
+            <h5>法人代表在其他企业任职</h5>
             <div  v-for="(item,i) in tcEnterpriseFrposition" :key="i">
                 <p>企业名称：{{item.entname}}</p>
                 <p>企业类型：{{item.enttype}}</p>
@@ -209,8 +208,8 @@
             <h5>企业关系图谱</h5>
            
            
-            <h5>法人代表背景情况</h5>
-             <!-- <div  v-if="tcRepresentativeInfo.name">
+            <!-- <h5>法人代表背景情况</h5> -->
+              <!-- <div  v-if="tcRepresentativeInfo.name">
                 <div class="twoColumns">
                     <span class="fl title">个人身份信息</span>
                     <span class="fr title">学历信息</span>
@@ -220,7 +219,7 @@
                     <span class="fr">毕业院校：</span>
                 </div>
                 <div class="twoColumns">
-                    <span class="fl">身份证号：{{tcRepresentativeInfo.idIsRight.result}}&nbsp;&nbsp;{{tcRepresentativeInfo.idIsRight.message}}</span>
+                    <span class="fl">身份证号：{{tcRepresentativeInfo.idcard}}&nbsp;&nbsp;{{tcRepresentativeInfo.tcVerifyIdcard.resultMsg}}</span>
                     <span class="fr">学历信息：{{tcRepresentativeInfo.apiEdu.result}}&nbsp;&nbsp;{{tcRepresentativeInfo.apiEdu.message}}</span>
                 </div>
                 <div class="twoColumns">
@@ -299,14 +298,14 @@
                     <span class="fr">月均消费：</span>
                 </div>
                 <p>&nbsp; </p>
-            </div> -->
+            </div>  -->
 
              <p class="blank"></p>
 
  
 
-           <h5>企业高管信息</h5>
-            <!-- <div v-for="(presonItem,i) in tcEnterpriseMemberInfo" :key="i">
+           <!-- <h5>企业高管信息</h5> -->
+             <!-- <div v-for="(presonItem,i) in tcEnterpriseMemberInfo" :key="i">
                 <div class="twoColumns">
                     <span class="fl title">个人身份信息</span>
                     <span class="fr title">学历信息</span>
@@ -395,7 +394,7 @@
                     <span class="fr">月均消费：</span>
                 </div>
                 <p>&nbsp; </p>
-            </div>  -->
+            </div>   -->
        </div> 
     </div>  
     
@@ -407,7 +406,7 @@
     name:'thirdAuth',
     computed: {
         enterpriseInfo: function () {
-                return this.$store.state.enterprise.enterpriseInfo || {};
+           return this.$store.state.enterprise.enterpriseInfo || {};
         },
         thirdReport:function(){
            return this.$store.state.item.thirdReport||{};
@@ -416,7 +415,7 @@
            return this.$store.state.item.itemManageDetail||{};
         },
         itemManageDetail: function () {
-           return this.$store.state.item.itemManageDetail || {};
+           return this.$store.state.item.itemManageDetail||{};
         },
         credit:function(){
             return this.$store.state.item.thirdReport||{};

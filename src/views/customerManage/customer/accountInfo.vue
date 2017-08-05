@@ -127,7 +127,6 @@
                 <div class="ac-col-4" @click="expertClick" v-if="customer.expert==0">认证</div>
                 <div class="ac-col-4" @click="queryExpert" v-if="customer.expert==1 || customer.expert==2">查看</div>
                 <div class="ac-col-4" @click="editExpertClick" v-if="customer.expert==3">重新申请</div>
-                <!--<div class="ac-col-4" v-if="customer.expert!=0">{{customer.expert|certificate}}</div>-->
             </el-col>
         </el-row>
         <el-row>
@@ -148,8 +147,6 @@
                 <div class="ac-col-4" @click="leadClick" v-if="customer.leadInvestor==0">认证</div>
                 <div class="ac-col-4" @click="queryLead" v-if="customer.leadInvestor==1 || customer.leadInvestor==2">查看</div>
                 <div class="ac-col-4" @click="editLeadClick" v-if="customer.leadInvestor==3">重新申请</div>
-                
-                <!--<div class="ac-col-4" v-if="customer.leadInvestor!=0">{{customer.leadInvestor|certificate}}</div>-->
             </el-col>
         </el-row>
         <el-row class="row-bg">
@@ -222,8 +219,7 @@
                         <el-input v-model="expert.realName" auto-complete="off" :readonly="customer.realName?true:false"></el-input>
                     </el-form-item>
                     <el-form-item label="身份证号" :label-width="formLabelWidth" prop="identNumber">
-                        <el-input v-model="expert.identNumber" auto-complete="off" :readonly="customer.realName?true:false">
-                        </el-input>
+                        <el-input v-model="expert.identNumber" auto-complete="off" :readonly="customer.realName?true:false"> </el-input>
                     </el-form-item>
                     <el-form-item label="专注行业">
                         <div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
@@ -239,7 +235,7 @@
                         <el-input v-model="expert.position" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="常驻地区 " prop="expertUsualPlaceOptions">
-                        <el-cascader size="large" :options="options" v-model="expert.expertUsualPlaceOptions" @change="handleChange">
+                        <el-cascader  :options="options"expand-trigger="click" change-on-select clearable v-model="expert.expertUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item label="名片">
@@ -255,7 +251,7 @@
                         </el-upload>
                     </el-form-item>
                     <el-form-item label="行家简介">
-                        <el-input type="textarea" v-model="expert.profile"></el-input>
+                        <el-input type="textarea" :rows="6" v-model="expert.profile"></el-input>
                     </el-form-item>
                     <el-form-item prop="agree">
                         <el-checkbox v-model="expert.agree" label="我承诺以上登记的所有信息属实，并对虚假信息产生的一切后果负责" name=""></el-checkbox>
@@ -293,7 +289,7 @@
                         <span>{{expertData.position}}</span>
                     </el-form-item>
                     <el-form-item label="常驻地区 ">
-                        <span>{{expertData.usualPlace|address}}</span>
+                        <span>{{expertData.permanent|address}}</span>
                     </el-form-item>
                     <el-form-item label="名片">
                         <img style="width:200px;" :src="expertData.businessCard">
@@ -354,7 +350,7 @@
                         </el-upload>
                     </el-form-item>
                     <el-form-item label="行家简介">
-                        <el-input type="textarea" v-model="expertData.profile"></el-input>
+                        <el-input type="textarea" :rows="6" v-model="expertData.profile"></el-input>
                     </el-form-item>
                     <el-form-item prop="agree">
                         <el-checkbox v-model="expertData.agree" label="我承诺以上登记的所有信息属实，并对虚假信息产生的一切后果负责" name=""></el-checkbox>
@@ -373,12 +369,9 @@
                     <el-row>
                         <el-col :span="12" style="text-align: right;padding: 10px 10px;">
                             <el-button @click="menuclick(1)" :class="isActive&&show==1 ? active : ''" type="text">我个人领投</el-button>
-    
                         </el-col>
                         <el-col :span="12" style="text-align: left;padding: 10px 10px;">
-    
                             <el-button @click="menuclick(2)" :class="isActive&&show==2 ? active : ''" type="text">我代表机构</el-button>
-    
                         </el-col>
                     </el-row>
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
@@ -403,11 +396,11 @@
                         <el-input v-model="lead.position" auto-complete="off" placeholder="请输入目前职位"></el-input>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="籍贯 " prop="leadRegionOptions">
-                        <el-cascader size="large" :options="options" v-model="lead.leadRegionOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="lead.leadRegionOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="常驻地区 " prop="leadUsualPlaceOptions">
-                        <el-cascader size="large" :options="options" v-model="lead.leadUsualPlaceOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="lead.leadUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="个人情况" prop="industryLevel">
@@ -496,7 +489,7 @@
                         <span>{{leadData.regionCode|address}}</span>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="常驻地区 ">
-                        <span>{{leadData.usualPlace|address}}</span>
+                        <span>{{leadData.permanent|address}}</span>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="个人情况">
                         <span>{{leadData.industryLevel|industryLevel}}</span>
@@ -569,11 +562,11 @@
                         <el-input v-model="leadData.position" auto-complete="off" placeholder="请输入目前职位"></el-input>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="籍贯 " prop="leadRegionOptions">
-                        <el-cascader size="large" :options="options" v-model="leadData.leadRegionOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="leadData.leadRegionOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="常驻地区 " prop="leadUsualPlaceOptions">
-                        <el-cascader size="large" :options="options" v-model="leadData.leadUsualPlaceOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="leadData.leadUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="个人情况" prop="industryLevel">
@@ -589,7 +582,7 @@
                         <el-input v-model="leadData.creditCode" auto-complete="off" placeholder="请输入统一社会信用代码"></el-input>
                     </el-form-item>
                     <el-form-item v-if="show==2" label="所在地区" :label-width="formLabelWidth" prop="leadRegionOptions">
-                        <el-cascader size="large" :options="options" v-model="leadData.leadRegionOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="leadData.leadRegionOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item v-if="show==2" label="企业情况" prop="industryLevel">
@@ -597,11 +590,9 @@
                             <el-radio v-for="item in enterpriseList" :label="item.value" :key="item.label">{{item.label}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-    
                     <el-form-item label="已投项目">
                         <el-input type="textarea" v-model="leadData.investment" placeholder="请输入已投资的项目名称、尽量填写完整"></el-input>
                     </el-form-item>
-    
                     <el-form-item v-if="show==2" label="姓名" :label-width="formLabelWidth" prop="representative">
                         <el-input v-model="leadData.representative" auto-complete="off" placeholder="请输入法定代表人姓名"></el-input>
                     </el-form-item>
@@ -617,7 +608,6 @@
                             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                             <el-button style="margin-left: 10px; position:absolute; right:0; bottom:20px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
-                        <!--<el-input v-model="form.name"></el-input>-->
                     </el-form-item>
                     <el-form-item prop="agree" style="margin-bottom: 5px;">
                         <el-checkbox v-model="leadData.agree" label="我已知股权投资是一种高风险投资，是一种没有固定收益和固定期限的投资" name=""></el-checkbox>
@@ -635,7 +625,6 @@
         <div class="p-form">
             <el-dialog title="合格投资人认证" :visible.sync="investorDialog" @close="cancel('investor')">
                 <el-form ref="investor" :model="investor" :rules="investorRule">
-    
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="investor.mobileNumber" auto-complete="off" value="" :readonly="customer.realName?true:false"></el-input>
                     </el-form-item>
@@ -649,7 +638,6 @@
                     <el-form-item label="关注行业" prop="industry">
                         <el-checkbox-group v-model="investor.industryList">
                             <el-checkbox v-for="item in industryList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
-    
                         </el-checkbox-group>
                     </el-form-item>
                     <el-form-item label="所属单位" :label-width="formLabelWidth" prop="organization">
@@ -669,12 +657,7 @@
                     <el-form-item label="个人情况" prop="industryLevel">
                         <el-radio-group v-model="investor.industryLevel">
                             <el-radio v-for="item in personalList" :label="item.value" :key="item.label">{{item.label}}</el-radio>
-    
                         </el-radio-group>
-                        <!--<el-checkbox-group v-model="investor.personalList">
-                                                                                                                                    <el-checkbox v-for="item in personalList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
-                                                                                                            
-                                                                                                                                </el-checkbox-group>-->
                     </el-form-item>
                     <el-form-item prop="agree" style="margin-bottom: 5px;">
                         <el-checkbox v-model="investor.agree" label="我已知股权投资是一种高风险投资，是一种没有固定收益和固定期限的投资" name=""></el-checkbox>
@@ -689,7 +672,17 @@
                 </div>
             </el-dialog>
         </div>
-    
+        <div class="p-form">
+			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false">
+				<el-form>
+					<el-form-item  label="重置口令：">
+						<span style="color:red">{{resetPassword1}}</span>
+					</el-form-item>
+				</el-form>
+				<div slot="footer" class="dialog-footer">
+				</div>
+			</el-dialog>
+		</div>
     </div>
 </template>
 
@@ -698,6 +691,7 @@ import { regionData } from 'element-china-area-data'
 import industryList from '../../../constant/industry.js'
 import personalList from '../../../constant/personal.js'
 import enterpriseList from '../../../constant/enterprise.js'
+import { getSelectArray,getIndustryByArray } from '../../../util/index.js'
 import _ from 'lodash'
 
 export default {
@@ -730,8 +724,10 @@ export default {
             }
         };
         return {
+            resetPassword1:'',
             industryObj: '',
             workYearsObj: '',
+            resetPasswordVisible:false,
             uploadList: [],
             newIndustryList:[],
             fileParam: {},
@@ -763,7 +759,7 @@ export default {
                 expertRegionOptions: [],
                 expertUsualPlaceOptions: [],
                 regionCode: '',
-                usualPlace: '',
+                permanent: '',
                 id: '',
                 industry: '',
                 newIndustry: '',
@@ -776,7 +772,7 @@ export default {
                 credentials: '',
                 profile: '',
                 rejection: '',
-                agree: false,
+                agree: true,
             },
             lead: {
                 name: '',
@@ -822,8 +818,6 @@ export default {
             },
             formLabelWidth: "120px",
             dialogFormVisible: false,
-            // editPasswordDialog: false,
-            // setPayPasswordDialog: false,
             realNameDialog: false,
             expertDialog: false,
             viewExpertDialog: false,
@@ -880,7 +874,6 @@ export default {
                     { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
                 ],
             },
-
             expertRule: {
                 mobileNumber: [
                     { required: true, message: '请输入手机号码', trigger: 'blur' },
@@ -1000,7 +993,6 @@ export default {
             },
         }
     },
-
     computed: {
         customer: function () {
             return this.$store.state.customer.customerInfoByCustomerId;
@@ -1053,7 +1045,6 @@ export default {
 
     },
     mounted() {
-        //    this.industryArr =   JSON.parse(this.industryArr);
         this.customerInit();
     },
     methods: {
@@ -1097,15 +1088,17 @@ export default {
                     id: this.actor.id
                 }
                 this.$store.dispatch('resetLoginPwById', resetParam).then(() => {
-                    if (this.resetLoginPasswordStatus.success) {
+                    if (this.resetLoginPasswordStatus.head.success) {
                         this.$message({
                             message: '重置口令成功！',
                             type: 'success'
                         })
+                        this.resetPassword1=JSON.parse(this.resetLoginPasswordStatus.objectLiteral);
+                        this.resetPasswordVisible=true;
                         this.customerInit();
                         this.cancel();
                     } else {
-                        this.$message.error(this.resetLoginPasswordStatus.information);
+                        this.$message.error('重置口令失败！');
                     }
                 })
             }).catch(() => {
@@ -1202,10 +1195,10 @@ export default {
         },
         expertVaildate() {
             this.expert.industry = JSON.stringify(this.industryArr);
-            this.expert.newIndustry = _.sum(this.expert.newIndustryList);
+            this.expert.newIndustry = getIndustryByArray(this.industryArr.industry);
             this.expert.actorId = this.$route.params.actorId;
-            this.expert.regionCode = this.expert.expertRegionOptions[2];
-            this.expert.usualPlace = this.expert.expertUsualPlaceOptions[2];
+            this.expert.regionCode = this.expert.expertRegionOptions.length==0?'':this.expert.expertRegionOptions[this.expert.expertRegionOptions.length-1];
+            this.expert.permanent =  this.expert.expertUsualPlaceOptions.length==0?'':this.expert.expertUsualPlaceOptions[this.expert.expertUsualPlaceOptions.length-1];
             this.$store.dispatch('expertVaildate', this.expert).then(() => {
                 if (this.expertVaildateStatus.success) {
                     this.$message({
@@ -1246,23 +1239,12 @@ export default {
                     this.industryObj = obj.industry;
                     this.workYearsObj = obj.workYears;
                 }
-                
                 if (this.expertData.regionCode) {
-                    let province = this.expertData.regionCode.substring(0, 3)
-                    let city = this.expertData.regionCode.substring(3, 4)
-                    this.expertData.expertRegionOptions[0] = province + '000';
-                    this.expertData.expertRegionOptions[1] = province + city + '00';
-                    this.expertData.expertRegionOptions[2] = this.expertData.regionCode;
+                    this.expertData.expertRegionOptions=getSelectArray(this.expertData.regionCode)                  
                 }
-                if (this.expertData.usualPlace) {
-                    let province = this.expertData.usualPlace.substring(0, 3)
-                    let city = this.expertData.usualPlace.substring(3, 4)
-                    this.expertData.expertUsualPlaceOptions[0] = province + '000';
-                    this.expertData.expertUsualPlaceOptions[1] = province + city + '00';
-                    this.expertData.expertUsualPlaceOptions[2] = this.expertData.usualPlace;
+                if (this.expertData.permanent) {
+                    this.expertData.expertUsualPlaceOptions=getSelectArray(this.expertData.permanent)
                 }
-                
-                //  this.uploadList.push(this.expertData.credentials);
                 this.editExpertDialog = true;
             })
         },
@@ -1274,9 +1256,9 @@ export default {
                         workYears:this.workYearsObj
                     }
                     this.expertData.industry = JSON.stringify(industryObject);
-                    this.expertData.newIndustry = _.sum(this.newIndustryList);
-                    this.expertData.regionCode = this.expertData.expertRegionOptions[2];
-                    this.expertData.usualPlace = this.expertData.expertUsualPlaceOptions[2];
+                    this.expertData.newIndustry = getIndustryByArray(this.industryObj);
+                    this.expertData.regionCode = this.expertData.expertRegionOptions.length==0?'':this.expertData.expertRegionOptions[this.expertData.expertRegionOptions.length-1];this.expertData.expertRegionOptions[2];
+                    this.expertData.permanent = this.expertData.expertUsualPlaceOptions.length==0?'':this.expertData.expertUsualPlaceOptions[this.expertData.expertUsualPlaceOptions.length-1];this.expertData.expertUsualPlaceOptions[2];
                     let updateExpertParam = {
                         expertObject: this.expertData,
                         actorId: this.$route.params.actorId
@@ -1329,8 +1311,8 @@ export default {
         },
         leadValidate() {
             this.lead.industry = _.sum(this.lead.industryList);
-            this.lead.regionCode = this.lead.leadRegionOptions[2];
-            this.lead.usualPlace = this.lead.leadUsualPlaceOptions[2];
+            this.lead.regionCode = this.lead.leadRegionOptions.length>0?this.lead.leadRegionOptions[this.lead.leadRegionOptions.length-1]:'';
+            this.lead.permanent = this.lead.leadUsualPlaceOptions.length>0?this.lead.leadUsualPlaceOptions[this.lead.leadUsualPlaceOptions.length-1]:'';
             let leadParam = {
                 actorId: this.$route.params.actorId,
                 leadObject: this.lead,
@@ -1387,18 +1369,10 @@ export default {
                 this.leadData.promise = true;
                 // this.leadData.industryList = [];
                 if (this.leadData.regionCode) {
-                    let province = this.leadData.regionCode.substring(0, 3)
-                    let city = this.leadData.regionCode.substring(3, 4)
-                    this.leadData.leadRegionOptions[0] = province + '000';
-                    this.leadData.leadRegionOptions[1] = province + city + '00';
-                    this.leadData.leadRegionOptions[2] = this.leadData.regionCode;
+                    this.leadData.leadRegionOptions=getSelectArray(this.leadData.regionCode);
                 }
-                if (this.leadData.usualPlace) {
-                    let province = this.leadData.usualPlace.substring(0, 3)
-                    let city = this.leadData.usualPlace.substring(3, 4)
-                    this.leadData.leadUsualPlaceOptions[0] = province + '000';
-                    this.leadData.leadUsualPlaceOptions[1] = province + city + '00';
-                    this.leadData.leadUsualPlaceOptions[2] = this.leadData.usualPlace;
+                if (this.leadData.usualPlace) {editLead
+                    this.leadData.leadUsualPlaceOptions=getSelectArray(this.leadData.usualPlace);
                 }
                 this.editLeadDialog  = true;
             })
@@ -1407,8 +1381,12 @@ export default {
             this.$refs['editLead'].validate((valid) => {
                 if (valid) {
                     this.leadData.industry =  _.sum(this.newIndustryList);
-                   if(this.leadData.leadRegionOptions) this.leadData.regionCode = this.leadData.leadRegionOptions[2];
-                   if(this.leadData.leadUsualPlaceOptions) this.leadData.usualPlace = this.leadData.leadUsualPlaceOptions[2];
+                   if(this.leadData.leadRegionOptions) {
+                       this.leadData.regionCode = this.leadData.leadRegionOptions.length>0?this.leadData.leadRegionOptions[this.leadData.leadRegionOptions.length-1]:'';
+                   }
+                   if(this.leadData.leadUsualPlaceOptions){
+                       this.leadData.permanent = this.leadData.leadUsualPlaceOptions.length>0?this.leadData.leadUsualPlaceOptions[this.leadData.leadUsualPlaceOptions.length-1]:'';
+                   }    
                     if(this.show ==1){
                         this.leadData.institution = 0
                         let updateLeadParam = {
@@ -1480,21 +1458,21 @@ export default {
         },
         investorValidate() {
             this.investor.industry = _.sum(this.investor.industryList);
-            this.investor.actorId = this.$route.params.actorId,
-                this.investor.usualPlace = this.investor.investorUsualPlaceOptions[2],
-                this.investor.regionCode = this.investor.investorRegionOptions[2],
-                this.$store.dispatch('investorVaildate', this.investor).then(() => {
-                    if (this.investorVaildateStatus.success) {
-                        this.$message({
-                            type: 'success',
-                            message: '认证成功!'
-                        });
-                        this.customerInit();
-                        this.cancel('investor');
-                    } else {
-                        this.$message.error(this.investorVaildateStatus.information);
-                    }
-                })
+            this.investor.actorId = this.$route.params.actorId;
+            this.investor.usualPlace = this.investor.investorUsualPlaceOptions.length>0?this.investor.investorUsualPlaceOptions[this.investor.investorUsualPlaceOptions.length-1]:'';
+            this.investor.regionCode = this.investor.investorRegionOptions.length>0?this.investor.investorRegionOptions[this.investor.investorRegionOptions.length-1]:'';
+            this.$store.dispatch('investorVaildate', this.investor).then(() => {
+                if (this.investorVaildateStatus.success) {
+                    this.$message({
+                        type: 'success',
+                         message: '认证成功!'
+                    });
+                    this.customerInit();
+                    this.cancel('investor');
+                } else {
+                    this.$message.error(this.investorVaildateStatus.information);
+                }
+            })
         },
         cancel(formName) {
             if(this.$refs[formName]){

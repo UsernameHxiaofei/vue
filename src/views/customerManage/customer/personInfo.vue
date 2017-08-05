@@ -22,7 +22,7 @@
 				</li>
 				<li>
 					<label>常驻地区</label>
-					<span>{{customerInfo.regionCode|address}}</span>
+					<span>{{customerInfo.usualPlace|address}}</span>
 				</li>
 				<li>
 					<label>单位</label>
@@ -99,10 +99,9 @@
 					 style="width: 100%;"></el-date-picker>
 				</el-col>
 			</el-form-item>
-			<el-form-item label="常驻地区">
-				<el-cascader size="large" expand-trigger="hover" :options="options" v-model="selectedOptions" @change="handleChange">
+			<el-form-item label="所在地">
+				<el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions" @change="handleChange">
 				</el-cascader>
-	
 			</el-form-item>
 			<el-form-item label="单位" prop="organization">
 				<el-input v-model="customerInfo.organization"></el-input>
@@ -122,28 +121,6 @@
 			<el-form-item label="已投项目" prop="investment">
 				<el-input type="textarea" v-model="customerInfo.investment"></el-input>
 			</el-form-item>
-			<!--<el-form-item label="专注行业">
-				<el-checkbox-group v-model="customerInfo.absorbedIndustry">
-					<el-checkbox label="餐饮/商铺" name="absorbedIndustry"></el-checkbox>
-					<el-checkbox label="住宿/空间" name="absorbedIndustry"></el-checkbox>
-					<el-checkbox label="教育/培训" name="absorbedIndustry"></el-checkbox>
-					<el-checkbox label="农业/食材" name="absorbedIndustry"></el-checkbox>
-					<el-checkbox label="良品/家居" name="absorbedIndustry"></el-checkbox>
-					<el-checkbox label="科技/文化" name="absorbedIndustry"></el-checkbox>
-					<el-checkbox label="其他" name="absorbedIndustry"></el-checkbox>
-				</el-checkbox-group>
-			</el-form-item>
-			<el-form-item label="关注行业">
-				<el-checkbox-group v-model="customerInfo.followIndustry">
-					<el-checkbox label="餐饮/商铺" name="followIndustry"></el-checkbox>
-					<el-checkbox label="住宿/空间" name="followIndustry"></el-checkbox>
-					<el-checkbox label="教育/培训" name="followIndustry"></el-checkbox>
-					<el-checkbox label="农业/食材" name="followIndustry"></el-checkbox>
-					<el-checkbox label="良品/家居" name="followIndustry"></el-checkbox>
-					<el-checkbox label="科技/文化" name="followIndustry"></el-checkbox>
-					<el-checkbox label="其他" name="followIndustry"></el-checkbox>
-				</el-checkbox-group>
-			</el-form-item>-->
 			<el-form-item>
 				<el-button style="width: 120px;" @click="cancel">取消</el-button>
 				<el-button style="width: 120px;" type="primary" @click="onSubmit">保存</el-button>
@@ -154,6 +131,7 @@
 </template>
 <script>
 import { regionData } from 'element-china-area-data'
+import { getSelectArray } from '../../../util/index.js'
 	export default {
 		components: { 
 		},
@@ -176,25 +154,19 @@ import { regionData } from 'element-china-area-data'
         		selectedOptions: [],
 				uploadList:[],
             	fileParam:{}
-				
-				
 			}
 		},
 		methods: {
 			personInit(){
-			let customerParams = {
-				id:this.$route.params.customerId
-			}
+			 let customerParams = {
+					id:this.$route.params.customerId
+			 }
              this.$store.dispatch('customerInfoByCustomerId',customerParams).then(()=>{
 				 if(this.customerInfo.birthdate){
 				 	this.birthdate =  this.stringToDate(this.customerInfo.birthdate) 
 				 }
 				 if(this.customerInfo.regionCode){
-					this.province =  this.customerInfo.regionCode.substring(0,3)
-					this.city =  this.customerInfo.regionCode.substring(3,4)
-					this.selectedOptions[0] = this.province+'000';
-					this.selectedOptions[1] = this.province+this.city+'00';
-					this.selectedOptions[2] = this.customerInfo.regionCode;
+					this.selectedOptions=getSelectArray(this.customerInfo.regionCode)
 				 }
 				 
 			 });
@@ -210,29 +182,23 @@ import { regionData } from 'element-china-area-data'
 				return d; 
 			},
 			onSubmit() {
-				// this.$refs['customerInfo'].validate((valid) => {
-				// 	if (valid) {
-						if(this.selectedOptions)this.customerInfo.regionCode = this.selectedOptions[2];
-						if(this.birthdate)this.customerInfo.birthdate = this.birthdate.Format("yyyy-MM-dd hh:mm:ss"); 
-						if(this.birthdate)this.customerInfo.birthdateStr = this.customerInfo.birthdate;
-						this.$store.dispatch('update_customer',this.customerInfo).then(()=>{
-							if(this.customerUpdate.success){
-								this.$message({
-									message: '编辑成功！',
-									type: 'success'
-								})
-								this.$emit('edit-success')
-								this.status = true;
-							}else{
-								this.$message.error('编辑失败');
-								this.personInit();
-								this.cancel();
-							}
+				if(this.selectedOptions)this.customerInfo.regionCode =this.selectedOptions.length>0?this.selectedOptions[this.selectedOptions.length-1]:'';
+				if(this.birthdate)this.customerInfo.birthdate = this.birthdate.Format("yyyy-MM-dd hh:mm:ss"); 
+				if(this.birthdate)this.customerInfo.birthdateStr = this.customerInfo.birthdate;
+				this.$store.dispatch('update_customer',this.customerInfo).then(()=>{
+					if(this.customerUpdate.success){
+						this.$message({
+							message: '编辑成功！',
+							type: 'success'
 						})
-				// 	} else {
-				// 		return false;
-				// 	}
-				// });
+						this.$emit('edit-success')
+						this.status = true;
+					}else{
+						this.$message.error('编辑失败');
+						this.personInit();
+						this.cancel();
+					}
+				})
 			},
 			cancel(){
 				this.status = true;
@@ -240,7 +206,7 @@ import { regionData } from 'element-china-area-data'
 			handleChange (value) {
 				console.log(value)
 			},
-			 submitUpload() {
+			submitUpload() {
 				this.$refs.upload.submit();
         	},
 			beforeAvatarUpload(file){
@@ -267,7 +233,6 @@ import { regionData } from 'element-china-area-data'
 			},
 			//上传成功时返回的数据
 			uploadSuccess(data,file,fileList){
-				console.log(data);
 				if(data){
 					this.$message.success('上传图片成功');
 					this.customerInfo.headFigureURL=data;

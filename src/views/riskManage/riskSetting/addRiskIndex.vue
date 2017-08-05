@@ -44,7 +44,7 @@
                                 <el-button @click="createGroup" style="float:right;margin-right:20px">添加组</el-button>
                             </el-form-item>
                             <el-form-item label="因子" prop="cause">
-                                <el-select v-model="form.cause" class="full" @change="factorChange">
+                                <el-select v-model="form.cause" class="full" @change="factorChange" v-if="!!factors[0]">
                                     <el-option v-for="(item,index) in factors" :key="item.id" :value="item" :label="item.name"></el-option>
                                 </el-select>
                             </el-form-item>

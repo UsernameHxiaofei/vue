@@ -135,6 +135,31 @@
             back() {
                 this.$router.go(-1);
             },
+            fetchData() {
+                this.$store.dispatch('risk_getFactors').then(() => {
+                    if (!this.factors[0]) {
+                        this.$message.info('因子信息错误，请联系管理员')
+                        return false;
+                    }
+                });
+                this.$store.dispatch('risk_selectRiskInfo', { id: this.$route.params.id }).then(() => {
+                    this.form.name = this.indexInfo.name;
+                    this.form.region = this.indexInfo.category;
+                    this.form.lv = this.indexInfo.level;
+                    let rulesData = [];
+                    for (let i = 0; this.indexInfo.riskRuleGroup && i < this.indexInfo.riskRuleGroup.length; i++) {
+                        let item = this.indexInfo.riskRuleGroup[i];
+                        for (let m = 0; m < item.riskRuleInfo.length; m++) {
+                            let temp = item.riskRuleInfo[m];
+                            rulesData.push(temp);
+                            if (m == item.riskRuleInfo.length - 1) {
+                                rulesData.push({ flag: true, ruleGroupId: temp.ruleGroupId });
+                            }
+                        }
+                    }
+                    this.totalRulesData = rulesData;
+                })
+            },
             edit(item) {
                 this.formName = '编辑规则';
                 this.editflag = true;
@@ -261,31 +286,7 @@
                     });
                 });
             },
-            fetchData() {
-                this.$store.dispatch('risk_getFactors').then(() => {
-                    if (!this.factors[0]) {
-                        this.$message.info('因子信息错误，请联系管理员')
-                        return false;
-                    }
-                });
-                this.$store.dispatch('risk_selectRiskInfo', { id: this.$route.params.id }).then(() => {
-                    this.form.name = this.indexInfo.name;
-                    this.form.region = this.indexInfo.category;
-                    this.form.lv = this.indexInfo.level;
-                    let rulesData = [];
-                    for (let i = 0; this.indexInfo.riskRuleGroup && i < this.indexInfo.riskRuleGroup.length; i++) {
-                        let item = this.indexInfo.riskRuleGroup[i];
-                        for (let m = 0; m < item.riskRuleInfo.length; m++) {
-                            let temp = item.riskRuleInfo[m];
-                            rulesData.push(temp);
-                            if (m == item.riskRuleInfo.length - 1) {
-                                rulesData.push({ flag: true, ruleGroupId: temp.ruleGroupId });
-                            }
-                        }
-                    }
-                    this.totalRulesData = rulesData;
-                })
-            },
+            
             editfactorChange() {
                 this.editform.unit = this.editform.factor.unit;
                 this.editform.relations = this.editform.factor.riskRelationInfo;

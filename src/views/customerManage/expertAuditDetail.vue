@@ -31,10 +31,6 @@
                     </span>
                 </li>
                 <li>
-                    <label>关注行业</label>
-                    <span>{{expertData.newIndustry|industry}}</span>
-                </li>
-                <li>
                     <label>所属单位</label>
                     <span>{{expertData.organization}}</span>
                 </li>
@@ -42,12 +38,9 @@
                     <label>职位</label>
                     <span>{{expertData.position}}</span>
                 </li>
-                <li>
-                    <label>籍贯</label>
-                    <span>{{expertData.regionCode|address}}</span>
                     <li>
                         <label>常驻地区</label>
-                        <span>{{expertData.usualPlace|address}}</span>
+                        <span>{{expertData.permanent|address}}</span>
                     </li>
                     <li>
                         <label>名片</label>
@@ -74,7 +67,7 @@
             <el-dialog title="拒绝理由" :visible.sync="dialogClosureVisible" @close="cancel">
                 <el-form :model="refuseParam" :rules="rules" ref="refuseParam">
                     <el-form-item prop="rejection" label="拒绝理由">
-                        <el-input class="inputing" v-model="refuseParam.rejection" type="textarea" placeholder="请输入拒绝理由..."></el-input>
+                        <el-input class="inputing" :rows="5" v-model="refuseParam.rejection" type="textarea" placeholder="请输入拒绝理由..."></el-input>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">

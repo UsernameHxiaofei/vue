@@ -44,7 +44,7 @@
                     <span>{{leadData.regionCode|address}}</span>
                     <li>
                         <label>常驻地区</label>
-                        <span>{{leadData.usualPlace|address}}</span>
+                        <span>{{leadData.permanent|address}}</span>
                     </li>
                     <li>
                         <label>个人情况</label>
