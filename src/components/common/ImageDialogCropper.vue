@@ -49,6 +49,12 @@ import imageCropper from '../imageCropper/imageCropper'
 import { Loading } from 'element-ui';
 export default {
     name: 'imageDialogCropper',
+    props:{
+        op:{
+            required:false,
+            default:null
+        }
+    },
     data () {
         return {
             option: {
@@ -57,10 +63,10 @@ export default {
                 outputType: 'png',//截图格式
                 canScale:true,//是否允许缩放
                 autoCrop:true,//默认生成截图框
-                autoCropWidth:130,//默认生成截图框宽度
-                autoCropHeight:130,//默认生成截图框高度
+                autoCropWidth:parseInt(this.op&&this.op.width||150),//默认生成截图框宽度
+                autoCropHeight:parseInt(this.op&&this.op.height||150),//默认生成截图框高度
                 fixed: true,
-				fixedNumber: [1,1]
+				fixedNumber:(parseInt(this.op&&this.op.width||0)&&parseInt(this.op&&this.op.height||0))?[this.op.width/this.op.height,1]:[1,1]
             },
             fileName:{},
             previews:{}
@@ -69,11 +75,9 @@ export default {
     methods: {
         realTime (data) {
             this.previews = data;
-            console.log(data);
         },
         commit(){
             this.$refs.cropper.getCropBlob((data) => {
-                    console.log(data);
                     let formData = new FormData();
                     formData.append('file', data);
                     formData.append('name',this.fileName)
@@ -100,19 +104,26 @@ export default {
         },
         selectImage(){
             document.getElementById('uploadImgForCropper').click();
+            this.option.img ='';
         },
         uploadImage() {
+            this.$refs.cropper.clearCrop();//清除截图
+
             let fileInput=document.getElementById('uploadImgForCropper');
             let file = fileInput.files[0];
             this.fileName=file.name;
             var reader = new FileReader();
+            const loading = Loading.service({
+                        target: document.getElementsByClassName('imageDialogCropper')[0],
+                        text: '正在读取图片'
+                    });
             if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(fileInput.value)) {
-                alert('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
+                this.$message.warning('图片类型必须是.gif,jpeg,jpg,png,bmp中的一种')
                 return false
             }
             reader.onload = (e) => {
                 this.option.img = e.target.result;
-                this.$refs.cropper.startCrop();
+                loading.close();
             }
             reader.readAsDataURL(file)
         }, 

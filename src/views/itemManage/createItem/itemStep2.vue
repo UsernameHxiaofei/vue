@@ -64,9 +64,8 @@
 }
 
 .head-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 140px;
+    height: 180px;
     margin: 0 20px 0 10px;
 }
 
@@ -236,13 +235,8 @@
             <dialogComponent :title="title1" :dialogFormVisible="dialogTeamVisible" @dialog-confirm-callback="team" @dialog-cancel-callback="cancel">
                 <el-form :model="teamform" :rules="teamrule" ref="teamform">
                     <el-form-item class="myhead" prop="imageURL" label="上传头像" label-width="170px">
-                        <el-upload class="upload-img" action="/ajax/fileupload" :auto-upload="true" :data="{fileType:2}"  accept="image/*"
-                         :on-success="successUpload_memberimageURL" :disabled="teamform.imageURL.length!=0" :file-list="enterpriseMemberImageUrl" 
-                         :before-upload="uploadBeforeForImage" 
-                         list-type="picture-card" :on-remove="handle_memberimageURLRemove"> 
-                            <el-button size="small" type="primary">上传头像</el-button>
-                            <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过2M</div>
-                        </el-upload>
+                        <img class="enterpriseMember-head-image"  :src="teamform.imageURL" v-if="!!teamform.imageURL" alt=""><br>
+				        <el-button size="small" @click="editHeadImgChange=true">上传头像</el-button>
                     </el-form-item>
                     <el-form-item label="法定代表人" prop="isRepresent"  label-width="140px">
                         <el-checkbox v-model="isRepresent"></el-checkbox>
@@ -279,6 +273,11 @@
                 </el-form>
             </dialogComponent>
         </div>
+        <div class="p-form">
+            <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
+                    <imageCropper :op="{width:140,height:180}" @result="successUpload_memberimageURL"></imageCropper>
+            </el-dialog>
+        </div>
     </div>
 </template>
 <script>
@@ -286,12 +285,13 @@ import dialogComponent from '../../../components/common/dialog'
 import editor from '../../../components/editor/editor.vue'
 import educations from '../../../constant/education.js'
 import industryData from '../../../constant/industry.js'
-
+import imageCropper from '../../../components/common/ImageDialogCropper'
 export default {
     name:'itemStep2',
     components: {
         dialogComponent,
-        'quill-editor':editor
+        'quill-editor':editor,
+        imageCropper
     },
     computed: {
         enterpriseMembers:function(){
@@ -350,12 +350,12 @@ export default {
     },
     data() {
         return {
+            editHeadImgChange:false,
             industryData:industryData,
             editFlag:false,
             content: '',
             plan_materials:[],
             others_materials:[],
-            enterpriseMemberImageUrl:[],
             educations:educations,
             dialogTeamVisible: false,
             title1: "添加团队成员",
@@ -453,17 +453,15 @@ export default {
             this.projectImg=JSON.parse(response.objectLiteral);
             this.projectImgLoading=false;
         },
-        successUpload_memberimageURL(response,file,fileList){
-            this.teamform.imageURL=JSON.parse(response.objectLiteral);
+        successUpload_memberimageURL(data){
+            this.teamform.imageURL=data;
+            this.editHeadImgChange=false;
         },
         successUpload_planFile(response,file,fileList){
             this.planFile=JSON.parse(response.objectLiteral);
         },
         successUpload_otherFiles(response,file,fileList){
             this.otherFiles=fileList;
-        },
-        handle_memberimageURLRemove(file, fileList) {
-            this.teamform.imageURL='';
         },
         handlePlanFileRemove(file, fileList) {
             this.planFile='';
@@ -565,7 +563,6 @@ export default {
             }
         },
         addEnterpriseMember(){//点击添加团队成员
-            this.enterpriseMemberImageUrl=[];
             this.isRepresent=false;
             this.teamform= {
                 id:'',
@@ -589,7 +586,6 @@ export default {
                                 }
                                 this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(()=>{
                                     this.dialogTeamVisible = true;
-                                    this.enterpriseMemberImageUrl=[];
                                     if(this.$refs['teamform']){
                                         this.$refs['teamform'].resetFields();
                                     }
@@ -608,7 +604,6 @@ export default {
             }
         },
         editEnterpriseMember(item){
-            this.enterpriseMemberImageUrl=[];
             this.teamform= {
                 id:'',
                 imageURL:'',
@@ -626,7 +621,6 @@ export default {
             }else{
                 this.isRepresent=false;
             }
-            this.enterpriseMemberImageUrl=[{url:item.imageURL,name:item.name,response:{objectLiteral:item.imageURL}}];
             this.editMember=item.id;
             this.dialogTeamVisible = true;
         },
@@ -672,7 +666,6 @@ export default {
                                 this.$store.dispatch('item_updateEnterprise', { param: param, vue: this });
                             }
                         })
-                        this.enterpriseMemberImageUrl=[];
                         this.teamform= {
                             id:'',
                             imageURL:'',
@@ -692,7 +685,6 @@ export default {
             });
         },
         cancel(teamform) {
-            this.enterpriseMemberImageUrl=[];
                     this.teamform= {
                         id:'',
                         imageURL:'',

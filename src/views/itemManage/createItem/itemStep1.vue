@@ -283,7 +283,7 @@
                     ],
                     summary: [
                         { required: true, message: '请输入项目描述', trigger: 'blur' },
-                        { min: 2, max: 100, message: '长度在 2 到 100 个字符', trigger: 'blur' }
+                        { min: 2, max: 100, message: '长度在 2 到 80 个字符', trigger: 'blur' }
                     ],
                     industry: [
                         { required: true, type: 'number', message: '请选择行业分类', trigger: 'change' }

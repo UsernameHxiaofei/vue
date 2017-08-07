@@ -52,7 +52,7 @@
 			<div style="width:70%;height: 200px;background: #fff;margin: auto;">
 	
 				<div class="media-left" style="float:left;">
-					<img style="width: 150px;height:150px;margin: 20px 10px;" class="media-object" :src="customerInfoByCustomerId.headFigureURL" alt="头像">
+					<img style="width: 150px;height:150px;margin: 20px 10px;border:1px solid gray" class="media-object" :src="customerInfoByCustomerId.headFigureURL" alt="头像">
 				</div>
 				<div class="media-body" style="margin: 20px 10px;">
 					<div style="margin: 20px 10px;float:left;">

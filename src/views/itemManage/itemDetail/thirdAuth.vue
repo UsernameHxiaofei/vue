@@ -4,7 +4,7 @@
           <el-col class="businessTitle">
             <img src="../../../assets/images/linear.png"  /> <span>第三方征信报告</span>
           </el-col>
-          <div class="creditReport" v-if="credit.tcCreditAntiFraudList">
+          <div class="creditReport">
        <div class="abstract" v-if="credit.tcCreditAntiFraudList.createTime">
             <p>评估对象： {{projectItem.name}}</p>
             <p>项目名称： {{projectItem.name}}</p>

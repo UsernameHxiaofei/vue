@@ -74,7 +74,7 @@
             }
         },
         beforeMount () {
-            let remeber=JSON.parse(sessionStorage.getItem('menu_index'))||{}
+            let remeber=JSON.parse(sessionStorage.getItem('menu_index'))||{};
             this.index=remeber.index||'1';
         }
     }

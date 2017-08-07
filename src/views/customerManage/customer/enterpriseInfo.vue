@@ -17,7 +17,6 @@ body {
 }
 
 .hangjiashenhe {
-	width: 80%;
 	height: 100%;
 	margin: 0 auto;
 	background-color: #fff;
@@ -72,14 +71,13 @@ body {
 			<div v-if="!enterpriseInfo.enterpriseName" style=" height: 100px;text-align: center; line-height: 100px; font-size: 18px;">
 				未添加企业信息
 			</div>
-			<el-button type="primary" style="position: absolute; right: 0;top: 30px;" @click="addEnterpriseInfo">{{enterpriseInfo.id?"编辑":"添加"}}</el-button>
+			<el-button type="primary" style="position: absolute; right: 60px;top: 30px;" @click="addEnterpriseInfo">{{enterpriseInfo.id?"编辑":"添加"}}</el-button>
 	
 			<ul v-if="enterpriseInfo.enterpriseName">
 				<li>
 					<label>企业名称</label>
 					<span>{{enterpriseInfo.enterpriseName}}</span>
 				</li>
-	
 				<li>
 					<label>统一社会信用代码</label>
 					<span>{{enterpriseInfo.creditCode}}</span>
@@ -100,8 +98,6 @@ body {
 					<label>已投项目</label>
 					<span>{{enterpriseInfo.investment}}</span>
 				</li>
-				
-				
 			</ul>
 		</div>
 	
@@ -112,7 +108,6 @@ body {
 			<el-form-item label="统一社会信用代码" prop="creditCode">
 				<el-input v-model="enterpriseInfo.creditCode"></el-input>
 			</el-form-item>
-	
 			<el-form-item label="所在地区">
 				<el-cascader expand-trigger="click" style="width:280px;" change-on-select clearable :options="options" v-model="selectedOptions" @change="handleChange">
 				</el-cascader>

@@ -64,21 +64,8 @@
 		<el-form v-if="!status" :model="customerInfo"  ref="customerInfo" class="my-form" label-width="90px" style="width: 70%;margin:auto;padding: 20px 0;">
 			
 			<el-form-item label="头像" >
-				<el-upload
-					class="upload-demo"
-					ref="upload"
-					action="/ajax/image_uploadByFile"
-					:data="fileParam"
-					list-type="picture-card"
-					:multiple="false"
-					:show-file-list="true"
-					:auto-upload="false"
-					:file-list="uploadList"
-					:before-upload="beforeAvatarUpload"
-					:on-success="uploadSuccess">
-					<el-button slot="trigger" size="small" type="primary" v-if="uploadList.length==0">选取文件</el-button>
-					<el-button style="margin-left: 10px; position:absolute; right:0; bottom:20px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-				</el-upload>
+				<img class="customer-head-image" :src="customerInfo.headFigureURL" v-if="!!customerInfo.headFigureURL" alt=""><br>
+				<el-button size="small" @click="editHeadImgChange=true">上传头像</el-button>
 			</el-form-item>
 			<el-form-item label="昵称" prop="nickname">
 				<el-input v-model="customerInfo.nickname"></el-input>
@@ -126,14 +113,21 @@
 				<el-button style="width: 120px;" type="primary" @click="onSubmit">保存</el-button>
 			</el-form-item>
 		</el-form>
-	
+		<div class="p-form">
+            <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
+                    <imageCropper @result="uploadSuccess"></imageCropper>
+            </el-dialog>
+        </div>
 	</div>
 </template>
 <script>
 import { regionData } from 'element-china-area-data'
 import { getSelectArray } from '../../../util/index.js'
+import imageCropper from '../../../components/common/ImageDialogCropper'
+
 	export default {
 		components: { 
+			imageCropper
 		},
 		computed: {
             customerInfo:function(){
@@ -148,12 +142,11 @@ import { getSelectArray } from '../../../util/index.js'
 		},
 		 data() {
 			return {
+				editHeadImgChange:false,
 				birthdate:'',
 				status:true,
 				options: regionData,
-        		selectedOptions: [],
-				uploadList:[],
-            	fileParam:{}
+        		selectedOptions: []
 			}
 		},
 		methods: {
@@ -206,37 +199,11 @@ import { getSelectArray } from '../../../util/index.js'
 			handleChange (value) {
 				console.log(value)
 			},
-			submitUpload() {
-				this.$refs.upload.submit();
-        	},
-			beforeAvatarUpload(file){
-				let isPic = false;
-				let fileSize = file.size / 1024 /1024;
-				let fileType = file.type;
-				if(fileType === 'image/jpeg'||fileType === 'image/png'||fileType === 'image/gif'){
-					isPic = true;
-				}
-				const isLt50 = fileSize < 1;
-				if (!isPic) {
-					this.$message.error('上传的图片格式为png、jpg、gif!');
-					return isPic;
-				}else if (!isLt50) {
-					this.$message.error('上传图片大小不能超过 1M!');
-					return isLt50;
-				}else{
-					this.fileParam.fileName=file.name;
-					this.fileParam.fileType=1;
-					//this.fileParam.uploadUseId=this.$store.state.login.actor.id;
-					//this.fileParam.bannerSize=fileSize.toFixed(3);
-				}
-				return isPic&&isLt50;   
-			},
 			//上传成功时返回的数据
-			uploadSuccess(data,file,fileList){
+			uploadSuccess(data){
 				if(data){
-					this.$message.success('上传图片成功');
 					this.customerInfo.headFigureURL=data;
-					// this.uploadList = fileList;
+					this.editHeadImgChange=false;
 				}
 			},
 		}

@@ -574,7 +574,6 @@
                             <el-radio v-for="item in personalList" :label="item.value" :key="item.label">{{item.label}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-    
                     <el-form-item v-if="show==2" label="企业名称" :label-width="formLabelWidth" prop="enterpriseName">
                         <el-input v-model="leadData.enterpriseName" auto-complete="off" placeholder="请输入企业名称"></el-input>
                     </el-form-item>
@@ -1371,7 +1370,7 @@ export default {
                 if (this.leadData.regionCode) {
                     this.leadData.leadRegionOptions=getSelectArray(this.leadData.regionCode);
                 }
-                if (this.leadData.usualPlace) {editLead
+                if (this.leadData.usualPlace) {
                     this.leadData.leadUsualPlaceOptions=getSelectArray(this.leadData.usualPlace);
                 }
                 this.editLeadDialog  = true;

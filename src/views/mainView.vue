@@ -60,7 +60,7 @@
 				</el-input>
 			</div>
 			<div class="date-box">
-				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="hover" clearable :options="options3" v-model="where" @change="handleChange">
+				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="click" change-on-select clearable :options="options3" v-model="where" @change="handleChange">
 				</el-cascader>
 				<el-select v-model="industry" clearable placeholder="所属行业" @change="industryChange">
 					<el-option v-for="item in industryOption" :key="item.value" :label="item.label" :value="item.value">
@@ -221,7 +221,7 @@ export default {
         this.param={
                 industry:this.industry,
                 phase:this.phase,
-                regionCode:this.where[2],
+                regionCode:this.where.length>0?this.where[this.where.length-1]:'',
                 keyword:this.keyword,
                 pageSize:10,
                 pageNo:1
@@ -286,7 +286,7 @@ export default {
 			this.$store.dispatch('item_getManageList',this.param);
 		},
 		handleChange(value) {
-			this.param.regionCode=this.where[2];
+			this.param.regionCode=this.where.length>0?this.where[this.where.length-1]:''
 			this.param.pageNo=1;
 			this.$store.dispatch('item_getManageList',this.param);
 		},

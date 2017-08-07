@@ -274,7 +274,7 @@
                 this.invertUserNum=this.$store.state.item.invertUserInfo&&this.$store.state.item.invertUserInfo.length||0;
             })
             this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
-            this.$http.post('SubjectDiscussManage/projectSubjectAllQuery',{pageNumber:1,pageVolume:10,projectId:this.projectItem.id})
+            this.$http.post('SubjectDiscussManage/projectSubjectAllQuery',{pageNumber:1,pageVolume:10,projectId: this.$route.params.projectId})
                 .then(response => {
                     if(response.body&&response.body.count){
                         this.subjectCount=response.body.count

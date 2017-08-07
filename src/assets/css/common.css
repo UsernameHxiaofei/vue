@@ -543,3 +543,13 @@ output {
     position: relative;
     margin: 0 auto;
     }
+.customer-head-image{
+    border: 1px solid gray;
+    width: 150px;
+    height:150px;
+}
+.enterpriseMember-head-image{
+    border: 1px solid gray;
+    width: 140px;
+    height: 180px;
+}
