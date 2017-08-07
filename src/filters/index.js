@@ -74,6 +74,9 @@ export function address(code) { //区域代码过滤器
     code = code + '';
     if (code.length != 6) return '未填写';
     let province = code.slice(0, 2) + '0000';
+    if(!addressData[province]){
+        return addressData[rootCode][province];
+    }
     let state = code.slice(0, 4) + '00';
     let result;
     try {

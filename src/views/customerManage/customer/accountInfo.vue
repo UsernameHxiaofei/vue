@@ -235,7 +235,7 @@
                         <el-input v-model="expert.position" auto-complete="off"></el-input>
                     </el-form-item>
                     <el-form-item label="常驻地区 " prop="expertUsualPlaceOptions">
-                        <el-cascader  :options="options"expand-trigger="click" change-on-select clearable v-model="expert.expertUsualPlaceOptions" @change="handleChange">
+                        <el-cascader  :options="options" expand-trigger="click" change-on-select clearable v-model="expert.expertUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item label="名片">
@@ -646,11 +646,11 @@
                         <el-input v-model="investor.position" auto-complete="off" placeholder="请填写目前职位"></el-input>
                     </el-form-item>
                     <el-form-item label="籍贯 " prop="investorRegionOptions">
-                        <el-cascader size="large" :options="options" v-model="investor.investorRegionOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="investor.investorRegionOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item label="常驻地区 " prop="investorUsualPlaceOptions">
-                        <el-cascader size="large" :options="options" v-model="investor.investorUsualPlaceOptions" @change="handleChange">
+                        <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="investor.investorUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
                     <el-form-item label="个人情况" prop="industryLevel">
@@ -1233,8 +1233,8 @@ export default {
                 this.expertData.expertRegionOptions = [];
                 this.expertData.expertUsualPlaceOptions = [];
                 this.expertData.agree = true;
-                if (this.expertData.industry) {
-                    var obj = JSON.parse(this.expertData.industry)
+                if (this.expertData.industryExp) {
+                    var obj = JSON.parse(this.expertData.industryExp)
                     this.industryObj = obj.industry;
                     this.workYearsObj = obj.workYears;
                 }
@@ -1319,10 +1319,7 @@ export default {
             if (this.show == 1) {
                 this.$store.dispatch('personalLeadVaildate', leadParam).then(() => {
                     if (this.personalLeadVaildateStatus.success) {
-                        this.$message({
-                            type: 'success',
-                            message: '已提交认证等待审核!'
-                        });
+                        this.$message.success('已提交认证等待审核!');
                         this.customerInit();
                         this.cancel('lead');
                     } else {
@@ -1364,14 +1361,15 @@ export default {
                     this.menuclick(1)
                 }
                 this.leadData.leadRegionOptions = [];
+                this.newIndustryList=this.leadData.industryLed;
                 this.leadData.agree = true;
                 this.leadData.promise = true;
                 // this.leadData.industryList = [];
                 if (this.leadData.regionCode) {
                     this.leadData.leadRegionOptions=getSelectArray(this.leadData.regionCode);
                 }
-                if (this.leadData.usualPlace) {
-                    this.leadData.leadUsualPlaceOptions=getSelectArray(this.leadData.usualPlace);
+                if (this.leadData.permanent) {
+                    this.leadData.leadUsualPlaceOptions=getSelectArray(this.leadData.permanent);
                 }
                 this.editLeadDialog  = true;
             })
@@ -1379,7 +1377,7 @@ export default {
         updateLead(){
             this.$refs['editLead'].validate((valid) => {
                 if (valid) {
-                    this.leadData.industry =  _.sum(this.newIndustryList);
+                    this.leadData.industryLed =  _.sum(this.newIndustryList);
                    if(this.leadData.leadRegionOptions) {
                        this.leadData.regionCode = this.leadData.leadRegionOptions.length>0?this.leadData.leadRegionOptions[this.leadData.leadRegionOptions.length-1]:'';
                    }

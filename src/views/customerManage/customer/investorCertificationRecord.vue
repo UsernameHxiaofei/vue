@@ -26,7 +26,6 @@
                     <label>关注行业</label>
                     <span class="zhuanzhuhangye">
                         <span>{{investorData.industry|industry}}</span>
-    
                     </span>
                 </li>
                 <li>
@@ -39,18 +38,18 @@
                 </li>
                 <li>
                     <label>籍贯</label>
-                    <span>{{investorData.regionCode|address}}</span>
-                    <li>
-                        <label>常驻地区</label>
-                        <span>{{investorData.usualPlace|address}}</span>
-                    </li>
-                    <li>
-                        <label>个人情况</label>
-                        <span class="zhuanzhuhangye">
-                            <span>{{investorData.industryLevel|industryLevel}}</span>
-    
-                        </span>
-                    </li>
+                    <span>{{investorData.birthplace|address}}</span>
+                </li>
+                <li>
+                    <label>常驻地区</label>
+                    <span>{{investorData.usualPlace|address}}</span>
+                </li>
+                <li>
+                    <label>个人情况</label>
+                    <span class="zhuanzhuhangye">
+                         <span>{{investorData.industryLevel|industryLevel}}</span>
+                    </span>
+                </li>
             </ul>
         </div>
     </div>

@@ -47,17 +47,15 @@
 				<li>
 					<label>已投项目</label>
 					<span>{{customerInfo.investment}}</span>
-			
 				</li>
-				<!--<li>
+				<li>
 					<label>专注行业</label>
-					<span>{{customerInfo.}}</span>
+					<span>{{customerInfo.newIndustry|industry}}</span>
 				</li>
 				<li>
 					<label>关注行业</label>
-					<span>{{customerInfo.}}</span>
-			
-				</li>-->
+					<span>{{customerInfo.industryLed|industry}}</span>	
+				</li>
 			</ul>
 		</div>
 	
@@ -100,13 +98,13 @@
 				<el-input v-model="customerInfo.wechatNumber"></el-input>
 			</el-form-item>
 			<el-form-item label="个人简介" prop="personProfile">
-				<el-input type="textarea" v-model="customerInfo.personProfile"></el-input>
+				<el-input type="textarea" :rows="5" v-model="customerInfo.personProfile"></el-input>
 			</el-form-item>
 			<el-form-item label="行家简介" prop="expertProfile">
-				<el-input type="textarea" v-model="customerInfo.expertProfile"></el-input>
+				<el-input type="textarea" :rows="5" v-model="customerInfo.expertProfile"></el-input>
 			</el-form-item>
 			<el-form-item label="已投项目" prop="investment">
-				<el-input type="textarea" v-model="customerInfo.investment"></el-input>
+				<el-input type="textarea" :rows="5" v-model="customerInfo.investment"></el-input>
 			</el-form-item>
 			<el-form-item>
 				<el-button style="width: 120px;" @click="cancel">取消</el-button>

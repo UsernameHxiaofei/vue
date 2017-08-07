@@ -42,24 +42,25 @@
                 <li>
                     <label>籍贯</label>
                     <span>{{leadData.regionCode|address}}</span>
-                    <li>
-                        <label>常驻地区</label>
-                        <span>{{leadData.permanent|address}}</span>
-                    </li>
-                    <li>
-                        <label>个人情况</label>
-                        <span class="zhuanzhuhangye">
-                            <span>{{leadData.industryLevel|industryLevel}}</span>
+                </li>
+                <li>
+                    <label>常驻地区</label>
+                    <span>{{leadData.permanent|address}}</span>
+                </li>
+                <li>
+                    <label>个人情况</label>
+                    <span class="zhuanzhuhangye">
+                        <span>{{leadData.industryLevel|industryLevel}}</span>
     
-                        </span>
-                    </li>
+                    </span>
+                </li>
     
-                    <li>
-                        <label>投资过的项目</label>
-                        <span class="zhuanzhuhangye">
-                            {{leadData.investment}}
-                        </span>
-                    </li>
+                <li>
+                    <label>投资过的项目</label>
+                    <span class="zhuanzhuhangye">
+                        {{leadData.investment}}
+                    </span>
+                </li>
             </ul>
             <div class="btn-box-c">
                 <el-button type="warning" @click="dialogClosureVisible = true">拒绝</el-button>
