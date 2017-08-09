@@ -234,7 +234,7 @@
                 <el-tab-pane :label="'讨论('+subjectCount+')'" :name="'7'">
                     <el-row :gutter="30">
                         <el-col :span="17" class="tab-left">
-                            <discussTab></discussTab>
+                            <discussTab @countDiscussNum="countDiscussNum"></discussTab>
                         </el-col>
                         <el-col :span="6" class="tab-right">
                             <rightTab></rightTab>
@@ -319,6 +319,14 @@
             };
         },
         methods: {
+            countDiscussNum(){
+                this.$http.post('SubjectDiscussManage/projectSubjectAllQuery',{pageNumber:1,pageVolume:10,projectId: this.$route.params.projectId})
+                .then(response => {
+                    if(response.body&&response.body.count){
+                        this.subjectCount=response.body.count
+                    }
+                })
+            },
             back() {
                 this.$router.go(-1);
             }

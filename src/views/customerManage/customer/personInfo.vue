@@ -159,7 +159,6 @@ import imageCropper from '../../../components/common/ImageDialogCropper'
 				 if(this.customerInfo.regionCode){
 					this.selectedOptions=getSelectArray(this.customerInfo.regionCode)
 				 }
-				 
 			 });
 			},
 			stringToDate(s) { 

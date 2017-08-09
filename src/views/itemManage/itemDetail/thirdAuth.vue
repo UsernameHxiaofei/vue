@@ -5,10 +5,10 @@
             <img src="../../../assets/images/linear.png"  /> <span>第三方征信报告</span>
           </el-col>
           <div class="creditReport">
-       <div class="abstract" v-if="credit.tcCreditAntiFraudList.createTime">
+       <div class="abstract" v-if="credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.createTime">
             <p>评估对象： {{projectItem.name}}</p>
             <p>项目名称： {{projectItem.name}}</p>
-            <p>评估日期： {{credit.tcCreditAntiFraudList.createTime}}</p>
+            <p>评估日期： {{credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.createTime}}</p>
             <p>评估机构： 天创信用服务有限公司</p>
              <p>反 欺 诈： {{credit.tcCreditAntiFraudList.antiFraud}}</p>
              <p v-if="credit.tcCreditAntiFraudList.grade">企业等级： {{credit.tcCreditAntiFraudList.grade}}</p> 
@@ -29,14 +29,14 @@
            <table>
                 <tbody>
                     <tr ><td class="tit" colspan="3">企业</td></tr>
-                    <tr  v-for="(Item,index) in credit.tcCreditAntiFraudList.company" :key="index">
+                    <tr  v-for="(Item,index) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.company" :key="index">
                         <td> {{Item.nameCn}}</td>
                         <td> {{Item.result}}</td>
                         <td> {{Item.message}}</td>
                     </tr>
                 </tbody>
             </table>
-            <table  v-for="(presonItem,i) in credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==1">
+            <table  v-for="(presonItem,i) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==1">
                  <tbody>
                     <tr ><td class="tit" colspan="3">法人-{{presonItem.name}}</td></tr>
                     <tr  v-for="(Item,index) in presonItem.adminDetail" :key="index">
@@ -46,7 +46,7 @@
                     </tr>
                 </tbody>
             </table>  
-            <table v-for="(presonItem,i) in credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==2">
+            <table v-for="(presonItem,i) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==2">
                 <tbody >
                     <tr ><td class="tit" colspan="3">高管-{{presonItem.name}}</td></tr>
                     <tr  v-for="(Item,index) in presonItem.adminDetail" :key="index">
@@ -76,7 +76,7 @@
        </div>
        
        <h3>报告主要内容</h3>
-       <div>{{credit.tcEnterpriseBusinessInfo.tcBasic.regno}}
+       <div>{{credit.tcEnterpriseBusinessInfo&&credit.tcEnterpriseBusinessInfo.tcBasic&&credit.tcEnterpriseBusinessInfo.tcBasic.regno}}
             <h5>工商注册信息</h5>
             <p>统一社会信用代码：{{tcEnterpriseBasic.regno}}</p>
             <p>注册名称：{{tcEnterpriseBasic.entname}}</p>
@@ -421,25 +421,25 @@
             return this.$store.state.item.thirdReport||{};
         },
         tcEnterpriseBasic(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
         },
         tcEnterpriseShareholder(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcShareholder
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcShareholder
         },
         tcEnterprisePerson(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcPerson
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcPerson
         },
         tcEnterpriseAlter(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcAlter
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcAlter
         },
         tcEnterpriseEntinv(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcEntinv
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcEntinv
         },
         tcEnterpriseFrposition(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrposition
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrposition
         },
         tcEnterpriseFrinv(){
-            return this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrinv
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrinv
         },
         tcTpcinfoTrademark(){
             return this.$store.state.item.thirdReport.tcTpcinfoTrademark
@@ -459,9 +459,6 @@
         leadInvestorIntention(){
             return this.$store.state.item.leadAd||{};
         }
-    },
-    mounted () {
-        this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId})
     },
     data() {
       return {

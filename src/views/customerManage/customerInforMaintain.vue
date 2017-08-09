@@ -77,7 +77,7 @@
         </div>
         <!--表格-->
         <div class="my-table  elli-btn">
-             <!--v-loading="!customerListData.list" element-loading-text="拼命加载中"-->
+             <!-- v-loading="!customerListData.list" element-loading-text="拼命加载中" -->
             <el-table :data="customerListData.list" stripe border style="width: 100%">
                 <el-table-column prop="kong" width="20">
                 </el-table-column>

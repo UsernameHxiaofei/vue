@@ -54,23 +54,23 @@
 		</div>
 	
 		<!--搜索-->
-		<div class="search-box">
+		<div class="search-box" style="margin:30px 0 10px 30px;">
 			<div class="output">
-				<el-input placeholder="项目编号 | 项目名称 | 发起人" icon="search" v-model="keyword" :on-icon-click="search" @keyup.enter.native="search">
-				</el-input>
+				<el-input style="width:260px;" placeholder="项目编号 | 项目名称 | 发起人" icon="search" v-model.trim="keyword" :on-icon-click="search" @keyup.enter.native="search"></el-input>
+				<el-checkbox style="float:left;margin-top:5px" v-model="isRestart" @change="restartChange"><span style="color:#97bcbe;">显示历史记录</span></el-checkbox>
 			</div>
 			<div class="date-box">
+				
 				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="click" change-on-select clearable :options="options3" v-model="where" @change="handleChange">
 				</el-cascader>
 				<el-select v-model="industry" clearable placeholder="所属行业" @change="industryChange">
 					<el-option v-for="item in industryOption" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
 				</el-select>
-				<el-select v-model="phase" clearable placeholder="项目阶段" @change="phaseChange">
+				<el-select v-model="phase" style="margin-right:20px" clearable placeholder="项目阶段" @change="phaseChange">
 					<el-option v-for="item in projectPhaseOption" :key="item.value" :label="item.label" :value="item.value">
 					</el-option>
 				</el-select>
-				
 			</div>
 		</div>
 		<!--表格-->
@@ -96,6 +96,11 @@
 				<el-table-column prop="phase"  label="阶段">
 					<template scope="scope">
 						{{scope.row.phase|projectPhase}}
+					</template>
+				</el-table-column>
+				<el-table-column prop="status"  label="状态">
+					<template scope="scope">
+						{{scope.row.status|projectStatus}}
 					</template>
 				</el-table-column>
 				<el-table-column width="180">
@@ -165,9 +170,19 @@
 					</el-table-column>
 				</el-table>
 			</div>
+			
 			<div  style="margin:10px 10px 30px 10px;">
 				<pagination :total="customerList.totalRecords" @size-change="handleCustomerSizeChange" @current-change="handleCustomerCurrentChange"></pagination>
 			</div>
+		</el-dialog>
+		<el-dialog size="tiny" title="选择创建项目的类型" :visible.sync="chooseItemType">
+				<div class="itemType" @click="chooseType('A')">
+					普通项目
+				</div>
+				<div class="itemType"  @click="chooseType('B')">
+					模拟投资项目
+				</div>
+			
 		</el-dialog>
 	</div>
 </template>
@@ -176,7 +191,7 @@ import pagination from '../components/common/pagination'
 import { regionData } from 'element-china-area-data'
 import projectPhaseList from '../constant/projectPhase'
 import industryList from '../constant/industry'
-
+import statusList from '../constant/projectStatus'
 
 export default {
 	components: {
@@ -188,16 +203,21 @@ export default {
 	data() {
 		return {
 			param:{},
+			chooseItemType:false,
 			options3: regionData,
 			projectPhaseOption : projectPhaseList,
 			industryOption : industryList,
+			projectStatusList:statusList,
 			where: [],
 			industry: '',
 			phase: '',
+			isRestart:false,
+			status:'',
 			// 搜索
 			keyword: '',
 			
 			active: 'border-orange',
+			itemType:'A',
 			customerKeyword:'',
 			chooseItemCustomer:false,
 			customerParam:{}
@@ -220,7 +240,9 @@ export default {
 	beforeMount () {
         this.param={
                 industry:this.industry,
-                phase:this.phase,
+				phase:this.phase,
+				status:'',
+				isRestart:0,
                 regionCode:this.where.length>0?this.where[this.where.length-1]:'',
                 keyword:this.keyword,
                 pageSize:10,
@@ -232,6 +254,11 @@ export default {
     },
 	
 	methods: {
+		chooseType(type){
+			this.itemType=type;
+			this.chooseItemCustomer=true;
+			this.chooseItemType=false;
+		},
 		handleCustomerCurrentChange(val){
 			this.customerParam.pageNo=val;
 			this.$store.dispatch('item_getCustomerList',this.customerParam);
@@ -242,13 +269,13 @@ export default {
 			this.$store.dispatch('item_getCustomerList',this.customerParam);
 		},
 		createItemByCustomer(item){
-			this.$store.dispatch('item_createProject1').then(()=>{
+			this.$store.dispatch('item_createProject1',{type:this.itemType}).then(()=>{
 				if(!this.$store.state.item.createProjectId.length){
 					this.$message.warning('创建项目失败，请联系服务器开发人员')
 					return false;
 				}
 				let projectParam={
-                    id:this.$store.state.item.createProjectId,
+					id:this.$store.state.item.createProjectId,
                     initiatorId: item.actorId
                 }
                	this.$store.dispatch('item_updateProject', { param: projectParam, vue: this });
@@ -256,14 +283,18 @@ export default {
 			});
 		},
 		createProject(){
-			this.chooseItemCustomer=true;
+			this.chooseItemType=true;
 			this.customerParam={
                	keyword: this.customerKeyword,
                 pageNo:1,
                 pageSize:10
 			}
 			this.$store.dispatch('item_getCustomerList',this.customerParam);
-			
+		},
+		restartChange(){
+			this.param.isRestart = this.isRestart?1:0;
+            this.param.pageNo=1;			
+			this.$store.dispatch('item_getManageList',this.param);
 		},
 		customerKeywordChange(){
 			this.customerParam.keyword=this.customerKeyword;
@@ -304,5 +335,27 @@ export default {
 </script>
 
 <style>
-
+#main .itemType{
+	display: inline-block;
+	width:250px;
+	text-align: center;
+	height:100px;
+	line-height: 100px;
+	vertical-align: middle;
+	margin:0 9px;
+	font-size: 18px;
+	border: 1px solid #06ccb7;
+	color: #06ccb7;
+	font-weight: bold;
+	cursor: pointer;
+}
+#main .itemType:hover{
+	border: 1px solid #fff;
+	color: #fff;
+	background: #06ccb7;
+}
+.output1{
+	width:450px;
+	float: left;
+}
 </style>

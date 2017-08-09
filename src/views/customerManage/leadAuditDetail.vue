@@ -6,6 +6,7 @@
             </router-link>
         </div>
         <div class="hangjiashenhe">
+            <h3 v-if="leadData.institution==1">个人信息</h3>
             <ul>
                 <li>
                     <label>手机号</label>
@@ -19,42 +20,53 @@
                     <label>身份证号</label>
                     <span>{{leadData.identNumber}}</span>
                 </li>
-                <li>
+            </ul>
+            <h3 v-if="leadData.institution==1">企业信息</h3>
+            <ul>
+                <li v-if="leadData.institution!=1">
                     <label>专注行业</label>
                     <span class="zhuanzhuhangye">
                         <span>{{leadData.industry|industry}}</span>
-                        <!--<span>2.餐饮/商铺</span>
-                                <span>3.餐饮/商铺</span>
-                                <span>4.餐饮/商铺</span>
-                                <span>5.餐饮/商铺</span>
-                                <span>6.餐饮/商铺</span>
-                                <span>7.其他</span>-->
                     </span>
                 </li>
-                <li>
+                <li v-if="leadData.institution!=1">
                     <label>所属单位</label>
                     <span>{{leadData.organization}}</span>
                 </li>
-                <li>
+                <li v-if="leadData.institution!=1">
                     <label>职位</label>
                     <span>{{leadData.position}}</span>
                 </li>
-                <li>
+                <li v-if="leadData.institution!=1">
                     <label>籍贯</label>
                     <span>{{leadData.regionCode|address}}</span>
                 </li>
-                <li>
+                <li v-if="leadData.institution!=1">
                     <label>常驻地区</label>
                     <span>{{leadData.permanent|address}}</span>
                 </li>
-                <li>
+                <li v-if="leadData.institution!=1">
                     <label>个人情况</label>
                     <span class="zhuanzhuhangye">
                         <span>{{leadData.industryLevel|industryLevel}}</span>
-    
                     </span>
                 </li>
-    
+                <li v-if="leadData.institution==1">
+                    <label>企业名称</label>
+                    <span>{{leadData.enterpriseName}}</span>
+                </li>
+                <li v-if="leadData.institution==1">
+                    <label>统一社会信用代码</label>
+                    <span>{{leadData.creditCode}}</span>
+                </li>
+                <li v-if="leadData.institution==1">
+                    <label>所在地</label>
+                    <span>{{leadData.regionCode|address}}</span>
+                </li>
+                <li v-if="leadData.institution==1">
+                    <label>企业情况</label>
+                    <span>{{leadData.industryLevel|enterpriseIndustryLevel}}</span>
+                </li>
                 <li>
                     <label>投资过的项目</label>
                     <span class="zhuanzhuhangye">
@@ -62,6 +74,23 @@
                     </span>
                 </li>
             </ul>
+                <h3 v-if="leadData.institution==1">法定代表人信息</h3>
+            <ul>
+                <li v-if="leadData.institution==1">
+                    <label>法定代表人</label>
+                    <span>{{leadData.representative}}</span>
+                </li>    
+                <li v-if="leadData.institution==1">
+                    <label>身份证号</label>
+                    <span>{{leadData.representativeIdentNumber}}</span>
+                </li>    
+                <li v-if="leadData.institution==1">
+                    <label>手机号</label>
+                    <span>{{leadData.representativeMobileNumber}}</span>
+                </li>    
+            </ul>
+                <h3 v-if="leadData.institution==1">营业执照</h3>
+                <img class="businessLicenseURL" v-if="leadData.institution==1" :src="leadData.businessLicenseURL" alt="">
             <div class="btn-box-c">
                 <el-button type="warning" @click="dialogClosureVisible = true">拒绝</el-button>
                 <el-button type="success" @click="adopt">通过</el-button>
@@ -169,6 +198,11 @@ export default {
 
 
 <style scoped>
+.businessLicenseURL{
+    margin-left:200px;
+    text-align: center;
+    width:400px;
+}
 body {
     background-color: #fcfcfc;
 }
@@ -178,16 +212,20 @@ body {
 }
 
 .hangjiashenhe {
+    box-sizing: border-box;
     width: 60%;
     height: 100%;
     margin: 0 auto;
+    padding-top:20px;
     background-color: #fff;
     font-size: 14px;
 }
-
+.hangjiashenhe h3{
+    padding-top:10px;
+    margin-left: 50px
+}
 .hangjiashenhe ul {
     margin-left: 100px;
-    padding-top: 16px;
 }
 
 .hangjiashenhe li {
@@ -196,7 +234,7 @@ body {
 
 .hangjiashenhe label {
     display: inline-block;
-    width: 100px;
+    width: 150px;
     font-weight: 400;
     color: #999;
     text-align: right;

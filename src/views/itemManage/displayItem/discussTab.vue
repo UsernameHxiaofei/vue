@@ -262,9 +262,7 @@ export default {
             }
         },
         replyProject(){
-            
             if(!this.comment){
-                //bus.$emit('showMassege','请输入评论内容')
                 return ;
             }
             this.$http.post('SubjectDiscussManage/projectSubjectCreate',{actorId:this.actorId,subject_content:this.comment,project_id:this.projectItem.id,subject_picture:''})
@@ -273,7 +271,7 @@ export default {
                 //console.log(data,'projectSubjectCreate')
                 if(data){
                     this.commentList=this.commentList||[]
-                     this.commentList.push(
+                     this.commentList.push( 
                         {creat_time: new Date(),
                             creator:this.actorId,
                             headFigureURL: this.IndividualInfo.headFigureURL,
@@ -288,6 +286,7 @@ export default {
                             likeCount:0,
                     })
                     this.comment=""
+                    this.emit('countDiscussNum');
                     //bus.$emit('showMassege','评论成功')
                     this.zz++;
                 }

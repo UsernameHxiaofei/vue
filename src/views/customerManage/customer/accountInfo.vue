@@ -234,7 +234,7 @@
                     <el-form-item label="职位" :label-width="formLabelWidth" prop="position">
                         <el-input v-model="expert.position" auto-complete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="常驻地区 " prop="expertUsualPlaceOptions">
+                    <el-form-item label="常驻地区 " >
                         <el-cascader  :options="options" expand-trigger="click" change-on-select clearable v-model="expert.expertUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
@@ -333,7 +333,7 @@
                     <el-form-item label="职位" :label-width="formLabelWidth" prop="position">
                         <el-input v-model="expertData.position" auto-complete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="常驻地区 " prop="expertUsualPlaceOptions">
+                    <el-form-item label="常驻地区 " >
                         <el-cascader size="large" :options="options" v-model="expertData.expertUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
@@ -580,7 +580,7 @@
                     <el-form-item v-if="show==2" label="统一社会信用代码" :label-width="formLabelWidth" prop="creditCode">
                         <el-input v-model="leadData.creditCode" auto-complete="off" placeholder="请输入统一社会信用代码"></el-input>
                     </el-form-item>
-                    <el-form-item v-if="show==2" label="所在地区" :label-width="formLabelWidth" prop="leadRegionOptions">
+                    <el-form-item v-if="show==2" label="所在地区" :label-width="formLabelWidth" >
                         <el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="leadData.leadRegionOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
@@ -794,8 +794,8 @@ export default {
                 representativeIdentNumber: '',
                 representativeMobileNumber: '',
                 businessLicenseURL: '',
-                agree: false,
-                promise: false,
+                agree: true,
+                promise: true,
             },
             investor: {
                 name: '',
@@ -812,8 +812,8 @@ export default {
                 investorUsualPlaceOptions: [],
                 usualPlace: '',
                 regionCode: '',
-                agree: false,
-                promise: false,
+                agree: true,
+                promise: true,
             },
             formLabelWidth: "120px",
             dialogFormVisible: false,
@@ -1036,10 +1036,10 @@ export default {
             return this.$store.state.customer.investorVaildateStatus;
         },
         expertData: function () {
-            return this.$store.state.customer.expertData;
+            return this.$store.state.customer.expertData||{agree:true};
         },
         leadData: function () {
-            return this.$store.state.customer.leadData;
+            return this.$store.state.customer.leadData||{agree:true,promise:true};
         },
 
     },

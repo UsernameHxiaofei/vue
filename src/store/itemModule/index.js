@@ -217,8 +217,8 @@ export const itemModule = {
             });
         },
         //项目创建返回id
-        item_createProject1({ commit,dispatch }){
-            return api.item_createProject().then((data) => {
+        item_createProject1({ commit,dispatch },param){
+            return api.item_createProject(param).then((data) => {
                 console.log('项目创建返回id',data);
                 commit('item_createProject',data);
             });

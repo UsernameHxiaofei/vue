@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="21" :offset="3" class="search">
                     <el-col :span="4" :offset="1">
-                        <el-input placeholder="项目编号|项目名称|发起人" icon="search" @keyup.enter.native="search" v-model="keyword" :on-icon-click="search"></el-input>
+                        <el-input placeholder="项目编号|项目名称|发起人" icon="search" @keyup.enter.native="search" v-model.trim="keyword" :on-icon-click="search"></el-input>
                     </el-col>
                     <el-col :span="4" :offset="1">
                         <el-select v-model="type" clearable placeholder="所属行业" @change="changeindustry">

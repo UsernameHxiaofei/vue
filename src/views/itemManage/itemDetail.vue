@@ -314,7 +314,6 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 if(this.itemManageDetail.leadInvestorIntentionId){
                     this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
                 }
-                
                 if(this.itemManageDetail.phase==11){
                     this.$store.dispatch('item_getIsFun',{id:this.projectId,size:10,num:1}).then(()=>{
                         if(!!this.$store.state.item.isFun&&!!this.$store.state.item.isFun.content&&this.$store.state.item.isFun.content.length>0){
@@ -327,12 +326,12 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 }else if(this.itemManageDetail.auxiliary&&this.itemManageDetail.auxiliary.currentNodeId=='contentAffirm'){
                     this.isEdit=true;
                 }
-                if(this.itemManageDetail.phase==7){
+                if(this.itemManageDetail.phase>=7){
                     this.$store.dispatch('item_getTimeInfo',{id:this.projectId}).then(()=>{
-                    if(this.$store.state.item.timeInfo.reserveBegin){
-                        this.isSetTime=true;
-                    }    
-                });
+                        if(this.$store.state.item.timeInfo.reserveBegin){
+                            this.isSetTime=true;
+                        }    
+                    });
                 }
                 if(this.itemManageDetail.phase>=2){
                     this.$store.dispatch('item_getExpertAd',{id:this.projectId});

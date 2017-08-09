@@ -48,11 +48,7 @@
         </el-table-column>
         <el-table-column prop="projecStatus" width="100" label="状态">
           <template scope="scope">
-            <span v-if="scope.row.projecStatus==6">专享期</span>            
-            <span v-if="scope.row.projecStatus==7">众投中</span>
-            <span v-if="scope.row.projecStatus==8">已成功</span>
-            <span v-if="scope.row.projecStatus==9">已分红</span>
-            <span v-if="scope.row.projecStatus==10">募资失败</span>
+            {{scope.row.projecStatus|projectStatus}}
           </template>
         </el-table-column>
         <el-table-column prop="financingAmount" width="180" label="目标融资额(元)">

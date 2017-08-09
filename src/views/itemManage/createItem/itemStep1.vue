@@ -160,7 +160,7 @@
                         <el-form-item prop="evidenceURL" v-if="planform.isInvested">
                             <el-upload class="upload-img" action="/ajax/fileupload" :auto-upload="true" :data="{fileType:2}" :file-list="evidenceURL"
                                 :on-success="successUpload_evidenceURL" :on-remove="handleRemove">
-                                <el-button size="small" type="primary">上传凭据硬件</el-button>
+                                <el-button size="small" type="primary">上传凭据</el-button>
                                 <div slot="tip" class="el-upload__tip">只能上传不超过10M的文件</div>
                             </el-upload>
                         </el-form-item>
@@ -187,7 +187,7 @@
                     </el-col>
                     <transition name="el-zoom-in-top" >
                     <el-form-item prop="selectedOptions1" v-show="conditionform.IsinvestorNativePlace">
-                        <el-cascader expand-trigger="hover" clearable :options="options" v-model="selectedOptions1">
+                        <el-cascader  expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions1">
                         </el-cascader>
                     </el-form-item>
                     </transition>
@@ -200,7 +200,7 @@
                     </el-col>
                     <transition name="el-zoom-in-top" >
                     <el-form-item prop="selectedOptions2" v-show="conditionform.Ispermanent">
-                        <el-cascader expand-trigger="hover" clearable :options="options" v-model="selectedOptions2">
+                        <el-cascader  expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions2">
                         </el-cascader>
                     </el-form-item>
                     </transition>
@@ -468,8 +468,8 @@
                 if (this.conditionform.invitation || this.conditionform.IsinvestorNativePlace || this.conditionform.Ispermanent) {
                     let investorCondition = {
                         invitation: this.conditionform.invitation ? 1 : 0,
-                        investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[2] : '',
-                        permanent: this.conditionform.Ispermanent ? this.selectedOptions2[2] : '',
+                        investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
+                        permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
                         financeId: this.$route.params.id
                     }
                     return this.$store.dispatch('item_createInvestorCondition', { param: investorCondition, vue: this })
@@ -479,8 +479,8 @@
             updateInvestorCondition() {
                 let investorCondition = {
                     invitation: this.conditionform.invitation ? 1 : 0,
-                    investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[2] : '',
-                    permanent: this.conditionform.Ispermanent ? this.selectedOptions2[2] : '',
+                    investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
+                    permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
                     financeId: this.$route.params.id
                 }
                 this.$store.dispatch('item_updateInvestorCondition', { param: investorCondition, vue: this })

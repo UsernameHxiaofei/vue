@@ -42,7 +42,7 @@
                     <!--<el-menu-item index="7" @click="go('/23','7')"><i class="iconfont icon-jinrongpingtai"></i>&emsp;行业管理</el-menu-item>-->
                     <el-submenu index="8">
                         <template slot="title"><i class="iconfont icon-shezhi"></i>&emsp;系统管理</template>
-                        <el-menu-item index="8-1" @click="go('/userMaintain','8-1')">&emsp;账户维护</el-menu-item>
+                        <el-menu-item index="8-1" @click="go('/userMaintain','8-1')">&emsp;账号维护</el-menu-item>
                         <el-menu-item index="8-2" @click="go('/permission','8-2')">&emsp;权限分配</el-menu-item>
                         <el-menu-item index="8-3" @click="go('/roleMaintain','8-3')">&emsp;角色维护</el-menu-item>
                         <el-menu-item index="8-4" @click="go('/universalRole','8-4')">&emsp;泛角色维护</el-menu-item>

@@ -2,7 +2,7 @@
     <div id='enterpriseManage'>
         <el-row class="search-box">
             <el-col class="output" >
-                <el-input class="input1" style="width:300px" placeholder="企业名称|统一社会信用代码|法定代表人" clearable icon="search" v-model="keyword" @keyup.enter.native="search" :on-icon-click="search"></el-input>
+                <el-input class="input1" style="width:300px" placeholder="企业名称|统一社会信用代码|法定代表人" clearable icon="search" v-model.trim="keyword" @keyup.enter.native="search" :on-icon-click="search"></el-input>
             </el-col>
             <el-col :span="6" style="float:right">
                 <el-date-picker v-model="range" type="datetimerange" clearable placeholder="选择日期范围" @change="rangechange"></el-date-picker>
@@ -19,10 +19,10 @@
                      <el-table-column prop="creditCode" label="统一社会信用代码" align="center"> </el-table-column> 
                      <el-table-column prop="name" label="企业名称"  align="center"> </el-table-column>
                      <el-table-column label="所在地" align="center" >
-                         <template scope="scope">
+                        <template scope="scope">
                             {{scope.row.addressCode|address}}
                         </template>
-                        </el-table-column>
+                    </el-table-column>
                      <el-table-column width="120" prop="representativeName" label="法定代表人" align="center"> </el-table-column>
                      <el-table-column width="240" prop="createTime" label="入库时间" align="center"> </el-table-column>
                      <el-table-column label="" width="100" align="center">

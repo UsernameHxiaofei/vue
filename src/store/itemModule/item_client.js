@@ -100,8 +100,8 @@ module.exports=function client(Vue){
           return response.body;
         })
       },
-      item_createProject:() => {
-        return Vue.http.post('item_createProject').then(response => {
+      item_createProject:(param) => {
+        return Vue.http.post('item_createProject',param).then(response => {
           return response.body;
         })
       },
