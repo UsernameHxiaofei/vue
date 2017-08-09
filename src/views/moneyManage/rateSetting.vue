@@ -466,19 +466,19 @@ export default {
                 ownId: data.projectId
             }
             this.projectId = data.projectId;
-            if(data.projectPhase>7){
-                this.$store.dispatch('id_fundRule2', idParam).then(() => {
-                    this.rateForm = {};
-                    this.rateForm = this.idFundRule;
-                    this.dialogRateVisible = true;
-                });
-            }else{
-                this.$store.dispatch('id_fundRule', idParam).then(() => {
-                    this.rateForm = {};
-                    this.rateForm = this.idFundRule;
-                    this.dialogRateVisible = true;
-                });
-            }
+            this.$store.dispatch('id_fundRule2', idParam).then(() => {
+                 this.rateForm = {};
+                this.rateForm = this.idFundRule;
+                this.dialogRateVisible = true;
+            });
+            // if(data.projectPhase>7){
+            // }else{
+            //     this.$store.dispatch('id_fundRule', idParam).then(() => {
+            //         this.rateForm = {};
+            //         this.rateForm = this.idFundRule;
+            //         this.dialogRateVisible = true;
+            //     });
+            // }
             
         },
         //保存已设置好或修改好的参数规则

@@ -167,7 +167,7 @@
                 </el-table-column>
                 <el-table-column>
                     <template scope="scope">
-                        <el-button v-if="scope.row.payStatusCode==0" class="btn-style" @click="collection(scope.row)">催收</el-button>
+                        <el-button v-if="scope.row.payStatusCode==0&&scope.row.projectStatus==9" class="btn-style" @click="collection(scope.row)">催收</el-button>
                         <el-button v-if="scope.row.payStatusCode==2" class="btn-style" @click="openLook(scope.row)">分成</el-button>
                     </template>
                 </el-table-column>

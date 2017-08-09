@@ -159,7 +159,7 @@ module.exports = function client(router, sc, passport) {
     ///////////费率设置-按所属ID查询资金规则
     router.all('/id_fundRule2', function (req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("LtFundsRuleTask", "findLtFundsRuleByOwnId", "ltSystemManagement");
+        const stuff = sc.instanceRequest("LtFundsRuleTask", "findLtFundsRuleForShow", "ltSystemManagement");
         stuff.auxiliary = { [passport]: req.session.passport };
         stuff.items = [
             param.ownId
