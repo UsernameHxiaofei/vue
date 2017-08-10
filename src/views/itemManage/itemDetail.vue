@@ -326,13 +326,14 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 }else if(this.itemManageDetail.auxiliary&&this.itemManageDetail.auxiliary.currentNodeId=='contentAffirm'){
                     this.isEdit=true;
                 }
-                if(this.itemManageDetail.phase>=7){
-                    this.$store.dispatch('item_getTimeInfo',{id:this.projectId}).then(()=>{
+                this.$store.dispatch('item_getTimeInfo',{id:this.projectId}).then(()=>{
+                    if(this.itemManageDetail.phase>=7){
                         if(this.$store.state.item.timeInfo.reserveBegin){
-                            this.isSetTime=true;
+                             this.isSetTime=true;
                         }    
-                    });
-                }
+                    }
+                });
+               
                 if(this.itemManageDetail.phase>=2){
                     this.$store.dispatch('item_getExpertAd',{id:this.projectId});
                 }

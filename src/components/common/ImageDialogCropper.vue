@@ -1,9 +1,5 @@
 <template>
     <div class="imageDialogCropper">
-        <div>
-            <el-button @click="selectImage">选择图片</el-button>
-            <el-button @click="commit">确定</el-button>
-        </div>
         <div style="height:300px;width:300px;float:left;">
             <imageCropper ref="cropper" style="margin:0 auto;width:98%;"
                 :img="option.img"
@@ -26,13 +22,17 @@
                     </div>
             </div>
         </div>
+        <div class="operation-div">
+            <el-button class="operationButton"  @click="commit">确定</el-button>
+            <el-button class="operationButton" type="primary" @click="selectImage">选择图片</el-button>
+        </div>
         <form action="#" method="post">
             <input style="display: none" id="uploadImgForCropper" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
             @change="uploadImage"/>
         </form>
     </div>
 </template>
-<style>
+<style scoped>
     .show-preview{
         float: right;
     }
@@ -42,6 +42,15 @@
         width:320px;
         justify-content:center;
         align-items:center;
+    }
+    .operation-div{
+        height:50px;
+        margin-top:20px;
+        border-top: 1px solid #eee;
+    }
+    .operationButton{
+        float: right;
+        margin:10px 0 auto 20px;
     }
 </style>
 <script>
@@ -96,7 +105,6 @@ export default {
                             self.$message.success('上传完成');
                             self.$emit('result',JSON.parse(JSON.parse(xhr.response).objectLiteral));
                             self.$refs.cropper.clearCrop();//清除截图
-                            
                         }
                     };
                     xhr.send(formData);
@@ -108,7 +116,6 @@ export default {
         },
         uploadImage() {
             this.$refs.cropper.clearCrop();//清除截图
-
             let fileInput=document.getElementById('uploadImgForCropper');
             let file = fileInput.files[0];
             this.fileName=file.name;

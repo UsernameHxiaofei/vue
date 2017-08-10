@@ -92,7 +92,7 @@
                         <el-input v-model.number="rateForm.leadInvestSharePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="领投比例" prop="leadInvestPercent">
-                        <el-input v-model="rateForm.leadInvestPercent"></el-input> %
+                        <el-input v-model.number="rateForm.leadInvestPercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="项目方保证金比例" prop="financingEnsurePercent">
                         <el-input v-model.number="rateForm.financingEnsurePercent"></el-input> %
@@ -110,7 +110,7 @@
                         <el-input v-model.number="rateForm.aboveEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="投资人保证金比例" prop="investEnsurePercent">
-                        <el-input v-model="rateForm.investEnsurePercent"></el-input> %
+                        <el-input v-model.number="rateForm.investEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="投资人最小违约金比例" prop="minInvestPenaltyPercent">
                         <el-input v-model.number="rateForm.minInvestPenaltyPercent"></el-input> %
@@ -479,7 +479,6 @@ export default {
             //         this.dialogRateVisible = true;
             //     });
             // }
-            
         },
         //保存已设置好或修改好的参数规则
         setRate() {

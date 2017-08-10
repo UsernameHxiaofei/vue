@@ -164,7 +164,6 @@
                 }
                 img.src = this.img
             },
-
             cropW() {
                 this.showPreview()
             },
