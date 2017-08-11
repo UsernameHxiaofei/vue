@@ -1,7 +1,7 @@
 <template>
     <div class="imageDialogCropper">
         <div style="height:300px;width:300px;float:left;">
-            <imageCropper ref="cropper" style="margin:0 auto;width:98%;"
+            <imageCropper ref="cropper" style="margin:0 auto;width:100%;"
                 :img="option.img"
                 :outputSize="option.size"
                 :outputType="option.outputType"
@@ -27,7 +27,7 @@
             <el-button class="operationButton" type="primary" @click="selectImage">选择图片</el-button>
         </div>
         <form action="#" method="post">
-            <input style="display: none" id="uploadImgForCropper" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
+            <input style="display: none" ref="cropperFileInput" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
             @change="uploadImage"/>
         </form>
     </div>
@@ -44,7 +44,7 @@
         align-items:center;
     }
     .operation-div{
-        height:50px;
+        height:60px;
         margin-top:20px;
         border-top: 1px solid #eee;
     }
@@ -72,10 +72,10 @@ export default {
                 outputType: 'png',//截图格式
                 canScale:true,//是否允许缩放
                 autoCrop:true,//默认生成截图框
-                autoCropWidth:parseInt(this.op&&this.op.width||150),//默认生成截图框宽度
-                autoCropHeight:parseInt(this.op&&this.op.height||150),//默认生成截图框高度
+                autoCropWidth:parseInt(this.op&&this.op.width),//默认生成截图框宽度
+                autoCropHeight:parseInt(this.op&&this.op.height),//默认生成截图框高度
                 fixed: true,
-				fixedNumber:(parseInt(this.op&&this.op.width||0)&&parseInt(this.op&&this.op.height||0))?[this.op.width/this.op.height,1]:[1,1]
+				fixedNumber:this.op&&this.op.fixedNumber||[1,1]
             },
             fileName:{},
             previews:{}
@@ -104,19 +104,18 @@ export default {
                         } else if (xhr.status == 200) {
                             self.$message.success('上传完成');
                             self.$emit('result',JSON.parse(JSON.parse(xhr.response).objectLiteral));
-                            self.$refs.cropper.clearCrop();//清除截图
                         }
                     };
                     xhr.send(formData);
 			})
         },
         selectImage(){
-            document.getElementById('uploadImgForCropper').click();
+            this.$refs.cropperFileInput.click();
             this.option.img ='';
         },
         uploadImage() {
             this.$refs.cropper.clearCrop();//清除截图
-            let fileInput=document.getElementById('uploadImgForCropper');
+            let fileInput=this.$refs.cropperFileInput;
             let file = fileInput.files[0];
             this.fileName=file.name;
             var reader = new FileReader();

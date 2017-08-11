@@ -39,7 +39,7 @@
                 </li>
                 <li v-if="leadData.institution!=1">
                     <label>籍贯</label>
-                    <span>{{leadData.regionCode|address}}</span>
+                    <span>{{leadData.birthplace|address}}</span>
                 </li>
                 <li v-if="leadData.institution!=1">
                     <label>常驻地区</label>

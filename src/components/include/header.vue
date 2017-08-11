@@ -68,7 +68,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-            <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
+            <el-dialog title="头像修改" :visible.sync="editHeadImgChange" :close-on-click-modal="false">
                     <imageCropper @result="getUrl"></imageCropper>
             </el-dialog>
         </div>

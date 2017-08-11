@@ -9,9 +9,6 @@
                 <img :src="img" alt="cropper-img" ref="cropperImg" />
             </div>
         </div>
-        <div class="cropper-drag-box" :class="{'cropper-move': move && !crop, 'cropper-crop': crop, 'cropper-modal': cropping}" @mousedown="startMove"
-            @touchstart="startMove" @mouseover="scaleImg" @mouseout="cancleScale">
-        </div>
         <div v-show="cropping" class="cropper-crop-box" :style="{
 					'width': cropW + 'px',
 					'height': cropH + 'px',
@@ -28,9 +25,10 @@
 						alt="cropper-img"
 						/>
 				</span>
-            <span class="cropper-face cropper-move" @mousedown="cropMove" @touchstart="cropMove"></span>
+            <span class="cropper-face cropper-move"  @mouseover="scaleImg" :class="{'cropper-move': move && !crop, 'cropper-crop': crop, 'cropper-modal': cropping}" @mousedown="startMove"
+            @touchstart="startMove" @mouseout="cancleScale"></span>
             <span class="crop-info" v-if="info" :style="{'top': cropInfo}">{{  this.cropW }} × {{ this.cropH }}</span>
-            <span class="crop-line line-w" @mousedown="changeCropSize($event, false, true, 0, 1)" @touchstart="changeCropSize($event, false, true, 0, 1)"></span>
+            <!-- <span class="crop-line line-w" @mousedown="changeCropSize($event, false, true, 0, 1)" @touchstart="changeCropSize($event, false, true, 0, 1)"></span>
             <span class="crop-line line-a" @mousedown="changeCropSize($event, true, false, 1, 0)" @touchstart="changeCropSize($event, true, false, 1, 0)"></span>
             <span class="crop-line line-s" @mousedown="changeCropSize($event, false, true, 0, 2)" @touchstart="changeCropSize($event, false, true, 0, 2)"></span>
             <span class="crop-line line-d" @mousedown="changeCropSize($event, true, false, 2, 0)" @touchstart="changeCropSize($event, true, false, 2, 0)"></span>
@@ -41,7 +39,7 @@
             <span class="crop-point point5" @mousedown="changeCropSize($event, true, false, 2, 0)" @touchstart="changeCropSize($event, true, false, 2, 0)"></span>
             <span class="crop-point point6" @mousedown="changeCropSize($event, true, true, 1, 2)" @touchstart="changeCropSize($event, true, true, 1, 2)"></span>
             <span class="crop-point point7" @mousedown="changeCropSize($event, false, true, 0, 2)" @touchstart="changeCropSize($event, false, true, 0, 2)"></span>
-            <span class="crop-point point8" @mousedown="changeCropSize($event, true, true, 2, 2)" @touchstart="changeCropSize($event, true, true, 2, 2)"></span>
+            <span class="crop-point point8" @mousedown="changeCropSize($event, true, true, 2, 2)" @touchstart="changeCropSize($event, true, true, 2, 2)"></span> -->
         </div>
     </div>
 </template>
@@ -94,7 +92,11 @@
                 cropOffsertX: 0,
                 cropOffsertY: 0,
                 // 支持的滚动事件
-                support: ''
+                support: '',
+                //最小的缩放尺度
+                min_scale:0,
+                x_range:[0,0],
+                y_range:[0,0]
             }
         },
         props: {
@@ -218,13 +220,18 @@
             },
             // 移动图片
             moveImg(e) {
-                e.preventDefault()
                 var nowX = e.clientX ? e.clientX : e.touches[0].clientX
                 var nowY = e.clientY ? e.clientY : e.touches[0].clientY
                 this.$nextTick(() => {
-                    this.x = ~~(nowX - this.moveX)
-                    this.y = ~~(nowY - this.moveY)
+                    var temp_x=~~(nowX - this.moveX),temp_y=~~(nowY - this.moveY);
+                    if(temp_x<this.x_range[0]&&temp_x>this.x_range[1]){
+                        this.x=temp_x;
+                    }
+                    if(temp_y>this.y_range[1]&&temp_y<this.y_range[0]){
+                        this.y=temp_y;
+                    }
                 })
+                e.preventDefault()
             },
             // 移动图片结束
             leaveImg(e) {
@@ -248,11 +255,30 @@
             },
             // 改变大小函数
             changeSize(e) {
-                var change = e.deltaY
-                change < 0 ? this.scale += 0.05 : this.scale > 0.05 ? this.scale -= 0.05 : this.scale
+                var change = e.deltaY,temp_scale=this.scale;
+                change < 0 ? temp_scale += 0.05 : temp_scale > 0.05 ? temp_scale -= 0.05 : temp_scale;
+                if(temp_scale>=this.min_scale){
+                    this.scale=temp_scale;
+                    this.x_range=[-(this.trueWidth - this.trueWidth * this.scale) / 2,-(this.trueWidth - this.trueWidth * this.scale) / 2+ (this.w - this.trueWidth * this.scale)];
+                    this.y_range=[-(this.trueHeight - this.trueHeight * this.scale) / 2,-(this.trueHeight - this.trueHeight * this.scale) / 2 + (this.h - this.trueHeight * this.scale)];
+                    if(!(this.x<this.x_range[0]&&this.x>this.x_range[1])){
+                        this.x=this.x_range[this.compare(this.x,this.x_range)];
+                    }
+                    if(!(this.y>this.y_range[1]&&this.y<this.y_range[0])){
+                        this.y=this.y_range[this.compare(this.y,this.y_range)];  
+                    }
+                }
                 e.preventDefault()
             },
-
+            compare(x,arr){
+                var a=arr[0],b=arr[1];
+                var length1=Math.abs(a-x),length2=Math.abs(b-x);
+                if(length1>length2){
+                    return 1;
+                }else{
+                    return 0;
+                }
+            },
             // 创建截图框
             createCrop(e) {
                 e.preventDefault()
@@ -396,7 +422,6 @@
                 window.removeEventListener('touchmove', this.changeCropNow)
                 window.removeEventListener('touchend', this.changeCropEnd)
             },
-
             // 创建完成
             endCrop() {
                 if (this.cropW === 0 && this.cropH === 0) {
@@ -426,12 +451,13 @@
             },
             // 截图移动
             cropMove(e) {
-                window.addEventListener('mousemove', this.moveCrop)
-                window.addEventListener('mouseup', this.leaveCrop)
-                window.addEventListener('touchmove', this.moveCrop)
-                window.addEventListener('touchend', this.leaveCrop)
-                this.cropX = (e.clientX ? e.clientX : e.touches[0].clientX) - this.cropOffsertX
-                this.cropY = (e.clientY ? e.clientY : e.touches[0].clientY) - this.cropOffsertY
+                return;
+                // window.addEventListener('mousemove', this.moveCrop)
+                // window.addEventListener('mouseup', this.leaveCrop)
+                // window.addEventListener('touchmove', this.moveCrop)
+                // window.addEventListener('touchend', this.leaveCrop)
+                // this.cropX = (e.clientX ? e.clientX : e.touches[0].clientX) - this.cropOffsertX
+                // this.cropY = (e.clientY ? e.clientY : e.touches[0].clientY) - this.cropOffsertY
             },
 
             moveCrop(e) {
@@ -537,18 +563,37 @@
                 this.trueWidth = this.$refs.cropperImg.width
                 this.trueHeight = this.$refs.cropperImg.height
 
-                if (this.trueWidth > this.w) {
-                    // 如果图片宽度大于容器宽度
-                    this.scale = this.w / this.trueWidth
-                }
+                //算出容器的宽高比
+                var container=this.w/this.h;
+                var image=this.trueWidth/this.trueHeight;
 
-                if (this.trueHeight * this.scale > this.h) {
-                    this.scale = this.h / this.trueHeight
+                if(image>container){
+                     this.scale = this.h / this.trueHeight;
+                }else if(image<container){
+                     this.scale = this.w / this.trueWidth
+                }else{
+                     this.scale = this.h / this.trueHeight
                 }
+                
+                // if (this.trueWidth > this.w) {
+                //     // 如果图片宽度大于容器宽度
+                //     this.scale = this.w / this.trueWidth
+                // }
+                // if (this.trueHeight * this.scale > this.h) {
+                //     this.scale = this.h / this.trueHeight
+                // }
+                
+                //获取当前可平移坐标的范围
 
+
+
+
+                this.min_scale=this.scale;
                 this.$nextTick(() => {
                     this.x = -(this.trueWidth - this.trueWidth * this.scale) / 2 + (this.w - this.trueWidth * this.scale) / 2
                     this.y = -(this.trueHeight - this.trueHeight * this.scale) / 2 + (this.h - this.trueHeight * this.scale) / 2
+                    this.x_range=[-(this.trueWidth - this.trueWidth * this.scale) / 2,-(this.trueWidth - this.trueWidth * this.scale) / 2+ (this.w - this.trueWidth * this.scale)]
+                    this.y_range=[-(this.trueHeight - this.trueHeight * this.scale) / 2,-(this.trueHeight - this.trueHeight * this.scale) / 2 + (this.h - this.trueHeight * this.scale)]
                     this.loading = false
                     // 获取是否开启了自动截图
                     if (this.autoCrop) {
@@ -561,17 +606,21 @@
                 this.cropping = true
                 // 截图框默认大小
                 // 如果为0 那么计算容器大小 默认为80%
-                var w = this.autoCropWidth
-                var h = this.autoCropHeight
-                if (w === 0 || h === 0) {
-                    w = this.w * 0.8
-                    h = this.h * 0.8
-                }
-                w = w > this.w ? this.w : w
-                h = h > this.h ? this.h : h
+                // var w = this.autoCropWidth
+                // var h = this.autoCropHeight
+                // if (w === 0 || h === 0) {
+                //     w = this.w * 0.8
+                //     h = this.h * 0.8
+                // }
+                // w = w > this.w ? this.w : w
+                // h = h > this.h ? this.h : h
+              
+                var w = this.w||300,h = this.h||300;
+                var wh=this.fixedNumber[0]/this.fixedNumber[1];
+                
                 // 如果设置了比例
                 if (this.fixed) {
-                    h = w / this.fixedNumber[0] * this.fixedNumber[1]
+                   w=~~(h*wh);
                 }
                 this.changeCrop(w, h)
             },
@@ -616,7 +665,6 @@
 
     .cropper-box,
     .cropper-box-canvas,
-    .cropper-drag-box,
     .cropper-crop-box,
     .cropper-face {
         position: absolute;

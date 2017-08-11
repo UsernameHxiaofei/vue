@@ -7,7 +7,7 @@
 			<ul>
 				<li>
 					<label>昵称</label>
-					<span>{{customerInfo.nickname}}</span>
+					<span>{{customerInfo.nickname||'未填写'}}</span>
 				</li>
 				
 				<li>
@@ -18,7 +18,7 @@
 				</li>
 				<li>
 					<label>出生日期</label>
-					<span>{{customerInfo.birthdate}}</span>
+					<span>{{customerInfo.birthdate||'未填写'}}</span>
 				</li>
 				<li>
 					<label>常驻地区</label>
@@ -26,27 +26,27 @@
 				</li>
 				<li>
 					<label>单位</label>
-					<span>{{customerInfo.organization}}</span>
+					<span>{{customerInfo.organization||'未填写'}}</span>
 				</li>
 				<li>
 					<label>职位</label>
-					<span>{{customerInfo.position}}</span>
+					<span>{{customerInfo.position||'未填写'}}</span>
 				</li>
 				<li>
 					<label>微信号</label>
-					<span>{{customerInfo.wechatNumber}}</span>
+					<span>{{customerInfo.wechatNumber||'未填写'}}</span>
 				</li>
 				<li>
 					<label>个人简介</label>
-					<span>{{customerInfo.personProfile}}</span>
+					<span>{{customerInfo.personProfile||'未填写'}}</span>
 				</li>
 				<li>
 					<label>行家简介</label>
-					<span>{{customerInfo.expertProfile}}</span>
+					<span>{{customerInfo.expertProfile||'未填写'}}</span>
 				</li>
 				<li>
 					<label>已投项目</label>
-					<span>{{customerInfo.investment}}</span>
+					<span>{{customerInfo.investment||'未填写'}}</span>
 				</li>
 				<li>
 					<label>专注行业</label>
@@ -112,7 +112,7 @@
 			</el-form-item>
 		</el-form>
 		<div class="p-form">
-            <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
+            <el-dialog title="头像修改" :visible.sync="editHeadImgChange"  :close-on-click-modal="false">
                     <imageCropper @result="uploadSuccess"></imageCropper>
             </el-dialog>
         </div>
