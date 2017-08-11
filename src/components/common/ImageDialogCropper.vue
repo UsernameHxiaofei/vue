@@ -75,6 +75,7 @@ export default {
                 w=~~(h*wh);
                 return {w,h}
             }
+            return {w:300,h:300}
         },
         realTime (data) {
             this.previews = data;
