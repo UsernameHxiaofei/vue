@@ -17,7 +17,8 @@ module.exports = function client(router, sc, passport) {
             param.regionCode,
             param.keyword,
             param.pageNo,
-            param.pageSize
+            param.pageSize,
+            param.isRestart
         ];
         sc.send(stuff).then((resp) => {
             res.json(resp.object)

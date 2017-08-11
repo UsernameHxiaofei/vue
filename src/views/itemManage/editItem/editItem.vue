@@ -272,8 +272,8 @@
             </dialogComponent>
         </div>
         <div class="p-form">
-            <el-dialog title="头像修改" :visible.sync="editHeadImgChange">
-                    <imageCropper :op="{width:140,height:180}" @result="successUpload_memberimageURL"></imageCropper>
+            <el-dialog title="头像修改" :visible.sync="editHeadImgChange" :close-on-click-modal="false">
+                    <imageCropper :op="{fixedNumber:[140,180]}" @result="successUpload_memberimageURL" ></imageCropper>
             </el-dialog>
         </div>
     </div>

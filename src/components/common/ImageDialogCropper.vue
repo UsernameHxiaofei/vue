@@ -1,6 +1,6 @@
 <template>
     <div class="imageDialogCropper">
-        <div style="height:300px;width:300px;float:left;">
+        <div :style="{height:getSize().h+'px',width:getSize().w+'px',margin:'0 auto',maxHeight:'300px',maxWidth:'300px'}">
             <imageCropper ref="cropper" style="margin:0 auto;width:100%;"
                 :img="option.img"
                 :outputSize="option.size"
@@ -14,14 +14,6 @@
                 @realTime="realTime">
             </imageCropper>
         </div>
-        <div class="preview-image-center">
-            <div class="show-preview"  :style="{'width': previews.w + 'px', 'height': previews.h + 'px',  'overflow': 'hidden','display':'inline-block','border':'1px solid gray',
-                        'margin': '5px'}">
-                    <div :style="previews.div">
-                        <img :src="option.img" :style="previews.img">
-                    </div>
-            </div>
-        </div>
         <div class="operation-div">
             <el-button class="operationButton"  @click="commit">确定</el-button>
             <el-button class="operationButton" type="primary" @click="selectImage">选择图片</el-button>
@@ -33,16 +25,6 @@
     </div>
 </template>
 <style scoped>
-    .show-preview{
-        float: right;
-    }
-    .preview-image-center{
-        display:flex;
-        height:300px;
-        width:320px;
-        justify-content:center;
-        align-items:center;
-    }
     .operation-div{
         height:60px;
         margin-top:20px;
@@ -64,6 +46,9 @@ export default {
             default:null
         }
     },
+    mounted () {
+        
+    },
     data () {
         return {
             option: {
@@ -82,6 +67,15 @@ export default {
         }
     },
     methods: {
+        getSize(){
+            if(this.op&&this.op.fixedNumber){
+                var w = 300,h = 300;
+                var wh=this.op.fixedNumber[0]/this.op.fixedNumber[1];
+                // 如果设置了比例
+                w=~~(h*wh);
+                return {w,h}
+            }
+        },
         realTime (data) {
             this.previews = data;
         },
