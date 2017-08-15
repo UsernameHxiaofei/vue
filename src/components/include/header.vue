@@ -7,7 +7,7 @@
                 <span>6</span>
             </div>
             <span class="sepreate">|</span>
-            <img src="../../assets/images/headimg.png" class="headimg" @click="editHeadImg" />
+            <img  :src="headImage&&headImage.length>0?headImage:'../../assets/images/headimg.png'" class="headimg" @click="editHeadImg" />
             <span class="username" v-html="actor.name"></span>
             <span class="setting">
                 <el-dropdown>
@@ -54,6 +54,9 @@
         <div class="p-form">
             <el-dialog title="修改登录密码" :visible.sync="editPasswordDialog">
                 <el-form :rules="editPasswordRule" ref="editPassword" :model="password">
+                    <el-form-item label="原始密码" prop="oldPassword">
+                        <el-input v-model="password.oldPassword" type="password" auto-complete="off"></el-input>
+                    </el-form-item>
                     <el-form-item label="新密码" prop="newPassword">
                         <el-input v-model="password.newPassword" type="password" auto-complete="off"></el-input>
                     </el-form-item>
@@ -83,6 +86,9 @@ export default {
     components: {
       imageCropper  
     },
+    mounted () {
+      this.$store.dispatch('cusHeadPortrait',{id:this.actor.id})  
+    },
     data() {
         var validatePass = (rule, value, callback) => {
             if (value === '') {
@@ -105,7 +111,6 @@ export default {
         };
         return {
             editHeadImgChange:false,
-            editHeadImage:'',
             password: {
                 newPassword: '',
                 password: ''
@@ -134,6 +139,9 @@ export default {
                 // password: [
                 //     { required: true, message: '请输入确认密码', trigger: 'blur' }
                 // ],
+                oldPassword: [
+                    { validator: validatePass, trigger: 'blur' }
+                ],
                 newPassword: [
                     { validator: validatePass, trigger: 'blur' }
                 ],
@@ -157,10 +165,17 @@ export default {
         loginPasswordStatus: function () {
             return this.$store.state.customer.loginPasswordStatus;
         },
+        headImage:function(){
+            return this.$store.state.customer.headImage;
+        }
     },
     methods: {
         getUrl(data){
-            this.editHeadImage=data;
+            let param={
+                url:data,
+                id:this.actor.id
+            }
+            this.$store.dispatch('alterHeadPortrait',param)
         },
         editHeadImg(){
             this.editHeadImgChange=true;
@@ -193,10 +208,11 @@ export default {
                 if (valid) {
                     let passwordParam = {
                         id: this.actor.id,
-                        password: this.password.newPassword
+                        password: this.password.newPassword,
+                        oldPassword:this.password.oldPassword
                     }
                     this.$store.dispatch('updateLoginPassword', passwordParam).then(() => {
-                        if (this.loginPasswordStatus) {
+                        if (this.loginPasswordStatus.success) {
                             this.$message({
                                 message: '修改成功！请重新登录',
                                 type: 'success'
@@ -244,6 +260,9 @@ export default {
             this.dialogeditUserVisible = false;
         },
         exit() {
+            setTimeout(function(){
+                this
+            },1000);
             this.$store.dispatch('login_out', this);
         },
         handleIconClick() {

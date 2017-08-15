@@ -304,7 +304,7 @@
                         { required: true,min:0, type: 'number', message: '请输入数字', trigger: 'blur' }
                     ],
                     selectedOptions: [
-                        { type: "array", required: true, message: '请选择所属地区', trigger: 'change,blur' }
+                        { type: "array", required: true, message: '请选择所属地区', trigger: 'blur' }
                     ],
                 },
                 editFlag: false,

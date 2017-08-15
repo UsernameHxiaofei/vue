@@ -68,8 +68,8 @@ export const riskModule = {
                
             })
         },
-        risk_getFactors({commit}){
-            return api.risk_getFactors().then((data)=> {
+        risk_getFactors({commit},param){
+            return api.risk_getFactors(param).then((data)=> {
                 console.log('获取的因子单位',data)
                 commit('risk_setFactors',data);
             })

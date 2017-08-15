@@ -19,6 +19,7 @@
                         <el-menu-item index="3-2" @click="go(menus[5].value,menus[5].index)">&emsp;消息模版管理</el-menu-item>
                         <el-menu-item index="3-3" @click="go(menus[6].value,menus[6].index)">&emsp;短信通知管理</el-menu-item>
                         <el-menu-item index="3-4" @click="go(menus[7].value,menus[7].index)">&emsp;站内消息管理</el-menu-item>
+                        <el-menu-item index="3-5" @click="go(menus[22].value,menus[22].index)">&emsp;谈话交流管理</el-menu-item>
                     </el-submenu>
                     <el-submenu index="4">
                         <template slot="title"><i class="iconfont icon-dongchanrongzi"></i>&emsp;资金管理</template>
@@ -81,7 +82,8 @@
                    {value:'/permission',index:'8-2'},
                    {value:'/roleMaintain',index:'8-3'},
                    {value:'/universalRole',index:'8-4'},
-                   {value:'/log',index:'8-5'}
+                   {value:'/log',index:'8-5'},
+                   {value:'/msgTalk',index:'3-5'},
                ]
             }
         },

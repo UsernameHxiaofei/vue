@@ -1,42 +1,44 @@
 <template>
     <div id='riskColumn'>
-        <el-row style="margin:60px 10%">
-            <el-col class="ptr" style="height:200px;box-sizing:content-box;min-width:930px;">
-                <el-row >
-                    <el-col style="min-width:320px;height:200px" :span="8">
-                        <img class="pimg" :src="mainData.imageURL" :alt="mainData.projectName" />
-                    </el-col>
-                    <el-col style="min-width:300px;height:200px" :span="8">
-                        <el-row class="ptitle">
-                            <el-col :span="24">
-                                {{mainData.projectName||''}}
-                            </el-col>
-                        </el-row>
-                        <el-row class="pinfo">
-                            <el-col :span="12">&emsp;<span class="iconfont icon-dingwei" aria-hidden="true"></span>&nbsp;{{mainData.regionCode|address}}</el-col>
-                            <el-col :span="12" ><span class="iconfont icon-biaoqian" aria-hidden="true"></span>&nbsp;{{mainData.industry|industry}}</el-col>
-                        </el-row>
-                        <el-row class="psimg">
-                            <el-col :span="8"><img class="personImg" :src="mainData.initiatorImg" v-if="mainData.initiatorImg" alt="项目人"></el-col>
-                            <!--项目人-->
-                            <el-col :span="8"><img class="personImg" :src="mainData.expertImg" v-if="mainData.expertImg" alt="行家"></el-col>
-                            <!--行家-->
-                            <el-col :span="8"><img class="personImg" :src="mainData.leadInvestorImg" v-if="mainData.leadInvestorImg" alt="领投"></el-col>
-                            <!--领投-->
-                        </el-row>
-                    </el-col>
-                    <el-col style="min-width:250px;height:200px" :span="5" :offset="1">
-                        <el-row>
-                            <template v-for="rv in mainData.riskRegion">
-                                <div class="ppoint" >
-                                    <span class="pstate" :style="{'background-color':lvColor[rv.lv]}"></span> {{rv.name}}
+                <div class="ptr" style="width:875px;margin:60px auto" >
+                        <div style="height:200px;box-sizing:content-box;">
+                            <div style="float:left;width:320px;height:200px">
+                                <img class="pimg" :src="mainData.imageURL" :alt="mainData.projectName" />
+                            </div>
+                            <div style="float:left;width:300px;height:200px">
+                                <el-row class="ptitle">
+                                    <el-col :span="24">
+                                        {{mainData.projectName}}
+                                    </el-col>
+                                </el-row>
+                                <el-row class="pinfo">
+                                    <el-col :span="12">
+                                        <span class="iconfont icon-dingwei" aria-hidden="true"></span>&nbsp;{{mainData.regionCode|address}}
+                                    </el-col>
+                                    <el-col :span="12">
+                                        <span class="iconfont icon-biaoqian" aria-hidden="true"></span>&nbsp;{{mainData.industry|industry}}
+                                    </el-col>
+                                </el-row>
+                                <el-row class="psimg">
+                                    <img class="personImg" :src="mainData.initiatorImg" v-if="mainData.initiatorImg" alt="项目人">
+                                    <!--项目人-->
+                                    <img class="personImg" :src="mainData.expertImg" v-if="mainData.expertImg" alt="行家">
+                                    <!--行家-->
+                                    <img class="personImg" :src="mainData.leadInvestorImg" v-if="mainData.leadInvestorImg" alt="领投">
+                                    <!--领投-->
+                                </el-row>
+                            </div>
+                            <div style="float:left;width:250px;height:200px">
+                                <div style="margin-top:5px;width:230px">
+                                    <template v-for="rv in mainData.riskRegion">
+                                        <div class="ppoint">
+                                            <span class="pstate" :style="{'background-color':lvColor[rv.lv]}"></span>{{rv.name}}
+                                        </div>
+                                    </template>
                                 </div>
-                            </template>
-                        </el-row>
-                    </el-col>
-                </el-row>
-            </el-col>
-        </el-row>
+                            </div>
+                        </div>
+                    </div>
     </div>
 </template>
 

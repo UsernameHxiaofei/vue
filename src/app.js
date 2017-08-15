@@ -14,6 +14,21 @@ import 'quill/dist/quill.core.css'
 
 Vue.use(ElementUI)
 
+Vue.directive('imageBiger', {
+  // 当绑定元素插入到 DOM 中。
+  bind: function (el) {
+    // 聚焦元素
+    el.style.cursor='pointer';
+    el.addEventListener('click',function(){
+      if(el.src!=''){
+          window.open(el.src);
+      }
+    })
+  }
+})
+
+
+
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])

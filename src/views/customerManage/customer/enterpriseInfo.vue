@@ -88,7 +88,7 @@ body {
 				</li>
 				<li>
 					<label>企业形象图</label>
-					<span><img style=" width: 200px;" :src="enterpriseInfo.imageURL"></span>
+					<span><img v-imageBiger style=" width: 200px;" :src="enterpriseInfo.imageURL"></span>
 				</li>
 				<li>
 					<label>企业简介</label>
@@ -127,9 +127,6 @@ body {
 			<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
 			<el-button style="margin-left: 10px; position:absolute; right:0; bottom:20px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
 		</el-upload>
-				<el-dialog v-model="dialogVisible" size="tiny">
-					<img width="100%" :src="dialogImageUrl" alt="">
-				</el-dialog>
 			</el-form-item>
 			<el-form-item label="企业简介" prop="profile">
 				<el-input type="textarea"  :rows="6" v-model="enterpriseInfo.profile"></el-input>
@@ -170,7 +167,6 @@ import { getSelectArray } from '../../../util/index.js'
 				options: regionData,
         		selectedOptions: [],
 				uploadList:[],
-				dialogVisible:false,
 				dialogImageUrl:'',
 				fileParam:{},
 			}
@@ -235,10 +231,6 @@ import { getSelectArray } from '../../../util/index.js'
 			},
 			handleChange (value) {
 				console.log(value)
-			},
-			handlePictureCardPreview(file) {
-				this.dialogImageUrl = file.url;
-				this.dialogVisible = true;
 			},
 			handleRemove(file, fileList) {
 				console.log(file, fileList);

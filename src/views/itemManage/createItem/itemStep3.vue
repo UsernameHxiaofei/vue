@@ -34,10 +34,11 @@
                 <el-input class="hang-select"
                 placeholder="请输入行家"
                 icon="search"
+                v-if="this.itemManageDetail.type=='A'"
                 v-model="expert"
                 :on-icon-click="handleExpertClick">
                 </el-input>
-                <el-select v-model="industry1" @change="expertIndustryChange" clearable placeholder="所属行业" class="hang-input">
+                <el-select v-model="industry1" @change="expertIndustryChange" v-if="this.itemManageDetail.type=='A'" clearable placeholder="所属行业" class="hang-input">
                     <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -48,8 +49,8 @@
             </div>
             <div class="choose-list">
                 <el-row :gutter="20" style="height:710px">
-                    <el-col :span="12" v-for="(item,index) in expertList.list" :key="index">
-                        <div class="grid-content" :class="{'choosed':experter==item.actorId}" v-if="itemManageDetail.initiatorId!=item.actorId" :title="item.profile"  @click="chooseExport(item)">
+                    <el-col :span="12" v-for="(item,index) in expertList.list||expertList1.list" :key="index">
+                        <div class="grid-content" :class="{'choosed':experter==item.actorId}"  :title="item.profile"  @click="chooseExport(item)">
                             <img :src="item.headFigureURL" />
                             <div class="info-content">
                                 <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
@@ -62,7 +63,7 @@
             <!--分页-->
             <div class="page-box clearfix">
                 <div class="page-wrap">
-                    <pagination :total="expertList.totalRecords" 
+                    <pagination :total="expertList.totalRecords||expertList1.totalRecords" 
                     @size-change="expertSizeChange" 
                     @current-change="expertCurrentChange"
                     ></pagination>
@@ -74,13 +75,13 @@
                 <div class="hang-divider">
                     <img src="../../../assets/images/linear.png" /> <span>选择领投</span>
                 </div>
-                <el-input class="hang-select"
+                <el-input class="hang-select" v-if="this.itemManageDetail.type=='A'"
                 placeholder="请输入领投名称"
                 icon="search"
                 v-model="lead"
                 :on-icon-click="handleLeadClick">
                 </el-input>
-                <el-select v-model="industry2" @change="leadIndustryChange" clearable placeholder="所属行业" class="hang-input">
+                <el-select v-model="industry2" @change="leadIndustryChange" v-if="this.itemManageDetail.type=='A'" clearable placeholder="所属行业" class="hang-input">
                     <el-option
                     v-for="item in options"
                     :key="item.value"
@@ -91,8 +92,8 @@
             </div>
             <div class="choose-list">
                 <el-row :gutter="20" style="height:710px">
-                    <el-col :span="12" v-for="(item,index) in leadList.list" :key="index" >
-                        <div class="grid-content" :class="{'choosed':leader==item.actorId}" v-if="itemManageDetail.initiatorId!=item.actorId"   @click="chooseLead(item)">
+                    <el-col :span="12" v-for="(item,index) in leadList.list||leadList1.list" :key="index" >
+                        <div class="grid-content" :class="{'choosed':leader==item.actorId}"    @click="chooseLead(item)">
                             <img :src="item.headFigureURL" />
                             <div class="info-content">
                                 <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
@@ -105,7 +106,7 @@
             <!--分页-->
             <div class="page-box clearfix">
                 <div class="page-wrap">
-                    <pagination :total="leadList.totalRecords" @size-change="leadSizeChange" @current-change="leadCurrentChange" ></pagination>
+                    <pagination :total="leadList.totalRecords||leadList1.totalRecords" @size-change="leadSizeChange" @current-change="leadCurrentChange" ></pagination>
                 </div>
             </div>
         </div>
@@ -133,6 +134,12 @@ import industryData from '../../../constant/industry.js'
           expertList:function(){
                 return this.$store.state.item.exportList||{};
           },
+          leadList1:function(){
+                return this.$store.state.item.leadList1||{};
+          },
+          expertList1:function(){
+                return this.$store.state.item.exportList1||{};
+          },
           itemManageDetail: function () {
                 return this.$store.state.item.itemManageDetail||{};
           },
@@ -147,24 +154,43 @@ import industryData from '../../../constant/industry.js'
                     this.leader=this.itemManageDetail.leadInvestorId;
                     this.experter=this.itemManageDetail.expertId;
                 }
+                if(this.itemManageDetail.type=='B'){
+                    this.isSimulation=true;
+                }
+                if(this.isSimulation){
+                    this.leadParam1={
+                        type:'A',
+                        pageSize:10,
+                        pageNo:1,
+                    }
+                    this.exportParam1={
+                        type:'B',
+                        pageSize:10,
+                        pageNo:1,
+                    }
+                    this.$store.dispatch('item_getCustomerInfo4ShowForSimulation',this.leadParam1)
+                    this.$store.dispatch('item_getCustomerInfo4ShowForSimulation',this.exportParam1)
+                }else{
+                    this.leadParam={
+                        type:'D',
+                        pageSize:10,
+                        pageNo:1,
+                        industry:0
+                    }
+                    this.exportParam={
+                        type:'A',
+                        pageSize:10,
+                        pageNo:1,
+                        industry:0
+                    }
+                    this.$store.dispatch('item_getPersons',{param:this.leadParam,vue:this});
+                    this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
+                }
             })
-            this.leadParam={
-                type:'D',
-                pageSize:10,
-                pageNo:1,
-                industry:0
-            }
-            this.exportParam={
-                type:'A',
-                pageSize:10,
-                pageNo:1,
-                industry:0
-            }
-            this.$store.dispatch('item_getPersons',{param:this.leadParam,vue:this});
-            this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
         },
 		data() {
 			return {
+                isSimulation:false,
                 expert:'',
                 industry1:'',
                 lead:'',
@@ -172,6 +198,8 @@ import industryData from '../../../constant/industry.js'
                 options:industryData,
                 leadParam:{},
                 exportParam:{},
+                leadParam1:{},
+                exportParam1:{},
                 leader:'',
                 experter:'',
                 flag:false,
@@ -203,20 +231,45 @@ import industryData from '../../../constant/industry.js'
                 this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
             },
             expertSizeChange(val) {
-                this.exportParam.pageSize=val;
-                this.exportParam.pageNo=1;
-                this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
+                if(this.isSimulation){
+                    this.exportParam1.pageSize=val;
+                    this.exportParam1.pageNo=1;
+                    this.$store.dispatch('item_getCustomerInfo4ShowForSimulation',this.exportParam1)
+                }else{
+                    this.exportParam.pageSize=val;
+                    this.exportParam.pageNo=1;
+                    this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
+                }
             },
             leadSizeChange(val) {
-                this.leadParam.pageSize=val;
-                this.leadParam.pageNo=1;
-                this.$store.dispatch('item_getPersons',{param:this.leadParam,vue:this});
+                if(this.isSimulation){
+                    this.leadParam1.pageSize=val;
+                    this.leadParam1.pageNo=1;
+                    this.$store.dispatch('item_getCustomerInfo4ShowForSimulation',this.leadParam1)
+                }else{
+                    this.leadParam.pageSize=val;
+                    this.leadParam.pageNo=1;
+                    this.$store.dispatch('item_getPersons',{param:this.leadParam,vue:this});
+                }
             },
             expertCurrentChange(val) {
-                this.exportParam.pageNo=val;
-                this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
+                if(this.isSimulation){
+                    this.exportParam1.pageNo=val;
+                    this.$store.dispatch('item_getCustomerInfo4ShowForSimulation',this.exportParam1);
+                }else{
+                    this.exportParam.pageNo=val;
+                    this.$store.dispatch('item_getPersons',{param:this.exportParam,vue:this});
+                }
+                
             },
             leadCurrentChange(val) {
+                if(this.isSimulation){
+                    this.leadParam1.pageNo=val;
+                    this.$store.dispatch('item_getCustomerInfo4ShowForSimulation',this.leadParam1)
+                }else{
+                    this.leadParam.pageNo=val;
+                    this.$store.dispatch('item_getPersons',{param:this.leadParam,vue:this});
+                }
                 this.leadParam.pageNo=val;
                 this.$store.dispatch('item_getPersons',{param:this.leadParam,vue:this});
             },
@@ -237,7 +290,6 @@ import industryData from '../../../constant/industry.js'
                     leadInvestorId:this.leader,
                     id: this.$route.params.id
                 }
-                
                 if(this.flag){
                     this.$store.dispatch('item_updateProjectForAffrim', { param:projectParam, vue: this })
                 }else{

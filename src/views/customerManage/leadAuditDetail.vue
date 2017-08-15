@@ -90,7 +90,7 @@
                 </li>    
             </ul>
                 <h3 v-if="leadData.institution==1">营业执照</h3>
-                <img class="businessLicenseURL" v-if="leadData.institution==1" :src="leadData.businessLicenseURL" alt="">
+                <img v-imageBiger class="businessLicenseURL" v-if="leadData.institution==1" :src="leadData.businessLicenseURL" alt="">
             <div class="btn-box-c">
                 <el-button type="warning" @click="dialogClosureVisible = true">拒绝</el-button>
                 <el-button type="success" @click="adopt">通过</el-button>

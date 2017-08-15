@@ -17,6 +17,8 @@ export const itemModule = {
         isAuth:false,
         thirdReport:{},
         show:{},//项目展示数据
+        customerInfo4ShowForSimulationList:{},//获取模拟投资行家领投列表
+        customerInfoForSimulationList:{},//获取模拟投资发起人列表
 
         customerList:{},//创建项目选择发起人列表
 
@@ -28,6 +30,8 @@ export const itemModule = {
         enterpriseMemberId:'',
         exportList:{},//行家列表
         leadList:{},//领投列表
+        exportList1:{},//行家列表for模拟投资
+        leadList1:{},//领投列表for模拟投资
         
 
         detailedIntroduction:{},//详细介绍
@@ -445,6 +449,7 @@ export const itemModule = {
                 commit('item_setBusinessInfo',data);
             });
         },
+        //获取反欺诈信息
         item_getCreditAntiFraud({ commit,dispatch },param){
             return api.item_getCreditAntiFraud(param).then((data) => {
                 console.log('获取欺诈信息',data);
@@ -457,18 +462,48 @@ export const itemModule = {
                 commit('item_isAuthInfo',data);
             });
         },
+        //获取是否注资申请
         item_getIsFun({commit},param){
             return api.item_getIsFun(param).then((data)=>{
                 commit('item_setIsFun',data);
             })
         },
+        //获取这个第三方报告
         item_getThirdReport({commit},param){
             return api.item_getThirdReport(param).then((data)=>{
                 commit('item_setThirdReport',data);
             })
+        },
+        //获取模拟投资项目发起人
+        item_getCustomerInfoForSimulation({commit},param){
+            return api.item_getCustomerInfoForSimulation(param).then((data)=>{
+                commit('item_setCustomerInfoForSimulation',data);
+            })
+        },
+        //获取模投资项目行家和领投
+        item_getCustomerInfo4ShowForSimulation({commit},param){
+            return api.item_getCustomerInfo4ShowForSimulation(param).then((data)=>{
+                if(param.type=='A'){
+                    commit('item_setExportListForSimulation',data)
+                }else{
+                    commit('item_setLeadListForSimulation',data);
+                }
+            })
         }
     },
     mutations: {
+        item_setExportListForSimulation(state,data){
+            state.exportList={};
+            state.exportList1=data;
+        },
+        item_setLeadListForSimulation(state,data){
+            state.leadList={};
+            state.leadList1=data;
+        },
+        item_setCustomerInfoForSimulation(state,data){
+            state.customerList={};
+            state.customerInfoForSimulationList=data;
+        },
         item_isAuth(state,data){
             state.isAuth=data;
         },

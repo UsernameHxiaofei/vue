@@ -141,9 +141,10 @@
         });
         //获取创建风险指标的因子
         router.all('/risk_getFactors', function (req, res, next) {
+            let param=req.body;
             const stuff = sc.instanceRequest("RiskTask", "selectListRiskFactorInfo", "riskManage");
             stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items=[]
+            stuff.items=[param.factoryId,param.category||1]
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
         //添加风险指标

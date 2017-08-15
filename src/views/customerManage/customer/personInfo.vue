@@ -45,10 +45,6 @@
 					<span>{{customerInfo.expertProfile||'未填写'}}</span>
 				</li>
 				<li>
-					<label>已投项目</label>
-					<span>{{customerInfo.investment||'未填写'}}</span>
-				</li>
-				<li>
 					<label>专注行业</label>
 					<span>{{customerInfo.newIndustry|industry}}</span>
 				</li>
@@ -56,11 +52,13 @@
 					<label>关注行业</label>
 					<span>{{customerInfo.industryLed|industry}}</span>	
 				</li>
+				<li>
+					<label>已投项目</label>
+					<span>{{customerInfo.investment||'未填写'}}</span>
+				</li>
 			</ul>
 		</div>
-	
 		<el-form v-if="!status" :model="customerInfo"  ref="customerInfo" class="my-form" label-width="90px" style="width: 70%;margin:auto;padding: 20px 0;">
-			
 			<el-form-item label="头像" >
 				<img class="customer-head-image" :src="customerInfo.headFigureURL" v-if="!!customerInfo.headFigureURL" alt=""><br>
 				<el-button size="small" @click="editHeadImgChange=true">上传头像</el-button>
@@ -75,6 +73,10 @@
 					<el-radio :label="0">保密</el-radio>
 				</el-radio-group>
 			</el-form-item>
+			<el-form-item label="常驻地区 " prop="usualPlace">
+				<el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="usualPlaceOption" >
+				</el-cascader>
+			</el-form-item>
 			<el-form-item label="出生日期" >
 				<el-col :span="11">
 					<el-date-picker 
@@ -83,10 +85,6 @@
 					 placeholder="选择日期" 
 					 style="width: 100%;"></el-date-picker>
 				</el-col>
-			</el-form-item>
-			<el-form-item label="所在地">
-				<el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions" @change="handleChange">
-				</el-cascader>
 			</el-form-item>
 			<el-form-item label="单位" prop="organization">
 				<el-input v-model="customerInfo.organization"></el-input>
@@ -102,6 +100,17 @@
 			</el-form-item>
 			<el-form-item label="行家简介" prop="expertProfile">
 				<el-input type="textarea" :rows="5" v-model="customerInfo.expertProfile"></el-input>
+			</el-form-item>
+			<el-form-item label="专注行业">
+				<div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
+					<el-checkbox v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
+					<input type="number" v-model="workYearsObj[i]" :disabled="industryObj[i]?false:true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
+				</div>
+			</el-form-item>
+			<el-form-item  label="关注行业" >
+				<el-checkbox-group v-model="newIndustryList">
+					<el-checkbox v-for="item in industryList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
+				</el-checkbox-group>
 			</el-form-item>
 			<el-form-item label="已投项目" prop="investment">
 				<el-input type="textarea" :rows="5" v-model="customerInfo.investment"></el-input>
@@ -120,8 +129,10 @@
 </template>
 <script>
 import { regionData } from 'element-china-area-data'
-import { getSelectArray } from '../../../util/index.js'
+import { getSelectArray,getIndustryArrayByCode,getIndustryByArray } from '../../../util/index.js'
+import industryList from '../../../constant/industry.js'
 import imageCropper from '../../../components/common/ImageDialogCropper'
+import _ from 'lodash'
 
 	export default {
 		components: { 
@@ -144,24 +155,40 @@ import imageCropper from '../../../components/common/ImageDialogCropper'
 				birthdate:'',
 				status:true,
 				options: regionData,
-        		selectedOptions: []
+				industryList: industryList,
+				industryObj:'',
+				usualPlaceOption:[],
+				workYearsObj:'',
+				newIndustryList:[],
+				industryArr: {
+					industry: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
+					workYears: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' },
+				}
 			}
 		},
 		methods: {
 			personInit(){
-			 let customerParams = {
-					id:this.$route.params.customerId
-			 }
-             this.$store.dispatch('customerInfoByCustomerId',customerParams).then(()=>{
-				 if(this.customerInfo.birthdate){
-				 	this.birthdate =  this.stringToDate(this.customerInfo.birthdate) 
-				 }
-				 if(this.customerInfo.regionCode){
-					this.selectedOptions=getSelectArray(this.customerInfo.regionCode)
-				 }
-			 });
+				let customerParams = {
+						id:this.$route.params.customerId
+				}
+				this.$store.dispatch('customerInfoByCustomerId',customerParams).then(()=>{
+					if(this.customerInfo.industryExp){
+						var obj = JSON.parse(this.customerInfo.industryExp)
+						this.industryObj = obj.industry;
+						this.workYearsObj = obj.workYears;
+					}
+					if(this.customerInfo.usualPlace){
+						this.usualPlaceOption=getSelectArray(this.customerInfo.usualPlace);
+					}
+					if(this.customerInfo.industryLed){
+						this.newIndustryList=getIndustryArrayByCode(this.customerInfo.industryLed);
+					}
+					if(this.customerInfo.birthdate){
+						this.birthdate =  this.stringToDate(this.customerInfo.birthdate) 
+					}
+				});
 			},
-			stringToDate(s) { 
+			stringToDate(s) {
 				var d = new Date(); 
 				d.setYear(parseInt(s.substring(0,4),10)); 
 				d.setMonth(parseInt(s.substring(5,7)-1,10)); 
@@ -172,9 +199,12 @@ import imageCropper from '../../../components/common/ImageDialogCropper'
 				return d; 
 			},
 			onSubmit() {
-				if(this.selectedOptions)this.customerInfo.regionCode =this.selectedOptions.length>0?this.selectedOptions[this.selectedOptions.length-1]:'';
 				if(this.birthdate)this.customerInfo.birthdate = this.birthdate.Format("yyyy-MM-dd hh:mm:ss"); 
 				if(this.birthdate)this.customerInfo.birthdateStr = this.customerInfo.birthdate;
+				this.customerInfo.usualPlace=this.usualPlaceOption.length>0?this.usualPlaceOption[this.usualPlaceOption.length-1]:'';
+				this.customerInfo.industryExp=JSON.stringify({industry:this.industryObj,workYears:this.workYearsObj});
+				this.customerInfo.newIndustry=getIndustryByArray(this.industryObj)
+				this.customerInfo.industryLed=_.sum(this.newIndustryList)
 				this.$store.dispatch('update_customer',this.customerInfo).then(()=>{
 					if(this.customerUpdate.success){
 						this.$message({
@@ -193,16 +223,13 @@ import imageCropper from '../../../components/common/ImageDialogCropper'
 			cancel(){
 				this.status = true;
 			},
-			handleChange (value) {
-				console.log(value)
-			},
 			//上传成功时返回的数据
 			uploadSuccess(data){
 				if(data){
 					this.customerInfo.headFigureURL=data;
 					this.editHeadImgChange=false;
 				}
-			},
+			}
 		}
 	}    
 

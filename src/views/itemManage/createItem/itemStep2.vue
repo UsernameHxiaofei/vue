@@ -386,7 +386,7 @@ export default {
                     { required: true, message: '请输入姓名', trigger: 'blur' }
                 ],
                 mobileNumber: [
-                    {required: true,trigger: 'change',validator:(rule, value, callback) => {
+                    {required: true,trigger: 'blur',validator:(rule, value, callback) => {
                             if (value =='') {
                                 callback(new Error('请输入手机号码'));
                             }else if(!/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.teamform.mobileNumber)){
@@ -397,7 +397,7 @@ export default {
                     }}
                 ],
                 identNumber: [
-                    {required: true,trigger: 'change',validator:(rule, value, callback) => {
+                    {required: true,trigger: 'blur',validator:(rule, value, callback) => {
                             if (value =='') {
                                 callback(new Error('请输入身份证信息'));
                             }else if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.teamform.identNumber)){

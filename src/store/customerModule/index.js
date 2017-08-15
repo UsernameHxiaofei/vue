@@ -38,6 +38,7 @@ export const customerModule = {
         expertData:'',
         leadData:'',
         questionnaire:{},
+        headImage:'',
     },
     actions: {
         //客户信息维护列表
@@ -62,7 +63,7 @@ export const customerModule = {
         update_customer({ commit },param) {
            return api.update_customer(param).then((data) => {
                 commit("customer_update",data);
-            });
+           });
         },
         //查询客户企业信息
         enterpriseInfoByActorId({ commit },param) {
@@ -259,8 +260,21 @@ export const customerModule = {
                 commit("customer_setQuestionnaire",data);
             });
         },
+        cusHeadPortrait({ commit },param) {
+            return  api.cusHeadPortrait(param).then((data) => {
+                  commit("customer_setHeadImage",data);
+            });
+        },
+        alterHeadPortrait({ commit,dispatch },param) {
+            return  api.alterHeadPortrait(param).then((data) => {
+                dispatch('cusHeadPortrait',{id:param.id});
+            });
+        },
     },
     mutations: {
+        customer_setHeadImage(state, data){
+            state.headImage = data;
+        },
         customer_setList(state, data) {
             state.customerListData = data;
         },

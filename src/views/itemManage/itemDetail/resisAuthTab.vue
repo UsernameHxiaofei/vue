@@ -76,8 +76,8 @@
                     <span>账户查询授权</span>{{authInfo.queryAuthorization==1?'口令型':'USB Key型'}}</li>
             </ul>
             <div class="pic-box">
-                <img :src="authInfo.businessLicenseURL" width="250" height="150" />
-                <img :src="authInfo.accountLicenceURL" width="250" height="150" />
+                <img v-imageBiger :src="authInfo.businessLicenseURL" width="250" height="150" />
+                <img v-imageBiger :src="authInfo.accountLicenceURL" width="250" height="150" />
             </div>
             <el-button class="modify" type="success" @click="dialogFormVisible = true">修改</el-button>
         </div>
@@ -204,28 +204,28 @@
                 },
                 limit:{
                     accountApprovalNumber:[
-                        {required: true, message: '请输入开户许可核准号', trigger: 'change' },
+                        {required: true, message: '请输入开户许可核准号', trigger: 'blur' },
                     ],
                     depositBank:[
-                        {required: true, message: '请输入开户银行', trigger: 'change' }
+                        {required: true, message: '请输入开户银行', trigger: 'blur' }
                     ],
                     basicDepositAccountNumber:[
-                        {required: true, message: '请输入基本存款账户账号', trigger: 'change' }
+                        {required: true, message: '请输入基本存款账户账号', trigger: 'blur' }
                     ],
                     accountName:[
-                        {required: true, message: '请输入开户名', trigger: 'change' }
+                        {required: true, message: '请输入开户名', trigger: 'blur' }
                     ],
                     businessLicenseURL:[
-                        {required: true, message: '请上传营业执照影印件', trigger: 'change' }
+                        {required: true, message: '请上传营业执照影印件', trigger: 'blur' }
                     ],
                     accountLicenceURL:[
-                        {required: true, message: '请上传客户许可证影印件', trigger: 'change' }
+                        {required: true, message: '请上传客户许可证影印件', trigger: 'blur' }
                     ],
                     queryPassword:[
-                        {required: true, message: '请输入密码', trigger: 'change'}
+                        {required: true, message: '请输入密码', trigger: 'blur'}
                     ],
                     customerCode:[
-                        {trigger: 'change',validator:(rule, value, callback) => {
+                        {trigger: 'blur',validator:(rule, value, callback) => {
                             if (this.limitform.queryAuthorization==1&&value == '') {
                             callback(new Error('请输入网银客户号/企业客户号'));
                             } else {
@@ -234,7 +234,7 @@
                         }}
                     ],
                     userLoginName:[
-                        {trigger: 'change',validator:(rule, value, callback) => {
+                        {trigger: 'blur',validator:(rule, value, callback) => {
                             if (this.limitform.queryAuthorization==1&&value == '') {
                             callback(new Error('请输入用户名'));
                             } else {
@@ -243,7 +243,7 @@
                         }}
                     ],
                     activationCode:[
-                        {trigger: 'change',validator:(rule, value, callback) => {
+                        {trigger: 'blur',validator:(rule, value, callback) => {
                             if (this.limitform.queryAuthorization==2&&value == '') {
                             callback(new Error('请输入激活码'));
                             } else {
@@ -252,7 +252,7 @@
                         }}
                     ],
                     pinCode:[
-                        {trigger: 'change',validator:(rule, value, callback) => {
+                        {trigger: 'blur',validator:(rule, value, callback) => {
                             if (this.limitform.queryAuthorization==2&&value == '') {
                             callback(new Error('请输入pin码'));
                             } else {

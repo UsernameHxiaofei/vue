@@ -44,11 +44,11 @@
                     </li>
                     <li>
                         <label>名片</label>
-                        <img style="width:200px;" :src="expertData.businessCard">
+                        <img v-imageBiger style="width:200px;" :src="expertData.businessCard">
                     </li>
                     <li>
                         <label>专业性凭证</label>
-                        <img style="width:200px;" :src="expertData.credentials">
+                        <img v-imageBiger style="width:200px;" :src="expertData.credentials">
                     </li>
                     <li>
                         <label>行家简介</label>

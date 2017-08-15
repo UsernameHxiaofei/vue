@@ -121,15 +121,15 @@
                 },
                 protocols:[],
                 partnerRules: {
-                    name: [{ required: true, message: '请输入企业名称', trigger: 'change' }],
-                    code: [{ required: true, message: '请输入统一社会信用代码', trigger: 'change' }],
-                    licence: [{ required: true, message: '请输入开户许可核准号', trigger: 'change' }],
-                    bankName: [{ required: true, message: '请输入开户银行', trigger: 'change' }],
-                    bankOrgnizationName: [{ required: true, message: '请输入开户银行机构', trigger: 'change' }],
-                    bankProvince: [{ required: true, message: '请输入开户行省名', trigger: 'change' }],
-                    bankCity: [{ required: true, message: '请输入开户行市名', trigger: 'change' }],
-                    bankAccount: [{ required: true, message: '请输入银行账户', trigger: 'change' }],
-                    protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'change' }]
+                    name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
+                    code: [{ required: true, message: '请输入统一社会信用代码', trigger: 'blur' }],
+                    licence: [{ required: true, message: '请输入开户许可核准号', trigger: 'blur' }],
+                    bankName: [{ required: true, message: '请输入开户银行', trigger: 'blur' }],
+                    bankOrgnizationName: [{ required: true, message: '请输入开户银行机构', trigger: 'blur' }],
+                    bankProvince: [{ required: true, message: '请输入开户行省名', trigger: 'blur' }],
+                    bankCity: [{ required: true, message: '请输入开户行市名', trigger: 'blur' }],
+                    bankAccount: [{ required: true, message: '请输入银行账户', trigger: 'blur' }],
+                    protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'blur' }]
                 }
             }
         },

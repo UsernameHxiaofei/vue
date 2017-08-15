@@ -53,12 +53,12 @@
             <el-form :model="editform" :rules="editformrules" ref="editform" label-width="50px" style="width:80%;margin-left:10%">
                 <el-form-item label="因子" prop="factor">
                     <el-select v-model="editform.factor" class="full" @change="editfactorChange">
-                        <el-option v-for="(item,index) in factors" :key="item.id" :value="item" :label="item.name"></el-option>
+                        <el-option v-for="(item,index) in factors" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="关系" prop="relation">
                     <el-select v-model="editform.relation" class="full">
-                        <el-option v-for="(item,index) in editform.relations" :key="item.id" :value="item" :label="item.name"></el-option>
+                        <el-option v-for="(item,index) in editform.relations" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="取值" prop="value">
@@ -119,12 +119,12 @@
                 },
                 formrules: {
                     name: [
-                        { required: true, message: '请输入指标名', trigger: 'change' }
+                        { required: true, message: '请输入指标名', trigger: 'blur' }
                     ]
                 },
                 editformrules: {
                     value: [
-                        { required: true, message: '请输入数值', trigger: 'change' }
+                        { required: true, message: '请输入数值', trigger: 'blur' }
                     ]
                 },
                 formName: '编辑规则',

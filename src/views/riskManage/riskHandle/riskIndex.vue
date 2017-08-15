@@ -4,11 +4,9 @@
         <el-row style="margin-top:20px">
                      <risk-info ></risk-info>
         </el-row>
-        <el-row>
-            <el-col :span="20" :offset="4">
-                <el-row>
-                    <el-col :span="20" style="margin-top:20px;width:885px;background:#ffffff">
-                        <el-table  border :data="listData.list" stripe style="width:885px">
+        <el-row >
+                    <div style="margin:20px auto;width:885px;background:#ffffff">
+                        <el-table  border :data="listData.list" stripe >
                             <el-table-column type="index"></el-table-column>
                             <el-table-column prop="riskName" label="指标名" align="center"> </el-table-column> 
                             <el-table-column prop="riskCategory" label="风险域" align="center">
@@ -28,9 +26,7 @@
                         <pagination style="float:left;margin:10px 20px" :total="listData.totalCount"
                              @size-change="handleSizeChange" @current-change="handleCurrentChange">
                         </pagination>
-                    </el-col>
-                </el-row>
-            </el-col>
+                    </div>
         </el-row>
     </div>
 </template>

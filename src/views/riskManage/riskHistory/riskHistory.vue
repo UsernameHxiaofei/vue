@@ -1,36 +1,34 @@
 <template>
     <div id='riskHistory'>
-        <div class="back-button"><el-button type="text" icon="arrow-left" @click="back">返回上一级</el-button></div>
+        <div class="back-button">
+            <el-button type="text" icon="arrow-left" @click="back">返回上一级</el-button>
+        </div>
         <el-row style="margin-top:20px">
-            <risk-info ></risk-info>
+            <risk-info></risk-info>
         </el-row>
         <el-row>
-            <el-col :span="21" :offset="3">
-                <el-row>
-                    <el-col :span="24" style="margin-top:20px">
-                        <el-table id="riskhistory-table" border :data="listData.list" stripe style="width: 80%;min-width:910px">
-                            <el-table-column type="index" label="序号" width="80"> </el-table-column>
-                            <el-table-column prop="riskName" label="指标名" align="center" width="150"> </el-table-column> 
-                            <el-table-column prop="riskCategory" label="风险域" width="120"  align="center">
-                                <template scope="scope">
-                                    {{scope.row.riskCategory|riskRegion}}
-                                </template>
-                            </el-table-column>
-                            <el-table-column prop="riskLevel" label="等级" align="center" width="80" :formatter="levelDes"> </el-table-column>
-                            <el-table-column prop="createTime" label="预警触发时间" width="170" align="center" > </el-table-column>
-                            <el-table-column prop="updateTime" label="处理时间" width="170" align="center" > </el-table-column>
-                            <el-table-column prop="status" label="状态" width="150" align="center":formatter="stateDes"></el-table-column>
-                            <el-table-column prop="actorName" label="处理人" width="125" align="center"> </el-table-column> 
-                            <el-table-column label="" align="center">
-                                <template scope="scope">
-                                    <el-button class="btn-style" size="small" @click="detail(scope.row)">查看</el-button>
-                                </template>
-                            </el-table-column>
-                        </el-table>
-                        <pagination style="float:left;margin:10px 50px" :total="listData.totalCount||0" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
-                    </el-col>
-                </el-row>
-            </el-col>
+            <div style="margin:20px auto;max-width:1200px;background:#ffffff">
+                <el-table id="riskhistory-table" border :data="listData.list" stripe>
+                    <el-table-column type="index" label="序号" width="80"> </el-table-column>
+                    <el-table-column prop="riskName" label="指标名" align="center" width="150"> </el-table-column>
+                    <el-table-column prop="riskCategory" label="风险域" width="120" align="center">
+                        <template scope="scope">
+                            {{scope.row.riskCategory|riskRegion}}
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="riskLevel" label="等级" align="center" width="80" :formatter="levelDes"> </el-table-column>
+                    <el-table-column prop="createTime" label="预警触发时间" width="170" align="center"> </el-table-column>
+                    <el-table-column prop="updateTime" label="处理时间" width="170" align="center"> </el-table-column>
+                    <el-table-column prop="status" label="状态" width="150" align="center" :formatter="stateDes"></el-table-column>
+                    <el-table-column prop="actorName" label="处理人" width="125" align="center"> </el-table-column>
+                    <el-table-column label="" align="center">
+                        <template scope="scope">
+                            <el-button class="btn-style" size="small" @click="detail(scope.row)">查看</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+                <pagination style="float:left;margin:10px 50px" :total="listData.totalCount||0" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
+            </div>
         </el-row>
     </div>
 </template>

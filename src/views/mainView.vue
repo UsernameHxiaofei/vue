@@ -128,14 +128,14 @@
 			</div>
 		</div>
 		<el-dialog title="选择创建项目的发起人" :visible.sync="chooseItemCustomer">
-			<div class="search-box" style="margin:10px 10px 30px 10px;float:right">
+			<div v-if="itemType=='A'" class="search-box" style="margin:10px 10px 30px 10px;float:right">
 				<div class="output">
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange" :on-icon-click="customerKeywordChange">
 					</el-input>
 				</div>
        		</div>	
 			<div class="my-table">
-				<el-table :data="customerList.list" stripe border style="width: 100%">
+				<el-table :data="customerList.list||customerInfoForSimulationList.list" stripe border style="width: 100%">
 					<el-table-column prop="" width="10">
 					</el-table-column>
 					<el-table-column type="index" label="序号" width="60px">
@@ -163,17 +163,17 @@
 					</el-table-column>
 					<el-table-column>
 						<template scope="scope">
-								<el-button class="btn-style" @click="createItemByCustomer(scope.row)">选择</el-button>
+							<el-button class="btn-style" @click="createItemByCustomer(scope.row)">选择</el-button>
 						</template>
 					</el-table-column>
 					<el-table-column prop="" width="10">
 					</el-table-column>
 				</el-table>
 			</div>
-			
-			<div  style="margin:10px 10px 30px 10px;">
-				<pagination :total="customerList.totalRecords" @size-change="handleCustomerSizeChange" @current-change="handleCustomerCurrentChange"></pagination>
+			<div  style="margin:10px 10px 30px 10px;" >
+				<pagination :total="customerList.totalRecords||customerInfoForSimulationList.totalRecords" @size-change="handleCustomerSizeChange" @current-change="handleCustomerCurrentChange"></pagination>
 			</div>
+			
 		</el-dialog>
 		<el-dialog size="tiny" title="选择创建项目的类型" :visible.sync="chooseItemType">
 				<div class="itemType" @click="chooseType('A')">
@@ -182,7 +182,6 @@
 				<div class="itemType"  @click="chooseType('B')">
 					模拟投资项目
 				</div>
-			
 		</el-dialog>
 	</div>
 </template>
@@ -233,6 +232,9 @@ export default {
 		 customerList:function(){
 			 return this.$store.state.item.customerList||{};
 		 },
+         customerInfoForSimulationList:function(){
+             return this.$store.state.item.customerInfoForSimulationList||{};
+         },
 	     operator:function(){
 			 return this.$store.state.login.actor
 		 }
@@ -256,17 +258,45 @@ export default {
 	methods: {
 		chooseType(type){
 			this.itemType=type;
-			this.chooseItemCustomer=true;
+			if(type=='A'){
+				this.customerParam={
+					keyword: this.customerKeyword,
+					pageNo:1,
+					pageSize:10
+				}
+				this.$store.dispatch('item_getCustomerList',this.customerParam);
+			}else{
+				this.customerParamForSimulation={
+					pageNo:1,
+					pageSize:10
+				}
+				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation).then(()=>{
+					console.log(this.customerInfoForSimulationList)
+				})
+			}
 			this.chooseItemType=false;
+			this.chooseItemCustomer=true;
 		},
 		handleCustomerCurrentChange(val){
-			this.customerParam.pageNo=val;
-			this.$store.dispatch('item_getCustomerList',this.customerParam);
+			if(this.itemType='A'){
+				this.customerParam.pageNo=val;
+				this.$store.dispatch('item_getCustomerList',this.customerParam);
+			}else{
+				this.customerParamForSimulation.pageNo=val;
+				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation)
+			}
+			
 		},
 		handleCustomerSizeChange(val){
-			this.customerParam.pageNo=1;
-			this.customerParam.pageSize=val;
-			this.$store.dispatch('item_getCustomerList',this.customerParam);
+			if(this.itemType='A'){
+				this.customerParam.pageNo=1;
+				this.customerParam.pageSize=val;
+				this.$store.dispatch('item_getCustomerList',this.customerParam);
+			}else{
+				this.customerParamForSimulation.pageNo=1;
+				this.customerParamForSimulation.pageSize=val;
+				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation)
+			}
 		},
 		createItemByCustomer(item){
 			this.$store.dispatch('item_createProject1',{type:this.itemType}).then(()=>{
@@ -284,12 +314,6 @@ export default {
 		},
 		createProject(){
 			this.chooseItemType=true;
-			this.customerParam={
-               	keyword: this.customerKeyword,
-                pageNo:1,
-                pageSize:10
-			}
-			this.$store.dispatch('item_getCustomerList',this.customerParam);
 		},
 		restartChange(){
 			this.param.isRestart = this.isRestart?1:0;
@@ -313,7 +337,7 @@ export default {
 		},
 		phaseChange(){
 			this.param.phase = this.phase;
-            this.param.pageNo=1;			
+            this.param.pageNo=1;
 			this.$store.dispatch('item_getManageList',this.param);
 		},
 		handleChange(value) {

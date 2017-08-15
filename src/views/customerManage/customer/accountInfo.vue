@@ -234,7 +234,7 @@
                     <el-form-item label="职位" :label-width="formLabelWidth" prop="position">
                         <el-input v-model="expert.position" auto-complete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="常驻地区 " >
+                    <el-form-item label="常驻地区 " required>
                         <el-cascader  :options="options" expand-trigger="click" change-on-select clearable v-model="expert.expertUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
@@ -288,7 +288,7 @@
                     <el-form-item label="职位" :label-width="formLabelWidth">
                         <span>{{expertData.position}}</span>
                     </el-form-item>
-                    <el-form-item label="常驻地区 ">
+                    <el-form-item label="常驻地区 " >
                         <span>{{expertData.permanent|address}}</span>
                     </el-form-item>
                     <el-form-item label="名片">
@@ -333,7 +333,7 @@
                     <el-form-item label="职位" :label-width="formLabelWidth" prop="position">
                         <el-input v-model="expertData.position" auto-complete="off"></el-input>
                     </el-form-item>
-                    <el-form-item label="常驻地区 " >
+                    <el-form-item label="常驻地区 " required >
                         <el-cascader size="large" :options="options" v-model="expertData.expertUsualPlaceOptions" @change="handleChange">
                         </el-cascader>
                     </el-form-item>
@@ -486,7 +486,7 @@
                         <span>{{leadData.position}}</span>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="籍贯 " >
-                        <span>{{leadData.regionCode|address}}</span>
+                        <span>{{leadData.birthplace|address}}</span>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="常驻地区 ">
                         <span>{{leadData.permanent|address}}</span>
@@ -494,7 +494,6 @@
                     <el-form-item v-if="show==1" label="个人情况">
                         <span>{{leadData.industryLevel|industryLevel}}</span>
                     </el-form-item>
-    
                     <el-form-item v-if="show==2" label="企业名称" :label-width="formLabelWidth" >
                         <span>{{leadData.enterpriseName}}</span>
                     </el-form-item>
@@ -502,8 +501,7 @@
                         <span>{{leadData.creditCode}}</span>
                     </el-form-item>
                     <el-form-item v-if="show==2" label="所在地区" :label-width="formLabelWidth" >
-                       <span>{{leadData.regionCode|address}}</span>
-                     
+                       <span>{{leadData.regionCode|address}}</span>          
                     </el-form-item>
                     <el-form-item v-if="show==2" label="企业情况">
                         <span>{{leadData.industryLevel|industryLevel}}</span>
@@ -1311,6 +1309,7 @@ export default {
         leadValidate() {
             this.lead.industry = _.sum(this.lead.industryList);
             this.lead.regionCode = this.lead.leadRegionOptions.length>0?this.lead.leadRegionOptions[this.lead.leadRegionOptions.length-1]:'';
+            this.lead.birthplace = this.lead.leadRegionOptions.length>0?this.lead.leadRegionOptions[this.lead.leadRegionOptions.length-1]:'';
             this.lead.permanent = this.lead.leadUsualPlaceOptions.length>0?this.lead.leadUsualPlaceOptions[this.lead.leadUsualPlaceOptions.length-1]:'';
             let leadParam = {
                 actorId: this.$route.params.actorId,
@@ -1368,6 +1367,9 @@ export default {
                 if (this.leadData.regionCode) {
                     this.leadData.leadRegionOptions=getSelectArray(this.leadData.regionCode);
                 }
+                if (this.leadData.birthplace) {
+                    this.leadData.leadRegionOptions=getSelectArray(this.leadData.birthplace);
+                }
                 if (this.leadData.permanent) {
                     this.leadData.leadUsualPlaceOptions=getSelectArray(this.leadData.permanent);
                 }
@@ -1380,6 +1382,7 @@ export default {
                     this.leadData.industryLed =  _.sum(this.newIndustryList);
                    if(this.leadData.leadRegionOptions) {
                        this.leadData.regionCode = this.leadData.leadRegionOptions.length>0?this.leadData.leadRegionOptions[this.leadData.leadRegionOptions.length-1]:'';
+                       this.leadData.birthplace = this.leadData.leadRegionOptions.length>0?this.leadData.leadRegionOptions[this.leadData.leadRegionOptions.length-1]:'';
                    }
                    if(this.leadData.leadUsualPlaceOptions){
                        this.leadData.permanent = this.leadData.leadUsualPlaceOptions.length>0?this.leadData.leadUsualPlaceOptions[this.leadData.leadUsualPlaceOptions.length-1]:'';

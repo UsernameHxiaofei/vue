@@ -29,3 +29,23 @@ export const getIndustryByArray=function(array){
     }
     return industryCode;
 }
+
+export const getIndustryArrayByCode=function(industry){
+    let result = [];
+    if (!parseInt(industry)) {
+        return result;
+    }
+    let codes = parseInt(industry).toString(2).split('').reverse();
+    for (let index = 0; index < codes.length; index++) {
+        let element = codes[index];
+        if (element == '1') {
+            for (let i = 0; i < industryList.length; i++) {
+                let item = industryList[i];
+                if (item.value == Math.pow(2, index)) {
+                    result.push(item.value);
+                }
+            }
+        }
+    }
+    return result;
+}

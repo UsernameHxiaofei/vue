@@ -185,6 +185,16 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
+      cusHeadPortrait: (param) => {
+        return Vue.http.post('cusHeadPortrait',param).then(response => {
+          return response.body;
+        });
+      },
+      alterHeadPortrait: (param) => {
+        return Vue.http.post('alterHeadPortrait',param).then(response => {
+          return response.body;
+        });
+      },
 
     } 
 }

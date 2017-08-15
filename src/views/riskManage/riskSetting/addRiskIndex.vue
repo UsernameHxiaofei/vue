@@ -44,13 +44,13 @@
                                 <el-button @click="createGroup" style="float:right;margin-right:20px">添加组</el-button>
                             </el-form-item>
                             <el-form-item label="因子" prop="cause">
-                                <el-select v-model="form.cause" class="full" @change="factorChange" v-if="!!factors[0]">
-                                    <el-option v-for="(item,index) in factors" :key="item.id" :value="item" :label="item.name"></el-option>
+                                <el-select v-model="form.cause" class="full" @change="factorChange" >
+                                    <el-option v-for="(item,index) in factors" value-key="id" :key="item.id" :value="item" :label="item.name"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="关系" prop="relation">
                                 <el-select v-model="form.relation" class="full">
-                                    <el-option v-for="(item,index) in relations" :key="item.id" :value="item" :label="item.name"></el-option>
+                                    <el-option v-for="(item,index) in relations" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
                                 </el-select>
                             </el-form-item>
                             <el-form-item label="取值" prop="value">
@@ -71,12 +71,12 @@
                 <el-form :model="editform" :rules="editformrules" label-width="50px" style="width:80%;margin-left:10%">
                     <el-form-item label="因子" prop="cause">
                         <el-select v-model="editform.cause" class="full" @change="editfactorChange">
-                            <el-option v-for="(item,index) in factors" :key="item.id" :value="item" :label="item.name"></el-option>
+                            <el-option v-for="(item,index) in factors" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="关系" prop="relation">
                         <el-select v-model="editform.relation" class="full">
-                            <el-option v-for="(item,index) in editform.relations" :key="item.id" :value="item" :label="item.name"></el-option>
+                            <el-option v-for="(item,index) in editform.relations" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="取值" prop="value">
@@ -109,7 +109,7 @@
             if(!!this.$route.params.id&&this.$route.params.id.length>0){
                 this.$store.dispatch('risk_getOne',{projectId:this.$route.params.id})
             }
-            this.$store.dispatch('risk_getFactors').then(()=>{
+            this.$store.dispatch('risk_getFactors',{factoryId:'',category:1}).then(()=>{
                 if(!this.factors[0]){
                     this.$message.info('因子信息错误，请联系管理员')
                     return false;
@@ -143,15 +143,15 @@
                 },
                 formrules:{
                     name:[
-                        { required:true,message:'请输入指标名',trigger:'change'}
+                        { required:true,message:'请输入指标名',trigger:'blur'}
                     ],
                     value:[
-                        { required:true,message:'请输入数值',trigger:'change'}
+                        { required:true,message:'请输入数值',trigger:'blur'}
                     ]
                 },
                 editformrules:{
                     value:[
-                        { required:true,message:'请输入数值',trigger:'change'}
+                        { required:true,message:'请输入数值',trigger:'blur'}
                     ]
                 },
                 totalRulesData:[]

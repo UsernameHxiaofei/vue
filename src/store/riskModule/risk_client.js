@@ -40,8 +40,8 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
-      risk_getFactors:()=>{
-        return Vue.http.post('risk_getFactors').then(response=>{
+      risk_getFactors:(param)=>{
+        return Vue.http.post('risk_getFactors',param).then(response=>{
           return response.body;
         })
       },

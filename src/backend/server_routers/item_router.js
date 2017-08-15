@@ -941,5 +941,32 @@ module.exports = function client(router, sc, passport) {
                 res.json(resp.object);
             });
     })
-    
+    //模拟投资发起人
+    router.all('/item_getCustomerInfoForSimulation', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("CustomerInfoTask", "selectCustomerInfoForSimulation", "customerManage");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [param.pageNo,param.pageSize];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.object);
+            });
+    })
+    //模拟项目选择（行家领投）
+    router.all('/item_getCustomerInfo4ShowForSimulation', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("CustomerInfo4ShowTask", "selectCustomerInfo4ForSimulation", "customerManage");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [
+                param.type,
+                param.pageNo,
+                param.pageSize
+            ];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.object);
+            });
+    })
 }

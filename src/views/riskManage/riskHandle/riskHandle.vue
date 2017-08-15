@@ -8,7 +8,6 @@
         </el-row>
         <el-row>
             <el-col :span="20" :offset="4">
-                
                 <el-row>
                     <el-col :span="20" style="margin-top:20px;width:885px;background:#ffffff">
                         <div style="padding:30px 80px;">
