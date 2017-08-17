@@ -206,7 +206,7 @@ export default {
 			options3: regionData,
 			projectPhaseOption : projectPhaseList,
 			industryOption : industryList,
-			projectStatusList:statusList,
+			projectStatusList : statusList,
 			where: [],
 			industry: '',
 			phase: '',

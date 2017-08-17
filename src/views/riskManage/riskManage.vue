@@ -86,10 +86,6 @@ margin-left:5px;
             margin: 10px  auto 10px auto;
         }
     
-        .ptable {
-            margin-top: 20px;
-        }
-    
       
         .search {
             text-align: center;
@@ -179,8 +175,6 @@ margin-left:5px;
                 </el-col>
             </el-row>
         </el-dialog>
-        </el-col>
-        </el-row>
     </div>
 </template>
 
@@ -266,6 +260,7 @@ margin-left:5px;
                         }
                         item.riskRegion=riskRegion;
                 }
+                console.log(this.listData)
             },
             changeindustry(ind){
                 this.param.industry=ind;

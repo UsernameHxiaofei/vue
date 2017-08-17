@@ -26,6 +26,7 @@ const msgImages = () => import('../views/contentManage/msgImages.vue')
 const msgModel = () => import('../views/contentManage/msgModel.vue')
 const msgShort = () => import('../views/contentManage/msgShort.vue')
 const msgTalk = () => import('../views/contentManage/msgTalk.vue')
+const msgTalkDetail = () => import('../views/contentManage/msgTalkDetail.vue')
 const msgWebsite = () => import('../views/contentManage/msgWebsite.vue')
 const msgWebDetail = () => import('../views/contentManage/msgWebDetail.vue')
 const msgProjectList = () => import('../views/contentManage/msgProjectList.vue')
@@ -84,6 +85,7 @@ const routes = [
   { path: '/msgImages', component: msgImages },
   { path: '/msgModel', component: msgModel },
   { path: '/msgTalk', component: msgTalk },
+  { path: '/msgTalkDetail/:id', component: msgTalkDetail },
   { path: '/msgShort', component: msgShort },
   { path: '/msgWebsite', component: msgWebsite },
   { path: '/msgWebDetail/:id', component: msgWebDetail },

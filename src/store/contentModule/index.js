@@ -19,6 +19,7 @@ export const contentModule = {
         webMessageBySenderid:[],  //根据用户id查询个人发送的站内消息
         updateIsRead:'',          //改变阅读状态
         allActorList:[],          //所有站内用户信息
+        fobidStatus:{}         //禁止状态
     },
     actions: {
         //banner列表
@@ -115,6 +116,12 @@ export const contentModule = {
         update_isReadByMessageId({ commit }, param) {
             return api.update_isReadByMessageId(param).then((data) => {
                 commit("update_isRead", data);
+            });
+        },
+        //屏蔽消息
+        forBidMessageById({ commit,state }, param) {
+            return api.forBidMessageById(param).then((data) => {
+                state.fobidStatus=data;
             });
         },
     },

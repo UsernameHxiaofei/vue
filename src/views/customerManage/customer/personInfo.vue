@@ -25,6 +25,10 @@
 					<span>{{customerInfo.usualPlace|address}}</span>
 				</li>
 				<li>
+					<label>籍贯</label>
+					<span>{{customerInfo.birthplace|address}}</span>
+				</li>
+				<li>
 					<label>单位</label>
 					<span>{{customerInfo.organization||'未填写'}}</span>
 				</li>

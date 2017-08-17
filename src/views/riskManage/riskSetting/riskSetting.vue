@@ -5,9 +5,6 @@
             <risk-column v-if="isProject"></risk-column>
         </el-row>
         <el-row>
-            <el-col></el-col>
-        </el-row>
-        <el-row>
             <el-col :span="21" :offset="3">
                 <el-row>
                     <el-col :span="19" style="margin-top:50px;min-width:900px" v-if="!isProject" >

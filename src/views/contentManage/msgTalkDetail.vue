@@ -22,6 +22,8 @@
                                 <div>
                                     <span v-text="value.content"></span>
                                 </div>
+                                <el-button type="text" @click="forbiden(value.messageId)" :disabled="value.forbidStatus==1">{{value.forbidStatus==1?'已屏蔽':'屏蔽'}}</el-button>
+                                <span style="color:#06ccb6" v-if="value.forbidStatus==1">&emsp;屏蔽理由：{{value.forbidReason}}</span>
                             </el-collapse-item>
                         </el-collapse>
                         <div class="page-box clearfix">
@@ -47,6 +49,7 @@
                                 <div>
                                     <span v-text="value.content"></span>
                                 </div>
+                                <span style="color:#06ccb6" v-if="value.forbidStatus==1">&emsp;屏蔽理由：{{value.forbidReason}}</span>
                             </el-collapse-item>
                         </el-collapse>
                         <div class="page-box clearfix">
@@ -86,19 +89,18 @@ export default {
     mounted() {
         this.actorParams = {
             receiver: this.$route.params.id,
-            msgType:3,
+            msgType:4,
             pageNo: 1,
             pageSize: 10,
         };
         this.actorParams1 = {
             senderId: this.$route.params.id,
-            msgType:3,
+            msgType:4,
             pageNo: 1,
             pageSize: 10,
         },
         //根据id获取收到的信息
         this.$store.dispatch('select_webMessageByActorid', this.actorParams);
-        
         //根据id获取发送的信息
         this.$store.dispatch('select_webMessageBySenderid', this.actorParams1);
     },
@@ -114,6 +116,30 @@ export default {
         }
     },
     methods: {
+        forbiden(id){
+            this.$prompt('请输入屏蔽该信息理由', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消'
+            }).then(({ value }) => {
+                let param={
+                    messageId:id,
+                    reason:value
+                }
+                this.$store.dispatch('forBidMessageById',param).then(()=>{
+                    if(this.$store.state.content.fobidStatus.success){
+                        this.$message.warning(this.$store.state.content.fobidStatus.information)
+                        this.$store.dispatch('select_webMessageByActorid', this.actorParams);
+                    }else{
+                        this.$message.success(this.$store.state.content.fobidStatus.information)
+                    }
+                })
+            }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '取消输入'
+            });       
+            });
+        },
         handleSizeChange(val) {
             this.actorParams.pageSize = val;
             this.actorParams.pageNo = 1;

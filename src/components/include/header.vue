@@ -2,9 +2,9 @@
     <div id='header'>
         <div id="userinfo">
             <div class="messageInfo">
-                <i class="iconfont icon-xiaoxi"></i>
-                <label></label>
-                <span>6</span>
+                <i @click="showMessage" class="iconfont icon-xiaoxi"></i>
+                <label v-if="webMessageByActorid.count&&webMessageByActorid.count>0"></label>
+                <span v-if="webMessageByActorid.count&&webMessageByActorid.count>0">{{webMessageByActorid.count}}</span>
             </div>
             <span class="sepreate">|</span>
             <img  :src="headImage&&headImage.length>0?headImage:'../../assets/images/headimg.png'" class="headimg" @click="editHeadImg" />
@@ -86,8 +86,15 @@ export default {
     components: {
       imageCropper  
     },
-    mounted () {
-      this.$store.dispatch('cusHeadPortrait',{id:this.actor.id})  
+    beforeMount () {
+      this.$store.dispatch('cusHeadPortrait',{id:this.actor.id});
+      this.actorParams = {
+            receiver: this.$route.params.id,
+            msgType:3,
+            pageNo: 1,
+            pageSize: 10,
+        };
+      this.$store.dispatch('select_webMessageByActorid', this.actorParams);
     },
     data() {
         var validatePass = (rule, value, callback) => {
@@ -156,6 +163,9 @@ export default {
         actor: function () {
             return this.$store.state.login.actor;
         },
+        webMessageByActorid: function () {
+            return this.$store.state.content.webMessageByActorid;
+        },
         updateActorStatus: function () {
             return this.$store.state.system.updateActorStatus;
         },
@@ -176,6 +186,10 @@ export default {
                 id:this.actor.id
             }
             this.$store.dispatch('alterHeadPortrait',param)
+            this.editHeadImgChange=false;
+        },
+        showMessage(){
+            this.$router.push('/msgWebDetail/'+this.actor.id)
         },
         editHeadImg(){
             this.editHeadImgChange=true;
@@ -279,9 +293,10 @@ export default {
         font-size: 15px;
         margin-left: 20px;
         margin-right: 20px;
+        
     }
     .setting i:hover{
-        color: rgba(51, 51, 51, 0.5);
+        color:#06ccb7;
         cursor: pointer;
     }
     .username{
@@ -319,7 +334,7 @@ export default {
     }
 
     .messageInfo i:hover {
-        color: rgba(51, 51, 51, 0.5);
+        color:#06ccb7;
         cursor: pointer;
     }
 

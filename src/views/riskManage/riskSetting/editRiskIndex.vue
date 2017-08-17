@@ -16,7 +16,7 @@
                                 <el-input v-model="form.name" placeholder="请输入指标名"></el-input>
                             </el-form-item>
                             <el-form-item label="风险域" prop="region">
-                                <el-select v-model="form.region" class="full">
+                                <el-select v-model="form.region" class="full" @change="regionChange">
                                     <el-option v-for="(item,index) in riskRegion" :key="item.id" :value="item.id" :label="item.name">{{item.name}}</el-option>
                                 </el-select>
                             </el-form-item>
@@ -52,13 +52,13 @@
         <el-dialog :title="formName" :visible.sync="editflag" size="tiny">
             <el-form :model="editform" :rules="editformrules" ref="editform" label-width="50px" style="width:80%;margin-left:10%">
                 <el-form-item label="因子" prop="factor">
-                    <el-select v-model="editform.factor" class="full" @change="editfactorChange">
-                        <el-option v-for="(item,index) in factors" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
+                    <el-select v-model="editform.factor" value-key="id" class="full" @change="editfactorChange">
+                        <el-option v-for="(item,index) in factors"  :key="item.id" :value="item" :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="关系" prop="relation">
-                    <el-select v-model="editform.relation" class="full">
-                        <el-option v-for="(item,index) in editform.relations" :value-key="item.id" :key="item.id" :value="item" :label="item.name"></el-option>
+                    <el-select v-model="editform.relation" value-key="id" class="full">
+                        <el-option v-for="(item,index) in editform.relations"  :key="item.id" :value="item" :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="取值" prop="value">
@@ -136,7 +136,7 @@
                 this.$router.go(-1);
             },
             fetchData() {
-                this.$store.dispatch('risk_getFactors').then(() => {
+                this.$store.dispatch('risk_getFactors',{factorId:'',category:1}).then(() => {
                     if (!this.factors[0]) {
                         this.$message.info('因子信息错误，请联系管理员')
                         return false;
@@ -159,6 +159,14 @@
                     }
                     this.totalRulesData = rulesData;
                 })
+            },
+            regionChange(value){
+                this.$store.dispatch('risk_getFactors',{factorId:'',category:value}).then(() => {
+                    if (!this.factors[0]) {
+                        this.$message.info('因子信息错误，请联系管理员')
+                        return false;
+                    }
+                });
             },
             edit(item) {
                 this.formName = '编辑规则';

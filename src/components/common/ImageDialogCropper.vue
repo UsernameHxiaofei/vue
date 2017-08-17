@@ -99,6 +99,7 @@ export default {
                         } else if (xhr.status == 200) {
                             self.$message.success('上传完成');
                             self.$emit('result',JSON.parse(JSON.parse(xhr.response).objectLiteral));
+                            self.$refs.cropper.clearCrop();//清除截图
                         }
                     };
                     xhr.send(formData);

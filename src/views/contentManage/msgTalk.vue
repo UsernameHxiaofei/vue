@@ -41,10 +41,10 @@
                   <span class="btn-small" :class="scope.row.investor==1 ? active : ''">投</span>
                 </template>
               </el-table-column>
-              <el-table-column width="90">
+              <el-table-column width="120">
                 <template scope="scope">
-                  <router-link :to="{path: '/msgWebDetail/'+scope.row.id}">
-                    <el-button class="btn-style btn-margin">消息</el-button>
+                  <router-link :to="{path: '/msgTalkDetail/'+scope.row.id}">
+                    <el-button class="btn-style btn-margin">交流记录</el-button>
                   </router-link>
                 </template>
               </el-table-column>
@@ -58,30 +58,7 @@
                 <pagination :total="webMessage.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
               </div>
             </div>
-            <div class="btn-box">
-              <el-button :plain="true" type="success" @click="dialogFormVisible = true">创建消息
-                <i class="el-icon-plus"></i>
-              </el-button>
-            </div>
           </div>
-          <!-- 模态框（Modal） allActorList-->
-          <el-dialog class="p-form" title="创建站内消息" :visible.sync="dialogFormVisible" @close="resetForm">
-            <el-form :model="msgWebForm" ref="msgWebForm">
-              <el-form-item label="接收人" :label-width="formLabelWidth" prop="receiver" :rules="[{ required: true, message: '请选择接收人', trigger: 'blur,change' }]">
-                <el-select v-model="msgWebForm.receiver" clearable placeholder="接收人">
-                  <el-option v-for="item in allActorList" :key="item.id" :label="item.name" :value="item.id">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="内容" :label-width="formLabelWidth" prop="content" :rules="[{ required: true, message: '请输入消息内容', trigger: 'blur' }]">
-                <el-input type="textarea" :rows="4" v-model="msgWebForm.content" placeholder="内容" auto-complete="off"></el-input>
-              </el-form-item>
-            </el-form>
-            <div slot="footer" class="dialog-footer">
-              <el-button @click="resetForm">取 消</el-button>
-              <el-button type="primary" @click="addMsgWeb">发 送</el-button>
-            </div>
-          </el-dialog>
         </div>
       </template>
       <script>
@@ -93,27 +70,14 @@
          computed: {
           webMessage: function () {
             return this.$store.state.content.selectWebMessage;
-          },
-          postWebMessage: function () {
-            return this.$store.state.content.postWebMessage;
-          },
-          allActorList: function () {
-            return this.$store.state.content.allActorList;
-          },
+          }
         },
         data() {
           return {
             statusCode: '',
             keyword: '',
             indentType: '',
-            pageSize: 10,
-            pageNo: 1,
             active: 'border-orange',
-            msgWebForm: {
-              receiver: '',
-              content: '',
-              senderId: '',
-            },
             optionsType: [{
               value: 'A',
               label: '实名'
@@ -138,7 +102,6 @@
               label: '已封禁'
             }],
             dialogTableVisible: false,
-            dialogFormVisible: false,
             form: {
               name: '',
               region: '',
@@ -163,20 +126,8 @@
           }
           //分页查询站内消息,模糊查询
           this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          //查询站内所有用户信息
-          this.$store.dispatch('select_allActor', '').then(()=>{
-            for(let i=0;i<this.allActorList.length;i++){
-              if(this.allActorList[i].name==''){
-                this.allActorList[i].name='未知'
-              }
-            }
-          });
         },
         methods: {
-          resetForm() {
-            this.$refs['msgWebForm'].resetFields();
-            this.dialogFormVisible = false;
-          },
           handleIconClick(ev) {
             this.msgWebParam.keyword = this.keyword;
             this.msgWebParam.pageNo = 1;
@@ -200,34 +151,7 @@
             this.msgWebParam.pageNo = 1;
             this.msgWebParam.status = this.statusCode;
             this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          },
-          addMsgWeb() {
-            this.msgWebForm.senderId = this.$store.state.login.actor.id;
-            this.$refs['msgWebForm'].validate((valid) => {
-              if (valid) {
-                this.$store.dispatch('send_webMessage', this.msgWebForm).then(() => {
-                  if (this.postWebMessage.success) {
-                    this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-                    this.$message({
-                      type: 'success',
-                      message: '创建消息成功!'
-                    });
-                    this.dialogFormVisible = false;
-                  } else {
-                    this.$message({
-                      type: 'error',
-                      message: '创建消息失败!'
-                    });
-                  }
-                }).catch(() => {
-      
-                });
-              } else {
-                console.log('error submit!!');
-                return false;
-              }
-            });
-          },
+          }
         }
       }
       </script>

@@ -202,13 +202,13 @@
                     dataZoom: [{
                         show:true,
                         realtime: true,
-                        startValue: new Date().getTime(),
-                        endValue: new Date().getTime()-1000*60*60*24*7,
+                        startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7,
                         xAxisIndex: [0, 1]
                     },{
                         realtime: true,
-                        startValue: new Date().getTime(),
-                        endValue: new Date().getTime()-1000*60*60*24*7,
+                        startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7,
                         xAxisIndex: [0, 1],
                         type: 'inside'
                     }]
@@ -227,8 +227,8 @@
                         lineStyle: { normal: { width: 3} }
                     }],
                     dataZoom: [{
-                        startValue: new Date().getTime(),
-                        endValue: new Date().getTime()-1000*60*60*24*7
+                        startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7
                     }, {
                         type: 'inside'
                     }]

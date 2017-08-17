@@ -106,8 +106,6 @@ export default {
       statusCode: '',
       keyword: '',
       indentType: '',
-      pageSize: 10,
-      pageNo: 1,
       active: 'border-orange',
       msgWebForm: {
         receiver: '',

@@ -131,8 +131,9 @@
         router.all('/select_webMessageBySenderid', function (req, res, next) {
             let param=req.body;
             const stuff = sc.instanceRequest("LtMessageTask", "findLtMessageBySenderId", "ltMessageManagement");
-            stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items = [param.senderId,param.pageNo,param.pageSize];
+            stuff.auxiliary = {[passport]: req.session.passport};  
+            
+            stuff.items = [param.senderId,param.msgType,param.pageNo,param.pageSize];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
         //收到的站内消息详情
@@ -140,7 +141,7 @@
             let param=req.body;
             const stuff = sc.instanceRequest("LtMessageTask", "findLtMessageByReceiver", "ltMessageManagement");
             stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items = [param.receiver,param.pageNo,param.pageSize];
+            stuff.items = [param.receiver,param.msgType,param.pageNo,param.pageSize];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
         //改变阅读状态
@@ -151,4 +152,14 @@
             stuff.items = [param.messageId];
             sc.send(stuff).then((resp) =>{res.json(resp.head)});
         });
+        
+        //屏蔽谈话交流
+        router.all('/forBidMessageById', function (req, res, next) {
+            let param=req.body;
+            const stuff = sc.instanceRequest("LtMessageTask", "forBidMessageById", "ltMessageManagement");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items = [param.messageId,param.reason];
+            sc.send(stuff).then((resp) =>{res.json(resp.head)});
+        });
+        
     }
