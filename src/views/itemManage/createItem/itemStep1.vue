@@ -290,14 +290,18 @@
                         { required: true, type: 'number', message: '请选择行业分类', trigger: 'change' }
                     ],
                     overallInvestment: [
-                        { required: true,min:0,type: 'number', message: '请输入数字', trigger: 'blur' }
+                        { required: true,min:0,type: 'number', message: '请输入数字', trigger: 'blur' },
+                        {trigger:'blur',validator:(rule,value,callback)=>{
+                            this.$refs['planform'].validateField('commitmentAmount')
+                        }}
                     ],
                     financingAmount: [
                         { required: true,min:0,type: 'number', message: '请输入数字', trigger: 'blur' },
-                        { trigger: 'change',validator:(rule, value, callback) => {
+                        { trigger: 'blur',validator:(rule, value, callback) => {
                             if(this.planform.overallInvestment/2<this.planform.financingAmount){
                                 callback(new Error('目标融资额<=总投资额*50%'));
                             }
+                            this.$refs['planform'].validateField('commitmentAmount')
                         }}
                     ],
                     financingDays: [
@@ -307,11 +311,14 @@
                         { required: true,min:0, type: 'number', message: '请输入数字', trigger: 'blur' }
                     ],
                     investedAmount:[
-                        {min:0, type: 'number', message: '请输入数字', trigger: 'blur' }
+                        {min:0, type: 'number', message: '请输入数字', trigger: 'blur' },
+                        {trigger:'change',validator:(rule,value,callback)=>{
+                            this.$refs['planform'].validateField('commitmentAmount')
+                        }}
                     ],
                     commitmentAmount: [
                         { required: true,min:0, type: 'number', message: '请输入数字', trigger: 'change' },
-                        { trigger: 'change',validator:(rule, value, callback) => {
+                        { trigger: 'change,blur',validator:(rule, value, callback) => {
                             let total=0;
                             if(this.planform.isInvested){
                                 total=this.planform.commitmentAmount+this.planform.investedAmount+this.planform.financingAmount;
@@ -327,68 +334,133 @@
                         { type: "array", required: true, message: '请选择所属地区', trigger: 'change' }
                     ],
                 },
-                editFlag: false,
-                createInvestedEvidence: [],
-                successFlag:true
+                createInvestedEvidence: []
             }
         },
         methods: {
             onSubmit() {
-                if (this.editFlag) {
-                    this.editStep1();
-                } else {
-                    this.saveStep1();
-                }
-            },
-            editStep1() {
                 this.$refs['form'].validate((valid) => {
                     this.$refs['planform'].validate((a) => {
                         valid=a;
                     })
                     if (valid) {
-                        this.updateFinancingPlan();
-                        this.updateInvestorCondition();
-                        let projectParam = {
-                            id: this.$route.params.id,
-                            name: this.form.name,
-                            summary: this.form.summary,
-                            industry: this.form.industry,
-                            regionCode: this.form.regionCode,
-                            businessArea: this.form.businessArea
-                        }
-                        this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
-                            if(this.successFlag){
-                                this.$router.push('/itemStep2/' + this.$route.params.id);
+                        if(this.investorCondition.investorNativePlace){
+                            let investorCondition = {
+                                invitation: this.conditionform.invitation ? 1 : 0,
+                                investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
+                                permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
+                                financeId: this.$route.params.id
                             }
-                        })
-                    } else {
-                        this.$message.warning('请完善项目信息')
-                        return false;
-                    }
-                })
-            },
-            saveStep1() {
-                this.$refs['form'].validate((valid) => {
-                    this.$refs['planform'].validate((a) => {
-                        valid=a;
-                    })
-                    this.createInvestorCondition();
-                    this.createFinancingPlan();
-                    if (valid) {
-                        let projectParam = {
-                            id: this.$route.params.id,
-                            name: this.form.name,
-                            summary: this.form.summary,
-                            industry: this.form.industry,
-                            regionCode: this.form.regionCode,
-                            businessArea: this.form.businessArea
-                        }
-                        this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
-                            if(this.successFlag){
-                                this.$store.commit('item_setClearCreateItemData');
-                                this.$router.push('/itemStep2/' + this.$route.params.id);
+                            this.$store.dispatch('item_updateInvestorCondition', { param: investorCondition, vue: this })
+                        }else{
+                            let investorCondition = {
+                                invitation: this.conditionform.invitation ? 1 : 0,
+                                investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
+                                permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
+                                financeId: this.$route.params.id
                             }
-                        })
+                            this.$store.dispatch('item_createInvestorCondition', { param: investorCondition, vue: this })
+                        }
+                        if(!this.itemManageDetail.financingPlanId){
+                            //创建融资方案
+                            let financingPlanParam = {
+                                overallInvestment: this.planform.overallInvestment * 10000,
+                                financingAmount: this.planform.financingAmount * 10000,
+                                financingDays: this.planform.financingDays,
+                                transferringSharesRatio: this.planform.transferringSharesRatio / 100,
+                                commitmentAmount: this.planform.commitmentAmount * 10000,
+                                invested: this.planform.isInvested ? 1 : 0,
+                                investedAmount: this.planform.isInvested ? this.planform.investedAmount * 10000 : 0
+                            }
+                            this.$store.dispatch('item_createFinancingPlan', { param: financingPlanParam, vue: this }).then(() => {
+                                let projectParam = {
+                                    id: this.$route.params.id,
+                                    financingPlanId: this.$store.state.item.financingPlanId,
+                                    name: this.form.name,
+                                    summary: this.form.summary,
+                                    industry: this.form.industry,
+                                    regionCode: this.form.regionCode,
+                                    businessArea: this.form.businessArea
+                                }
+                                let promiseArray=[];
+                                if (this.$store.state.item.financingPlanId.length != 0&&this.planform.isInvested) {
+                                    for (let i = 0; i < this.createInvestedEvidence.length; i++) {
+                                        let element = this.createInvestedEvidence[i];
+                                        if (!element.response) {
+                                            continue;
+                                        }
+                                        let param = {
+                                            evidenceURL: element.responseUrl||JSON.parse(element.response.objectLiteral),
+                                            name: element.name,
+                                            financingPlanId: this.$store.state.item.financingPlanId
+                                        }
+                                        promiseArray.push(this.$store.dispatch('item_createInvestedEvidence', { param, vue: this }));
+                                    }
+                                }
+                                if(promiseArray.length>0){
+                                    Promise.all(promiseArray).then(()=>{
+                                        this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
+                                            this.$router.push('/itemStep2/' + this.$route.params.id);
+                                        })
+                                    })
+                                }else{
+                                    this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
+                                            this.$router.push('/itemStep2/' + this.$route.params.id);
+                                    })
+                                }
+                            })
+                        }else{
+                            let financingPlanParam = {
+                                overallInvestment: this.planform.overallInvestment * 10000,
+                                financingAmount: this.planform.financingAmount * 10000,
+                                financingDays: this.planform.financingDays,
+                                transferringSharesRatio: this.planform.transferringSharesRatio / 100,
+                                commitmentAmount: this.planform.commitmentAmount * 10000,
+                                invested: this.planform.isInvested ? 1 : 0,
+                                investedAmount: this.planform.isInvested ? this.planform.investedAmount * 10000 : 0,
+                                id: this.itemManageDetail.financingPlanId,
+                                projectId: this.$route.params.id
+                            }
+                            let projectParam = {
+                                id: this.$route.params.id,
+                                name: this.form.name,
+                                summary: this.form.summary,
+                                industry: this.form.industry,
+                                regionCode: this.form.regionCode,
+                                businessArea: this.form.businessArea
+                            }
+                            this.$store.dispatch('item_updateFinancingPlan', { param:  financingPlanParam, vue: this }).then(() => {
+                                this.$store.dispatch('item_deleteInvestedEvidence', { id: this.itemManageDetail.financingPlanId }).then(() => {
+                                    let promiseArray=[];
+                                    if (this.itemManageDetail.financingPlanId && this.itemManageDetail.financingPlanId.length != 0 && this.createInvestedEvidence.length > 0&&this.planform.isInvested) {
+                                        for (let i = 0; i < this.createInvestedEvidence.length; i++) {
+                                            let element = this.createInvestedEvidence[i];
+                                            if (!element.response) {
+                                                continue;
+                                            }
+                                            let param = {
+                                                evidenceURL: element.responseUrl||JSON.parse(element.response.objectLiteral),
+                                                name: element.name,
+                                                financingPlanId: this.itemManageDetail.financingPlanId
+                                            }
+                                            promiseArray.push(this.$store.dispatch('item_createInvestedEvidence', { param, vue: this }));
+                                        }
+                                    }
+                                    if(promiseArray.length>0){
+                                        Promise.all(promiseArray).then(()=>{
+                                            this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
+                                                this.$router.push('/itemStep2/' + this.$route.params.id);
+                                            })
+                                        })
+                                    }else{
+                                        this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
+                                                this.$router.push('/itemStep2/' + this.$route.params.id);
+                                        })
+                                    }
+                                   
+                                })
+                            })
+                        }
                     } else {
                         this.$message.warning('请完善项目信息')
                         return false;
@@ -408,114 +480,8 @@
             handleRemove(file, fileList) {
                 this.createInvestedEvidence = fileList;
             },
-            updateFinancingPlan() {
-                this.$refs['planform'].validate((valid) => {
-                    if (valid) {
-                        this.successFlag=true;
-                        let financingPlanParam = {
-                            overallInvestment: this.planform.overallInvestment * 10000,
-                            financingAmount: this.planform.financingAmount * 10000,
-                            financingDays: this.planform.financingDays,
-                            transferringSharesRatio: this.planform.transferringSharesRatio / 100,
-                            commitmentAmount: this.planform.commitmentAmount * 10000,
-                            invested: this.planform.isInvested ? 1 : 0,
-                            investedAmount: this.planform.isInvested ? this.planform.investedAmount * 10000 : 0,
-                            id: this.itemManageDetail.financingPlanId,
-                            projectId: this.$route.params.id
-                        }
-                        this.$store.dispatch('item_updateFinancingPlan', { param:  financingPlanParam, vue: this }).then(() => {
-                            this.$store.dispatch('item_deleteInvestedEvidence', { id: this.itemManageDetail.financingPlanId }).then(() => {
-                                if (this.itemManageDetail.financingPlanId && this.itemManageDetail.financingPlanId.length != 0 && this.createInvestedEvidence.length > 0) {
-                                    for (let i = 0; i < this.createInvestedEvidence.length; i++) {
-                                        let element = this.createInvestedEvidence[i];
-                                        if (!element.response) {
-                                            continue;
-                                        }
-                                        let param = {
-                                            evidenceURL: JSON.parse(element.response.objectLiteral),
-                                            name: element.name,
-                                            financingPlanId: this.itemManageDetail.financingPlanId
-                                        }
-                                        this.$store.dispatch('item_createInvestedEvidence', { param, vue: this });
-                                    }
-
-                                }
-                            })
-                        })
-                    } else {
-                        this.successFlag=false;
-                        this.$message.warning('请完善融资方案')
-                        return false;
-                    }
-                });
-            },
-            createFinancingPlan() {
-                this.$refs['planform'].validate((valid) => {
-                    if (valid) {
-                        this.successFlag=true;
-                        let financingPlanParam = {
-                            overallInvestment: this.planform.overallInvestment * 10000,
-                            financingAmount: this.planform.financingAmount * 10000,
-                            financingDays: this.planform.financingDays,
-                            transferringSharesRatio: this.planform.transferringSharesRatio / 100,
-                            commitmentAmount: this.planform.commitmentAmount * 10000,
-                            invested: this.planform.isInvested ? 1 : 0,
-                            investedAmount: this.planform.isInvested ? this.planform.investedAmount * 10000 : 0
-                        }
-                        return this.$store.dispatch('item_createFinancingPlan', { param: financingPlanParam, vue: this }).then(() => {
-                            let projectParam = {
-                                id: this.$route.params.id,
-                                financingPlanId: this.$store.state.item.financingPlanId
-                            }
-                            this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this })
-                            if (this.$store.state.item.financingPlanId.length != 0) {
-                                for (let i = 0; i < this.createInvestedEvidence.length; i++) {
-                                    let element = this.createInvestedEvidence[i];
-                                    if (!element.response) {
-                                        continue;
-                                    }
-                                    let param = {
-                                        evidenceURL: JSON.parse(element.response.objectLiteral),
-                                        name: element.name,
-                                        financingPlanId: this.$store.state.item.financingPlanId
-                                    }
-                                    this.$store.dispatch('item_createInvestedEvidence', { param, vue: this });
-                                }
-
-                            }
-                        })
-                    } else {
-                        this.successFlag=false;
-                        this.$message.warning('请完善融资方案')
-                        return false;
-                    }
-                });
-            },
-            createInvestorCondition() {
-                let investorCondition = {
-                    invitation: this.conditionform.invitation ? 1 : 0,
-                    investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
-                    permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
-                    financeId: this.$route.params.id
-                }
-                return this.$store.dispatch('item_createInvestorCondition', { param: investorCondition, vue: this })
-            },
-            updateInvestorCondition() {
-                let investorCondition = {
-                    invitation: this.conditionform.invitation ? 1 : 0,
-                    investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
-                    permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
-                    financeId: this.$route.params.id
-                }
-                this.$store.dispatch('item_updateInvestorCondition', { param: investorCondition, vue: this })
-            },
             editDataReview() {
                 this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(() => {
-                    if (!this.itemManageDetail.name) {
-                        this.editFlag = false;
-                        return false;
-                    }
-                    this.editFlag = true;
                     this.form.name = this.itemManageDetail.name;
                     this.form.summary = this.itemManageDetail.summary;
                     this.form.industry = this.itemManageDetail.industry;
@@ -533,23 +499,25 @@
                     })
                     if(this.itemManageDetail.financingPlanId){
                         this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId }).then(() => {
-                        if (this.financingPlanData.id && this.financingPlanData.id.length > 0) {
-                            this.planform.overallInvestment =( this.financingPlanData.overallInvestment / 10000)||'';
-                            this.planform.financingAmount = (this.financingPlanData.financingAmount / 10000)||'';
-                            this.planform.financingDays = (this.financingPlanData.financingDays)||'';
-                            this.planform.transferringSharesRatio = (this.financingPlanData.transferringSharesRatio * 100)||0;
-                            this.planform.isInvested = (this.financingPlanData.investedAmount && this.financingPlanData.investedAmount > 0) ? true : false;
-                            this.planform.investedAmount = this.financingPlanData.investedAmount / 10000;
-                            this.planform.commitmentAmount = this.financingPlanData.commitmentAmount / 10000;
-                            this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id }).then(() => {
-                                for (let i = 0; i < this.investedEvidence.length; i++) {
-                                    let item = this.investedEvidence[i];
-                                    this.evidenceURL.push({
-                                            name: item.name,
-                                            url: item.evidenceURL,
-                                            response: { objectLiteral: item.evidenceURL }
+                            if (this.financingPlanData.id && this.financingPlanData.id.length > 0) {
+                                this.planform.overallInvestment =( this.financingPlanData.overallInvestment / 10000)||'';
+                                this.planform.financingAmount = (this.financingPlanData.financingAmount / 10000)||'';
+                                this.planform.financingDays = (this.financingPlanData.financingDays)||'';
+                                this.planform.transferringSharesRatio = (this.financingPlanData.transferringSharesRatio * 100)||0;
+                                this.planform.isInvested = (this.financingPlanData.investedAmount && this.financingPlanData.investedAmount > 0) ? true : false;
+                                this.planform.investedAmount = this.financingPlanData.investedAmount / 10000;
+                                this.planform.commitmentAmount = this.financingPlanData.commitmentAmount / 10000;
+                                this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id }).then(() => {
+                                    for (let i = 0; i < this.investedEvidence.length; i++) {
+                                        let item = this.investedEvidence[i];
+                                        this.evidenceURL.push({
+                                                name: item.name,
+                                                url: item.evidenceURL,
+                                                responseUrl:item.evidenceURL,
+                                                response:{objectLiteral:'"'+item.evidenceURL+'"'}
                                         })
                                     }
+                                    this.createInvestedEvidence=this.evidenceURL;
                                 })
                             }
                         })
@@ -559,5 +527,4 @@
             }
         }
     }
-
 </script>

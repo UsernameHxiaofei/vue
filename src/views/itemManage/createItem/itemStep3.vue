@@ -94,10 +94,10 @@
                 <el-row :gutter="20" style="height:710px">
                     <el-col :span="12" v-for="(item,index) in leadList.list||leadList1.list" :key="index" >
                         <div class="grid-content" :class="{'choosed':leader==item.actorId}"    @click="chooseLead(item)">
-                            <img :src="item.headFigureURL" />
+                            <img :src="item.imgUrl" />
                             <div class="info-content">
                                 <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
-                                <p>{{item.personProfile}}</p>
+                                <p>{{item.profile}}</p>
                             </div>
                         </div>
                     </el-col>
@@ -282,7 +282,7 @@ import industryData from '../../../constant/industry.js'
                     return;
                 }
                 if(this.experter==this.itemManageDetail.initiatorId||this.leader==this.itemManageDetail.initiatorId||this.leader==this.experter){
-                    this.$message.warning('行家领头和发起人不能重复')
+                    this.$message.warning('项目方、领投和行家不能是同一人')
                     return;
                 }
 				let projectParam={

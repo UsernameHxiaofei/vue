@@ -164,7 +164,7 @@ export default {
             return this.$store.state.login.actor;
         },
         webMessageByActorid: function () {
-            return this.$store.state.content.webMessageByActorid;
+            return this.$store.state.content.webMessageByActorid||{};
         },
         updateActorStatus: function () {
             return this.$store.state.system.updateActorStatus;

@@ -148,7 +148,7 @@ import _ from 'lodash'
             },
             customerUpdate:function(){
                 return this.$store.state.customer.customerUpdate;
-            },
+            }
         },
 		mounted(){
 			this.personInit();

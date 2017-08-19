@@ -139,7 +139,7 @@
                         <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过2M</div>
                     </el-upload>
                 </el-form-item>
-                <div class="edit-con">
+                <div class="edit-con" v-if="editorRender">
                     <quill-editor v-model="content" ref="myQuillEditor" > </quill-editor>
                 </div>
                 <div class="model-divider">
@@ -171,10 +171,10 @@
                 <div>
                     <div class="person-box" v-for="(item,index) in enterpriseMembers">
                         <div class="person-info" >
-                            <el-col :span="6">
+                            <el-col style="width:170px">
                                 <img class="head-img" :src="item.imageURL" :alt="item.imageURL"/>
                             </el-col>
-                            <el-col :span="18">
+                            <el-col style="width:600px">
                                 <div class="person-intro">
                                     <h4>{{item.name}}
                                         <span>{{item.position}}</span>
@@ -311,6 +311,7 @@ export default {
         }
     },
     mounted () {
+        this.editorRender=true;
         this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(()=>{
             if(this.itemManageDetail.enterpriseId||this.itemManageDetail.detailedIntroductionId){
                 this.editFlag=true;
@@ -351,6 +352,7 @@ export default {
     data() {
         return {
             editHeadImgChange:false,
+            editorRender:false,
             industryData:industryData,
             editFlag:false,
             content: '',

@@ -221,7 +221,7 @@
                     <el-form-item label="身份证号" :label-width="formLabelWidth" prop="identNumber">
                         <el-input v-model="expert.identNumber" auto-complete="off" :readonly="customer.realName?true:false"> </el-input>
                     </el-form-item>
-                    <el-form-item label="专注行业">
+                    <el-form-item label="专注行业" required>
                         <div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
                             <el-checkbox v-model="industryArr.industry[i]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
@@ -275,7 +275,7 @@
                     <el-form-item label="身份证号" :label-width="formLabelWidth">
                         <span>{{expertData.identNumber}}</span>
                     </el-form-item>
-                    <el-form-item label="专注行业">
+                    <el-form-item label="专注行业" required>
                         <div style="float: left;padding-right: 20px;" v-for="(item,i) in industryList">
                             <el-checkbox :disabled="true" v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
@@ -320,7 +320,7 @@
                         <el-input v-model="expertData.identNumber" auto-complete="off" :readonly="customer.realName?true:false">
                         </el-input>
                     </el-form-item>
-                    <el-form-item label="专注行业">
+                    <el-form-item label="专注行业" required>
                         <div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
                             <el-checkbox v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
@@ -384,7 +384,7 @@
                         <el-input v-model="lead.identNumber" auto-complete="off" :readonly="customer.realName?true:false">
                         </el-input>
                     </el-form-item>
-                    <el-form-item v-if="show==1" label="关注行业" prop="industryList">
+                    <el-form-item label="关注行业" prop="industryList">
                         <el-checkbox-group v-model="lead.industryList">
                             <el-checkbox v-for="item in industryList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
                         </el-checkbox-group>
@@ -408,7 +408,6 @@
                             <el-radio v-for="item in personalList" :label="item.value" :key="item.label">{{item.label}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-    
                     <el-form-item v-if="show==2" label="企业名称" :label-width="formLabelWidth" prop="enterpriseName">
                         <el-input v-model="lead.enterpriseName" auto-complete="off" placeholder="请输入企业名称"></el-input>
                     </el-form-item>
@@ -424,11 +423,9 @@
                             <el-radio v-for="item in enterpriseList" :label="item.value" :key="item.label">{{item.label}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-    
                     <el-form-item label="已投项目">
                         <el-input type="textarea" v-model="lead.investment" placeholder="请输入已投资的项目名称、尽量填写完整"></el-input>
                     </el-form-item>
-    
                     <el-form-item v-if="show==2" label="姓名" :label-width="formLabelWidth" prop="representative">
                         <el-input v-model="lead.representative" auto-complete="off" placeholder="请输入法定代表人姓名"></el-input>
                     </el-form-item>
@@ -444,7 +441,6 @@
                             <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
                             <el-button style="margin-left: 10px; position:absolute; right:0; bottom:20px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
                         </el-upload>
-                        <!--<el-input v-model="form.name"></el-input>-->
                     </el-form-item>
                     <el-form-item prop="agree" style="margin-bottom: 5px;">
                         <el-checkbox v-model="lead.agree" label="我已知股权投资是一种高风险投资，是一种没有固定收益和固定期限的投资" name=""></el-checkbox>
@@ -476,7 +472,7 @@
                     <el-form-item label="身份证号" :label-width="formLabelWidth" >
                         <span>{{leadData.identNumber}}</span>
                     </el-form-item>
-                    <el-form-item v-if="show==1" label="关注行业">
+                    <el-form-item  label="关注行业">
                         <span>{{leadData.industry|industry}}</span>
                     </el-form-item>
                     <el-form-item v-if="show==1" label="所属单位" :label-width="formLabelWidth" >
@@ -548,7 +544,7 @@
                         <el-input v-model="leadData.identNumber" auto-complete="off" :readonly="customer.realName?true:false">
                         </el-input>
                     </el-form-item>
-                    <el-form-item v-if="show==1" label="关注行业" >
+                    <el-form-item label="关注行业" >
                         <el-checkbox-group v-model="newIndustryList">
                             <el-checkbox v-for="item in industryList" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
                         </el-checkbox-group>

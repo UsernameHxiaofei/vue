@@ -60,7 +60,6 @@
 				<el-checkbox style="float:left;margin-top:5px" v-model="isRestart" @change="restartChange"><span style="color:#97bcbe;">显示历史记录</span></el-checkbox>
 			</div>
 			<div class="date-box">
-				
 				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="click" change-on-select clearable :options="options3" v-model="where" @change="handleChange">
 				</el-cascader>
 				<el-select v-model="industry" clearable placeholder="所属行业" @change="industryChange">

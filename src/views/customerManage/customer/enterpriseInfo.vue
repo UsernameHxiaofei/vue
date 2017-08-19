@@ -109,24 +109,12 @@ body {
 				<el-input v-model="enterpriseInfo.creditCode"></el-input>
 			</el-form-item>
 			<el-form-item label="所在地区">
-				<el-cascader expand-trigger="click" style="width:280px;" change-on-select clearable :options="options" v-model="selectedOptions" @change="handleChange">
+				<el-cascader expand-trigger="click" style="width:280px;" change-on-select clearable :options="options" v-model="selectedOptions">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="企业形象图" prop="img">
-				<el-upload
-			class="upload-demo"
-			ref="upload"
-			action="/ajax/image_uploadByFile"
-			:data="fileParam"
-			list-type="picture-card"
-			:show-file-list="true"
-			:auto-upload="false"
-            :file-list="uploadList"
-			:before-upload="beforeAvatarUpload"
-			:on-success="uploadSuccess">
-			<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-			<el-button style="margin-left: 10px; position:absolute; right:0; bottom:20px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-		</el-upload>
+				<img v-if="!!enterpriseInfo.imageURL" style=" width: 200px;" :src="enterpriseInfo.imageURL" alt="企业形象图"><br>
+				<el-button  size="small" type="primary" @click="editEnterpriseImgChange=true">上传企业形象图</el-button>
 			</el-form-item>
 			<el-form-item label="企业简介" prop="profile">
 				<el-input type="textarea"  :rows="6" v-model="enterpriseInfo.profile"></el-input>
@@ -140,10 +128,15 @@ body {
 				<el-button style="width: 120px;" type="primary" @click="onSubmit">保存</el-button>
 			</el-form-item>
 		</el-form>
-		
+		<div class="p-form">
+            <el-dialog title="上传企业形象图" :visible.sync="editEnterpriseImgChange"  :close-on-click-modal="false">
+                    <imageCropper @result="uploadSuccess"></imageCropper>
+            </el-dialog>
+        </div>
 	</div>
 </template>
 <script>
+	import imageCropper from '../../../components/common/ImageDialogCropper.vue'
 import { regionData } from 'element-china-area-data'
 import { getSelectArray } from '../../../util/index.js'
 	export default {
@@ -157,13 +150,17 @@ import { getSelectArray } from '../../../util/index.js'
 			enterpriseInfoUpdate:function(){
 				return this.$store.state.customer.enterpriseInfoUpdate;
 			}
-        },
+		},
+		components: {
+			imageCropper	
+		},
 		mounted(){
 			this.enterpriseInit();
 		},
 		 data() {
 			return {
 				status:true,
+				editEnterpriseImgChange:false,
 				options: regionData,
         		selectedOptions: [],
 				uploadList:[],
@@ -182,9 +179,6 @@ import { getSelectArray } from '../../../util/index.js'
 					}
 				});
 			},
-			handleClick(tab, event) {
-
-        	},
 			addEnterpriseInfo(){
 				this.status = false;
 			},
@@ -229,50 +223,10 @@ import { getSelectArray } from '../../../util/index.js'
              	this.$store.dispatch('enterpriseInfoByActorId',enterpriseParams);
 				this.status = true;
 			},
-			handleChange (value) {
-				console.log(value)
-			},
-			handleRemove(file, fileList) {
-				console.log(file, fileList);
-			},
-			imgChange(file,fileList){
-				// console.log(file, fileList);
-			},
-			uploadImg(event,file,fileList){
-				console.log(file);
-			},
-			submitUpload() {
-				this.$refs.upload.submit();
-        	},
-			beforeAvatarUpload(file){
-				let isPic = false;
-				let fileSize = file.size / 1024 /1024;
-				let fileType = file.type;
-				if(fileType === 'image/jpeg'||fileType === 'image/png'||fileType === 'image/gif'){
-					isPic = true;
-				}
-				const isLt50 = fileSize < 1;
-				if (!isPic) {
-					this.$message.error('上传的图片格式为png、jpg、gif!');
-					return isPic;
-				}else if (!isLt50) {
-					this.$message.error('上传图片大小不能超过 1M!');
-					return isLt50;
-				}else{
-					this.fileParam.fileName=file.name;
-					this.fileParam.fileType=1;
-					//this.fileParam.uploadUseId=this.$store.state.login.actor.id;
-					//this.fileParam.bannerSize=fileSize.toFixed(3);
-				}
-				return isPic&&isLt50;   
-			},
 			//上传成功时返回的数据
-			uploadSuccess(data,file,fileList){
-				console.log(data);
-				if(data){
-					this.$message.success('上传图片成功');
-					this.enterpriseInfo.imageURL=data;
-				}
+			uploadSuccess(data){
+				this.enterpriseInfo.imageURL=data;
+				this.editEnterpriseImgChange=false;
 			},
 		}
 	}    

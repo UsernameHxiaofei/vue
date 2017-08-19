@@ -17,8 +17,8 @@ margin-left: -10px;margin-top: 15px;display: inline-block;text-align: center;}
   <div>
       <div class="credit">
             <span class="credit-title">项目征信评级</span>
-            <span class="credit-message">企业等级：{{credit.grade}}</span>
-            <span class="credit-message">项目评分：{{credit.score}}</span>
+            <span class="credit-message">企业等级：{{credit.grade||'未分级'}}</span>
+            <span class="credit-message">项目评分：{{credit.score||'未评分'}}</span>
       </div>
       <div class="down">
           <div v-for="item in materials" class="downpage">

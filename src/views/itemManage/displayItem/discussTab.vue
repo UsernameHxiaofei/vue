@@ -22,7 +22,8 @@
     padding-left: 70px;
 }
 .discussion textarea {
-    width: 530px;
+    min-width: 530px;
+    width: 100%;
     height: 85px;
     padding: 15px;
     background: #fafafa;
@@ -41,6 +42,17 @@
       display: inline-block;
       margin-bottom: -3px;
       margin-right: 5px;
+      font-size: 18px;
+      color: #da0c0c;
+      
+}
+.discussion .btnGroup .discussicon {
+      display: inline-block;
+      margin-bottom: -3px;
+      margin-right: 5px;
+      font-size: 18px;
+      color: #06ccb7;
+      
 }
 .discussion .btnGroup a {
       padding-right: 30px;
@@ -61,7 +73,7 @@
       font-size: 12px;
 }
 .discussion .ppp {
-    margin: 10px -50px;
+    margin: 5px -50px;
     background: #F5F5F5;
     height: 40px;
 }
@@ -88,7 +100,7 @@
       padding: 8px 0;
 }
 .discussion .commentList textarea {
-      width: 458px;
+      width: 100%;
       height: 85px;
 }
 .discussion .commentList .reply {
@@ -147,16 +159,12 @@
 <template>
   <div class="discussion">
       <div class="comment clear">
-            <img class="headFigureURL fl" :src="IndividualInfo.headFigureURL" alt="">
+            <img class="headFigureURL fl" :src="headImage" alt="">
             <div class="text">
                 <textarea name="" v-model="comment" id="" placeholder="在这里您想说些什么呢......"></textarea>
                 <div class="btnGroup clear"> 
-                    <!--<a href="javascript:;">123</a>
-                    <a href="javascript:;">123</a>-->
                     <a href="javascript:;" class="fr btn" @click="replyProject">评论</a>
-                    
                     <span class="fr">{{comment.length}}/2000</span>
-                    
                 </div>
             </div>
       </div> 
@@ -174,9 +182,9 @@
                         </p>
                         <span>{{firstLevel.subject_content}}</span>
                         <div class="btnGroup">
-                                <a href="javascript:;" title="点赞" @click="toggleLike(i)"><img class="like" src="../../../assets/images/like.png"/>{{firstLevel.likeCount}}</a>
-                                <a href="javascript:;" title="评论"  @click.stop="reply(i)"><img class="like" src="../../../assets/images/subject.png"/>({{firstLevel.subjectlength||0}}) </a>
-                                <a href="javascript:;"  @click.stop="projectSubjectDelete(i)" v-if="firstLevel.creator==actorId">删除</a>
+                                <a href="javascript:;" title="点赞" @click="toggleLike(i)">  <i class="like iconfont icon-xihuan"></i>{{firstLevel.likeCount}}</a>
+                                <a href="javascript:;" title="评论"  @click.stop="reply(i)"><i class="discussicon iconfont icon-pinglun"></i>({{firstLevel.subjectlength||0}}) </a>
+                                <a href="javascript:;"  @click.stop="projectSubjectDelete(i)">删除</a>
                         </div>
                         <div class="reply hiddenList" v-if="firstLevel.commentList">
                                 <a href="javascript:;" class="open" @click.stop="limitShowMore(i,$event)"  v-show="firstLevel.subjectlength>2">展开评论∨</a>
@@ -189,7 +197,7 @@
                                                 <span class="nickname">{{item.nickname}}</span>
                                                 <span class="time1">{{item.creat_time  | getNowFormatDate}}</span>
                                                 <!--<a href="javascript:;" alt="回复" @click="reply(i,index)" class="secReply">回复</a>-->
-                                                <a href="javascript:;" alt="回复" @click.stop="subjectDiscussDelete(i,index)" v-if="item.creator==actorId" class="secReply">删除</a>
+                                                <a href="javascript:;" alt="回复" @click.stop="subjectDiscussDelete(i,index)"  class="secReply">删除</a>
                                             </p>
                                             <p> 
                                                 <!--<span v-show="item.fornickname">回复: </span>
@@ -201,7 +209,7 @@
                                 </ul> 
                         </div>
                          <div class="comment clear hidden"  :ref="'comment'+i">
-                                <img class="headFigureURL fl" src="../../../assets/images/avatar.jpg" alt="">
+                                <img class="headFigureURL fl" :src="headImage" alt="">
                                 <div class="text text1">
                                     <textarea name="" v-model="commentReply" :ref="'text'+i" placeholder="评论......"></textarea>
                                     <div class="btnGroup clear"> 
@@ -235,9 +243,10 @@ export default {
             limitShow:{},
             zz:1,
             showloadMoreSubject:false,
-            IndividualInfo:{headFigureURL:'../../../assets/images/avatar.jpg',
-                            nickname:'后台运营人员'},
         }
+    },
+    beforeMount(){
+        this.loadSubject(); 
     },
     methods:{
         limitShowMore(i,event){
@@ -246,7 +255,6 @@ export default {
             }else{
                  this.limitShow[i]=!this.limitShow[i];
             }
-            //console.log(event.target.parentNode.className)
             if(this.limitShow[i]){
                 var len =event.target.nextSibling.children.length ;
                 for(var ind =2; ind <len;ind++ ){
@@ -268,14 +276,13 @@ export default {
             this.$http.post('SubjectDiscussManage/projectSubjectCreate',{actorId:this.actorId,subject_content:this.comment,project_id:this.projectItem.id,subject_picture:''})
             .then(response => {return response.body;})
             .then(data=>{
-                //console.log(data,'projectSubjectCreate')
                 if(data){
                     this.commentList=this.commentList||[]
-                     this.commentList.push( 
-                        {creat_time: new Date(),
+                     this.commentList.push({
+                            creat_time: new Date(),
                             creator:this.actorId,
-                            headFigureURL: this.IndividualInfo.headFigureURL,
-                            nickname:this.IndividualInfo.nickname,
+                            headFigureURL: this.headImage,
+                            nickname:this.actor.name,
                             project_id:this.projectItem.id,
                             subject: '',
                             subject_content: this.comment,
@@ -287,7 +294,6 @@ export default {
                     })
                     this.comment=""
                     this.emit('countDiscussNum');
-                    //bus.$emit('showMassege','评论成功')
                     this.zz++;
                 }
             }) 
@@ -295,25 +301,21 @@ export default {
         },
         reply(i,index){
             if(!this.actorId){
-                //bus.$emit('showMassege','请登录')
                 return ;
             }
             this.$refs['comment'+i][0].style.display='block';
             this.$refs['text'+i][0].focus();
             this.focusStatus=false;
-            this.commentReply='';
-           
+            this.commentReply=''; 
         },
         replySubject(subject_id,i){
             console.log(subject_id,i);
             if(!this.commentReply){
-                //bus.$emit('showMassege','请输入评论内容')
                 return ;
             }
             this.$http.post('SubjectDiscussManage/subjectDiscussCreate',{actorId:this.actorId,subject_id:subject_id,discuss_content:this.commentReply,discuss_picture:''})
             .then(response => {return response.body;})
             .then(data=>{
-                //console.log(data,'subjectDiscussCreate')
                 if(data){ 
                     this.commentList[i].commentList.push(
                         {
@@ -322,16 +324,14 @@ export default {
                         discuss_content:this.commentReply,
                         discuss_id:data.body,
                         discuss_picture:"",
-                        headFigureURL: this.IndividualInfo.headFigureURL,
-                        nickname:this.IndividualInfo.nickname,
+                        headFigureURL: this.headImage,
+                        nickname:this.actor.name,
                         is_del:"undelete",
                         parent_id:"",
                         subject_id:subject_id
                     });
-                     this.zz++;
-                      //bus.$emit('showMassege','评论成功')
-                     this.commentList[i].subjectlength++;
-                     //console.log(this.commentList);
+                    this.zz++;
+                    this.commentList[i].subjectlength++;
                     this.$refs['comment'+i][0].style.display='none';
                 }
             })
@@ -394,26 +394,19 @@ export default {
             }) 
         },
         subjectDiscussDelete(i,index){
-            //console.log(i,index);
-            //console.log( this.commentList[i].commentList);
              this.$http.post('SubjectDiscussManage/subjectDiscussDeleteById',{subject_id:this.commentList[i].commentList[index].subject_id,discuss_id:this.commentList[i].commentList[index].discuss_id})
              .then(response => {return response.body;})
              .then(data=>{
-               //console.log(data,'subjectDiscussDeleteById')
                 this.commentList[i].commentList.splice( index,1)
                 this.zz++;
-                
             }) 
         },
         loadSubject(){
             this.$http.post('SubjectDiscussManage/projectSubjectAllQuery',{pageNumber:this.pageNumber,pageVolume:this.pageVolume,projectId:this.$route.params.projectId})
-            .then(response => {return response.body;})
+            .then(response =>response.body)
             .then(data=>{
-                //console.log(data,'projectSubjectAllQuery')
-                
                 if(data&&data.count){
                     this.showloadMoreSubject=data.count>10*this.pageNumber?true:false;
-                    
                     if(this.pageNumber==1){
                         this.commentList=data.records;
                     }else{
@@ -425,7 +418,6 @@ export default {
                         this.subjectLikeCount(data.records,i,num);
                     }
                 }
-                
             })
         },
         loadMoreSubject(){
@@ -437,7 +429,6 @@ export default {
             this.$http.post('SubjectDiscussManage/subjectLikeCount',{subject_id:itemList[i].subject_id})
             .then(response => { return response.body;})
             .then(data=>{
-                //console.log(data,'subjectDiscussAllQuery')
                 if(data){
                     this.commentList[this.commentList.length-itemList1.length+parseInt(i)].likeCount=data;
                 }else{
@@ -451,10 +442,7 @@ export default {
                 this.$http.post('SubjectDiscussManage/subjectDiscussAllQuery',{pageNumber:subjectpageNumber,pageVolume:this.pageVolume,subject_id:itemList[i].subject_id})
                 .then(response => {return response.body;})
                 .then(data=>{
-                    //console.log(data,'subjectDiscussAllQuery')
-                     //console.log(itemList[i].subject_id);
                     this.zz++;
-                    
                     if(!this.commentList[this.commentList.length-itemList1.length+parseInt(i)].commentList){
                         this.commentList[this.commentList.length-itemList1.length+parseInt(i)].commentList=[];
                         this.commentList[this.commentList.length-itemList1.length+parseInt(i)].subjectlength=0;
@@ -463,7 +451,6 @@ export default {
                     this.commentList[this.commentList.length-itemList1.length+parseInt(i)].commentList.concat(data.records);
                     this.commentList[this.commentList.length-itemList1.length+parseInt(i)].subjectlength+=data.records.length
                     if(subjectpageNumber*this.pageVolume<data.count){
-                        //console.log(itemList1,subjectpageNumber,'1231231231');
                         this.subjectDiscuss(itemList1,i,++subjectpageNumber);
                     }else{
                         return;
@@ -481,11 +468,13 @@ export default {
         actorId(){
             return this.$store.state.login.actor.id;
         },
-         
-    },
-    
-     beforeMount(){
-        this.loadSubject(); 
+        actor(){
+            return this.$store.state.login.actor;
+        },
+        headImage(){
+            return this.$store.state.customer.headImage;
+        } 
     }
+    
 }
 </script>
