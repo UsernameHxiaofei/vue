@@ -21,8 +21,7 @@
 .discussion .text {
     padding-left: 70px;
 }
-.discussion textarea {
-    min-width: 530px;
+.discussion textarea { 
     width: 100%;
     height: 85px;
     padding: 15px;
@@ -211,7 +210,7 @@
                          <div class="comment clear hidden"  :ref="'comment'+i">
                                 <img class="headFigureURL fl" :src="headImage" alt="">
                                 <div class="text text1">
-                                    <textarea name="" v-model="commentReply" :ref="'text'+i" placeholder="评论......"></textarea>
+                                    <textarea name="" v-model="commentReply" @click.stop="" :ref="'text'+i" placeholder="评论......"></textarea>
                                     <div class="btnGroup clear"> 
                                         <!--<a href="javascript:;">123</a>  v-focus="focusStatus"
                                         <a href="javascript:;">123</a>-->
@@ -316,13 +315,14 @@ export default {
             this.$http.post('SubjectDiscussManage/subjectDiscussCreate',{actorId:this.actorId,subject_id:subject_id,discuss_content:this.commentReply,discuss_picture:''})
             .then(response => {return response.body;})
             .then(data=>{
+                console.log(data,data.body,1231);
                 if(data){ 
                     this.commentList[i].commentList.push(
                         {
                         creat_time:new Date(),
                         creator:this.actorId,
                         discuss_content:this.commentReply,
-                        discuss_id:data.body,
+                        discuss_id:data,
                         discuss_picture:"",
                         headFigureURL: this.headImage,
                         nickname:this.actor.name,
@@ -398,6 +398,7 @@ export default {
              .then(response => {return response.body;})
              .then(data=>{
                 this.commentList[i].commentList.splice( index,1)
+                this.commentList[i].subjectlength--;
                 this.zz++;
             }) 
         },
