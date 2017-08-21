@@ -125,6 +125,7 @@ export default {
             }
             reader.onload = (e) => {
                 this.option.img = e.target.result;
+                fileInput.value='';//同图片触发input change
                 loading.close();
             }
             reader.readAsDataURL(file)

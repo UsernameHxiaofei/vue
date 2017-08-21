@@ -344,7 +344,7 @@
                         valid=a;
                     })
                     if (valid) {
-                        if(this.investorCondition.investorNativePlace){
+                        if(this.investorCondition.financeId){
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
                                 investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',

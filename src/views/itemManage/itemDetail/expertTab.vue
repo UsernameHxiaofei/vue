@@ -4,7 +4,7 @@
 .give-mark{padding: 30px 10px 10px 10px;}
 .give-mark .el-rate__icon{font-size: 20px;}
 .give-mark .el-rate__text{opacity: 0}
-.expert-con{padding: 50px 10px;border-top: 1px solid #EEEEEE;border-bottom: 1px solid #EEEEEE;}
+.expert-con{padding: 50px 10px;border-top: 1px solid #EEEEEE;border-bottom: 1px solid #EEEEEE;word-wrap:break-word;white-space:pre-wrap}
 .remind{padding: 20px 0 30px 0;}
 .remind span{color: #a3abbe;margin: 0 0 5px 10px;display: inline-block;}
 .remind p{color: #ffc322;padding: 0 10px;}

@@ -81,7 +81,7 @@ export default {
             for (let i = 0; this.mainData.riskProjectList && i < this.mainData.riskProjectList.length; i++) {
                 let risk = this.mainData.riskProjectList[i];
                 for (let n = 0; n < riskRegion.length; n++) {
-                    if (riskRegion[n].id === risk.riskCategory) {
+                    if (riskRegion[n].id === risk.category) {
                         riskRegion[n].lv = risk.level;
                         break;
                     }

@@ -14,6 +14,10 @@ function loginOn() {
   var password = document.getElementById('password').value;
   if (!username) { alert('用户名不能为空'); return; }
   if (!password) { alert('密码不能为空'); return; }
+  if (!/^1[34578]\d{9}$/.test(username)){
+     alert('用户名手机号格式不正确');
+     return;
+  }
   var data = 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
   var xhr = new XMLHttpRequest();
   xhr.open('post', '/ajax/login_auth');

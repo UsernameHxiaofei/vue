@@ -68,16 +68,16 @@
                         <span class="span-label">目标融资额</span><br/><span class="span-con">{{financingPlanData.financingAmount/10000||0}}万</span>
                     </el-col>
                     <el-col :span="5">
-                        <span class="span-label">领投额</span><br/><span class="span-con">{{((leadAd.investmentAmount||0)/10000).toFixed(2)}}万</span>
+                        <span class="span-label">领投额</span><br/><span class="span-con">{{leadAd.investmentAmount?((leadAd.investmentAmount||0)/10000).toFixed(2)+'万':'确定中'}}</span>
                     </el-col>
                     <el-col :span="5">
-                        <span class="span-label">待上线融资额</span><br/><span class="span-con">{{salesQuota.salesAmount/10000||0}}万</span>
+                        <span class="span-label">待上线融资额</span><br/><span class="span-con">{{salesQuota.salesAmount?salesQuota.salesAmount/10000+'万':'未设置'}}</span>
                     </el-col>
                     <el-col :span="5">
-                        <span class="span-label">拆为</span><br/><span class="span-con">{{salesQuota.quantity||0}}份</span>
+                        <span class="span-label">拆为</span><br/><span class="span-con">{{salesQuota.quantity?salesQuota.quantity+'份':'未设置'}}</span>
                     </el-col>
                     <el-col :span="4">
-                        <span class="span-label">每份购买价</span><br/><span class="span-con">{{salesQuota.unitPrice||0}}元</span>
+                        <span class="span-label">每份购买价</span><br/><span class="span-con">{{salesQuota.unitPrice?salesQuota.unitPrice+'元':'未设置'}}</span>
                     </el-col>
                 </el-row>
             </div>
@@ -91,19 +91,19 @@
                         <span class="span-con">{{rewardPlan.consumable ==0 ? '股权' : '消费权'}}</span>
                     </el-col>
                     <el-col :span="6" class="rewardLable">
-                        <span class="span-label">预估投资人年收益</span><br/><span class="span-con">{{rewardPlan.annualEarningsRatio*100 || 0}}%到{{rewardPlan.annualEarningsRatioTo*100 || 0}}%</span>
+                        <span class="span-label">预估投资人年收益</span><br/><span class="span-con">{{rewardPlan.annualEarningsRatio*100 || '--'}}%到{{rewardPlan.annualEarningsRatioTo*100 || '--'}}%</span>
                     </el-col>
                     <el-col :span="6" class="rewardLable">
-                        <span class="span-label">分红周期</span><br/><span class="span-con">{{rewardPlan.dividendCycle || 0}}年</span>
+                        <span class="span-label">分红周期</span><br/><span class="span-con">{{rewardPlan.dividendCycle || '--'}}年</span>
                     </el-col>
                     <el-col :span="6" class="rewardLable">
                         <span class="span-label">附加消费权</span><br/><span class="span-con">{{rewardPlan.consumableDescription&&rewardPlan.consumableDescription.length==0?'无':rewardPlan.consumableDescription}}</span>
                     </el-col>
                     <el-col :span="6" class="rewardLable">
-                        <span class="span-label">股权回购期限</span><br/><span class="span-con">{{rewardPlan.repurchaseYearsFrom || 0}}年到{{rewardPlan.repurchaseYearsTo || 0}}年</span>
+                        <span class="span-label">股权回购期限</span><br/><span class="span-con">{{rewardPlan.repurchaseYearsFrom ||'--'}}年到{{rewardPlan.repurchaseYearsTo || '--'}}年</span>
                     </el-col>
                     <el-col :span="6" class="rewardLable">
-                        <span class="span-label">股权回购费率买价</span><br/><span class="span-con">{{rewardPlan.repurchaseRateFrom*100 || 0}}%至{{rewardPlan.repurchaseRateTo*100 || 0}}%</span>
+                        <span class="span-label">股权回购费率买价</span><br/><span class="span-con">{{rewardPlan.repurchaseRateFrom*100 || '--'}}%至{{rewardPlan.repurchaseRateTo*100 || '--'}}%</span>
                     </el-col>
                 </el-row>
             </div>

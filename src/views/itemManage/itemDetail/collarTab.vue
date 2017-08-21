@@ -4,7 +4,7 @@
 .expert-advice{width: 520px;float: left;}
 .collar{padding: 0 10px;color: #666666;font-size: 18px;font-weight: bold}
 .collar em{font-style: normal;color: #06ccb6;margin: 0 100px 0 20px;font-size: 16px;}
-.expert-con{padding: 50px 10px;border-top: 1px solid #EEEEEE;border-bottom: 1px solid #EEEEEE;}
+.expert-con{padding: 50px 10px;border-top: 1px solid #EEEEEE;border-bottom: 1px solid #EEEEEE;word-wrap:break-word;white-space:pre-wrap}
 .expert-con p{color: #666666;margin-bottom: 20px;text-align: justify;padding: 0 10px;}
 .expert-con p:last-child{margin-bottom: 0;}
 .remind{padding: 20px 0 30px 0;}

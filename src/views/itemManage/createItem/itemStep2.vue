@@ -161,7 +161,7 @@
                     <img src="../../../assets/images/linear.png" />
                     <span>项目经验</span>
                 </div>
-                <el-form-item class="description" label="已有运营中的实体项目数" label-width="170px" prop="num">
+                <el-form-item class="description" label="已有运营中的实体项目数" label-width="170px" prop="existProjectNum">
                     <el-input-number v-model="form.existProjectNum"  :min="0"></el-input-number>
                 </el-form-item>
                 <div class="model-divider">
@@ -367,7 +367,7 @@ export default {
             otherFiles:[],
             isRepresent:true,
             form: {
-                existProjectNum: 1,
+                existProjectNum: 0,
                 name: '',
                 industry:64 ,
                 creditCode: ''
@@ -508,11 +508,20 @@ export default {
                 this.$message.warning('请完成项目介绍!');
                 return false;
             }
+            if(this.enterpriseInfo.representativeId&&this.enterpriseInfo.representativeId.length==0){
+                this.$message.warning('请在团队成员中勾选一个法定代表人')
+                return;
+            }
+            if(this.enterpriseMembers.length<2){
+                this.$message.warning('团队成员中必须包含一个法定代表人和一个高管，以便于做征信调查')
+                return;
+            }
             if (!this.itemManageDetail.enterpriseId&&this.$store.state.item.enterpriseId.length == 0) {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
                         let enterpriseParam=JSON.parse(JSON.stringify(this.form));
                         enterpriseParam.addressCode=this.itemManageDetail.regionCode;
+                        enterpriseParam.existProjectNum=this.form.existProjectNum;
                         this.$store.dispatch('item_createEnterprise', { param: enterpriseParam, vue: this }).then(()=>{
                             if(this.$store.state.item.enterpriseId.length == 0){
                                 this.$message.warning('创建融资企业失败')
@@ -564,7 +573,8 @@ export default {
                 })
             }
         },
-        addEnterpriseMember(){//点击添加团队成员
+        addEnterpriseMember(){//点击添加团队成员 
+            this.editMember='';
             this.isRepresent=false;
             this.teamform= {
                 id:'',

@@ -499,6 +499,14 @@ export default {
                     this.$message.warning('请完成项目介绍!');
                     return false;
                 }
+                if(this.enterpriseInfo.representativeId&&this.enterpriseInfo.representativeId.length==0){
+                    this.$message.warning('请在团队成员中勾选一个法定代表人')
+                    return;
+                }
+                if(this.enterpriseMembers.length<2){
+                    this.$message.warning('团队成员中必须包含一个法定代表人和一个高管便于核实征信信息')
+                    return;
+                }
                 if (!this.itemManageDetail.enterpriseId&&this.$store.state.item.enterpriseId.length == 0) {
                     this.$refs['form'].validate((valid) => {
                         if (valid) {

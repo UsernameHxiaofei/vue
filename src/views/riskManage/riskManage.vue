@@ -252,7 +252,7 @@ margin-left:5px;
                         for (let j = 0; item.riskProjectList&&j < item.riskProjectList.length; j++) {
                             let risk = item.riskProjectList[j];
                             for (let n = 0;riskRegion&&n < riskRegion.length;n++){
-                                if(riskRegion[n].id===risk.riskCategory){
+                                if(riskRegion[n].id===risk.category){
                                     riskRegion[n].lv=risk.level;
                                     break;
                                 }

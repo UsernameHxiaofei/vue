@@ -7,10 +7,7 @@
                <risk-info></risk-info>
         </el-row>
         <el-row>
-            <el-col :span="20" :offset="4">
-                <el-row>
-                    <el-col :span="20" style="margin-top:20px;width:885px;background:#ffffff">
-                        <div style="padding:30px 80px;">
+                        <div style="padding:30px 80px;margin:20px auto;width:885px;background:#ffffff">
                             <el-row style="padding:30px 80px;border:1px solid #dedede;background:#fafafa">
                                 <el-col>
                                     <el-row>
@@ -104,9 +101,6 @@
                                 </div>
                             </el-dialog>
                         </div>
-                    </el-col>
-                </el-row>
-            </el-col>
         </el-row>
     </div>
 </template>

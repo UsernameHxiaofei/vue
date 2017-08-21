@@ -51,7 +51,6 @@
       margin-right: 5px;
       font-size: 18px;
       color: #06ccb7;
-      
 }
 .discussion .btnGroup a {
       padding-right: 30px;
@@ -473,7 +472,7 @@ export default {
             return this.$store.state.login.actor;
         },
         headImage(){
-            return this.$store.state.customer.headImage;
+            return this.$store.state.customer.headImage||'http://img.linktou.com/1503128515044/2201962713220096.jpg';
         } 
     }
     

@@ -7,7 +7,7 @@
           <el-col class="businessinfo-content" >  
             <el-form :label-width="'200px'"  label="conent">
                 <el-form-item>
-
+                  
                 </el-form-item>
             </el-form>
           </el-col>

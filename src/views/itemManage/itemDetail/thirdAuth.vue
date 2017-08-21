@@ -5,14 +5,14 @@
             <img src="../../../assets/images/linear.png"  /> <span>第三方征信报告</span>
           </el-col>
           <div class="creditReport">
-       <div class="abstract" v-if="credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.createTime">
+       <div class="abstract" >
             <p>评估对象： {{projectItem.name}}</p>
             <p>项目名称： {{projectItem.name}}</p>
-            <p>评估日期： {{credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.createTime}}</p>
+            <p>评估日期： {{credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.createTime||''}}</p>
             <p>评估机构： 天创信用服务有限公司</p>
-             <p>反 欺 诈： {{credit.tcCreditAntiFraudList.antiFraud}}</p>
-             <p v-if="credit.tcCreditAntiFraudList.grade">企业等级： {{credit.tcCreditAntiFraudList.grade}}</p> 
-             <p v-if="credit.tcCreditAntiFraudList.score">评    分： {{credit.tcCreditAntiFraudList.score}}</p>  
+             <p>反 欺 诈： {{credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.antiFraud||'不通过'}}</p>
+             <p>企业等级： {{credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.grade||'无评级'}}</p> 
+             <p>评    分： {{credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.score&&parseFloat(credit.tcCreditAntiFraudList.score)&&parseFloat(credit.tcCreditAntiFraudList.score).toFixed(2)||'未评分'}}</p>  
        </div> 
        <h3>信息验证概要</h3>
        <div>
