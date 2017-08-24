@@ -4,6 +4,7 @@ import { createStore } from './store'
 import { createRouter } from './router'
 import { sync } from 'vuex-router-sync'
 import * as filters from './filters'
+import directive from './directive/index'
 import ElementUI from 'element-ui'
 import './assets/index.css'
 import './assets/css/reset.css'
@@ -12,28 +13,18 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import 'quill/dist/quill.core.css'
 
-Vue.use(ElementUI)
 
-Vue.directive('imageBiger', {
-  // 当绑定元素插入到 DOM 中。
-  bind: function (el) {
-    // 聚焦元素
-    el.style.cursor='pointer';
-    el.addEventListener('click',function(){
-      if(el.src!=''){
-          window.open(el.src);
-      }
-    })
-  }
+// register global utility directive.
+Object.keys(directive).forEach(key=>{
+  Vue.directive(key,directive[key])
 })
-
-
 
 // register global utility filters.
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })
 
+Vue.use(ElementUI)
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp () {

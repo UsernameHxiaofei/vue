@@ -42,7 +42,10 @@
                                 </el-table>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="primary" style="float:right;" @click="createGroup">添加规则组</el-button>
+                                <el-button type="default" style="float:right;" @click="createGroup">添加规则组</el-button>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" style="float:right" @click="submit">保存</el-button>
                             </el-form-item>
                         </el-form>
                     </el-col>
@@ -132,6 +135,15 @@
             }
         },
         methods: {
+            submit(){
+                let param={
+                    id:this.$route.params.id,
+                    name:this.form.name,
+                    category:this.form.region,
+                    level:this.form.lv
+                };
+                this.$store.dispatch('risk_updateRiskInfo',{param,vue:this});
+            },
             back() {
                 this.$router.go(-1);
             },

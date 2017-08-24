@@ -274,12 +274,6 @@
                 this.invertUserNum=this.$store.state.item.invertUserInfo&&this.$store.state.item.invertUserInfo.length||0;
             })
             this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
-            this.$http.post('SubjectDiscussManage/projectSubjectAllQuery',{pageNumber:1,pageVolume:10,projectId: this.$route.params.projectId})
-                .then(response => {
-                    if(response.body&&response.body.count){
-                        this.subjectCount=response.body.count
-                    }
-                })
             this.$store.dispatch('item_getCreditAntiFraud',{id:this.$route.params.projectId});
             this.$store.dispatch('item_getExpertAd',{id:this.$route.params.projectId});
             this.$store.dispatch('item_selectMaterialByProjectId',{id:this.$route.params.projectId});
@@ -319,13 +313,8 @@
             };
         },
         methods: {
-            countDiscussNum(){
-                this.$http.post('SubjectDiscussManage/projectSubjectAllQuery',{pageNumber:1,pageVolume:10,projectId: this.$route.params.projectId})
-                .then(response => {
-                    if(response.body&&response.body.count){
-                        this.subjectCount=response.body.count
-                    }
-                })
+            countDiscussNum(count){
+                 this.subjectCount=count;
             },
             back() {
                 this.$router.go(-1);

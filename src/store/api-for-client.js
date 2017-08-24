@@ -12,6 +12,7 @@ Vue.http.interceptors.push(function (request, next) {
   next(function (response) {
     service.close();
     if(response.body.assignUniqueSecretMessage){
+      Message.closeAll();
       Message.warning(response.body.assignUniqueSecretMessage);
       if(response.body.assignUniqueSecretMessage=='账号未登录！'){
         setTimeout(()=>{

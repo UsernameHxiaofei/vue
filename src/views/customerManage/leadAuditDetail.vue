@@ -23,8 +23,8 @@
             </ul>
             <h3 v-if="leadData.institution==1">企业信息</h3>
             <ul>
-                <li v-if="leadData.institution!=1">
-                    <label>专注行业</label>
+                <li>
+                    <label>关注行业</label>
                     <span class="zhuanzhuhangye">
                         <span>{{leadData.industry|industry}}</span>
                     </span>

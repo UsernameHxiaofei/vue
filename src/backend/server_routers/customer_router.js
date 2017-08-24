@@ -226,7 +226,7 @@ module.exports = function client(router, sc, passport) {
     //修改手机及email
     router.all('/updateMobileAndEmailById', function (req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("ActorTask", "updateMobileAndEmailById", "securityCenter");
+        const stuff = sc.instanceRequest("EmailTask", "updateMobileAndEmailById", "securityCenter");
         stuff.auxiliary = { [passport]: req.session.passport };
         stuff.items = [param.mobileNumber, param.email, param.id];
         sc.send(stuff).then((resp) => {

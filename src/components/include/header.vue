@@ -87,7 +87,7 @@ export default {
       imageCropper  
     },
     beforeMount () {
-      this.$store.dispatch('cusHeadPortrait',{id:this.actor.id});
+    //   this.$store.dispatch('cusHeadPortrait',{id:this.actor.id});
       this.actorParams = {
             receiver: this.$route.params.id,
             msgType:3,
@@ -274,10 +274,9 @@ export default {
             this.dialogeditUserVisible = false;
         },
         exit() {
-            setTimeout(function(){
-                this
+            setTimeout(()=>{
+                this.$store.dispatch('login_out', this);
             },1000);
-            this.$store.dispatch('login_out', this);
         },
         handleIconClick() {
             console.log(this.keyword);

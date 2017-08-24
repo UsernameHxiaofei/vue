@@ -3,11 +3,11 @@
    * 
    * @param sc 协议发送端
    */
-module.exports=function server(sc){
+module.exports=function server(sc,passport){
     return {
       customer_getList:(session)=>{
         const stuff = sc.instanceRequest("CustomerCountTask", "selectCustomerCount", "customerManage");
-        stuff.auxiliary = {['linktou.base.task.Passport']: session.passport};
+        stuff.auxiliary = {[passport]: session.passport};
         stuff.items = [session.passport];
         return sc.send(stuff).then((resp)=>{
             return resp.object

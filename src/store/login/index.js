@@ -25,7 +25,8 @@ export const loginModule = {
         },
         login_getUser({state,commit},session){
            return api.login_getUser(session).then((data)=>{
-               commit('login_setUser',data);
+             commit('login_setUser',data.actor);
+             commit("customer_setHeadImage",data.headimage);
             })
         }
     },

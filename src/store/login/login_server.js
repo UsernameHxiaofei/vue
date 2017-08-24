@@ -10,7 +10,10 @@ module.exports=function server(sc,passport){
         stuff.auxiliary = {[passport]: session.passport};
         stuff.items = [session.passport];
         return sc.send(stuff).then((resp)=>{
-            return resp.object
+          const stuff1 = sc.instanceRequest("CustomerIndividualInfoTask", "cusHeadPortrait", "customerManage");
+          stuff1.auxiliary = { [passport]: session.passport };
+          stuff1.items = [resp.object.id];
+          return sc.send(stuff1).then((resp1) =>{ return {actor:resp.object,headimage:resp1.object}});
         });
       },
       login_check:(session)=>{

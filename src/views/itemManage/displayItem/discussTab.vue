@@ -291,7 +291,6 @@ export default {
                             likeCount:0,
                     })
                     this.comment=""
-                    this.emit('countDiscussNum');
                     this.zz++;
                 }
             }) 
@@ -406,6 +405,7 @@ export default {
             .then(response =>response.body)
             .then(data=>{
                 if(data&&data.count){
+                    this.$emit('countDiscussNum',data.count);
                     this.showloadMoreSubject=data.count>10*this.pageNumber?true:false;
                     if(this.pageNumber==1){
                         this.commentList=data.records;

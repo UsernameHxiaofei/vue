@@ -43,22 +43,6 @@
                                 <el-button @click="createRule" style="float:right">添加风险规则</el-button>
                                 <el-button @click="createGroup" style="float:right;margin-right:20px">添加组</el-button>
                             </el-form-item>
-                            <el-form-item label="因子" prop="cause">
-                                <el-select v-model="form.cause" class="full" value-key="id" @change="factorChange" >
-                                    <el-option v-for="(item,index) in factors" value-key="id" :key="item.id"  :value="item" :label="item.name"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item label="关系" prop="relation">
-                                <el-select v-model="form.relation" class="full" value-key="id">
-                                    <el-option v-for="(item,index) in relations" value-key="id" :key="item.id" :value="item" :label="item.name"></el-option>
-                                </el-select>
-                            </el-form-item>
-                            <el-form-item label="取值" prop="value">
-                                <el-input v-model="form.value" placeholder="请输入数值"></el-input>
-                            </el-form-item>
-                            <el-form-item label="单位" prop="unit">
-                                {{form.unit}}
-                            </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" style="float:right" @click="submit">保存</el-button>
                             </el-form-item>
@@ -67,6 +51,31 @@
                 </el-row>
             </el-col>
         </el-row>
+        <el-dialog title="添加规则" :visible.sync="addflag" size="tiny" >
+                <el-form :model="addform" ref="addform" :rules="addformrules" label-width="50px" style="width:80%;margin-left:10%">
+                    <el-form-item label="因子" prop="cause">
+                        <el-select v-model="addform.cause" class="full" value-key="id" @change="factorChange" >
+                            <el-option v-for="(item,index) in factors"  :key="item.id"  :value="item" :label="item.name"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="关系" prop="relation">
+                        <el-select v-model="addform.relation" class="full" value-key="id">
+                            <el-option v-for="(item,index) in relations"  :key="item.id" :value="item" :label="item.name"></el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="取值" prop="value">
+                        <el-input v-model="addform.value" placeholder="请输入数值"></el-input>
+                    </el-form-item>
+                    <el-form-item label="单位" prop="unit">
+                        {{addform.unit}}
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button style="float:right;" type="primary" @click="addRule">确 定</el-button>
+                        <el-button style="float:right;margin-right:20px" @click="addflag = false">取 消</el-button>
+                    </el-form-item>
+                    
+                </el-form>
+        </el-dialog>
         <el-dialog title="编辑规则" :visible.sync="editflag" size="tiny" >
                 <el-form :model="editform" :rules="editformrules" label-width="50px" style="width:80%;margin-left:10%">
                     <el-form-item label="因子" prop="cause">
@@ -113,14 +122,16 @@
                     this.$message.info('因子信息错误，请联系管理员')
                     return false;
                 }
-                this.form.cause=this.factors[0];
-                this.form.unit=this.form.cause.unit;
-                this.form.relation=this.form.cause.riskRelationInfo[0];
+                this.addform.cause=this.factors[0];
+                this.addform.unit=this.addform.cause.unit;
+                this.factorChange();
+                this.addform.relation=this.addform.cause.riskRelationInfo[0];
             })
         },
         data() {
             return {
                 editflag:false,
+                addflag:false,
                 groupIndex:1,
                 riskRegion:riskRegion,
                 relations:[],
@@ -128,6 +139,9 @@
                     name: '',
                     region: 1,
                     lv: 3,
+                    
+                },
+                addform:{
                     cause:{},
                     relation: {},
                     value: '',
@@ -140,12 +154,14 @@
                     unit:'',
                     relations:[]
                 },
+                addformrules:{
+                    value:[
+                        { required:true,message:'请输入单位数值',trigger:'blur'}
+                    ]
+                },
                 formrules:{
                     name:[
                         { required:true,message:'请输入指标名',trigger:'blur'}
-                    ],
-                    value:[
-                        { required:true,message:'请输入单位数值',trigger:'blur'}
                     ]
                 },
                 editformrules:{
@@ -188,8 +204,8 @@
                 this.editflag=true;
             },
             factorChange(){
-                this.form.unit=this.form.cause.unit;
-                this.relations=this.form.cause.riskRelationInfo;
+                this.addform.unit=this.addform.cause.unit;
+                this.relations=this.addform.cause.riskRelationInfo;
             },
             regionChange(value){
                 this.$store.dispatch('risk_getFactors',{factoryId:'',category:value}).then(()=>{
@@ -197,9 +213,9 @@
                         this.$message.info('因子信息错误，请联系管理员')
                         return false;
                     }
-                    this.form.cause=this.factors[0];
-                    this.form.unit=this.form.cause.unit;
-                    this.form.relation=this.form.cause.riskRelationInfo[0];
+                    this.addform.cause=this.factors[0];
+                    this.addform.unit=this.form.cause.unit;
+                    this.addform.relation=this.form.cause.riskRelationInfo[0];
                 })
             },
             editfactorChange(){
@@ -258,20 +274,24 @@
                 this.totalRulesData.push(rule);
                 this.groupIndex++;
             },
-            createRule() {
-                this.$refs['form'].validate((valid) => {
+            createRule() {               
+                this.addflag=true;
+            },
+            addRule(){
+                this.$refs['addform'].validate((valid) => {
                     if (valid) {
                         let rule={
-                            cause:this.form.cause,
-                            causeName:this.form.cause.name,
-                            relation:this.form.relation,
-                            relationName:this.form.relation.name,
-                            value:this.form.value,
-                            unit:this.form.unit,
+                            cause:this.addform.cause,
+                            causeName:this.addform.cause.name,
+                            relation:this.addform.relation,
+                            relationName:this.addform.relation.name,
+                            value:this.addform.value,
+                            unit:this.addform.unit,
                             index:new Date().getTime(),
                             groupIndex:this.groupIndex
                         }
                         this.totalRulesData.push(rule);
+                        this.addflag=false;
                     } else {
                         return false;
                     }
