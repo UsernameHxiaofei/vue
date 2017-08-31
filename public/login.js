@@ -10,6 +10,7 @@ function load(){
   document.getElementById('password').value=sessionStorage.getItem('rep')
 }
 function loginOn() {
+  
   var username = document.getElementById('userName').value;
   var password = document.getElementById('password').value;
   if (!username) { alert('用户名不能为空'); return; }
@@ -24,12 +25,17 @@ function loginOn() {
   xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   xhr.responseType = 'json';
   xhr.onload = function () {
-    if (!xhr.response.success) {
+    var isIE=false;
+    if (window.ActiveXObject || "ActiveXObject" in window){
+      isIE=true;
+    }
+    var result=isIE?JSON.parse(xhr.response):xhr.response;
+    if (!result.success) {
       if(document.getElementById('rememberPwd').checked){
           sessionStorage.setItem('rea',username)
           sessionStorage.setItem('rep',password)
       }
-      alert(xhr.response.information);
+      alert(result.information);
     } else {
       location.href = '/main';
     }

@@ -968,5 +968,21 @@ module.exports = function client(router, sc, passport) {
             sc.send(stuff).then((resp) => {
                 res.json(resp.object);
             });
-    })
+    });
+    //修改法定代表人
+    router.all('/item_updateEnterpriseRepresentative', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("EnterpriseTask", "updateEnterpriseRepresentative", "enterpriseManger");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [
+                param.id,
+                param.representativeId
+            ];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.head);
+            });
+    });
+    
 }

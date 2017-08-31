@@ -150,21 +150,13 @@
         //添加风险指标
         router.all('/risk_addRiskIndex',function(req, res, next){
             let param=req.body;
-            if(param.projectId){
-                const stuff2=sc.instanceRequest("RiskTask", "addRiskInfoForProject", "riskManage");
-                stuff2.auxiliary = {[passport]: req.session.passport};
-                stuff2.items=[param.projectId,param.risk,param.riskRuleGroup];
-                sc.send(stuff2).then((resp)=>{
-                    res.json(resp.head);
-                })
-            }else{
-                const stuff1 = sc.instanceRequest("RiskTask", "addRiskInfo", "riskManage");
-                stuff1.items=[param.risk,param.riskRuleGroup];
-                stuff1.auxiliary = {[passport]: req.session.passport};
-                sc.send(stuff1).then((resp)=>{
-                    res.json(resp.head);
-                })
-            }
+            const stuff1 = sc.instanceRequest("RiskTask", "addRiskInfo", "riskManage");
+            stuff1.items=[param.risk,param.riskRuleGroup];
+            stuff1.auxiliary = {[passport]: req.session.passport};
+            sc.send(stuff1).then((resp)=>{
+                res.json(resp.head);
+            })
+            
         });
         //根据项目id查询风险域指标信息
         router.all('/risk_selectRiskCategory',function(req, res, next){
@@ -237,5 +229,21 @@
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items=[param.id];
             sc.send(stuff).then((resp) =>{res.json(resp.head)});
+        });
+        //为项目添加特定标识的代码
+        router.all('/risk_addGlobRiskForProject',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskTask", "addGlobRiskForProject", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items=[param.id];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
+        //根据项目id和风险域查询风险规则
+        router.all('/risk_selectProjectRiskRule',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskTask", "selectProjectRiskRule", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items=[param.id,param.category];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
     }

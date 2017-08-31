@@ -1,5 +1,5 @@
 <template>
-    <div class="imageDialogCropper">
+    <div class="imageDialogCropper" ref="imageDialogCropper">
         <div :style="{height:getSize().h+'px',width:getSize().w+'px',margin:'0 auto',maxHeight:'300px',maxWidth:'300px'}">
             <imageCropper ref="cropper" style="margin:0 auto;width:100%;"
                 :img="option.img"
@@ -52,7 +52,7 @@ export default {
     data () {
         return {
             option: {
-				img: '', //url 地址 || base64 || blob     截图地址
+				img: this.op&&this.op.img||'', //url 地址 || base64 || blob     截图地址
 				size: 1,//截图质量  （0.1到1）
                 outputType: 'png',//截图格式
                 canScale:true,//是否允许缩放
@@ -89,7 +89,7 @@ export default {
                     xhr.open('post', '/ajax/fileuploadBlob');
                     let self = this;
                     const loading = Loading.service({
-                        target: document.getElementsByClassName('imageDialogCropper')[0],
+                        target: this.$refs['imageDialogCropper'],
                         text: '正在上传'
                     });
                     xhr.onload = function () {
@@ -100,6 +100,7 @@ export default {
                             self.$message.success('上传完成');
                             self.$emit('result',JSON.parse(JSON.parse(xhr.response).objectLiteral));
                             self.$refs.cropper.clearCrop();//清除截图
+                            self.option.img='';
                         }
                     };
                     xhr.send(formData);

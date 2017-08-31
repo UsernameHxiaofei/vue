@@ -43,9 +43,9 @@
             let param=req.body;
             const stuff = sc.instanceRequest("BannerManage", "bannerUpload", "contentManage");
             stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items = [param.bannerName,param.bannerType,param.uploadUseId,param.bannerSize];
+            stuff.items = [param.bannerName,param.bannerType,param.uploadUseId,param.bannerSize,param.targetSrc,parseInt(param.show_sequence)];
             stuff.essences=[sc.instanceEssence(null,req.file.buffer)];
-            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+            sc.send(stuff).then((resp) =>{res.json(resp.head)});
         });
         //消息模板管理列表
         router.all('/msgModel_getList', function (req, res, next) {

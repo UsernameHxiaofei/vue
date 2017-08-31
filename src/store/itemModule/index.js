@@ -489,6 +489,14 @@ export const itemModule = {
                     commit('item_setLeadListForSimulation',data);
                 }
             })
+        },
+        item_updateEnterpriseRepresentative({commit},{param,vue}){
+            return api.item_updateEnterpriseRepresentative(param).then((data)=>{
+                //完成更新企业代表人
+                if(!data.success){
+                    vue.$message.warning(data.information);
+                }
+            })
         }
     },
     mutations: {

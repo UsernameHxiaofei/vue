@@ -20,7 +20,7 @@
             </div>
         </div>
     
-        <div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;    height: 100px;">
+        <div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;height: 100px;">
             <div style="text-align: center;">
                 <el-button @click="addPostalAddress" :plain="true" type="success">添加新地址
                     <i class="el-icon-plus"></i>

@@ -104,6 +104,16 @@ module.exports=function client(Vue){
         return Vue.http.post('risk_deleteRiskInfo',param).then(response=>{
           return response.body;
         })
+      },
+      risk_addGlobRiskForProject:(param)=>{
+        return Vue.http.post('risk_addGlobRiskForProject',param).then(response=>{
+          return response.body;
+        })
+      },
+      risk_selectProjectRiskRule:(param)=>{
+        return Vue.http.post('risk_selectProjectRiskRule',param).then(response=>{
+          return response.body;
+        })
       }
     } 
 }

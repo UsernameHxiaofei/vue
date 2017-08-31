@@ -382,7 +382,7 @@ export default {
                     {required: true,trigger: 'blur',validator:(rule, value, callback) => {
                             if (value =='') {
                                 callback(new Error('请输入手机号码'));
-                            }else if(!/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.teamform.mobileNumber)){
+                            }else if(!/^1[34578]\d{9}$/.test(this.teamform.mobileNumber)){
                                 callback(new Error('手机号输入格式有误'));
                             }else{
                                 callback();

@@ -98,11 +98,11 @@
                         let flag=item.refund_time&&item.refund_time.length>0;//true就是借,就是流出
                         if(flag){
                             totalLean++;
-                            leanOut.push([new Date(item.complete_time).getTime(),item.order_amount]);
+                            leanOut.push([new Date(item.complete_time).getTime(),item.order_amount||0]);
                             totalLeanNum+=item.pay_amount;
                         }else{
                             totalb++;
-                            bIn.push([new Date(item.complete_time).getTime(),item.order_amount]);
+                            bIn.push([new Date(item.complete_time).getTime(),item.order_amount||0]);
                             totalbNum+=item.pay_amount;
                         }
                     }

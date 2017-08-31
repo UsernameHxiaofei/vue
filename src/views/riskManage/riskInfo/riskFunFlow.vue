@@ -69,11 +69,15 @@
     import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
     import pagination from '../../../components/common/pagination.vue'
     import theme from '../../../assets/js/echarts.theme.js'
+    import riskRegion from '../../../constant/riskRegion.js'
     theme(echarts);
 
     export default {
         name: 'enterpriseFunflow',
         computed: {
+            projectRiskRule:function(){
+                return this.$store.state.risk.projectRiskRule||[];
+            },
             dataList: function () {
                 return this.$store.state.enterprise.enterpriseAccountDetail||{};
             },
@@ -106,8 +110,8 @@
                     for (let i=0;this.dataList.list&&i<this.dataList.list.length;i++){
                         let item=this.dataList.list[i];
                         let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
-                        leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount]);
-                        bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount]);
+                        leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
+                        bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
                         time.push(new Date(item.transactionTime).getTime());
                         if(flag){
                             totalLean++;
@@ -159,6 +163,7 @@
                     series: [{
                         name: '流入', type: 'line',
                         data: this.totalData.bIn,
+                        stack: '流入',
                         markLine : {
                             lineStyle: {
                                 normal: {
@@ -166,8 +171,8 @@
                                 }
                             },
                             data : [
-                                { yAxis:  100000,lineStyle:{normal:{color:'rgb(255, 135, 97)'}},label:{normal:{position:'end',formatter:'高风险'}}},
-                                { yAxis:  250000,lineStyle:{normal:{color:'rgb(251, 201, 55)'}},label:{normal:{position:'end',formatter:'中风险'}}}
+                                { yAxis: this.riskLine.FLOWS_INTO__HIGH ,lineStyle:{normal:{color:'rgb(255, 135, 97)'}},label:{normal:{position:'end',formatter:'高风险'}}},
+                                { yAxis: this.riskLine.FLOWS_INTO_MEDIUM,lineStyle:{normal:{color:'rgb(251, 201, 55)'}},label:{normal:{position:'end',formatter:'中风险'}}}
                             ]
                         },
                         lineStyle: { normal: { width: 3 } }
@@ -200,10 +205,11 @@
                                 }
                             },
                             data : [
-                                { yAxis:  8000,lineStyle:{normal:{color:'rgb(255, 135, 97)'}},label:{normal:{position:'end',formatter:'高风险'}}},
-                                { yAxis:  4000,lineStyle:{normal:{color:'rgb(251, 201, 55)' }},label:{normal:{position:'end',formatter:'中风险'}}}
+                                { yAxis:  this.riskLine.FLOWS_OUT_HIGH,lineStyle:{normal:{color:'rgb(255, 135, 97)'}},label:{normal:{position:'end',formatter:'高风险'}}},
+                                { yAxis:  this.riskLine.FLOWS_OUT_MEDIUM,lineStyle:{normal:{color:'rgb(251, 201, 55)' }},label:{normal:{position:'end',formatter:'中风险'}}}
                             ]
                         },
+                        stack: '流出',
                         name: '流出', type: 'line',
                         data: this.totalData.leanOut,
                         lineStyle: { normal: { width: 3 } }
@@ -217,6 +223,41 @@
                 };
                 // 使用刚指定的配置项和数据显示图表。
                 myChart.setOption(option);
+            },
+            getRiskLine(){
+                for (var i = 0; i < this.projectRiskRule.length; i++) {
+                    var item = this.projectRiskRule[i];
+                    if(item.code&&item.code.length>0){
+                        switch (item.code) {
+                            case 'CASH_FLOWS_INTO__HIGH':
+                                this.riskLine.FLOWS_INTO__HIGH=parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value);
+                                break;
+                            case 'CASH_FLOWS_INTO_MEDIUM':
+                                let riskRuleInfo1=item.riskRuleGroup[0].riskRuleInfo;
+                                for (let i = 0; i < riskRuleInfo1.length; i++) {
+                                    let it = riskRuleInfo1[i];
+                                    if(it.relationName=='<'){
+                                        this.riskLine.FLOWS_INTO_MEDIUM=parseInt(it.value);
+                                    }
+                                }
+                                break;
+                            case 'CASH_FLOWS_OUT__HIGH':
+                                this.riskLine.FLOWS_OUT_HIGH=parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value);
+                                break;
+                            case 'CASH_FLOWS_OUT_MEDIUM':
+                                let riskRuleInfo2=item.riskRuleGroup[0].riskRuleInfo;
+                                for (let i = 0; i < riskRuleInfo2.length; i++) {
+                                    let it = riskRuleInfo2[i];
+                                    if(it.relationName=='>'){
+                                        this.riskLine.FLOWS_OUT_MEDIUM=parseInt(it.value);
+                                    }
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
             }
         },
         mounted () {
@@ -232,7 +273,11 @@
                 }
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
-                    this.getTotalData()
+                    this.$store.dispatch('risk_selectProjectRiskRule',{id:this.$route.params.id,category:1}).then(()=>{
+                        this.getRiskLine();
+                        console.log(this.riskLine)
+                        this.getTotalData();
+                    })
                 });
             })
         },
@@ -242,7 +287,8 @@
                 daterange: [],
                 param: {},
                 paramImg:{},
-                totalData:{}
+                totalData:{},
+                riskLine:{}
             }
         }
     }

@@ -260,11 +260,13 @@ export const customerModule = {
                 commit("customer_setQuestionnaire",data);
             });
         },
+        //单独获取客户头像
         cusHeadPortrait({ commit },param) {
             return  api.cusHeadPortrait(param).then((data) => {
                   commit("customer_setHeadImage",data);
             });
         },
+        //单独更改客户头像
         alterHeadPortrait({ commit,dispatch },param) {
             return  api.alterHeadPortrait(param).then((data) => {
                 dispatch('cusHeadPortrait',{id:param.id});

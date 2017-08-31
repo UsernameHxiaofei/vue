@@ -15,9 +15,18 @@ margin-left:5px;
         }
     
         
-        .paction-button1{
-            font-weight: 700;
-             color: rgb(163, 171, 190);
+        .paction-button1 {  padding: 10px 10px; background: rgb(6, 204, 182);
+            border: 1px solid rgb(6, 204, 182);;
+            outline: rgb(6, 204, 182);
+            color:white;
+            border-radius: 5px;
+            margin-left:5px;
+            }
+        .paction-button1:hover {
+            color:rgb(6, 204, 182);
+            background: white;
+            border: 1px solid rgb(6, 204, 182);
+            border-radius: 5px;
         }
     
         .pstate {

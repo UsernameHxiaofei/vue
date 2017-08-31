@@ -6,7 +6,7 @@
         <input style="display: none" id="quill" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
           @change="uploadImage"/>
       </form>
-      <div ref="editor" style="min-height:200px;max-height:800px;overflow:auto"> 
+      <div ref="editor" style="min-height:200px;max-height:400px;overflow:auto"> 
 
       </div>
     </div>

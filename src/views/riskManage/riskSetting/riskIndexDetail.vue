@@ -16,6 +16,9 @@
                             <el-form-item label="风险等级" >
                                 {{lvData[indexInfo.level]}}
                             </el-form-item>
+                            <el-form-item v-if="indexInfo.code&&indexInfo.code.length>0" label="指标标识码"  prop="code">
+                                {{indexInfo.code}}
+                            </el-form-item>
                             <el-form-item label="风险规则" >
                                 <el-table  :data="totalRulesData"  >
                                     <el-table-column prop="factorName" label="因子" align="center"> </el-table-column>

@@ -72,7 +72,7 @@
         </div>
         <div class="p-form">
             <el-dialog title="头像修改" :visible.sync="editHeadImgChange" :close-on-click-modal="false">
-                    <imageCropper @result="getUrl"></imageCropper>
+                    <imageCropper  :op="{img:headImage}" @result="getUrl"></imageCropper>
             </el-dialog>
         </div>
     </div>
@@ -80,7 +80,6 @@
 
 <script>
 import imageCropper from '../common/ImageDialogCropper'
-
 export default {
     name: 'header',
     components: {
@@ -176,16 +175,16 @@ export default {
             return this.$store.state.customer.loginPasswordStatus;
         },
         headImage:function(){
-            return this.$store.state.customer.headImage;
+            return this.$store.state.employee.employee.headImageUrl||'';
         }
     },
     methods: {
         getUrl(data){
             let param={
-                url:data,
-                id:this.actor.id
+                headImageUrl:data,
+                actorId:this.actor.id
             }
-            this.$store.dispatch('alterHeadPortrait',param)
+            this.$store.dispatch('updateEmployeeInfo',param)
             this.editHeadImgChange=false;
         },
         showMessage(){
@@ -276,7 +275,7 @@ export default {
         exit() {
             setTimeout(()=>{
                 this.$store.dispatch('login_out', this);
-            },1000);
+            },2000);
         },
         handleIconClick() {
             console.log(this.keyword);

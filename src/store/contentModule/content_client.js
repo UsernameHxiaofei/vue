@@ -49,7 +49,6 @@ module.exports = function client(Vue) {
     },
     msgModel_insert_update: (param) => {
       return Vue.http.post('msgModel_insert_update', param).then(response => {
-
         return response.body;
       });
     },

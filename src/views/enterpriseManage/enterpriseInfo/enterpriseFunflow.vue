@@ -108,9 +108,9 @@
                         let item=this.dataList.list[i];
                         let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
                         leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
-                        bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount]);
+                        bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
                         time.push(new Date(item.transactionTime).getTime());
-                        balance.push([new Date(item.transactionTime).getTime(),item.balance]);
+                        balance.push([new Date(item.transactionTime).getTime(),item.balance||0]);
                         if(flag){
                             totalLean++;
                             totalLeanNum+=item.debitAmount;

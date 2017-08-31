@@ -24,6 +24,9 @@
                                     <el-option  :value="3" label="高" >高</el-option>
                                 </el-select>
                             </el-form-item>
+                            <el-form-item label="指标标识码"  prop="code">
+                                <el-input v-model="form.code" placeholder="特殊功能指标标识码"></el-input>
+                            </el-form-item>
                             <el-form-item label="风险规则" >
                                 <el-table  :data="totalRulesData"  >
                                     <el-table-column prop="cause.name" label="因子" width="160" align="center"> </el-table-column>
@@ -139,7 +142,7 @@
                     name: '',
                     region: 1,
                     lv: 3,
-                    
+                    code:'',
                 },
                 addform:{
                     cause:{},
@@ -245,10 +248,11 @@
                             risk:{
                                 name:this.form.name,
                                 level:this.form.lv,
-                                category:this.form.region
+                                category:this.form.region,
+                                projectId:this.$route.params.id,
+                                code:this.form.code
                             },
-                            riskRuleGroup:riskRuleGroups,
-                            projectId:this.$route.params.id
+                            riskRuleGroup:riskRuleGroups
                         }
                         this.$store.dispatch('risk_addRiskIndex',{param,vue:this})
                     } else {

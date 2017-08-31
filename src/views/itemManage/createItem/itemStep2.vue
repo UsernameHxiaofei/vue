@@ -162,7 +162,7 @@
                     <span>项目经验</span>
                 </div>
                 <el-form-item class="description" label="已有运营中的实体项目数" label-width="170px" prop="existProjectNum">
-                    <el-input-number v-model="form.existProjectNum"  :min="0"></el-input-number>
+                    <el-input-number v-model.number="form.existProjectNum"  :min="0"></el-input-number>
                 </el-form-item>
                 <div class="model-divider">
                     <img src="../../../assets/images/linear.png" />
@@ -391,7 +391,7 @@ export default {
                     {required: true,trigger: 'blur',validator:(rule, value, callback) => {
                             if (value =='') {
                                 callback(new Error('请输入手机号码'));
-                            }else if(!/^(((13[0-9]{1})|(15[0-9]{1})|(18[0-9]{1}))+\d{8})$/.test(this.teamform.mobileNumber)){
+                            }else if(!/^1(3|4|5|7|8)\d{9}$/.test(this.teamform.mobileNumber)){
                                 callback(new Error('手机号输入格式有误'));
                             }else{
                                 callback();
@@ -539,6 +539,7 @@ export default {
                         if (valid) {
                             let param=this.form;
                             param.addressCode=this.itemManageDetail.regionCode;
+                            param.existProjectNum=this.form.existProjectNum;
                             param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId;
                             this.$store.dispatch('item_updateEnterprise', { param: param, vue: this })
                         } else {
@@ -663,9 +664,9 @@ export default {
                         param.id=this.editMember;
                         this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
                             if(this.isRepresent){
-                                param.enterpriseId=this.itemManageDetail.enterpriseId;
+                                param.id=this.itemManageDetail.enterpriseId;
                                 param.representativeId=this.editMember;
-                                this.$store.dispatch('item_updateEnterprise', { param: param, vue: this });
+                                this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
                             }
                             this.editMember='';
                         })
@@ -673,9 +674,9 @@ export default {
                         this.$store.dispatch('item_createEnterpriseMember',{param,vue:this}).then(()=>{
                             if(this.isRepresent&&this.$store.state.item.enterpriseMemberId.length>0){
                                 let param={};
-                                param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId;
+                                param.id=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId;
                                 param.representativeId=JSON.parse(this.$store.state.item.enterpriseMemberId);
-                                this.$store.dispatch('item_updateEnterprise', { param: param, vue: this });
+                                this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
                             }
                         })
                         this.teamform= {

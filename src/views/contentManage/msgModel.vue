@@ -11,15 +11,17 @@
     <!--表格-->
     <div class="my-table">
       <el-table :data="msgModelGetList.list" stripe border style="width: 100%">
-        <el-table-column prop="kong" width="30">
-        </el-table-column>
+        <el-table-column type="expand">
+          <template scope="props">
+            <label for="模板内容">模板内容</label><br>
+                  {{props.row.templatContent}}
+          </template>
+        </el-table-column>  
         <el-table-column type="index" width="50" label="序号">
         </el-table-column>
         <el-table-column prop="templatName" label="模板名称">
         </el-table-column>
         <el-table-column prop="templatCode" label="模板编码">
-        </el-table-column>
-        <el-table-column prop="templatContent" label="模板内容">
         </el-table-column>
         <el-table-column prop="templatType" label="类型">
         </el-table-column>
@@ -68,6 +70,10 @@
         </el-form-item>
         <el-form-item label="消息内容" :label-width="formLabelWidth" prop="templatContent">
           <el-input type="textarea" :rows="5" v-model="ruleForm.templatContent" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="是否启用" :label-width="formLabelWidth" prop="status">
+          <el-radio v-model.number="ruleForm.status" :label="1">是</el-radio>
+          <el-radio v-model.number="ruleForm.status" :label="0">否</el-radio>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -127,6 +133,7 @@ export default {
         templatName: '',
         templatType: '',
         templatContent: '',
+        status:1,
         creator: ''
       },
       rules: {
@@ -224,6 +231,7 @@ export default {
       this.ruleForm.templatType = '';
       this.ruleForm.templatCode = '';
       this.ruleForm.templatContent = '';
+      this.ruleForm.status = 1;
       this.dialogMsgVisible = true;
       this.title="创建消息"
     },

@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Resource from 'vue-resource';
 import { Loading,Message } from 'element-ui';
+
 Vue.use(Resource);
 Vue.http.options.root = '/ajax';
 
@@ -32,6 +33,7 @@ const systemApi = require('./systemModule/system_client')(Vue);
 const moneyApi = require('./moneyModule/money_client')(Vue);
 const itemApi = require('./itemModule/item_client')(Vue);
 const contentApi = require('./contentModule/content_client')(Vue);
+const employeeApi = require('./employeeModule/employee_client')(Vue);
 
 export const api = {
   ...loginApi,
@@ -41,5 +43,6 @@ export const api = {
   ...systemApi,
   ...moneyApi,
   ...itemApi,
-  ...contentApi
+  ...contentApi,
+  ...employeeApi
 }

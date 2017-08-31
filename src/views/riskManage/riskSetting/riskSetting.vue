@@ -49,12 +49,6 @@ export default {
           return !!this.$route.params.id;
       }
     },
-    beforeRouteUpdate (to, from, next) {
-        next();
-        console.log(this.$route.params.id,'我投啊。。阿萨德撒的大师 ');
-        this.riskRegion=[];
-        this.fetchData();
-    },
     mounted () {
         this.fetchData();
     },
@@ -63,12 +57,22 @@ export default {
     },
     methods: {
       fetchData(){
-            let listData=JSON.parse(JSON.stringify(riskRegion));
             if(!!this.$route.params.id&&this.$route.params.id.length>0){
                 this.$store.dispatch('risk_getOne',{projectId:this.$route.params.id})
             }
             this.$store.dispatch('risk_selectRiskCategory',{id:this.$route.params.id}).then(()=>{
-                for (let addIndex = 0; addIndex < listData.length; addIndex++) {
+                if(this.$route.params.id&&this.riskSettingData.length==0){
+                    this.$store.dispatch('risk_addGlobRiskForProject',{id:this.$route.params.id}).then(()=>{
+                        this.formatData();
+                    })
+                }else{
+                    this.formatData();
+                }
+            })
+      },
+      formatData(){
+            let listData=JSON.parse(JSON.stringify(riskRegion));
+            for (let addIndex = 0; addIndex < listData.length; addIndex++) {
                     let item = listData[addIndex];
                     for (let i = 0; i < this.riskSettingData.length; i++) {
                         let element = this.riskSettingData[i];
@@ -80,8 +84,7 @@ export default {
                         }
                     }
                 }
-                this.riskRegion=listData;
-            })
+            this.riskRegion=listData;
       },
       handleIndex(indexId){
           this.$router.push('/riskIndexDetail/'+indexId);

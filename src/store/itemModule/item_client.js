@@ -274,8 +274,12 @@ module.exports=function client(Vue){
         return Vue.http.post('item_getCustomerInfo4ShowForSimulation',param).then(response =>{
           return response.body;
         })
-      }
-
+      },
+      item_updateEnterpriseRepresentative:(param)=>{
+        return Vue.http.post('item_updateEnterpriseRepresentative',param).then(response=>{
+          return response.body;
+        })
+      } 
     } 
 }
 

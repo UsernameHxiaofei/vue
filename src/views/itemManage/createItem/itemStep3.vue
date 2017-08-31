@@ -96,7 +96,7 @@
                         <div class="grid-content" :class="{'choosed':leader==item.actorId}"    @click="chooseLead(item)">
                             <img :src="item.imgUrl" />
                             <div class="info-content">
-                                <h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
+                                <h4>{{item.type==2?item.tname:item.name}}&emsp;{{item.industry|industry}}</h4>
                                 <p>{{item.profile}}</p>
                             </div>
                         </div>

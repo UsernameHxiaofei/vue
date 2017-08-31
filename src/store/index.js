@@ -9,6 +9,7 @@ import {systemModule} from './systemModule'
 import {moneyModule} from './moneyModule'
 import {itemModule} from './itemModule'
 import {contentModule} from './contentModule'
+import {employeeModule} from './employeeModule'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ const modules={
     system:systemModule,
     money:moneyModule,
     item:itemModule,
-    content:contentModule
+    content:contentModule,
+    employee:employeeModule
   }
 
 export function createStore () {

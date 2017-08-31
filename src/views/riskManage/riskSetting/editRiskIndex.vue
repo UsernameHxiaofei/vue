@@ -26,6 +26,9 @@
                                     <el-option  :value="3" label="高" >高</el-option>
                                 </el-select>
                             </el-form-item>
+                            <el-form-item v-if="form.code&&form.code.length>0" label="指标标识码"  prop="code">
+                                <el-input v-model="form.code" :disabled="true"  placeholder="特殊指标标识码"></el-input>
+                            </el-form-item>
                             <el-form-item label="风险规则">
                                 <el-table :data="totalRulesData">
                                     <el-table-column prop="factorName" label="因子" align="center"> </el-table-column>
@@ -35,14 +38,14 @@
                                     <el-table-column prop="" align="center" width="140">
                                         <template scope="scope">
                                             <el-button v-show="!scope.row.flag" size="small" @click="edit(scope.row)">编辑</el-button>
-                                            <el-button v-show="!scope.row.flag" size="small" @click="del(scope.row)">删除</el-button>
-                                            <el-button v-show="scope.row.flag" size="small" @click="createRule(scope.row)">添加组内规则</el-button>
+                                            <el-button v-show="!scope.row.flag" size="small"  v-if="form.code&&form.code.length==0" @click="del(scope.row)">删除</el-button>
+                                            <el-button v-show="scope.row.flag" size="small"  v-if="form.code&&form.code.length==0" @click="createRule(scope.row)">添加组内规则</el-button>
                                         </template>
                                     </el-table-column>
                                 </el-table>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="default" style="float:right;" @click="createGroup">添加规则组</el-button>
+                                <el-button type="default" style="float:right;"   v-if="form.code&&form.code.length==0" @click="createGroup">添加规则组</el-button>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" style="float:right" @click="submit">保存</el-button>
@@ -55,12 +58,12 @@
         <el-dialog :title="formName" :visible.sync="editflag" size="tiny">
             <el-form :model="editform" :rules="editformrules" ref="editform" label-width="50px" style="width:80%;margin-left:10%">
                 <el-form-item label="因子" prop="factor">
-                    <el-select v-model="editform.factor" value-key="id" class="full" @change="editfactorChange">
+                    <el-select v-model="editform.factor" value-key="id" class="full" @change="editfactorChange" :disabled="form.code&&form.code.length>0">
                         <el-option v-for="(item,index) in factors"  :key="item.id" :value="item" :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="关系" prop="relation">
-                    <el-select v-model="editform.relation" value-key="id" class="full">
+                    <el-select v-model="editform.relation" value-key="id" class="full" :disabled="form.code&&form.code.length>0">
                         <el-option v-for="(item,index) in editform.relations"  :key="item.id" :value="item" :label="item.name"></el-option>
                     </el-select>
                 </el-form-item>
@@ -140,7 +143,8 @@
                     id:this.$route.params.id,
                     name:this.form.name,
                     category:this.form.region,
-                    level:this.form.lv
+                    level:this.form.lv,
+                    code:this.form.code
                 };
                 this.$store.dispatch('risk_updateRiskInfo',{param,vue:this});
             },
@@ -158,6 +162,7 @@
                     this.form.name = this.indexInfo.name;
                     this.form.region = this.indexInfo.category;
                     this.form.lv = this.indexInfo.level;
+                    this.form.code= this.indexInfo.code;
                     let rulesData = [];
                     for (let i = 0; this.indexInfo.riskRuleGroup && i < this.indexInfo.riskRuleGroup.length; i++) {
                         let item = this.indexInfo.riskRuleGroup[i];

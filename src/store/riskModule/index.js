@@ -13,7 +13,8 @@ export const riskModule = {
         
         riskFactors:[],
         riskSettingData:{},//风险设置首页数据
-        riskIndexInfo:{}//查询风险指标数据
+        riskIndexInfo:{},//查询风险指标数据
+        projectRiskRule:[]
     },
     actions: {
         risk_getList({ commit },param) {
@@ -161,9 +162,22 @@ export const riskModule = {
                     vue.$message.warning(data.informatiom);
                 }
             })
-        }
+        },
+        risk_addGlobRiskForProject({commit,dispatch},param){
+            return api.risk_addGlobRiskForProject(param).then((data)=>{
+                return dispatch('risk_selectRiskCategory',param)
+            })
+        },
+        risk_selectProjectRiskRule({commit},param){
+            return api.risk_selectProjectRiskRule(param).then((data)=>{
+                commit('risk_setProjectRiskRule',data)
+            })
+        },
     },
     mutations: {
+        risk_setProjectRiskRule(state,data){
+            state.projectRiskRule=data;
+        },
         risk_setRiskWarning(state,data){
             state.riskIndexInfo=data;
         },
