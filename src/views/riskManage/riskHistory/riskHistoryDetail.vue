@@ -18,7 +18,11 @@
                                     <el-row>
                                         <el-col :span="3"> <label>风险域</label> </el-col> 
                                         <el-col :span="11" class="indexInfo"> {{riskIndex.riskCategory|riskRegion}} </el-col> 
-                                        <el-col :span="8" class="indexInfo"> {{riskIndexRule}} </el-col>
+                                        <el-col :span="8" class="indexInfo"> 
+                                                <template v-for="i in riskIndexRule">
+                                                        {{i}}<br>
+                                                </template> 
+                                        </el-col>
                                     </el-row>
                                     <el-row>
                                         <el-col :span="3"> <label>等级</label></el-col>
@@ -77,7 +81,7 @@
                                                     <el-checkbox disabled v-show="persons.resp1&&persons.resp1.expertInfo" v-model="form.expert">{{'行家-'+(persons.resp1&&persons.resp1.expertInfo?persons.resp1.expertInfo.name:'')}}</el-checkbox>
                                                     <el-checkbox disabled v-show="persons.resp1&&persons.resp1.leadInfo" v-model="form.lead">{{'领投-'+(persons.resp1&&persons.resp1.leadInfo?persons.resp1.leadInfo.name:'')}}</el-checkbox>
                                                     <br><label>更多投资人</label>
-                                                    <el-select v-model="form.follows" disabled clearable multiple placeholder="请选择">
+                                                    <el-select v-model="form.follows" value-key="id" disabled clearable multiple placeholder="请选择">
                                                         <el-option v-for="v in persons.resp2" key="v.id" label="v.name" :value="v"> </el-option>
                                                     </el-select>
                                                 </el-form-item>
@@ -107,34 +111,43 @@
           'risk-info':riskColumn
         },
         mounted() {
-                this.$store.dispatch('risk_selectRiskWarningById',{ id: this.$route.params.id})
-                this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(() => {
-                    this.form.situationExplan = this.historyDetail.situationExplan;
-                    this.form.status = this.historyDetail.status;
-                    this.form.followSituation = this.historyDetail.followSituation;
-                    this.form.finalSuggestion = this.historyDetail.finalSuggestion;
-                    let messageList = this.historyDetail.riskOperateMessages;
-                    let follows = [];
-                    if (messageList && messageList.length > 0) {
-                        this.form.sendContent = messageList[0].sendContent;
-                        for (let i = 0; i < messageList.length; i++) {
-                            let item = messageList[i];
-                            if (item.receiveType === 1) {
-                                this.form.expert = true;
-                            } else if (item.receiveType === 2) {
-                                this.form.lead = true;
-                            } else {
-                                for (let m = 0; m < this.persons.resp2.length; m++) {
-                                    let element = this.persons.resp2[m];
-                                    if (item.receiveId == element.id) {
-                                        follows.push({ id: item.receiveId, mobileNumber: element.mobileNumber, name: element.name })
+                this.$store.dispatch('risk_selectRiskWarningById',{ id: this.$route.params.id}).then(()=>{
+                    if(this.riskIndex.riskRuleInfo){
+                        for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {
+                            let element = this.riskIndex.riskRuleInfo[i];
+                            this.riskIndexRule.push(element.factorName+element.relationName+element.value+element.unit)
+                        }
+                    }
+                    this.$store.dispatch('risk_historyDetail',{riskProjectId:this.$route.params.id}).then(()=>{
+                        this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(() => {
+                            this.form.situationExplan = this.historyDetail.situationExplan;
+                            this.form.status = this.historyDetail.status;
+                            this.form.followSituation = this.historyDetail.followSituation;
+                            this.form.finalSuggestion = this.historyDetail.finalSuggestion;
+                            let messageList = this.historyDetail.riskOperateMessages;
+                            let follows = [];
+                            if (messageList && messageList.length > 0) {
+                                this.form.sendContent = messageList[0].sendContent;
+                                for (let i = 0; i < messageList.length; i++) {
+                                    let item = messageList[i];
+                                    if (item.receiveType === 1) {
+                                        this.form.expert = true;
+                                    } else if (item.receiveType === 2) {
+                                        this.form.lead = true;
+                                    } else {
+                                        for (let m = 0; m < this.persons.resp2.length; m++) {
+                                            let element = this.persons.resp2[m];
+                                            if (item.receiveId == element.id) {
+                                                follows.push({ id: item.receiveId, mobileNumber: element.mobileNumber, name: element.name })
+                                            }
+                                        }
                                     }
                                 }
                             }
-                        }
-                    }
-                    this.form.follows = follows;
-                })
+                            this.form.follows = follows;
+                        })
+                    })
+            })
             },
         computed: {
             persons:function(){
@@ -145,13 +158,6 @@
             },
             historyDetail:function(){
                 return this.$store.state.risk.historyDetail[0];
-            },
-            riskIndexRule:function(){
-                if(this.riskIndex.riskRuleInfo){
-                    return this.riskIndex.riskRuleInfo.factorName+this.riskIndex.riskRuleInfo.relationName+this.riskIndex.riskRuleInfo.value+this.riskIndex.riskRuleInfo.unit;
-                }else{
-                    return '';
-                }
             }
         },
         data() {
@@ -169,6 +175,7 @@
                    4:'自动缓释'
                 },
                 riskflag:false,
+                riskIndexRule:[],
                 form:{  
                     situationExplan:'',
                     status:1,

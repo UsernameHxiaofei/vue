@@ -18,7 +18,11 @@
                                     <el-row>
                                         <el-col :span="3"> <label>风险域</label> </el-col> 
                                         <el-col :span="11" class="indexInfo"> {{riskIndex.riskCategory|riskRegion}} </el-col> 
-                                        <el-col :span="8" class="indexInfo"> {{riskIndexRule}} </el-col>
+                                        <el-col :span="8" class="indexInfo">
+                                            <template v-for="i in riskIndexRule">
+                                                {{i}}<br>
+                                            </template> 
+                                        </el-col>
                                     </el-row>
                                     <el-row>
                                         <el-col :span="3"> <label>等级</label></el-col>
@@ -83,8 +87,8 @@
                                                     <el-checkbox :disabled="handling" v-show="persons.resp1&&persons.resp1.expertInfo"  v-model="form.expert">{{'行家-'+(persons.resp1&&persons.resp1.expertInfo?persons.resp1.expertInfo.name:'')}}</el-checkbox>
                                                     <el-checkbox :disabled="handling" v-show="persons.resp1&&persons.resp1.leadInfo" v-model="form.lead">{{'领投-'+(persons.resp1&&persons.resp1.leadInfo?persons.resp1.leadInfo.name:'')}}</el-checkbox>
                                                     <br><label>更多投资人</label>
-                                                    <el-select v-model="form.follows" clearable multiple placeholder="请选择">
-                                                        <el-option v-for="v in persons.resp2" key="v.id" label="v.name" :value="v"> </el-option>
+                                                    <el-select v-model="form.follows" value-key="id" clearable multiple placeholder="请选择">
+                                                        <el-option v-for="v in persons.resp2" :key="v.id" :label="v.name" :value="v"> </el-option>
                                                     </el-select>
                                                     <el-checkbox :disabled="handling" style="margin-left:20px;margin-top:5px" @change="selectAllPerson" v-model="form.all">全选</el-checkbox>
                                                 </el-form-item>
@@ -115,6 +119,12 @@
         },
         beforeMount() {
             this.$store.dispatch('risk_selectRiskWarningById',{ id: this.$route.params.id}).then(()=>{
+                if(this.riskIndex.riskRuleInfo){
+                    for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {
+                        let element = this.riskIndex.riskRuleInfo[i];
+                        this.riskIndexRule.push(element.factorName+element.relationName+element.value+element.unit)
+                    }
+                }
                 this.$store.dispatch('risk_historyDetail',{riskProjectId:this.$route.params.id}).then(()=>{
                     this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(()=>{
                     if (this.historyDetail&&this.riskIndex.status === 3) {
@@ -149,13 +159,6 @@
             })
         },
         computed: {
-            riskIndexRule:function(){
-                if(this.riskIndex.riskRuleInfo){
-                    return this.riskIndex.riskRuleInfo.factorName+this.riskIndex.riskRuleInfo.relationName+this.riskIndex.riskRuleInfo.value+this.riskIndex.riskRuleInfo.unit;
-                }else{
-                    return '';
-                }
-            },
             persons: function () {
                 return this.$store.state.risk.projectPerson;
             },
@@ -186,6 +189,7 @@
                 handling:false,
                 riskflag: false,
                 finalHandle:false,
+                riskIndexRule:[],
                 form: {
                     situationExplan: '',//情况说明
                     status: 1,//处理意见
@@ -244,11 +248,17 @@
                     sendContent: this.form.sendContent,
                     sendPerson: sendPerson
                 }
+                if(param.situationExplan.length==0){
+                    this.$message.warning('请填写情况说明');
+                    return;
+                }
                 this.$store.dispatch('risk_saveHandle', {param, vue:this}).then(() => {
-                    if(this.riskId!=''){
+                    if(this.$store.state.risk.riskOperateId&&this.$store.state.risk.riskOperateId.length!=0){
                         this.handling = true;
                         this.riskflag = false;
-                        this.finalHandle=true;
+                        if(param.status!=1){
+                            this.finalHandle=true;
+                        }
                     }
                 })
             },

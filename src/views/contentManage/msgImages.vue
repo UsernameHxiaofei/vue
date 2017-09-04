@@ -3,15 +3,6 @@
         <div class="container-width">
             <div class="button-box">
                 <el-button type="primary" @click="dialogFormVisible=true">添加轮播图</el-button>
-                
-                <!--<button class="btn btn-warning delete-btn">删 除</button>-->
-                <!-- <div class="up-img">
-                    <el-upload class="upload-demo" ref="upload" action="/ajax/banner_uploadByFile" :data="fileParam" list-type="picture" :show-file-list="true" :on-preview="handlePreview" :on-remove="handleRemove" :file-list="uploadList" :auto-upload="false" :before-upload="beforeAvatarUpload" :on-success="uploadSuccess">
-                        <el-button slot="trigger" size="small" type="primary">选取文件</el-button>
-                        <el-button style="margin-left: 10px;" size="small" type="success" @click="submitUpload">上传到服务器</el-button>
-                        <div slot="tip" class="el-upload__tip">只能上传图片，且不超过5M</div>
-                    </el-upload>
-                </div> -->
             </div>
             <el-row :gutter="20">
                 <div v-for="(value,index) in bannerList.records">
@@ -27,7 +18,7 @@
                                         <span class="file-size fr">{{value.image_size}}KB</span>
                                     </p>
                                     <p>上传人：{{value.upload_user_name}}</p>
-                                    <i class="iconfont icon-guanbi delete-img" @click="deleteImage(value.banner_id)"></i>
+                                    <span class="delete-img"><i style="font-size: 30px;" class="iconfont icon-guanbi " @click="deleteImage(value.banner_id)"></i></span>
                                 </dd>
                             </dl>
                         </div>
@@ -70,7 +61,6 @@ export default {
         'pagination': pagination
     },
     mounted() {
-
         this.param = {
             pageSize: this.pageSize,
             pageNo: this.pageNo
@@ -126,6 +116,8 @@ export default {
                             this.$message.warning(res.body.information);
                         }else{
                             this.$message.success(res.body.information);
+                            this.resetForm();
+                            this.$store.dispatch('show_imageList', this.param);
                         }
                     })
                 }
@@ -167,55 +159,9 @@ export default {
             fr.readAsDataURL(file);
             fr=null;
         },  
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
-        },
         resetForm(){
             this.$refs['fileParam'].resetFields();
             this.dialogFormVisible=false;
-        },
-        handOnChange(file, fileList) {
-            //this.fileParam.file=file;
-            console.log(fileList);
-        },
-        handlePreview(file) {
-            console.log(file.url + '/' + file.name);
-        },
-        beforeAvatarUpload(file) {
-            let isPic = false;
-            console.log(file.name + '.........' + file.url);
-            let fileSize = file.size / 1024 / 1024;
-            let fileType = file.type;
-            //this.picfile = file;
-            if (fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/gif') {
-                isPic = true;
-            }
-            const isLt5 = fileSize < 5;
-            if (!isPic) {
-                this.$message.error('上传的图片格式为png、jpg、gif!');
-                return isPic;
-            } else if (!isLt5) {
-                this.$message.error('上传图片大小不能超过 5M!');
-                return isLt5;
-            } else {
-                this.fileParam.bannerName = file.name;
-                this.fileParam.bannerType = 1;
-                this.fileParam.uploadUseId = this.$store.state.login.actor.id;
-                this.fileParam.bannerSize = fileSize.toFixed(3);
-                // this.$store.dispatch('banner_uploadByFile',this.fileParam).then(() =>{
-                //     this.$message.success('上传成功!');
-                // }).catch(() =>{
-                //     //this.$message.error('上传失败!');
-                // });
-            }
-            return isPic && isLt5;
-        },
-        uploadSuccess(res, file, fileList) {
-            console.log(res);
-            if (res) {
-                this.$store.dispatch('show_imageList', this.param);
-                this.uploadList = [];
-            }
         },
         handleSizeChange(val) {
             this.param.pageSize = val;
@@ -284,11 +230,11 @@ export default {
 }
 
 .banner-detail .delete-img {
-    top:-15px;
-    right:-15px;
+    top:-8px;
+    right:0px;
     width: 30px;
     height: 30px;
-    font-size: 30px;
+    color:white;
     position: absolute;
     cursor: pointer;
     /*display:none;*/
@@ -299,12 +245,12 @@ export default {
 }
 
 .banner-detail dt {
-    height: 160px;
     overflow: hidden
 }
 
 .banner-detail .banner-i {
     width: 100%;
+    height:200px;
 }
 
 .banner-detail dd>p {

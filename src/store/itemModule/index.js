@@ -144,6 +144,18 @@ export const itemModule = {
                 }
             });
         },
+        //编辑时间信息（新）
+        item_updateTimeInfoNew({commit,dispatch},{param,vue}){
+            return api.item_updateTimeInfoNew(param).then((data) => {
+                console.log('编辑时间信息（新）', data);
+                if(data.success){
+                   vue.$message.success(data.information);
+                   dispatch('item_getTimeInfo',{id:param.id});
+                }else{
+                   vue.$message.warning(data.information);
+                }
+            });
+        },
         //获取登记认证信息
         item_getAuthInfo({ commit }, param) {
             return api.item_getAuthInfo(param).then((data) => {

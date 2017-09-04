@@ -165,6 +165,28 @@ module.exports = function client(router, sc, passport) {
             res.json(resp.head)
         });
     });
+    //编辑时间信息之后修改
+    router.all('/item_updateTimeInfoNew', function(req, res, next) {
+        let param = req.body;
+        const stuff = sc.instanceRequest("FinancingProjectTask", "updateFinancingProjectNewTimeById", "projectManage");
+        stuff.auxiliary = {
+            [passport]: req.session.passport
+        };
+        stuff.items = [
+            param.id,
+            param.reserveBegin,
+            param.reserveEnd,
+            param.subscriptionStartTime,
+            param.subscriptionEndTime,
+            param.crowdFundingBegin,
+            param.crowdFundingEnd,
+            param.status,
+            param.phase
+        ];
+        sc.send(stuff).then((resp) => {
+            res.json(resp.head)
+        });
+    });
     //编辑有限合伙人
     router.all('/item_updatePartnerInfo', function(req, res, next) {
         let param = req.body;

@@ -181,7 +181,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 <el-form-item prop="protocol" label="有限合伙协议模板" :label-width="formLabelWidth">
                     <el-upload  :multiple="false" action="/ajax/fileupload" :auto-upload="true"  
                             :on-remove="protocol_remove" :before-upload="beforeUpload"   :on-success="protocolUpload" :data="{fileType:2}" 
-                            :disabled="limitform.protocol.length>0" >
+                             >
                             <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>
@@ -385,7 +385,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                     bankProvince: [{ required: true, message: '请输入开户行省名', trigger: 'blur' }],
                     bankCity: [{ required: true, message: '请输入开户行市名', trigger: 'blur' }],
                     bankAccount: [{ required: true, message: '请输入银行账户', trigger: 'blur' }],
-                    protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'blur' }]
+                    protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'change' }]
                 },
                 dateform:{
                     reserveBegin:'',
@@ -620,6 +620,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 this.dialogStopVisible = false;
             },
             partner(limitform) {
+                console.log(this.limitform);
                 this.$refs['limitform'].validate((valid) => {
                     if (valid) {
                         this.dialogPartnerVisible = false;

@@ -128,7 +128,7 @@ margin-left:5px;
                             </div>
                             <div style="float:left;width:300px;height:200px">
                                 <el-row class="ptitle">
-                                    <el-col :span="24">
+                                    <el-col :span="24" :title="item.projectName">
                                         {{item.projectName}}
                                     </el-col>
                                 </el-row>
@@ -231,10 +231,10 @@ margin-left:5px;
                 types: industryData,
                 keyword: "",
                 lvColor:{
-                    4:'#08cc06',
-                    3:'rgb(255, 135, 97)',
-                    2:'rgb(251, 201, 55)',
-                    1:'rgb(6, 204, 182)'
+                    4:'rgb(255, 135, 97)',
+                    3:'rgb(251, 201, 55)',
+                    2:'#f3c6d9',
+                    1:'#08cc06'
                 },
                 chooseItem:{}
             }

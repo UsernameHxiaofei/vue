@@ -20,7 +20,7 @@
                     <el-table-column prop="createTime" label="预警触发时间" width="170" align="center"> </el-table-column>
                     <el-table-column prop="updateTime" label="处理时间" width="170" align="center"> </el-table-column>
                     <el-table-column prop="status" label="状态" width="150" align="center" :formatter="stateDes"></el-table-column>
-                    <el-table-column prop="actorName" label="处理人" width="125" align="center"> </el-table-column>
+                    <el-table-column prop="operateName" label="处理人" width="125" align="center"> </el-table-column>
                     <el-table-column label="" align="center">
                         <template scope="scope">
                             <el-button class="btn-style" size="small" @click="detail(scope.row)">查看</el-button>

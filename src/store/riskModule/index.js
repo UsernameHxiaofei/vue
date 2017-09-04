@@ -52,7 +52,7 @@ export const riskModule = {
             return api.risk_saveHandle(param).then((data)=> {
                 if(data.head.success){
                     vue.$message.success(data.head.information);
-                    commit('risk_riskId',data.object);
+                    commit('risk_riskId',JSON.parse(data.objectLiteral));
                 }else{
                     vue.$message.warning(data.head.information);
                 }
@@ -191,7 +191,7 @@ export const riskModule = {
             state.riskFactors=data;
         },
         risk_riskId(state,data){
-            state.riskId=data;
+            state.riskOperateId=data;
         },
         risk_historyDetail(state,data){
             state.historyDetail=data;

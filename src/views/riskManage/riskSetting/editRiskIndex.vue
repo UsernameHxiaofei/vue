@@ -45,7 +45,7 @@
                                 </el-table>
                             </el-form-item>
                             <el-form-item>
-                                <el-button type="default" style="float:right;"   v-if="form.code&&form.code.length==0" @click="createGroup">添加规则组</el-button>
+                                <el-button type="default" style="float:right"   v-if="form.code&&form.code.length==0" @click="createGroup">添加规则组</el-button>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" style="float:right" @click="submit">保存</el-button>
@@ -93,6 +93,7 @@
         },
         mounted() {
             this.fetchData();
+            console.log(this.form.code);
         },
         computed: {
             factors: function () {

@@ -188,7 +188,7 @@
                     </el-col>
                     <transition name="el-zoom-in-top" >
                     <el-form-item prop="selectedOptions1" v-show="conditionform.IsinvestorNativePlace">
-                        <el-cascader  expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions1">
+                        <el-cascader style="width:250px" expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions1">
                         </el-cascader>
                     </el-form-item>
                     </transition>
@@ -201,7 +201,7 @@
                     </el-col>
                     <transition name="el-zoom-in-top" >
                     <el-form-item prop="selectedOptions2" v-show="conditionform.Ispermanent">
-                        <el-cascader  expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions2">
+                        <el-cascader style="width:250px" expand-trigger="click" change-on-select clearable :options="options" v-model="selectedOptions2">
                         </el-cascader>
                     </el-form-item>
                     </transition>
@@ -293,6 +293,7 @@
                         { required: true,min:0,type: 'number', message: '请输入数字', trigger: 'blur' },
                         {trigger:'blur',validator:(rule,value,callback)=>{
                             this.$refs['planform'].validateField('commitmentAmount')
+                            callback();
                         }}
                     ],
                     financingAmount: [
@@ -302,6 +303,7 @@
                                 callback(new Error('目标融资额<=总投资额*50%'));
                             }
                             this.$refs['planform'].validateField('commitmentAmount')
+                            callback();
                         }}
                     ],
                     financingDays: [
@@ -314,6 +316,7 @@
                         {min:0, type: 'number', message: '请输入数字', trigger: 'blur' },
                         {trigger:'change',validator:(rule,value,callback)=>{
                             this.$refs['planform'].validateField('commitmentAmount')
+                            callback();
                         }}
                     ],
                     commitmentAmount: [
@@ -327,6 +330,8 @@
                             }
                             if(this.planform.overallInvestment!=total){
                                 callback(new Error('总投资额=目标融资额+已投入额+承诺出资'));
+                            }else{
+                                callback();
                             }
                         }},
                     ],
@@ -339,11 +344,11 @@
         },
         methods: {
             onSubmit() {
+                
                 this.$refs['form'].validate((valid) => {
                     this.$refs['planform'].validate((a) => {
-                        valid=a;
-                    })
-                    if (valid) {
+                        
+                    if (valid&&a) {
                         if(this.investorCondition.financeId){
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
@@ -462,9 +467,14 @@
                             })
                         }
                     } else {
+                        if(!a){
+                            this.$message.warning('请完善融资方案信息')
+                            return false
+                        }
                         this.$message.warning('请完善项目信息')
                         return false;
                     }
+                })
                 })
             },
             successUpload_evidenceURL(response, file, fileList) {

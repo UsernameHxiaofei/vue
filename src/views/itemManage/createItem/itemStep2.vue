@@ -251,7 +251,7 @@
                         <el-input v-model="teamform.identNumber" :maxlength="18" ></el-input>
                     </el-form-item>
                     <el-form-item label="学历" prop="education" label-width="140px">
-                        <el-select v-model="teamform.education" style="width:300px;" placeholder="请选择">
+                        <el-select v-model="teamform.education" style="width:350px;" placeholder="请选择">
                             <el-option v-for="(item,index) in educations" :key="index"  :value="item.value" :label="item.lable">
                             </el-option>
                         </el-select>

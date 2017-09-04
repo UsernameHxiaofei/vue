@@ -124,7 +124,10 @@ import moment from 'moment'
       },
       operator:function(){
           return this.$store.state.login.actor;
-      }  
+      },
+      itemManageDetail: function () {
+                return this.$store.state.item.itemManageDetail || {};
+      }
     },
     data() {
       return {
@@ -144,8 +147,6 @@ import moment from 'moment'
                 {trigger: 'change',validator:(rule, value, callback) => {
                     if (value =='') {
                         callback(new Error('请选择预约开始时间!'));
-                    }else if(!moment(value).isAfter(new Date())){
-                        callback(new Error('请选择当前时间之后!'));
                     }else{
                         callback();
                     }
@@ -211,6 +212,11 @@ import moment from 'moment'
     },
      methods: {
        edit(){
+            if(this.itemManageDetail.phase>=10){
+                this.$message.warning('时间信息在认购成功之后无法修改！')
+                return;
+            }
+            this.timeInfo.reserveBegin
             this.dialogTimeVisible = true;
             for (var key in this.dateform) {
                 if (this.dateform.hasOwnProperty(key)) {
@@ -230,7 +236,9 @@ import moment from 'moment'
                         }
                     }
                     param.id=this.$route.params.projectId;
-                    this.$store.dispatch('item_updateTimeInfo',{param,vue:this}).then(()=>{
+                    param.status=this.itemManageDetail.status;
+                    param.phase=this.itemManageDetail.phase;
+                    this.$store.dispatch('item_updateTimeInfoNew',{param,vue:this}).then(()=>{
                         this.dialogTimeVisible = false;
                     })
                 } else {

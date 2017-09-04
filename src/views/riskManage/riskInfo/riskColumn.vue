@@ -52,11 +52,11 @@ export default {
             mainData:{},
             riskRegion:riskRegion,
             lvColor:{
-                    4:'#08cc06',
-                    3:'rgb(255, 135, 97)',
-                    2:'rgb(251, 201, 55)',
-                    1:'rgb(6, 204, 182)'
-                }
+                4:'rgb(255, 135, 97)',
+                3:'rgb(251, 201, 55)',
+                2:'#f3c6d9',
+                1:'#08cc06'
+            }
         }
     },
     mounted() {

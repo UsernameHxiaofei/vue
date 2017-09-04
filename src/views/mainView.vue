@@ -126,7 +126,7 @@
 					</el-button>
 			</div>
 		</div>
-		<el-dialog title="选择创建项目的发起人" :visible.sync="chooseItemCustomer">
+		<el-dialog title="选择创建项目的发起人" size="large" :visible.sync="chooseItemCustomer">
 			<div v-if="itemType=='A'" class="search-box" style="margin:10px 10px 30px 10px;float:right">
 				<div class="output">
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange" :on-icon-click="customerKeywordChange">
@@ -135,7 +135,7 @@
        		</div>	
 			<div class="my-table">
 				<el-table :data="customerList.list||customerInfoForSimulationList.list" stripe border style="width: 100%">
-					<el-table-column prop="" width="10">
+					<el-table-column prop="" width="5">
 					</el-table-column>
 					<el-table-column type="index" label="序号" width="60px">
 					</el-table-column>
@@ -165,7 +165,7 @@
 							<el-button class="btn-style" @click="createItemByCustomer(scope.row)">选择</el-button>
 						</template>
 					</el-table-column>
-					<el-table-column prop="" width="10">
+					<el-table-column prop="" width="5">
 					</el-table-column>
 				</el-table>
 			</div>
