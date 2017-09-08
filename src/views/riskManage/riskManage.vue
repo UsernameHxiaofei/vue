@@ -45,7 +45,6 @@ margin-left:5px;
             width: 100px;
             cursor: pointer;
             font-size: 18px;
-            letter-spacing: 1px;
             color: rgb(163, 171, 190);
             font-weight: 600;
         }
@@ -107,7 +106,7 @@ margin-left:5px;
         }
         .search-input{
             width:240px;
-            margin:0 20px 10px 0px;
+            margin:0 20px;
         }
 </style>
 <template>

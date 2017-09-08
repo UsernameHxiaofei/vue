@@ -40,7 +40,7 @@
     <!--表格-->
     <div class="my-table">
       <el-table :data="investmentFundData.records" stripe border style="width: 100%">
-        <el-table-column width="30">
+        <el-table-column prop="kong" width="30">
         </el-table-column>
         <el-table-column type="index" width="60" label="序号">
         </el-table-column>
@@ -68,8 +68,7 @@
             </router-link>
           </template>
         </el-table-column>
-        <el-table-column prop="kong" width="30">
-        </el-table-column>
+
       </el-table>
     </div>
     <!--分页-->

@@ -472,10 +472,15 @@ output {
 
 
 /*表格和按钮*/
-.my-table .el-table .cell{text-align: center;padding-left: 10px;
-    padding-right: 10px;}
-.my-table .el-table__body .cell{color: #a3abbe;font-size: 12px;}
-.my-table .el-table th > div{padding-left: 0;padding-right: 0;}
+.my-table .el-table .cell{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.my-table .el-table__body .cell{
+    color: #a3abbe;font-size: 12px;}
+.my-table .el-table th > div{
+    padding-left: 0;padding-right: 0;
+}
 .btn-style{font-size: 12px;padding: 6px 15px;border-color: #06ccb6;color: #06ccb6;}
 .btn-style:hover{background: #06ccb6;color: white;}
 /*小按钮*/

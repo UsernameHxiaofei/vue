@@ -375,6 +375,7 @@ export default {
         height: 64px;
         line-height: 64px;
         vertical-align: middle;
+        min-width: 1020px;
         background-color: #eceff1 !important;
     }
 </style>

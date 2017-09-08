@@ -107,7 +107,6 @@ export default {
         margin: 15px 10px 5px 5px;
         width: 100px;
         font-size: 18px;
-        letter-spacing: 1px;
         color: rgb(163, 171, 190);
         font-weight: 600;
     }

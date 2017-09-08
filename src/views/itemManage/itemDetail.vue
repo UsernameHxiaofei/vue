@@ -94,10 +94,10 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 </div>
                 <div id="btnt-r">
                     <el-button class="reCreate" v-if="operator.category==2"  :disabled="itemManageDetail.status==12"  @click="open2">{{itemManageDetail.status==12?'已重新发起':'重新发起'}}</el-button>
-                    <router-link :to="{path: '/enterpriseDetail/'+enterpriseInfo.id}" >
+                    <router-link v-if="itemManageDetail.phase>1" :to="{path: '/enterpriseDetail/'+enterpriseInfo.id}" >
                         <el-button v-show="enterpriseInfo.id" >企业详情</el-button>
                     </router-link>
-                    <router-link :to="{path: '/displayItem/'+projectId}" >
+                    <router-link v-if="itemManageDetail.phase>1" :to="{path: '/displayItem/'+projectId}" >
                         <el-button >项目展示</el-button>
                     </router-link>
                 </div>

@@ -94,6 +94,15 @@
                     <el-form-item prop="accountApprovalNumber" label="开户许可核准号">
                         <el-input v-model="limitform.accountApprovalNumber" auto-complete="off"></el-input>
                     </el-form-item>
+                    <el-form-item prop="province" label="开户行省名">
+                        <el-input v-model="limitform.province" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="city" label="开户行市名">
+                        <el-input v-model="limitform.province" auto-complete="off"></el-input>
+                    </el-form-item>
+                    <el-form-item prop="subbranch" label="开户支行名">
+                        <el-input v-model="limitform.subbranch" auto-complete="off"></el-input>
+                    </el-form-item>
                     <el-form-item prop="depositBank" label="开户银行">
                         <el-input v-model="limitform.depositBank" auto-complete="off"></el-input>
                     </el-form-item>
@@ -202,7 +211,10 @@
                     userLoginName:'',
                     pinCode:'',
                     activationCode:'',
-                    type:0  //类型0：企业 1：个人
+                    type:0 , //类型0：企业 1：个人
+                    province:'',//省份
+                    city:'',//市
+                    subbranch:''//支行
                 },
                 businessLicenseURLs:[],
                 accountLicenceURLs:[],
@@ -210,6 +222,15 @@
                     fileType:2
                 },
                 limit:{
+                    province:[
+                        {required: true, message: '请输入开户行省名', trigger: 'blur' },
+                    ],
+                    city:[
+                        {required: true, message: '请输入开户行市名', trigger: 'blur' },
+                    ],
+                    subbranch:[
+                        {required: true, message: '请输入开户支行名', trigger: 'blur' },
+                    ],
                     accountApprovalNumber:[
                         {required: true, message: '请输入开户许可核准号', trigger: 'blur' },
                     ],
