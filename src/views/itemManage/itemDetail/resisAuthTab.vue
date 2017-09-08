@@ -117,6 +117,12 @@
                             <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过10M</div>
                         </el-upload>
                     </el-form-item>
+                    <el-form-item prop="type" required label="类型">
+                        <el-radio-group v-model="limitform.type">
+                            <el-radio :label="0">企业</el-radio>
+                            <el-radio :label="1">个人</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
                     <el-form-item prop="accountName" label="开户名">
                         <el-input v-model="limitform.accountName" auto-complete="off"></el-input>
                     </el-form-item>
@@ -195,7 +201,8 @@
                     customerCode:'',
                     userLoginName:'',
                     pinCode:'',
-                    activationCode:''
+                    activationCode:'',
+                    type:0  //类型0：企业 1：个人
                 },
                 businessLicenseURLs:[],
                 accountLicenceURLs:[],

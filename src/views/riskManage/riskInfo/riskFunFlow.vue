@@ -14,7 +14,7 @@
         <el-row>
             <el-col :span="24">
                 <label class="titleField" for="dateRange">日期</label>&emsp;
-                <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="datetimerange" align="left" placeholder="选择日期范围"></el-date-picker>
+                <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="daterange" align="left" placeholder="选择日期范围"></el-date-picker>
             </el-col>
         </el-row>
         <el-row>
@@ -47,7 +47,7 @@
         <el-row>
             <el-col :span="24">
                 <el-table border :data="listData.list" stripe style="width: 100%">
-                    <el-table-column prop="transactionTime" width="180"  label="交易时间" align="center"> </el-table-column>
+                    <el-table-column prop="transactionTime" width="170"  label="交易时间" align="center"> </el-table-column>
                     <el-table-column prop="summary" width="150" label="摘要" align="center"> </el-table-column>
                     <el-table-column prop="debitAmount" label="借方发生额" align="center"> </el-table-column>
                     <el-table-column prop="creditAmount" label="贷方发生额" align="center"> </el-table-column>
@@ -68,12 +68,13 @@
 <script>
     import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
     import pagination from '../../../components/common/pagination.vue'
+    import moment from 'moment'
     import theme from '../../../assets/js/echarts.theme.js'
     import riskRegion from '../../../constant/riskRegion.js'
     theme(echarts);
 
     export default {
-        name: 'enterpriseFunflow',
+        name: 'riskFunflow',
         computed: {
             projectRiskRule:function(){
                 return this.$store.state.risk.projectRiskRule||[];
@@ -86,6 +87,9 @@
             },
             itemManageDetail: function () {
                 return this.$store.state.item.itemManageDetail||{};
+            },
+            listDayAmount:function (){
+                return this.$store.state.enterprise.listDayAmount||{};
             }
         },
         components: {
@@ -95,46 +99,52 @@
             back(){
                 this.$router.go(-1);
             },
-            getTotalData(){
-                let totalLean=0,totalb=0,totalLeanNum=0,totalbNum=0;
-                let leanOut=[],bIn=[],time=[];
-                this.paramImg={
-                    beginTime: this.param.beginTime,
-                    endTime: this.param.endTime,
-                    id:this.itemManageDetail.enterpriseId,
-                    pageSize: this.listData.totalCount,
-                    pageNo: 1,
-                    type:1//1：银行
+            getImageData(){
+                let leanOut=[],bIn=[];
+                let param={
+                    type:0,
+                    enterpriseId:this.enterprise.id,
+                    beginTime:this.param.beginTime,
+                    endTime:this.param.endTime
                 }
-                this.$store.dispatch('enterprise_getAccountDetail', this.paramImg).then(()=>{
-                    for (let i=0;this.dataList.list&&i<this.dataList.list.length;i++){
-                        let item=this.dataList.list[i];
-                        let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
+                this.$store.dispatch('enterprise_selectListDayAmount', param).then(()=>{
+                    for (let i=0;this.listDayAmount&&i<this.listDayAmount.length;i++){
+                        let item=this.listDayAmount[i];
                         leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
                         bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
-                        time.push(new Date(item.transactionTime).getTime());
-                        if(flag){
-                            totalLean++;
-                            totalLeanNum+=item.debitAmount;
-                        }else{
-                            totalb++;
-                            totalbNum+=item.creditAmount;
-                        }
-                        
                     }
-                    this.totalData= { totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2), leanOut, bIn, time };
+                    this.imageData={leanOut, bIn};
                     this.buildEcharts();
                     this.buildEchartsOut();
                 });
-                
+            },
+            getTotalData(){
+                let totalLean=0,totalb=0,totalLeanNum=0,totalbNum=0;
+                for (let i = 0; this.dataList.list&&i < this.dataList.list.length; i++) {
+                    let item = this.dataList.list[i];
+                    let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
+                    if(flag){
+                        totalLean++;
+                        totalLeanNum+=item.debitAmount;
+                    }else{
+                        totalb++;
+                        item.creditAmount=item.creditAmount||0;
+                        totalbNum+=item.creditAmount;
+                    }
+                }
+                this.totalData= { totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2) }; 
             },
             rangechange(v) {
                 this.daterange = v.split(' - ');
                 this.param.beginTime = this.daterange[0];
                 this.param.endTime = this.daterange[1];
+                if(!this.ready){
+                    return;
+                }
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData()
+                    this.getImageData();
                 });
             },
             handleSizeChange(size) {
@@ -142,12 +152,14 @@
                 this.param.pageNo = 1;
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData()
                 });
             },
             handleCurrentChange(page) {
                 this.param.pageNo = page;
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData()
                 });
             },
             buildEcharts() {
@@ -156,13 +168,13 @@
                 let option = {
                     title: { text: '银账资金账户流入', x: 'center' }, tooltip: { trigger: 'axis' },
                     legend: { data: ['流入'], right: 50, orient: 'vertical' },
-                    xAxis: {
-                        type:'time'
-                    },
+                    xAxis:  { type:'time'},
                     yAxis: { name: '金额(元)', nameLocation: 'end' },
                     series: [{
                         name: '流入', type: 'line',
-                        data: this.totalData.bIn,
+                        data: this.imageData.bIn,
+                        sampling:'max',
+                        smoothMonotone:'x',
                         stack: '流入',
                         markLine : {
                             lineStyle: {
@@ -179,8 +191,10 @@
                     }],
                     dataZoom: [{
                         startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
-                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*30,
+                        filterMode: 'empty'
                     }, {
+                        filterMode: 'empty',
                         type: 'inside'
                     }]
                 };
@@ -193,9 +207,7 @@
                 let option = {
                     title: { text: '银账资金账户流出', x: 'center' }, tooltip: { trigger: 'axis' },
                     legend: { data: [ '流出'], right: 50, orient: 'vertical' },
-                    xAxis: {
-                        type:'time'
-                    },
+                    xAxis: { type:'time'},
                     yAxis: { name: '金额(元)', nameLocation: 'end' },
                     series: [{
                         markLine : {
@@ -209,16 +221,20 @@
                                 { yAxis:  this.riskLine.FLOWS_OUT_MEDIUM,lineStyle:{normal:{color:'rgb(251, 201, 55)' }},label:{normal:{position:'end',formatter:'中风险'}}}
                             ]
                         },
+                        sampling:'max',
+                        smoothMonotone:'x',
                         stack: '流出',
                         name: '流出', type: 'line',
-                        data: this.totalData.leanOut,
+                        data: this.imageData.leanOut,
                         lineStyle: { normal: { width: 3 } }
                     }],
                     dataZoom: [{
                         startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
-                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*30,
+                        filterMode: 'empty'
                     }, {
-                        type: 'inside'
+                        type: 'inside',
+                        filterMode: 'empty'
                     }]
                 };
                 // 使用刚指定的配置项和数据显示图表。
@@ -229,7 +245,7 @@
                     var item = this.projectRiskRule[i];
                     if(item.code&&item.code.length>0){
                         switch (item.code) {
-                            case 'CASH_FLOWS_INTO__HIGH':
+                            case 'CASH_FLOWS_INTO_HIGH':
                                 this.riskLine.FLOWS_INTO__HIGH=parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value);
                                 break;
                             case 'CASH_FLOWS_INTO_MEDIUM':
@@ -241,7 +257,7 @@
                                     }
                                 }
                                 break;
-                            case 'CASH_FLOWS_OUT__HIGH':
+                            case 'CASH_FLOWS_OUT_HIGH':
                                 this.riskLine.FLOWS_OUT_HIGH=parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value);
                                 break;
                             case 'CASH_FLOWS_OUT_MEDIUM':
@@ -261,32 +277,34 @@
             }
         },
         mounted () {
-            this.$store.dispatch('item_getManageDetail',  {id: this.$route.params.id}).then(()=>{
-               this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId})
-               this.param = {
+                const end = new Date();
+                const start = new Date();
+                start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+                this.daterange=[start,end];
+                this.param = {
                     beginTime: this.daterange[0],
                     endTime: this.daterange[1],
                     id:this.itemManageDetail.enterpriseId,
                     pageSize: 10,
-                    pageNo: 1,
-                    type:1//1：银行
+                    pageNo: 1
                 }
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
-                    this.$store.dispatch('risk_selectProjectRiskRule',{id:this.$route.params.id,category:1}).then(()=>{
+                    this.ready=true;
+                    this.$store.dispatch('risk_selectProjectRiskRule',{id:this.itemManageDetail.id,category:1}).then(()=>{
+                        this.getTotalData()
                         this.getRiskLine();
-                        console.log(this.riskLine)
-                        this.getTotalData();
+                        this.getImageData();
                     })
                 });
-            })
         },
         data() {
             return {
+                ready:false,
                 listData:{},
                 daterange: [],
                 param: {},
-                paramImg:{},
+                imageData:{},
                 totalData:{},
                 riskLine:{}
             }

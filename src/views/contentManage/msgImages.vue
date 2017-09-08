@@ -10,14 +10,15 @@
                         <div class="grid-content bg-purple">
                             <dl class="banner-detail">
                                 <dt>
-                                    <!-- :src="value.image_parh" v-if="value.image_parh"-->
                                     <img :src="value.image_parh" class="banner-i">
                                 </dt>
                                 <dd>
                                     <p>{{value.upload_time}}
                                         <span class="file-size fr">{{value.image_size}}KB</span>
                                     </p>
-                                    <p>上传人：{{value.upload_user_name}}</p>
+                                    <p>上传人：{{value.upload_user_name}}
+                                        <span class="file-size fr">显示顺序：{{value.show_sequence}}</span>
+                                    </p>
                                     <span class="delete-img"><i style="font-size: 30px;" class="iconfont icon-guanbi " @click="deleteImage(value.banner_id)"></i></span>
                                 </dd>
                             </dl>

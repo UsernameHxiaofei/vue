@@ -39,7 +39,19 @@
             let param=req.body;
             const stuff = sc.instanceRequest("EnterpriseAccountDetailTask", "selectAccountDetailByEnterprisetId", "enterpriseManger");
             stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items = [param.type,param.id,param.beginTime,param.endTime,param.pageSize,param.pageNo];
+            stuff.items = [param.id,param.beginTime,param.endTime,param.pageSize,param.pageNo];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
+        router.all('/enterprise_selectListDayAmount', function (req, res, next) {//获取账户流水
+            let param=req.body;
+            const stuff = sc.instanceRequest("EnterpriseAccountDetailTask", "selectListDayAmount", "enterpriseManger");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items = [
+                param.type,
+                param.enterpriseId,
+                param.beginTime||'',
+                param.endTime||''
+            ]
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
         router.all('/enterprise_profit', function (req, res, next) {//获取利润表数据

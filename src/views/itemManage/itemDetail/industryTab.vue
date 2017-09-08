@@ -223,12 +223,17 @@
     computed: {
       thirdReport:function(){
         return this.$store.state.item.thirdReport;
+      },
+      itemManageDetail: function () {
+        return this.$store.state.item.itemManageDetail || {};
       }
     },
     mounted () {
+      
         this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId}).then(()=>{
-          this.businessInfo=(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo)||{}
+            this.businessInfo=(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo)||{}
         })
+      
     },
     data () {
       return {

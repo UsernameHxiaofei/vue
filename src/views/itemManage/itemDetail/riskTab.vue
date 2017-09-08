@@ -94,8 +94,8 @@
                   </tr>
               </table>
               <table class="tableInfo"   v-for="(item,index) in thirdReport.tcEnterpriseMemberInfo" :key="index">
-                  <tr><td>高管</td><td>{{item.tcBadInfo&&item.tcBadInfo.name||''}}{{item.tcBadInfo&&item.tcBadInfo.result&&item.tcBadInfo.result==0?'(无不良记录)':''}}</td></tr>
-                  <tr v-for="(i,ind) in item.tcBadInfo.tcBadInfoItems" :key="ind">
+                  <tr><td>高管</td><td>{{item.tcBadInfo&&item.tcBadInfo.name||''}}{{item.tcBadInfo&&item.tcBadInfo.result==0?'(无不良记录)':''}}</td></tr>
+                  <tr v-for="(i,ind) in item.tcBadInfo&&item.tcBadInfo.tcBadInfoItems" :key="ind">
                       <td>{{i.caseTime}}</td>
                       <td>{{i.caseSource}}</td>
                   </tr>
@@ -149,8 +149,11 @@
     name:'riskTab',
     computed: {
         thirdReport:function(){
-          return this.$store.state.item.thirdReport;
+          return this.$store.state.item.thirdReport||{};
         }
+    },
+    mounted () {
+      this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId})
     },
     data() {
       return {

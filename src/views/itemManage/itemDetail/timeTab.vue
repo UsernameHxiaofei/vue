@@ -225,7 +225,6 @@ import moment from 'moment'
             }
        },
        time(dateform){
-            console.log(`设置上线时间`);
             this.$refs['dateform'].validate((valid) => {
                 if (valid) {
                     let param={};

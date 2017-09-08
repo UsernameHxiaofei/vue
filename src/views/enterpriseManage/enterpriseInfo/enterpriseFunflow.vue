@@ -13,7 +13,7 @@
         <el-row>
             <el-col :span="24">
                 <label class="titleField" for="dateRange">日期</label>&emsp;
-                <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="datetimerange" align="left" placeholder="选择日期范围"></el-date-picker>
+                <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="daterange" align="left" placeholder="选择日期范围"></el-date-picker>
             </el-col>
         </el-row>
         <el-row>
@@ -83,6 +83,9 @@
         computed: {
             dataList: function () {
                 return this.$store.state.enterprise.enterpriseAccountDetail||{};
+            },
+            listDayAmount:function (){
+                return this.$store.state.enterprise.listDayAmount||{};
             }
         },
         components: {
@@ -90,40 +93,39 @@
         },
         methods: {
             getTotalData(){
-                if(this.listData.totalCount&&this.listData.totalCount==0){
-                    return;
-                }
                 let totalLean=0,totalb=0,totalLeanNum=0,totalbNum=0;
-                let leanOut=[],bIn=[],time=[],balance=[];
-                this.paramImg={
-                    beginTime: this.param.beginTime,
-                    endTime: this.param.endTime,
-                    id:this.enterprise.id,
-                    pageSize: this.listData.totalCount,
-                    pageNo: 1,
-                    type:1//1：银行
-                }
-                this.$store.dispatch('enterprise_getAccountDetail', this.paramImg).then(()=>{
-                    for (let i=0;this.dataList.list&&i<this.dataList.list.length;i++){
-                        let item=this.dataList.list[i];
+                for (let i = 0; this.dataList.list&&i < this.dataList.list.length; i++) {
+                        let item = this.dataList.list[i];
                         let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
+                        if(flag){
+                        totalLean++;
+                        totalLeanNum+=item.debitAmount;
+                        }else{
+                        totalb++;
+                        item.creditAmount=item.creditAmount||0;
+                        totalbNum+=item.creditAmount;
+                    }
+                }
+                this.totalData= { totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2) };
+            },
+            getImageData(){
+                let param={
+                    type:0,
+                    enterpriseId:this.enterprise.id,
+                    beginTime:this.param.beginTime,
+                    endTime:this.param.endTime
+                }
+                let leanOut=[],bIn=[],balance=[];
+                this.$store.dispatch('enterprise_selectListDayAmount',param).then(()=>{
+                    for (let i=0;i<this.listDayAmount.length;i++){
+                        let item=this.listDayAmount[i];
                         leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
                         bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
-                        time.push(new Date(item.transactionTime).getTime());
                         balance.push([new Date(item.transactionTime).getTime(),item.balance||0]);
-                        if(flag){
-                            totalLean++;
-                            totalLeanNum+=item.debitAmount;
-                        }else{
-                            totalb++;
-                            item.creditAmoun=item.creditAmoun||0;
-                            totalbNum+=item.creditAmoun;
-                        }
-                        
                     }
-                    this.totalData= { totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2), leanOut, bIn, time,balance };
+                    this.imageData={leanOut, bIn,balance }
                     this.buildEcharts();
-                });
+                })
             },
             rangechange(v) {
                 this.daterange = v.split(' - ');
@@ -131,14 +133,15 @@
                 this.param.endTime = this.daterange[1];
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
-                    this.changeFlag=true;
                     this.getTotalData()
+                    this.getImageData()
                 });
             },
             handleSizeChange(size) {
                 this.param.pageSize = size;
                 this.param.pageNo = 1;
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
+                    this.getTotalData()
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                 });
             },
@@ -146,6 +149,7 @@
                 this.param.pageNo = page;
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData()
                 });
             },
             buildEcharts() {
@@ -164,14 +168,14 @@
                         { type:'time' ,position: 'top',axisPointer:{
                             label:{
                                 formatter:function(params){
-                                    return moment(new Date(params.value)).format('YYYY-MM-DD HH:mm:ss');
+                                    return moment(new Date(params.value)).format('YYYY-MM-DD');
                                 }
                             }
                         }},
                         { type:'time',gridIndex:1,axisPointer:{
                             label:{
                                 formatter:function(params){
-                                    return moment(new Date(params.value)).format('YYYY-MM-DD HH:mm:ss');
+                                    return moment(new Date(params.value)).format('YYYY-MM-DD');
                                 }
                             }
                         }}
@@ -185,7 +189,7 @@
                     ],
                     series: [{
                         name: '流入', type: 'bar',
-                        data: this.totalData.bIn,
+                        data: this.imageData.bIn,
                         barMaxWidth :40,
                         barCategoryGap:'60%',
                         lineStyle: { normal: { width: 3} }
@@ -196,19 +200,19 @@
                         barCategoryGap:'60%',
                         xAxisIndex: 1,
                         yAxisIndex: 1,
-                        data: this.totalData.leanOut,
+                        data: this.imageData.leanOut,
                         lineStyle: { normal: { width: 3 } }
                     }],
                     dataZoom: [{
                         show:true,
                         realtime: true,
                         startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
-                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7,
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*28,
                         xAxisIndex: [0, 1]
                     },{
                         realtime: true,
                         startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
-                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7,
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*28,
                         xAxisIndex: [0, 1],
                         type: 'inside'
                     }]
@@ -217,18 +221,18 @@
                     title: { text: '银账资金账户余额情况', x: 'center' }, tooltip: { trigger: 'axis' },
                     legend: { data: ['余额'], right: 200, orient: 'vertical'},
                     xAxis: { type:'time' ,position: 'bottom',
-                    axisPointer:{label:{ formatter:function(params){ return moment(new Date(params.value)).format('YYYY-MM-DD HH:mm:ss');}},
+                    axisPointer:{label:{ formatter:function(params){ return moment(new Date(params.value)).format('YYYY-MM-DD');}},
                         axisTick:{length:1}
                     }},
                     yAxis:{ name: '金额(元)', nameLocation: 'end'},
                     series: [{
                         name: '余额', type: 'line',
-                        data: this.totalData.balance,
+                        data: this.imageData.balance,
                         lineStyle: { normal: { width: 3} }
                     }],
                     dataZoom: [{
                         startValue: this.param.beginTime?new Date(this.param.beginTime).getTime():new Date().getTime(),
-                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*7
+                        endValue:  this.param.endTime?new Date(this.param.endTime).getTime():new Date().getTime()-1000*60*60*24*28
                     }, {
                         type: 'inside'
                     }]
@@ -239,6 +243,10 @@
             }
         },
         mounted () {
+            const end = new Date();
+            const start = new Date();
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            this.daterange=[start,end];
             this.param = {
                 beginTime: this.daterange[0],
                 endTime: this.daterange[1],
@@ -248,18 +256,18 @@
                 type:1//1：银行
             }
             this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
-                 this.listData=JSON.parse(JSON.stringify(this.dataList));
+                this.listData=JSON.parse(JSON.stringify(this.dataList));
                  this.getTotalData();
+                 this.getImageData();
             });
 
         },
         data() {
             return {
-                changeFlag:{},
                 listData:{},
                 daterange: [],
                 param: {},
-                paramImg:{},
+                imageData:{},
                 totalData:{}
             }
         }

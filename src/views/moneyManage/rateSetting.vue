@@ -157,7 +157,7 @@
                         <el-input v-model.number="overallForm.underEnsurePercent"></el-input> %
                     </el-form-item>
                     <el-form-item label="" prop="quotaAbove">
-                        <el-input v-model.number="overallForm.quotaAbove"></el-input> 万元及以上
+                        <el-input v-model.number="overallForm.quotaAbove"></el-input> 万元以上
                     </el-form-item>
                     <el-form-item label="" prop="aboveEnsurePercent">
                         <el-input v-model.number="overallForm.aboveEnsurePercent"></el-input> %

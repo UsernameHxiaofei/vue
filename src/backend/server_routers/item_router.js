@@ -52,7 +52,7 @@ module.exports = function client(router, sc, passport) {
     //项目展示
     router.all('/item_getProjectShow', function(req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("FinancingProjectShowTask", "selectFinancingProjectShow", "projectManage");
+        const stuff = sc.instanceRequest("FinancingProjectShowTask", "selectFinancingProjectShowForAdmin", "projectManage");
         stuff.auxiliary = {
             [passport]: req.session.passport
         };
@@ -236,24 +236,12 @@ module.exports = function client(router, sc, passport) {
     //编辑认证注册信息
     router.all('/item_updateAuthInfo', function(req, res, next) {
         let param = req.body;
-        const stuff = sc.instanceRequest("EnterpriseTask", "updateRegistrationAuthority", "enterpriseManger");
+        const stuff = sc.instanceRequest("EnterpriseAccountTask", "updateRegistrationAuthority", "enterpriseManger");
         stuff.auxiliary = {
             [passport]: req.session.passport
         };
         stuff.items = [
-            param.accountId,
-            param.accountApprovalNumber,
-            param.depositBank,
-            param.basicDepositAccountNumber,
-            param.businessLicenseURL,
-            param.accountLicenceURL,
-            param.queryAuthorization,
-            param.queryPassword,
-            param.pinCode,
-            param.activationCode,
-            param.userLoginName,
-            param.accountName,
-            param.customerCode
+            param
         ];
         sc.send(stuff).then((resp) => {
             res.json(resp.head)

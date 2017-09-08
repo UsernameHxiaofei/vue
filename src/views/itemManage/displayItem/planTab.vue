@@ -86,24 +86,18 @@
             </div>
             <div class="borders">
                 <el-row>
-                    <el-col :span="6" class="rewardLable">
+                    <el-col :span="8" class="rewardLable">
                         <span class="span-label">回报方式</span><br/>
                         <span class="span-con">{{rewardPlan.consumable ==0 ? '股权' : '消费权'}}</span>
                     </el-col>
-                    <el-col :span="6" class="rewardLable">
-                        <span class="span-label">预估投资人年收益</span><br/><span class="span-con">{{rewardPlan.annualEarningsRatio*100 || '--'}}%到{{rewardPlan.annualEarningsRatioTo*100 || '--'}}%</span>
-                    </el-col>
-                    <el-col :span="6" class="rewardLable">
-                        <span class="span-label">分红周期</span><br/><span class="span-con">{{rewardPlan.dividendCycle || '--'}}年</span>
-                    </el-col>
-                    <el-col :span="6" class="rewardLable">
-                        <span class="span-label">附加消费权</span><br/><span class="span-con">{{rewardPlan.consumableDescription&&rewardPlan.consumableDescription.length==0?'无':rewardPlan.consumableDescription}}</span>
-                    </el-col>
-                    <el-col :span="6" class="rewardLable">
+                    <el-col :span="8" class="rewardLable">
                         <span class="span-label">股权回购期限</span><br/><span class="span-con">{{rewardPlan.repurchaseYearsFrom ||'--'}}年到{{rewardPlan.repurchaseYearsTo || '--'}}年</span>
                     </el-col>
-                    <el-col :span="6" class="rewardLable">
+                    <el-col :span="8" class="rewardLable">
                         <span class="span-label">股权回购费率买价</span><br/><span class="span-con">{{rewardPlan.repurchaseRateFrom*100 || '--'}}%至{{rewardPlan.repurchaseRateTo*100 || '--'}}%</span>
+                    </el-col>
+                    <el-col :span="24" class="rewardLable">
+                        <span class="span-label">详细说明</span><br/><span class="span-con">{{rewardPlan.consumableDescription&&rewardPlan.consumableDescription.length==0?'无':rewardPlan.consumableDescription}}</span>
                     </el-col>
                 </el-row>
             </div>

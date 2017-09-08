@@ -112,8 +112,8 @@ em {
         </el-table-column>
         <el-table-column>
           <template scope="scope">
-            <el-button class="btn-style" v-if="scope.row.refundStatus==0 && scope.row.isRefound==true && projecStatus!=9&&projecStatus!=10" @click="refund(scope.row)">退款</el-button>
-            <el-button class="btn-style" v-if="scope.row.refundStatus==1 && scope.row.isRefound==true && projecStatus!=9&&projecStatus!=10" @click="refund(scope.row)">重新申请退款</el-button>
+            <el-button class="btn-style" v-if="scope.row.refundStatus==0 && scope.row.isRefound==true" @click="refund(scope.row)">退款</el-button>
+            <el-button class="btn-style" v-if="scope.row.refundStatus==1 && scope.row.isRefound==true" @click="refund(scope.row)">重新申请退款</el-button>
             <span v-if="scope.row.refundStatus==2 && scope.row.isRefound==true">退款中</span>
             <span v-if="scope.row.refundStatus==3 && scope.row.isRefound==true">已退款</span>
           </template>

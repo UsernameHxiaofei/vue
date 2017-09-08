@@ -15,16 +15,18 @@ margin-left:5px;
         }
     
         
-        .paction-button1 {  padding: 10px 10px; background: rgb(6, 204, 182);
+        .paction-button1 {  
+            padding: 10px 10px; background: rgb(6, 204, 182);
             border: 1px solid rgb(6, 204, 182);;
             outline: rgb(6, 204, 182);
-            color:white;
+            color:rgb(6, 204, 182);
+            background: white;
             border-radius: 5px;
             margin-left:5px;
             }
         .paction-button1:hover {
-            color:rgb(6, 204, 182);
-            background: white;
+            color:white;
+            background: rgb(6, 204, 182);
             border: 1px solid rgb(6, 204, 182);
             border-radius: 5px;
         }
@@ -35,17 +37,20 @@ margin-left:5px;
             height: 13px;
             float: right;
             margin: 3px 5px auto 5px;
-            cursor: pointer;
         }
     
         .ppoint {
             float: left;
             margin: 7px 10px 5px 5px;
             width: 100px;
+            cursor: pointer;
             font-size: 18px;
             letter-spacing: 1px;
             color: rgb(163, 171, 190);
             font-weight: 600;
+        }
+        .ppoint:hover {
+            color: rgb(77, 88, 111);
         }
     
         .personImg{
@@ -112,11 +117,9 @@ margin-left:5px;
                     <el-input class="search-input" placeholder="项目编号|项目名称|发起人" icon="search" @keyup.enter.native="search" v-model.trim="keyword" :on-icon-click="search"></el-input>
                     <el-select class="search-input" v-model="type" clearable placeholder="所属行业" @change="changeindustry">
                         <el-option v-for="item in types" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <el-select class="search-input" v-model="risklv" clearable placeholder="风险等级" @change="changelv">
+                    </el-select><el-select class="search-input" v-model="risklv" clearable placeholder="风险等级" @change="changelv">
                         <el-option v-for="item in risklvs" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                    <el-cascader class="search-input" :options="options" clearable v-model="where" @change="changeWhere" change-on-select placeholder="所在地"></el-cascader>
+                    </el-select><el-cascader class="search-input" :options="options" clearable v-model="where" @change="changeWhere" change-on-select placeholder="所在地"></el-cascader>
             </div>
         </el-row>
         <el-row class="ptable">
@@ -152,8 +155,8 @@ margin-left:5px;
                             <div style="float:left;width:250px;height:200px">
                                 <div style="margin-top:5px;width:230px">
                                     <template v-for="rv in item.riskRegion">
-                                        <div class="ppoint">
-                                            <span class="pstate" @click="handleRisk(item,rv)" :style="{'background-color':lvColor[rv.lv]}"></span>{{rv.name}}
+                                        <div class="ppoint" @click="handleRisk(item,rv)" >
+                                            <span class="pstate"  :style="{'background-color':lvColor[rv.lv]}"></span>{{rv.name}}
                                         </div>
                                     </template>
                                 </div>
@@ -176,7 +179,7 @@ margin-left:5px;
                 :total="listData.totalCount">
                 </el-pagination>
         </el-row>
-        <el-dialog size="small" title="选择查看的资金流" :visible.sync="riskfun">
+        <el-dialog size="tiny" title="选择查看的资金流" :visible.sync="riskfun">
             <el-row>
                 <el-col>
                     <el-button class="paction-button1" @click="handleFunFlow(1)">银行账户资金流</el-button>
@@ -215,6 +218,9 @@ margin-left:5px;
         computed: {
           result:function(){
               return this.$store.state.risk.listData;
+          },
+          itemManageDetail: function () {
+              return this.$store.state.item.itemManageDetail||{};
           }
         },
         data() {
@@ -235,22 +241,38 @@ margin-left:5px;
                     3:'rgb(251, 201, 55)',
                     2:'#f3c6d9',
                     1:'#08cc06'
-                },
-                chooseItem:{}
+                }
             }
         },
         methods: {
             handleFunFlow(index){
                 if(index==1){
-                    this.$router.push('/riskFunFlow/'+this.chooseItem.projectId);
+                    this.$router.push('/riskFunFlow/'+this.itemManageDetail.enterpriseId);
                 }else{
-                    this.$router.push('/riskFunFlowDLB/'+this.chooseItem.projectId);
+                    this.$router.push('/riskFunFlowDLB/'+this.itemManageDetail.enterpriseId);
                 }
             },
             handleRisk(item,rv){
-                if(rv.id==1){
-                    this.riskfun=true;
-                    this.chooseItem=item;
+                console.log(item,rv);
+                if(rv.id==1||rv.id==2){
+                    this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
+                        this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
+                            if(rv.id==1){//资金风险
+                                this.riskfun=true;
+                            }
+                            if(rv.id==2){//财务分析
+                                this.$router.push('/enterpriseDetail/'+this.itemManageDetail.enterpriseId)
+                            }
+                        })
+                    })
+                }else if(rv.id==4||rv.id==3){
+                    this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
+                }else if(rv.id==7){
+                    this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
+                        this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
+                            this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
+                        })
+                    })
                 }
             },
             formatData(){

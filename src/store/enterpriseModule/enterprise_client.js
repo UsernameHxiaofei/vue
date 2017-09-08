@@ -59,6 +59,11 @@ module.exports=function client(Vue){
         return Vue.http.post('enterprise_getStatementBrief',param).then(response => {
           return response.body;
         });
+      },
+      enterprise_selectListDayAmount:(param)=>{
+        return Vue.http.post('enterprise_selectListDayAmount',param).then(response => {
+          return response.body;
+        });
       }
     } 
 }

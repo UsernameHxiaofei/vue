@@ -82,9 +82,10 @@ export default {
         },
         commit(){
             this.$refs.cropper.getCropBlob((data) => {
+                    let filename=this.fileName.length>0?this.fileName:this.op.img.substring(this.op.img.lastIndexOf('/'),this.op.img.length);
                     let formData = new FormData();
                     formData.append('file', data);
-                    formData.append('name',this.fileName)
+                    formData.append('name',filename)
                     let xhr = new XMLHttpRequest();
                     xhr.open('post', '/ajax/fileuploadBlob');
                     let self = this;

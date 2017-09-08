@@ -52,7 +52,7 @@ const riskFunFlow = () => import('../views/riskManage/riskInfo/riskFunFlow.vue')
 const riskFunFlowDLB = () => import('../views/riskManage/riskInfo/riskFunFlowDLB.vue')
 const editRiskIndex =()=>import('../views/riskManage/riskSetting/editRiskIndex.vue')
 const riskIndexDetail=()=>import('../views/riskManage/riskSetting/riskIndexDetail.vue')
-
+const riskRegionContainer=()=>import('../views/riskManage/riskInfo/riskRegionContainer.vue')
 
 const routes = [
   { path: '/main', component: MainView },
@@ -104,6 +104,7 @@ const routes = [
   { path: '/enterpriseDetail/:id', component: enterpriseDetail },
   { path: '/riskFunFlow/:id',component:riskFunFlow},
   { path: '/riskFunFlowDLB/:id',component:riskFunFlowDLB},
+  { path: '/riskRegionContainer/:category/:projectId',component:riskRegionContainer },
   { path: '/', redirect: '/main' }
 ]
 

@@ -663,12 +663,17 @@ export default {
                     if(this.editMember.length>0){
                         param.id=this.editMember;
                         this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
-                            if(this.isRepresent){
+                            console.log(this.isRepresent,this.enterpriseInfo.representativeId!=this.editMember)
+                            if(this.isRepresent&&this.enterpriseInfo.representativeId!=this.editMember){
                                 param.id=this.itemManageDetail.enterpriseId;
                                 param.representativeId=this.editMember;
                                 this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
                             }
+                            if(!this.isRepresent&&this.enterpriseInfo.representativeId==this.editMember){
+                               this.$message.warning('请勾选其他团队成员的法定代表人复选款来变更法定代表人，只能变更不能取消')
+                            }
                             this.editMember='';
+                            
                         })
                     }else{
                         this.$store.dispatch('item_createEnterpriseMember',{param,vue:this}).then(()=>{
@@ -679,17 +684,17 @@ export default {
                                 this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
                             }
                         })
-                        this.teamform= {
-                            id:'',
-                            imageURL:'',
-                            name: '',
-                            mobileNumber: '',
-                            identNumber: '',
-                            education: '',
-                            marriage:4,
-                            position: '',
-                            profile: ''
-                        }
+                    }
+                    this.teamform= {
+                                id:'',
+                                imageURL:'',
+                                name: '',
+                                mobileNumber: '',
+                                identNumber: '',
+                                education: '',
+                                marriage:4,
+                                position: '',
+                                profile: ''
                     }
                     this.dialogTeamVisible = false;
                 } else {

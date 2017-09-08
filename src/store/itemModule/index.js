@@ -352,6 +352,7 @@ export const itemModule = {
                     vue.$message.warning(data.information)
                 }
                 dispatch('enterprise_getMemberInfo',{id:param.enterpriseId});
+                dispatch('enterprise_getInfo',{id:param.enterpriseId})
             });
         },
         //设置无效成员信息
@@ -502,12 +503,13 @@ export const itemModule = {
                 }
             })
         },
-        item_updateEnterpriseRepresentative({commit},{param,vue}){
+        item_updateEnterpriseRepresentative({commit,dispatch},{param,vue}){
             return api.item_updateEnterpriseRepresentative(param).then((data)=>{
                 //完成更新企业代表人
                 if(!data.success){
                     vue.$message.warning(data.information);
                 }
+                dispatch('enterprise_getInfo',{id:param.id})
             })
         }
     },

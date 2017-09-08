@@ -52,6 +52,11 @@ export default {
     mounted () {
         this.fetchData();
     },
+    watch:{
+        '$route':function(){
+            this.fetchData();
+        }
+    },
     components: {
         'risk-column':riskColumn
     },

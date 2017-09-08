@@ -127,7 +127,8 @@ export default {
             listdata:{},
             xAxis:[],
             unitText:'万元',
-            param:{}
+            param:{},
+            ready:false
         }
     },
     props: ['enterprise'],
@@ -143,12 +144,15 @@ export default {
                 type:'year',
                 enterpriseId:this.enterprise.id,
                 beginTime: now.getFullYear()-3,
-                endTime:now.getFullYear(), 
+                endTime:now.getFullYear()
             }; 
         this.select(4);
     },
     methods: {
       search(){
+        if(!this.ready){
+            return;
+        }
         let beginTime=this.start_year,endTime=this.end_year;
         if(this.M){
             if(this.end_month<=9){
@@ -176,6 +180,7 @@ export default {
             this.formatData();
             this.buildAll();
         });
+        
       },
       buildAll(){
         this.build1(this.xAxis,this.listdata); 
@@ -292,7 +297,6 @@ export default {
                 default:
                     break;
             }
-        
       },
       select(n){
           let now=new Date();
@@ -380,7 +384,9 @@ export default {
                     beginTime=this.start_year;
                     this.param.beginTime=beginTime;
                     this.param.endTime=endTime;
-                    this.Y3 = true; break;
+                    this.Y3 = true;
+                    this.ready=true;
+                    break;
                 case 7:
                     this.unit1 = true;
                     this.unitText='元';

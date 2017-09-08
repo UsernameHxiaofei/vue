@@ -114,10 +114,10 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                <collarTab v-show="activeName=='2'"></collarTab>
             </el-tab-pane>
             <el-tab-pane label="工商信息" name="3" v-if="itemManageDetail.phase>=5">
-                <industryTab v-show="activeName=='3'"></industryTab>
+                <industryTab v-if="activeName=='3'"></industryTab>
             </el-tab-pane>
             <el-tab-pane label="风险疑似信息" name="4" v-if="itemManageDetail.phase>=5">
-                <riskTab v-show="activeName=='4'"></riskTab>
+                <riskTab v-if="activeName=='4'"></riskTab>
             </el-tab-pane>
             <el-tab-pane label="企业关系图谱" name="5" v-if="itemManageDetail.phase>=5">
                 <enterpriseRelationship></enterpriseRelationship>
@@ -131,12 +131,12 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             <el-tab-pane label="时间信息" name="8" v-if="itemManageDetail.phase>=7">
                 <timeTab ></timeTab>
             </el-tab-pane>
-            <el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="9" >
-                <resisAuthTab  v-if="activeName=='9'"></resisAuthTab>
-            </el-tab-pane> 
             <el-tab-pane label="有限合伙信息" v-if="itemManageDetail.phase>=10" name="10" > 
                 <partnerTab ></partnerTab>
             </el-tab-pane>
+            <el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="9" >
+                <resisAuthTab  v-if="activeName=='9'"></resisAuthTab>
+            </el-tab-pane> 
         </el-tabs>
     </div>
     <!--拒绝理由弹窗-->
@@ -333,12 +333,14 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                         }    
                     }
                 });
-               
                 if(this.itemManageDetail.phase>=2){
                     this.$store.dispatch('item_getExpertAd',{id:this.projectId});
                 }
                 if(this.itemManageDetail.phase>=4){
                     this.$store.dispatch('item_getResultInfo',{id:this.projectId});
+                }
+                if(this.itemManageDetail.phase>=5){
+                    this.$store.dispatch('item_getThirdReport',{id:this.projectId})
                 }
             })           
         },

@@ -38,7 +38,8 @@ router.all('/fileupload', multer().single('file'), function(req, res, next) { //
     const stuff = sc.instanceRequest("FileManage", "fileUpload", "fileManage");
     stuff.items = [req.file.originalname, param.fileType || 1, 'N']; // fileType：1文件，2图片
     stuff.auxiliary = {
-        [passport]: req.session.passport }; 
+        [passport]: req.session.passport 
+    }; 
     stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
     sc.send(stuff).then((resp) => {
         console.log(JSON.stringify(resp) + '<====上传返回的数据数据');

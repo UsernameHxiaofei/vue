@@ -27,9 +27,9 @@
         <div class="p-form">
             <el-dialog title="个人信息修改" :visible.sync="dialogeditUserVisible" @close="cancel">
                 <el-form :model="actor" :rules="actorRules" ref="editActor">
-                    <el-form-item label="手机号" prop="mobileNumber">
+                    <!-- <el-form-item label="手机号" prop="mobileNumber">
                         <el-input v-model="actor.mobileNumber" auto-complete="off"></el-input>
-                    </el-form-item>
+                    </el-form-item> -->
                     <el-form-item label="姓名" prop="name">
                         <el-input v-model="actor.name" auto-complete="off"></el-input>
                     </el-form-item>
@@ -125,10 +125,10 @@ export default {
             dialogeditUserVisible: false,
             editPasswordDialog: false,
             actorRules: {
-                mobileNumber: [
-                    { required: true, message: '请输入手机号码', trigger: 'blur' },
-                    { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
-                ],
+                // mobileNumber: [
+                //     { required: true, message: '请输入手机号码', trigger: 'blur' },
+                //     { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
+                // ],
                 name: [
                     { required: true, message: '请输入姓名', trigger: 'blur' },
                     { pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文', trigger: 'blur' }
@@ -204,9 +204,9 @@ export default {
                         if (this.updateActorStatus.success) {
                             this.$message({
                                 type: 'success',
-                                message: '修改成功，请重新登录'
+                                message: '修改成功'
                             })
-                            this.exit();
+                            // this.exit();
                             this.cancel();
                         } else {
                             this.$message.error('修改失败')
