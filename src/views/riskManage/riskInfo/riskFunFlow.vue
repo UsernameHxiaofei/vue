@@ -163,13 +163,17 @@
                 });
             },
             buildEcharts() {
+                
                 let myChart = echarts.init(document.getElementById('funflowIn'),'customed');
                 // 指定图表的配置项和数据
                 let option = {
                     title: { text: '银账资金账户流入', x: 'center' }, tooltip: { trigger: 'axis' },
                     legend: { data: ['流入'], right: 50, orient: 'vertical' },
                     xAxis:  { type:'time'},
-                    yAxis: { name: '金额(元)', nameLocation: 'end' },
+                    yAxis: { name: '金额(元)',type:'value', nameLocation: 'end',max:function(value){
+                        
+                        return value.max<this.riskLine.FLOWS_INTO_MEDIUM?this.riskLine.FLOWS_INTO_MEDIUM:value.max;
+                    }},
                     series: [{
                         name: '流入', type: 'line',
                         data: this.imageData.bIn,
@@ -208,7 +212,11 @@
                     title: { text: '银账资金账户流出', x: 'center' }, tooltip: { trigger: 'axis' },
                     legend: { data: [ '流出'], right: 50, orient: 'vertical' },
                     xAxis: { type:'time'},
-                    yAxis: { name: '金额(元)', nameLocation: 'end' },
+                    yAxis: { name: '金额(元)', nameLocation: 'end',min:function(value) {
+                        return value.min<this.riskLine.FLOWS_OUT_MEDIUM?value.min:this.riskLine.FLOWS_OUT_MEDIUM;
+                    },max:function(value){
+                        return value.max>this.riskLine.FLOWS_OUT_HIGH?value.max:this.riskLine.FLOWS_OUT_HIGH;
+                    }},
                     series: [{
                         markLine : {
                             lineStyle: {

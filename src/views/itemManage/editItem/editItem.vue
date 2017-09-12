@@ -138,7 +138,7 @@
                         <div slot="tip" class="el-upload__tip">只能上传jpeg/jpg/png文件，且不超过2M</div>
                     </el-upload>
                 </el-form-item>
-                <div class="edit-con">
+                <div class="edit-con" v-if="editorRender">
                     <quill-editor v-model="content" ref="myQuillEditor" > </quill-editor>
                 </div>
                 <div class="model-divider">
@@ -170,10 +170,10 @@
                 <div>
                     <div class="person-box" v-for="(item,index) in enterpriseMembers">
                         <div class="person-info" >
-                            <el-col :span="6">
+                            <el-col style="width:170px">
                                 <img class="head-img" :src="item.imageURL" :alt="item.imageURL"/>
                             </el-col>
-                            <el-col :span="18">
+                            <el-col style="width:600px">
                                 <div class="person-intro">
                                     <h4>{{item.name}}
                                         <span>{{item.position}}</span>
@@ -288,7 +288,8 @@ export default {
     name:'itemStep2',
     components: {
         dialogComponent,
-        'quill-editor':editor
+        'quill-editor':editor,
+        imageCropper
     },
     computed: {
         enterpriseMembers:function(){
@@ -308,6 +309,7 @@ export default {
         }
     },
     mounted () {
+        this.editorRender=true;
         this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(()=>{
             if(this.itemManageDetail.enterpriseId||this.itemManageDetail.detailedIntroductionId){
                 this.editFlag=true;
@@ -343,6 +345,7 @@ export default {
     },
     data() {
         return {
+            editorRender:false,
             editHeadImgChange:false,
             industryData:industryData,
             editFlag:false,
@@ -501,10 +504,6 @@ export default {
                 }
                 if(this.enterpriseInfo.representativeId&&this.enterpriseInfo.representativeId.length==0){
                     this.$message.warning('请在团队成员中勾选一个法定代表人')
-                    return;
-                }
-                if(this.enterpriseMembers.length<2){
-                    this.$message.warning('团队成员中必须包含一个法定代表人和一个高管便于核实征信信息')
                     return;
                 }
                 if (!this.itemManageDetail.enterpriseId&&this.$store.state.item.enterpriseId.length == 0) {

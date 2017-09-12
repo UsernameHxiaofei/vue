@@ -512,10 +512,6 @@ export default {
                 this.$message.warning('请在团队成员中勾选一个法定代表人')
                 return;
             }
-            if(this.enterpriseMembers.length<2){
-                this.$message.warning('团队成员中必须包含一个法定代表人和一个高管，以便于做征信调查')
-                return;
-            }
             if (!this.itemManageDetail.enterpriseId&&this.$store.state.item.enterpriseId.length == 0) {
                 this.$refs['form'].validate((valid) => {
                     if (valid) {

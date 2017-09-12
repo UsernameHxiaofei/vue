@@ -10,25 +10,30 @@
         width: 100%;
         height: 300px;
     }
-
+    .charactor{
+        height:50px;
+    }
     .charactor img {
-        float: left;
+        position:relative;
+        left:0;top:0;
         width: 47px;
         height: 47px;
         border-radius: 50%;
     }
 
     .charactor p {
-        float: left;
-        margin-left: 10px;
-        margin-bottom: 0;
+        position:relative;
+        left:47px;top:-47px;
+        word-break:keep-all;/* 不换行 */
+        white-space:nowrap;/* 不换行 */
+        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow:ellipsis;
     }
 
     .charactor span {
-        float: left;
+        position:relative;
         color: #c0c0c0;
-        margin-left: 10px;
-        margin-bottom:0px; 
+        left:47px;top:-70px;
     }
 
     .cur-box {
@@ -44,19 +49,17 @@
     }
     .pro-mon{
         color: #c0c0c0;
-        margin-bottom: 0px;
+        margin-top:70px;
     }
     .pro-mon span {
-        
         margin-right: 15px;
     }
 
     .progress-box {
-        margin-top: 15px;
+        margin-top: 10px;
     }
 
     .progress-box p {
-        text-align: right;
         margin-top: 10px;
     }
 
@@ -128,11 +131,11 @@
         </div>
         <div class="project">
             <el-row :gutter="20">
-                <el-col :span="11" class="left-img">
+                <el-col :span="10" class="left-img">
                     <img class="img-left" :src="itemManageDetail.imageURL" :alt="itemManageDetail.name" />
                     <div class="flag"><span>{{show.status|projectStatus}}</span></div>
                 </el-col>
-                <el-col :span="13">
+                <el-col :span="14">
                     <h3 style="font-weight: bold;margin-bottom: 20px;font-size: 20px;">{{show.name}}</h3>
                     <p class="pro-intro">{{show.summary}}</p>
                     <el-row class="cur-box">

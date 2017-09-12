@@ -292,6 +292,7 @@ export default {
                     })
                     this.comment=""
                     this.zz++;
+                    this.loadSubject(); 
                 }
             }) 
           

@@ -31,10 +31,6 @@
                     <span>{{totalData.totalb}}</span>
                     <span>笔</span>&nbsp;
                     <span>{{totalData.totalbNum}}</span>
-                    <span>元，退款</span>
-                    <span>{{totalData.totalLean}}</span>
-                    <span>笔</span>&nbsp;
-                    <span>{{totalData.totalLeanNum}}</span>
                     <span>元</span>
                 </div>
             </el-col>
@@ -118,13 +114,9 @@
                 for (let i=0;this.dataList.list&&i<this.dataList.list.length;i++){
                     let item=this.dataList.list[i];
                     let flag=item.refund_time&&item.refund_time.length>0;//true就是借,就是流出
-                    if(flag){
-                        totalLean++;
-                        totalLeanNum+=item.pay_amount;
-                    }else{
-                        totalb++;
-                        totalbNum+=item.pay_amount;
-                    }
+                    totalb++;
+                    totalbNum+=item.pay_amount;
+                    
                 }
                 this.totalData= { totalLean, totalb, totalLeanNum, totalbNum };
             },
@@ -234,7 +226,6 @@
                    this.$store.dispatch('risk_selectProjectRiskRule',{id:this.itemManageDetail.id,category:1}).then(()=>{
                         this.getTotalData()
                         this.getRiskLine();
-                        console.log(this.riskLine)
                         this.getImageData();
                     })
                    
