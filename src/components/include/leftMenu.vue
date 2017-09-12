@@ -27,7 +27,7 @@
                         <el-menu-item index="4-2" @click="go(menus[9].value,menus[9].index)">&emsp;保证金管理</el-menu-item>
                         <el-menu-item index="4-3" @click="go(menus[10].value,menus[10].index)">&emsp;居间费管理</el-menu-item>
                         <el-menu-item index="4-4" @click="go(menus[11].value,menus[11].index)">&emsp;充值记录</el-menu-item>
-                        <el-menu-item index="4-5" @click="go(menus[12].value,menus[12].index)">&emsp;费率设置</el-menu-item>
+                        <el-menu-item index="4-5" @click="go(menus[12].value,menus[12].index)">&emsp;资金规则参数设置</el-menu-item>
                         <el-menu-item index="4-6" @click="go(menus[13].value,menus[13].index)">&emsp;资金划拨审批</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="5" @click="go(menus[14].value,menus[14].index)">

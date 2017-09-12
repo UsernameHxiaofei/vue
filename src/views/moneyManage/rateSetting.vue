@@ -4,7 +4,7 @@
 }
 
 .inputgroup .el-input {
-    width: 76%!important;
+    width: 90%!important;
 }
 
 .inputgroup .el-form-item__content {
@@ -77,46 +77,84 @@
             <el-dialog title="资金规则参数设置" :visible.sync="dialogRateVisible" @close="cancel">
                 <el-form :model="rateForm" :rules="rules" ref="rateForm">
                     <el-form-item label="融资服务费率" prop="serviceChargeRate">
-                        <el-input v-model.number="rateForm.serviceChargeRate"></el-input> %
+                        <el-input v-model.number="rateForm.serviceChargeRate">
+                                <template slot="append">%</template>
+                        </el-input> 
                     </el-form-item>
-                    <el-form-item label="融资交易手续费率" prop="feeRate">
-                        <el-input v-model.number="rateForm.feeRate"></el-input> %
+                    <el-form-item label="交易手续费率" prop="feeRate">
+                        <el-input v-model.number="rateForm.feeRate">
+                                <template slot="append">%</template>
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="行家分成比例" prop="expertSharePercent">
-                        <el-input v-model.number="rateForm.expertSharePercent"></el-input> %
+                        <el-input v-model.number="rateForm.expertSharePercent">
+                                <template slot="append">%</template>
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="项目投资Carry比例" prop="carryPercent">
-                        <el-input v-model.number="rateForm.carryPercent"></el-input> %
+                        <el-input v-model.number="rateForm.carryPercent">
+                                <template slot="append">%</template>
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="领投分成比例" prop="leadInvestSharePercent">
-                        <el-input v-model.number="rateForm.leadInvestSharePercent"></el-input> %
+                        <el-input v-model.number="rateForm.leadInvestSharePercent">
+                                <template slot="append">%</template>
+                        </el-input>
                     </el-form-item>
-                    <el-form-item label="领投比例" prop="leadInvestPercent">
-                        <el-input v-model.number="rateForm.leadInvestPercent"></el-input> %
-                    </el-form-item>
+                    <!-- <el-form-item label="领投比例" prop="leadInvestPercent">
+                        <el-input v-model.number="rateForm.leadInvestPercent">
+                                <template slot="append">%</template>
+                        </el-input>
+                    </el-form-item> -->
                     <el-form-item label="项目方保证金比例" prop="financingEnsurePercent">
-                        <el-input v-model.number="rateForm.financingEnsurePercent"></el-input> %
+                        <el-input v-model.number="rateForm.financingEnsurePercent">
+                                <template slot="append">%</template>
+                        </el-input>
                     </el-form-item>
                     <el-form-item label="领投保证金比例" prop="quotaUnder">
-                        <el-input v-model.number="rateForm.quotaUnder"></el-input> 万元及以下
-                    </el-form-item>
-                    <el-form-item label="" prop="underEnsurePercent">
-                        <el-input v-model.number="rateForm.underEnsurePercent"></el-input> %
-                    </el-form-item>
-                    <el-form-item label="" prop="quotaAbove">
-                        <el-input v-model.number="rateForm.quotaAbove"></el-input> 万元及以上
-                    </el-form-item>
-                    <el-form-item label="" prop="aboveEnsurePercent">
-                        <el-input v-model.number="rateForm.aboveEnsurePercent"></el-input> %
+                        <el-row>
+                            <el-col :span="12">
+                                <el-input v-model.number="rateForm.quotaUnder">
+                                    <template slot="append">万元及以下</template>
+                                </el-input>
+                            </el-col>
+                            <el-col :span="11">
+                                <el-input v-model.number="rateForm.underEnsurePercent">
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </el-col>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="12">
+                                <el-input v-model.number="rateForm.quotaAbove">
+                                    <template slot="append">万元以上</template>
+                                </el-input>
+                            </el-col>
+                            <el-col :span="11">
+                                <el-input v-model.number="rateForm.aboveEnsurePercent">
+                                    <template slot="append">%</template>
+                                </el-input>
+                            </el-col>
+                        </el-row>
                     </el-form-item>
                     <el-form-item label="投资人保证金比例" prop="investEnsurePercent">
-                        <el-input v-model.number="rateForm.investEnsurePercent"></el-input> %
+                        <el-input v-model.number="rateForm.investEnsurePercent">
+                                <template slot="append">%</template>
+                        </el-input>
                     </el-form-item>
-                    <el-form-item label="投资人最小违约金比例" prop="minInvestPenaltyPercent">
-                        <el-input v-model.number="rateForm.minInvestPenaltyPercent"></el-input> %
-                    </el-form-item>
-                    <el-form-item label="投资人最大违约金比例" prop="maxInvestPenaltyPercent">
-                        <el-input v-model.number="rateForm.maxInvestPenaltyPercent"></el-input> %
+                    <el-form-item label="投资人违约金比例" prop="minInvestPenaltyPercent">
+                        <el-row>
+                            <el-input v-model.number="rateForm.minInvestPenaltyPercent">
+                                <template slot="prepend">低值</template>
+                                <template slot="append">%</template>
+                            </el-input>
+                        </el-row>
+                        <el-row>
+                            <el-input v-model.number="rateForm.maxInvestPenaltyPercent">
+                                <template slot="prepend">高值</template>
+                                <template slot="append">%</template>
+                            </el-input>
+                        </el-row>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -130,46 +168,70 @@
             <el-dialog title="全局资金规则参数设置" :visible.sync="dialogOverallVisible" @close="quit">
                 <el-form :model="overallForm" :rules="overrule" ref="overallForm">
                     <el-form-item label="融资服务费率" prop="serviceChargeRate">
-                        <el-input v-model.number="overallForm.serviceChargeRate"></el-input> %
+                        <el-input v-model.number="overallForm.serviceChargeRate">
+                                <template slot="append">%</template> 
+                        </el-input>
                     </el-form-item>
-                    <el-form-item label="融资交易手续费率" prop="feeRate">
-                        <el-input v-model.number="overallForm.feeRate"></el-input> %
+                    <el-form-item label="交易手续费率" prop="feeRate">
+                        <el-input v-model.number="overallForm.feeRate"><template slot="append">%</template></el-input>
                     </el-form-item>
                     <el-form-item label="行家分成比例" prop="expertSharePercent">
-                        <el-input v-model.number="overallForm.expertSharePercent"></el-input> %
+                        <el-input v-model.number="overallForm.expertSharePercent"><template slot="append">%</template> </el-input>
                     </el-form-item>
                     <el-form-item label="项目投资Carry比例" prop="carryPercent">
-                        <el-input v-model.number="overallForm.carryPercent"></el-input> %
+                        <el-input v-model.number="overallForm.carryPercent"><template slot="append">%</template> </el-input>
                     </el-form-item>
                     <el-form-item label="领投分成比例" prop="leadInvestSharePercent">
-                        <el-input v-model.number="overallForm.leadInvestSharePercent"></el-input> %
+                        <el-input v-model.number="overallForm.leadInvestSharePercent"><template slot="append">%</template> </el-input>
                     </el-form-item>
-                    <el-form-item label="领投比例" prop="leadInvestPercent">
-                        <el-input v-model.number="overallForm.leadInvestPercent"></el-input> %
-                    </el-form-item>
+                    <!-- <el-form-item label="领投比例" prop="leadInvestPercent">
+                        <el-input v-model.number="overallForm.leadInvestPercent"><template slot="append">%</template> </el-input>
+                    </el-form-item> -->
                     <el-form-item label="项目方保证金比例" prop="financingEnsurePercent">
-                        <el-input v-model.number="overallForm.financingEnsurePercent"></el-input> %
+                        <el-input v-model.number="overallForm.financingEnsurePercent"><template slot="append">%</template> </el-input>
                     </el-form-item>
                     <el-form-item label="领投保证金比例" prop="quotaUnder">
-                        <el-input v-model.number="overallForm.quotaUnder"></el-input> 万元及以下
-                    </el-form-item>
-                    <el-form-item label="" prop="underEnsurePercent">
-                        <el-input v-model.number="overallForm.underEnsurePercent"></el-input> %
-                    </el-form-item>
-                    <el-form-item label="" prop="quotaAbove">
-                        <el-input v-model.number="overallForm.quotaAbove"></el-input> 万元以上
-                    </el-form-item>
-                    <el-form-item label="" prop="aboveEnsurePercent">
-                        <el-input v-model.number="overallForm.aboveEnsurePercent"></el-input> %
+                            <el-row>
+                                    <el-col :span="12">
+                                        <el-input v-model.number="overallForm.quotaUnder">
+                                            <template slot="append">万元及以下</template>
+                                        </el-input>
+                                    </el-col>
+                                    <el-col :span="11">
+                                        <el-input v-model.number="overallForm.underEnsurePercent">
+                                            <template slot="append">%</template>
+                                        </el-input>
+                                    </el-col>
+                                </el-row>
+                                <el-row>
+                                    <el-col :span="12">
+                                        <el-input v-model.number="overallForm.quotaAbove">
+                                            <template slot="append">万元以上</template>
+                                        </el-input>
+                                    </el-col>
+                                    <el-col :span="11">
+                                        <el-input v-model.number="overallForm.aboveEnsurePercent">
+                                            <template slot="append">%</template>
+                                        </el-input>
+                                    </el-col>
+                                </el-row> 
                     </el-form-item>
                     <el-form-item label="投资人保证金比例" prop="investEnsurePercent">
-                        <el-input v-model.number="overallForm.investEnsurePercent"></el-input> %
+                        <el-input v-model.number="overallForm.investEnsurePercent"><template slot="append">%</template></el-input>
                     </el-form-item>
-                    <el-form-item label="投资人最小违约金比例" prop="minInvestPenaltyPercent">
-                        <el-input v-model.number="overallForm.minInvestPenaltyPercent"></el-input> %
-                    </el-form-item>
-                    <el-form-item label="投资人最大违约金比例" prop="maxInvestPenaltyPercent">
-                        <el-input v-model.number="overallForm.maxInvestPenaltyPercent"></el-input> %
+                    <el-form-item label="投资人违约金比例" prop="minInvestPenaltyPercent">
+                            <el-row>
+                                    <el-input v-model.number="overallForm.minInvestPenaltyPercent">
+                                        <template slot="prepend">低值</template>
+                                        <template slot="append">%</template>
+                                    </el-input>
+                                </el-row>
+                                <el-row>
+                                    <el-input v-model.number="overallForm.maxInvestPenaltyPercent">
+                                        <template slot="prepend">高值</template>
+                                        <template slot="append">%</template>
+                                    </el-input>
+                                </el-row>
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
@@ -203,7 +265,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: '',
+                    leadInvestPercent: 0,
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
@@ -228,7 +290,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: '',
+                    leadInvestPercent: 0,
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
@@ -273,7 +335,7 @@ export default {
 
                 ],
                 feeRate: [
-                    { required: true, type: 'number', message: '请输入融资交易手续费率', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请输入交易手续费率', trigger: 'blur' },
 
                 ],
                 expertSharePercent: [
@@ -288,10 +350,10 @@ export default {
                     { required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
 
                 ],
-                leadInvestPercent: [
-                    { required: true, type: 'number', message: '请输入领投比例', trigger: 'blur' },
+                // leadInvestPercent: [
+                //     { required: true, type: 'number', message: '请输入领投比例', trigger: 'blur' },
 
-                ],
+                // ],
                 financingEnsurePercent: [
                     { required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
 
@@ -300,30 +362,14 @@ export default {
                     { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
 
                 ],
-                underEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入领投保证金比例', trigger: 'blur' },
-
-                ],
-                quotaAbove: [
-                    { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
-
-                ],
-                aboveEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入领投保证金比例', trigger: 'blur' },
-
-                ],
                 investEnsurePercent: [
                     { required: true, type: 'number', message: '请输入投资人保证金比例', trigger: 'blur' },
 
                 ],
                 minInvestPenaltyPercent: [
-                    { required: true, type: 'number', message: '请输入投资人最小违约金比例', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请输入投资人违约金比例', trigger: 'blur' },
 
-                ],
-                maxInvestPenaltyPercent: [
-                    { required: true, type: 'number', message: '请输入投资人最大违约金比例', trigger: 'blur' },
-
-                ],
+                ]
             },
             rules: {
                 serviceChargeRate: [
@@ -331,7 +377,7 @@ export default {
 
                 ],
                 feeRate: [
-                    { required: true, type: 'number', message: '请输入融资交易手续费率', trigger: 'blur' },
+                    { required: true, type: 'number', message: '请输入交易手续费率', trigger: 'blur' },
 
                 ],
                 expertSharePercent: [
@@ -346,28 +392,16 @@ export default {
                     { required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
 
                 ],
-                leadInvestPercent: [
-                    { required: true, type: 'number', message: '请输入领投比例', trigger: 'blur' },
+                // leadInvestPercent: [
+                //     { required: true, type: 'number', message: '请输入领投比例', trigger: 'blur' },
 
-                ],
+                // ],
                 financingEnsurePercent: [
                     { required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
 
                 ],
                 quotaUnder: [
                     { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
-
-                ],
-                underEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入领投保证金比例', trigger: 'blur' },
-
-                ],
-                quotaAbove: [
-                    { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
-
-                ],
-                aboveEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入领投保证金比例', trigger: 'blur' },
 
                 ],
                 investEnsurePercent: [
@@ -377,11 +411,7 @@ export default {
                 minInvestPenaltyPercent: [
                     { required: true, type: 'number', message: '请输入投资人最小违约金比例', trigger: 'blur' },
 
-                ],
-                maxInvestPenaltyPercent: [
-                    { required: true, type: 'number', message: '请输入投资人最大违约金比例', trigger: 'blur' },
-
-                ],
+                ]
             },
             keyword: '',
             itemStatu: '',
@@ -401,7 +431,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: '',
+                    leadInvestPercent: 0,
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
@@ -426,7 +456,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: '',
+                    leadInvestPercent: 0,
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
