@@ -42,7 +42,8 @@ export const itemModule = {
         invertUserInfo:{},//投资人信息
         salesQuota:{},//销售份额
         businessInfo:{},//工商信息
-        credit:{}//反欺诈信息
+        credit:{},//反欺诈信息
+        merchant:{}//聚合支付商户信息
     },
     actions: {
         //项目首页列表
@@ -93,7 +94,7 @@ export const itemModule = {
                 console.log('编辑独立合伙人信息', data);
                 if(data.success){
                     vue.$message.success(data.information);
-                    dispatch('item_getPartnerInfo',param)
+                    return dispatch('item_getPartnerInfo',param);
                 }else{
                     vue.$message.warning(data.information)
                 }
@@ -511,9 +512,37 @@ export const itemModule = {
                 }
                 dispatch('enterprise_getInfo',{id:param.id})
             })
+        },
+        item_getMerchant({commit,dispatch},param){
+            return api.item_getMerchant(param).then((data)=>{
+                commit('item_setMerchant',data);
+            })
+        },
+        item_addMerchant({commit,dispatch},{param,vue}){
+            return api.item_addMerchant(param).then((data)=>{
+                if(!data.success){
+                    vue.$message.warning(data.information);
+                }else{
+                    vue.$message.success(data.information);
+                }
+                dispatch('item_getMerchant',{id:param.projectId});
+            })
+        },
+        item_editMerchant({commit,dispatch},{param,vue}){
+            return api.item_editMerchant(param).then((data)=>{
+                if(!data.success){
+                    vue.$message.warning(data.information);
+                }else{
+                    vue.$message.success(data.information);
+                }
+                dispatch('item_getMerchant',{id:param.projectId});
+            })
         }
     },
     mutations: {
+        item_setMerchant(state,data){
+            state.merchant=data;
+        },
         item_setExportListForSimulation(state,data){
             state.exportList={};
             state.exportList1=data;

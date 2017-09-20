@@ -220,7 +220,7 @@ export const customerModule = {
         },
         //首页客户统计
         customer_statistics({ commit },param) {
-          return  api.customer_statistics(param).then((data) => {
+            return api.customer_statistics(param).then((data) => {
                 commit("customer_statistics_setData",data);
             });
         },

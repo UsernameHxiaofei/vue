@@ -17,7 +17,7 @@
     <div class="tab-second">
         <div class="collar-box">
             <div class="expert-advice">
-                <p class="collar"><span>领投金额<em>{{((leadAd.investmentAmount||0)/10000).toFixed(2)}}万</em></span><span>领投比例<em>{{(leadAd.investmentRatio||0)*100+'%'}}</em></span></p>
+                <p class="collar"><span>领投金额<em>{{((leadAd.investmentAmount||0)/10000).toFixed(6)}}万</em></span><span>领投比例<em>{{(leadAd.investmentRatio||0)*100+'%'}}</em></span></p>
                 <div class="expert-con" v-html="leadAd.opinion"></div>
                 <div class="remind">
                     <span>免责声明及风险提醒：</span>

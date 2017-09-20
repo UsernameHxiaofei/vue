@@ -234,7 +234,7 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane :label="'讨论('+subjectCount+')'" :name="'7'">
+                <!-- <el-tab-pane :label="'讨论('+subjectCount+')'" :name="'7'">
                     <el-row :gutter="30">
                         <el-col :span="17" class="tab-left">
                             <discussTab @countDiscussNum="countDiscussNum"></discussTab>
@@ -243,7 +243,7 @@
                             <rightTab></rightTab>
                         </el-col>
                     </el-row>
-                </el-tab-pane>
+                </el-tab-pane> -->
             </el-tabs>
         </div>
     </div>
@@ -263,15 +263,33 @@
     export default {
         mounted () {
             this.$store.dispatch('item_getManageDetail', { id: this.$route.params.projectId }).then(() => {
-                this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
-                this.$store.dispatch('enterprise_getInfo', { id: this.itemManageDetail.enterpriseId });
-                this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId })
-                return this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId })
+                if(this.itemManageDetail.leadInvestorIntentionId){
+                    this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});
+                }
+                if(this.itemManageDetail.enterpriseId ){
+                    this.$store.dispatch('enterprise_getInfo', { id: this.itemManageDetail.enterpriseId });
+                }
+                if(this.itemManageDetail.detailedIntroductionId ){
+                    this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId })
+                }
+                if(this.itemManageDetail.financingPlanId){
+                    return this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId })
+                }else{
+                    return false;
+                }
             }).then(()=>{
-                this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id });
-                this.$store.dispatch('item_getSalesQuota',{id:this.financingPlanData.salesQuotaId});
-                this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.projectId });
-                this.$store.dispatch('item_getRewardPlan',{ id: this.financingPlanData.rewardPlanId});
+                if(this.financingPlanData.id){
+                    this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id });
+                }
+                if(this.financingPlanData.salesQuotaId){
+                    this.$store.dispatch('item_getSalesQuota',{id:this.financingPlanData.salesQuotaId});
+                }
+                if(this.$route.params.projectId){
+                    this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.projectId });
+                }
+                if(this.financingPlanData.rewardPlanId){
+                    this.$store.dispatch('item_getRewardPlan',{ id: this.financingPlanData.rewardPlanId});
+                }
             })
             this.$store.dispatch('item_getInvestUserInfo',{id:this.$route.params.projectId}).then(()=>{
                 this.invertUserNum=this.$store.state.item.invertUserInfo&&this.$store.state.item.invertUserInfo.length||0;

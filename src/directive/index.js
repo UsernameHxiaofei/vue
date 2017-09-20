@@ -5,7 +5,7 @@ export default {
           // 聚焦元素
           el.style.cursor='pointer';
           el.addEventListener('click',function(){
-            if(el.src!=''){
+            if(el.src&&el.src!=''){
                 window.open(el.src);
             }
           })

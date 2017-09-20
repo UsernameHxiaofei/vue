@@ -47,7 +47,7 @@
                 <li>
                     <label>个人情况</label>
                     <span class="zhuanzhuhangye">
-                         <span>{{investorData.industryLevel|industryLevel}}</span>
+                         <span>{{investorData.industryLevel|industryLevelforInvestor}}</span>
                     </span>
                 </li>
             </ul>

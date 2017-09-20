@@ -316,6 +316,7 @@ module.exports = function client(router, sc, passport) {
         };
         stuff.items = [
             param.id,
+            param.enterpriseId,
             param.status,
             param.refuseReason
         ];
@@ -989,6 +990,48 @@ module.exports = function client(router, sc, passport) {
             stuff.items = [
                 param.id,
                 param.representativeId
+            ];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.head);
+            });
+    });
+    //获取聚合支付商户信息
+    router.all('/item_getMerchant', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("EnterpriseAccountDLBTask", "selectAccountByProjectId", "enterpriseManger");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [
+                param.id
+            ];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.object);
+            });
+    });
+    //添加聚合支付商户信息
+    router.all('/item_addMerchant', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("EnterpriseAccountDLBTask", "addEnterpriseAccountDLB", "enterpriseManger");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [
+                param
+            ];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.head);
+            });
+    });
+    //更改聚合支付商户信息
+    router.all('/item_editMerchant', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("EnterpriseAccountDLBTask", "updateEnterpriseAccountDLB", "enterpriseManger");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [
+                param
             ];
             sc.send(stuff).then((resp) => {
                 res.json(resp.head);

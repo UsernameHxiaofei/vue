@@ -4,6 +4,8 @@ import projectStatusData from '../constant/projectStatus'
 import projectPhaseData from '../constant/projectPhase'
 import certificateData from '../constant/certification'
 import personalData from '../constant/personal'
+import investorPersonalData from '../constant/investorPersonal'
+
 import enterpriseData from '../constant/enterprise'
 import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
@@ -171,6 +173,18 @@ export function industryLevel(value) { //个人情况
     }
     for (let index = 0; index < personalData.length; index++) {
         let element = personalData[index];
+        if (element.value == code) {
+            return element.label;
+        }
+    }
+}
+export function industryLevelforInvestor(value) { //个人情况
+    let code = parseInt(value);
+    if (!code) {
+        return '暂无数据';
+    }
+    for (let index = 0; index < investorPersonalData.length; index++) {
+        let element = investorPersonalData[index];
         if (element.value == code) {
             return element.label;
         }

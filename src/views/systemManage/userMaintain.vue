@@ -31,7 +31,10 @@
                 </el-table-column>
                 <el-table-column prop="name" label="姓名">
                 </el-table-column>
-                <el-table-column prop="email" label="Email">
+                <el-table-column  label="Email">
+                        <template scope="scope">
+                              {{(scope.row.email&&scope.row.email.address)||''}}
+                        </template>
                 </el-table-column>
                 <el-table-column prop="roles" label="角色">
                     <template scope="scope">
@@ -53,9 +56,9 @@
                     <template scope="scope">
                         <span title="禁用/激活" class="normalize" :class="{ active: scope.row.status==2 }" @click="openClosure(scope.row)">
                         </span>
-                        <span title="编辑账户" class="edits" @click="getData(scope.row)">
+                        <span title="编辑账号" class="edits" @click="getData(scope.row)">
                         </span>
-                        <span title="删除账户" class="el-icon-delete2 del-btn" @click="delBtn(scope.row)"></span>
+                        <span title="删除账号" class="el-icon-delete2 del-btn" @click="delBtn(scope.row)"></span>
                     </template>
                 </el-table-column>
                 <el-table-column width="30">
@@ -70,7 +73,7 @@
         </div>
         <!-- 添加用戶弹窗 -->
         <div class="p-form">
-            <el-dialog title="添加用戶" :visible.sync="dialogUserVisible" @close="cancel">
+            <el-dialog title="添加账号" :visible.sync="dialogUserVisible" @close="cancel">
                 <el-form :model="addUser" :rules="rule" ref="addUser">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="addUser.mobileNumber" auto-complete="off"></el-input>
@@ -101,7 +104,7 @@
         </div>
         <!-- 编辑用戶弹窗 -->
         <div class="p-form">
-            <el-dialog title="编辑用戶" :visible.sync="dialogeditUserVisible" @close="quit">
+            <el-dialog title="编辑账号" :visible.sync="dialogeditUserVisible" @close="quit">
                 <el-form :model="editUser" :rules="editRule" ref="editUser">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="editUser.mobileNumber" auto-complete="off"></el-input>
@@ -261,7 +264,6 @@ export default {
                     { required: true, message: '请输入姓名', trigger: 'blur' }
                 ],
                 email: [
-                    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                     { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
                 ],
                 roles: [
@@ -283,7 +285,6 @@ export default {
                     { required: true, message: '请输入姓名', trigger: 'blur' }
                 ],
                 email: [
-                    { required: true, message: '请输入邮箱地址', trigger: 'blur' },
                     { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
                 ],
                 roles: [
@@ -365,7 +366,7 @@ export default {
                     this.$store.dispatch('system_createUser', this.addUser).then(() => {
                         if (this.systemCreate.success) {
                             this.$message({
-                                message: '添加用户成功！',
+                                message: '添加账号成功！',
                                 type: 'success'
                             });
                             this.$store.dispatch('system_getManageList', this.param);
@@ -382,8 +383,8 @@ export default {
         },
         // 点击编辑用户查询信息
         getData(data) {
-            this.editUser = [];
             this.editUser = data;
+            this.editUser.email = data.email&&data.email.address;
             this.roles = [];
             this.checked = false;
             this.editUser.loginPassword = '';

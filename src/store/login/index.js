@@ -28,6 +28,11 @@ export const loginModule = {
              commit('login_setUser',data.actor);
              commit("emp_setEmp",data.employee);
             })
+        },
+        login_getUserByPassport({state,commit},session){
+            return api.login_getUserByPassport().then((data)=>{
+                commit('login_setUser',data)
+            })
         }
     },
     mutations: {

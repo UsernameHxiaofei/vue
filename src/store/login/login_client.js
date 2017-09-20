@@ -19,6 +19,11 @@ module.exports=function client(Vue){
         return Vue.http.post('login_getUser').then(response => {
           return response.body;
          });
+      },
+      login_getUserByPassport:()=>{
+        return Vue.http.post('login_getUser').then(response => {
+          return response.body;
+        });
       }
     } 
 }

@@ -4,6 +4,7 @@ import { Loading,Message } from 'element-ui';
 
 Vue.use(Resource);
 Vue.http.options.root = '/ajax';
+Vue.http.options.emulateJSON = true;
 
 Vue.http.interceptors.push(function (request, next) {
   let service=Loading.service({

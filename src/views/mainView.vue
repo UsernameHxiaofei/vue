@@ -221,7 +221,7 @@ export default {
 			customerParam:{}
 		}
 	},
-	 computed: {
+	computed: {
          itemManageList:function(){
              return this.$store.state.item.itemManageList||{};
          },
@@ -253,7 +253,6 @@ export default {
 		this.$store.commit('enterprise_setMemberInfo',{});
 		this.$store.commit('enterprise_setInfo',{});
     },
-	
 	methods: {
 		chooseType(type){
 			this.itemType=type;

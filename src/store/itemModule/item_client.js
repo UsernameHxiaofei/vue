@@ -284,6 +284,21 @@ module.exports=function client(Vue){
         return Vue.http.post('item_updateTimeInfoNew',param).then(response=>{
           return response.body;
         })
+      },
+      item_getMerchant:(param)=>{
+        return Vue.http.post('item_getMerchant',param).then(response=>{
+          return response.body;
+        })
+      },
+      item_addMerchant:(param)=>{
+        return Vue.http.post('item_addMerchant',param).then(response=>{
+          return response.body;
+        })
+      },
+      item_editMerchant:(param)=>{
+        return Vue.http.post('item_editMerchant',param).then(response=>{
+          return response.body;
+        })
       }
     } 
 }

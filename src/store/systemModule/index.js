@@ -134,9 +134,12 @@ export const systemModule = {
                 commit("system_updateInquiryList",data);
             });
         },
-        updateActor({ commit },param) {
+        updateActor({ commit,dispatch },param) {
            return api.updateActor(param).then((data) => {
                 commit("updateActor_setStatus",data);
+                if(data.success){
+                    dispatch('login_getUserByPassport')
+                }
             });
         },
     },

@@ -101,11 +101,11 @@
                                 <template slot="append">%</template>
                         </el-input>
                     </el-form-item>
-                    <!-- <el-form-item label="领投比例" prop="leadInvestPercent">
+                    <el-form-item label="最低领投比例" prop="leadInvestPercent">
                         <el-input v-model.number="rateForm.leadInvestPercent">
                                 <template slot="append">%</template>
                         </el-input>
-                    </el-form-item> -->
+                    </el-form-item>
                     <el-form-item label="项目方保证金比例" prop="financingEnsurePercent">
                         <el-input v-model.number="rateForm.financingEnsurePercent">
                                 <template slot="append">%</template>
@@ -184,9 +184,9 @@
                     <el-form-item label="领投分成比例" prop="leadInvestSharePercent">
                         <el-input v-model.number="overallForm.leadInvestSharePercent"><template slot="append">%</template> </el-input>
                     </el-form-item>
-                    <!-- <el-form-item label="领投比例" prop="leadInvestPercent">
+                    <el-form-item label="最低领投比例" prop="leadInvestPercent">
                         <el-input v-model.number="overallForm.leadInvestPercent"><template slot="append">%</template> </el-input>
-                    </el-form-item> -->
+                    </el-form-item>
                     <el-form-item label="项目方保证金比例" prop="financingEnsurePercent">
                         <el-input v-model.number="overallForm.financingEnsurePercent"><template slot="append">%</template> </el-input>
                     </el-form-item>
@@ -265,7 +265,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: 0,
+                    leadInvestPercent: '',
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
@@ -290,7 +290,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: 0,
+                    leadInvestPercent: '',
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
@@ -350,10 +350,9 @@ export default {
                     { required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
 
                 ],
-                // leadInvestPercent: [
-                //     { required: true, type: 'number', message: '请输入领投比例', trigger: 'blur' },
-
-                // ],
+                leadInvestPercent: [
+                    { required: true, type: 'number', message: '请输入最低领投比例', trigger: 'blur' },
+                ],
                 financingEnsurePercent: [
                     { required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
 
@@ -392,13 +391,11 @@ export default {
                     { required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
 
                 ],
-                // leadInvestPercent: [
-                //     { required: true, type: 'number', message: '请输入领投比例', trigger: 'blur' },
-
-                // ],
+                leadInvestPercent: [
+                    { required: true, type: 'number', message: '请输入最低领投比例', trigger: 'blur' },
+                ],
                 financingEnsurePercent: [
                     { required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
-
                 ],
                 quotaUnder: [
                     { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
@@ -431,7 +428,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: 0,
+                    leadInvestPercent: '',
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',
@@ -456,7 +453,7 @@ export default {
                     expertSharePercent: '',
                     carryPercent: '',
                     leadInvestSharePercent: '',
-                    leadInvestPercent: 0,
+                    leadInvestPercent: '',
                     financingEnsurePercent: '',
                     quotaUnder: '',
                     underEnsurePercent: '',

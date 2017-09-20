@@ -146,22 +146,22 @@
                     <img src="../../../assets/images/linear.png" />
                     <span>企业基本情况</span>
                 </div>
-                <el-form-item label="企业名称" prop="name" label-width="140px">
+                <el-form-item label="企业名称" prop="name" label-width="190px">
                     <el-input v-model="form.name" :maxlength="32"></el-input>
                 </el-form-item>
-                <el-form-item label="所属行业" label-width="140px" required prop="industry">
+                <el-form-item label="所属行业" label-width="190px" required prop="industry">
                     <el-radio-group v-model="form.industry">
                         <el-radio v-for="(item,index) in industryData" :key="index" :label="item.value">{{item.label}}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item class="description" label="统一社会信用代码" :maxlength="32" prop="creditCode" label-width="140px">
+                <el-form-item class="description" label="统一社会信用代码" :maxlength="32" prop="creditCode" label-width="190px">
                     <el-input v-model="form.creditCode"></el-input>
                 </el-form-item>
                 <div class="model-divider">
                     <img src="../../../assets/images/linear.png" />
                     <span>项目经验</span>
                 </div>
-                <el-form-item class="description" label="已有运营中的实体项目数" label-width="170px" prop="existProjectNum">
+                <el-form-item class="description" label="已有运营中的实体项目数" label-width="190px" prop="existProjectNum">
                     <el-input-number v-model.number="form.existProjectNum"  :min="0"></el-input-number>
                 </el-form-item>
                 <div class="model-divider">
@@ -651,7 +651,7 @@ export default {
                     });
                 });
         },
-        team(teamform) {
+        team() {
             this.$refs['teamform'].validate((valid) => {
                 if (valid) {
                     let param=this.teamform;
@@ -659,7 +659,6 @@ export default {
                     if(this.editMember.length>0){
                         param.id=this.editMember;
                         this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
-                            console.log(this.isRepresent,this.enterpriseInfo.representativeId!=this.editMember)
                             if(this.isRepresent&&this.enterpriseInfo.representativeId!=this.editMember){
                                 param.id=this.itemManageDetail.enterpriseId;
                                 param.representativeId=this.editMember;

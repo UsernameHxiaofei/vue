@@ -649,7 +649,7 @@
                     </el-form-item>
                     <el-form-item label="个人情况" prop="industryLevel">
                         <el-radio-group v-model="investor.industryLevel">
-                            <el-radio v-for="item in personalList" :label="item.value" :key="item.label">{{item.label}}</el-radio>
+                            <el-radio v-for="item in investorPersonalOptions" :label="item.value" :key="item.label">{{item.label}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item prop="agree" style="margin-bottom: 5px;">
@@ -683,6 +683,7 @@
 import { regionData } from 'element-china-area-data'
 import industryList from '../../../constant/industry.js'
 import personalList from '../../../constant/personal.js'
+import investorPersonalList from '../../../constant/investorPersonal.js'
 import enterpriseList from '../../../constant/enterprise.js'
 import { getSelectArray,getIndustryByArray } from '../../../util/index.js'
 import _ from 'lodash'
@@ -734,6 +735,7 @@ export default {
             regionOptions: [],
             usualPlaceOptions: [],
             industryList: industryList,
+            investorPersonalOptions:investorPersonalList,
             personalList: personalList,
             enterpriseList: enterpriseList,
             password: {

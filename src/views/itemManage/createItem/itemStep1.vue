@@ -207,10 +207,18 @@
                     </transition>
                 </div>
                 <div class="choose-area">
-                    <el-form-item prop="invitation">
-                        <el-checkbox v-model="conditionform.invitation" label="邀请码机制" name="invitation"></el-checkbox>
-                    </el-form-item>
+                    <el-col :span="5">
+                        <el-form-item prop="invitation">
+                            <el-checkbox v-model="conditionform.invitation" label="邀请码机制" name="invitation"></el-checkbox>
+                        </el-form-item>
+                    </el-col>
+                    <transition name="el-zoom-in-top" >
+                        <el-form-item prop="invitationCode" v-show="conditionform.invitation">
+                            <el-input  v-model="conditionform.invitationCode"></el-input>
+                        </el-form-item>
+                    </transition>
                     <span class="tips">上线之前获得平台生成的邀请码，提供邀请码的投资人才能参与项目</span>
+               
                 </div>
             </el-form>
         </div>
@@ -275,7 +283,8 @@
                     Ispermanent: false,
                     permanent: '',
                     investorNativePlace: '',
-                    invitation: false
+                    invitation: false,
+                    invitationCode:''
                 },
                 rules: {
                     name: [
@@ -344,14 +353,13 @@
         },
         methods: {
             onSubmit() {
-                
                 this.$refs['form'].validate((valid) => {
                     this.$refs['planform'].validate((a) => {
-                        
                     if (valid&&a) {
                         if(this.investorCondition.financeId){
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
+                                invitationCode:this.conditionform.invitationCode,
                                 investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
                                 permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
                                 financeId: this.$route.params.id
@@ -360,6 +368,7 @@
                         }else{
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
+                                invitationCode:this.conditionform.invitationCode,
                                 investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
                                 permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
                                 financeId: this.$route.params.id
@@ -469,7 +478,7 @@
                     } else {
                         if(!a){
                             this.$message.warning('请完善融资方案信息')
-                            return false
+                            return false;
                         }
                         this.$message.warning('请完善项目信息')
                         return false;

@@ -52,10 +52,10 @@
             <div class="borders">
                 <el-row>
                     <el-col :span="7">
-                        <span class="span-label">籍贯</span><br/><span class="span-con">{{investorCondition.permanent|addressCondition}}</span>
+                        <span class="span-label">籍贯</span><br/><span class="span-con">{{investorCondition.investorNativePlace|addressCondition}}</span>
                     </el-col>
                     <el-col :span="7">
-                        <span class="span-label">常驻地区</span><br/><span class="span-con">{{investorCondition.investorNativePlace|addressCondition}}</span>
+                        <span class="span-label">常驻地区</span><br/><span class="span-con">{{investorCondition.permanent|addressCondition}}</span>
                     </el-col>
                 </el-row>
             </div>
@@ -68,7 +68,7 @@
                         <span class="span-label">目标融资额</span><br/><span class="span-con">{{financingPlanData.financingAmount/10000||0}}万</span>
                     </el-col>
                     <el-col :span="5">
-                        <span class="span-label">领投额</span><br/><span class="span-con">{{leadAd.investmentAmount?((leadAd.investmentAmount||0)/10000).toFixed(2)+'万':'确定中'}}</span>
+                        <span class="span-label">领投额</span><br/><span class="span-con">{{leadAd.investmentAmount?((leadAd.investmentAmount||0)/10000).toFixed(6)+'万':'确定中'}}</span>
                     </el-col>
                     <el-col :span="5">
                         <span class="span-label">待上线融资额</span><br/><span class="span-con">{{salesQuota.salesAmount?salesQuota.salesAmount/10000+'万':'未设置'}}</span>

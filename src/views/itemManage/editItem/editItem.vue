@@ -650,10 +650,13 @@ export default {
                     if(this.editMember.length>0){
                         param.id=this.editMember;
                         this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
-                            if(this.isRepresent){
-                                param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId;
+                            if(this.isRepresent&&this.enterpriseInfo.representativeId!=this.editMember){
+                                param.id=this.itemManageDetail.enterpriseId;
                                 param.representativeId=this.editMember;
-                                this.$store.dispatch('item_updateEnterprise', { param: param, vue: this });
+                                this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
+                            }
+                            if(!this.isRepresent&&this.enterpriseInfo.representativeId==this.editMember){
+                               this.$message.warning('请勾选其他团队成员的法定代表人复选款来变更法定代表人，只能变更不能取消')
                             }
                             this.editMember='';
                         })
@@ -662,12 +665,22 @@ export default {
                             if(this.isRepresent&&this.$store.state.item.enterpriseMemberId.length>0){
                                 let param={};
                                 param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId;
-                                param.representativeId=this.$store.state.item.enterpriseMemberId;
-                                this.$store.dispatch('item_updateEnterprise', { param: param, vue: this });
+                                param.representativeId=JSON.parse(this.$store.state.item.enterpriseMemberId);
+                                this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
                             }
                         })
                     }
-                    this.$refs['teamform'].resetFields();
+                    this.teamform= {
+                                id:'',
+                                imageURL:'',
+                                name: '',
+                                mobileNumber: '',
+                                identNumber: '',
+                                education: '',
+                                marriage:4,
+                                position: '',
+                                profile: ''
+                    }
                     this.dialogTeamVisible = false;
                 } else {
                     return false;

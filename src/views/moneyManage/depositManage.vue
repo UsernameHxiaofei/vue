@@ -187,10 +187,10 @@
                         </div>
                         <p class="cui-btn">
                             <!--催收必须该项目未缴纳保证金，并且项目不是重新发起状态和募资失败状态  -->
-                            <el-button v-if="lookForm.initDepositStatusCode==0&&lookForm.status!=11&&lookForm.status!=12" :plain="true" type="success" @click="initCollect">催收</el-button>
+                            <el-button v-if="lookForm.initDepositStatusCode==0" :plain="true" type="success" @click="initCollect">催收</el-button>
                             <!--退款  项目除了在已成功和已分红的不能退款其他的都能退-->
-                            <el-button v-if="lookForm.initRefundStatusCode==0&&lookForm.initDepositStatusCode==2&&lookForm.status!=9&&lookForm.status!=10" :plain="true" type="success"  @click="initDrawback">退款</el-button>
-                            <el-button v-if="lookForm.initRefundStatusCode==1&&lookForm.initDepositStatusCode==2&&lookForm.status!=9&&lookForm.status!=10" :plain="true" type="success" @click="initDrawback">重新申请退款</el-button>
+                            <el-button v-if="lookForm.initRefundStatusCode==0&&lookForm.initDepositStatusCode==2" :plain="true" type="success"  @click="initDrawback">退款</el-button>
+                            <el-button v-if="lookForm.initRefundStatusCode==1&&lookForm.initDepositStatusCode==2" :plain="true" type="success" @click="initDrawback">重新申请退款</el-button>
                             <span v-if="lookForm.initRefundStatusCode==2">退款中</span>
                             <span v-if="lookForm.initRefundStatusCode==3">已退款</span>
                         </p>
@@ -223,9 +223,9 @@
                             <span class="pro-money">{{lookForm.leadDepositAmount}}元</span>
                         </div>
                         <p class="cui-btn">
-                            <el-button v-if="lookForm.leadDepositStatusCode==0&&lookForm.status!=11&&lookForm.status!=12" :plain="true" type="success" @click="leadCollect">催收</el-button>
-                            <el-button v-if="lookForm.leadRefundStatusCode==0&&lookForm.leadDepositStatusCode==2&&lookForm.status!=9&&lookForm.status!=10" :plain="true" type="success" @click="drawback">退款</el-button>
-                            <el-button v-if="lookForm.leadRefundStatusCode==1&&lookForm.leadDepositStatusCode==2&&lookForm.status!=9&&lookForm.status!=10" :plain="true" type="success" @click="drawback">重新申请退款</el-button>
+                            <el-button v-if="lookForm.leadDepositStatusCode==0" :plain="true" type="success" @click="leadCollect">催收</el-button>
+                            <el-button v-if="lookForm.leadRefundStatusCode==0&&lookForm.leadDepositStatusCode==2" :plain="true" type="success" @click="drawback">退款</el-button>
+                            <el-button v-if="lookForm.leadRefundStatusCode==1&&lookForm.leadDepositStatusCode==2" :plain="true" type="success" @click="drawback">重新申请退款</el-button>
                             <span v-if="lookForm.leadRefundStatusCode==2">退款中</span>
                             <span v-if="lookForm.leadRefundStatusCode==3">已退款</span>
                         </p>

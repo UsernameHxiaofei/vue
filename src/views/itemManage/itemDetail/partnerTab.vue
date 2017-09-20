@@ -79,10 +79,10 @@
                     <el-input v-model="partnerForm.bankAccount" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="protocol" label="有限合伙协议模板" >
-                    <el-upload class="upload-img upimage" :multiple="false" action="/ajax/fileupload" :auto-upload="true"  
+                    <el-upload class="upload-img upimage" ref="uploadPartnerDome" :multiple="false" action="/ajax/fileupload" :auto-upload="true"  
                             :file-list="protocols"
                             :on-remove="protocol_remove" :before-upload="beforeUpload"   :on-success="protocolUpload" :data="{fileType:2}" 
-                            :disabled="partnerForm.protocol&&partnerForm.protocol.length!=0" >
+                             >
                             <el-button size="small" type="primary">点击上传</el-button>
                     </el-upload>
                 </el-form-item>
@@ -101,7 +101,7 @@
             this.$store.dispatch('item_getPartnerInfo', { id: this.$route.params.projectId }).then(()=>{
                 this.partnerForm=JSON.parse(JSON.stringify(this.partner));
                 if(this.partner.protocol&&this.partner.protocol.length>0){
-                    this.protocols=[{name:'有限合伙人模板',url:this.partner.protocol}]
+                    this.protocols=[{name:'有限合伙人模板',response:{objectLiteral:this.partner.protocol},url:this.partner.protocol}]
                 }
             })
         },
@@ -134,14 +134,21 @@
             }
         },
         methods: {
-            protocol_remove(){
-                this.protocols=[];
-                this.partnerForm.protocol='';
+            protocol_remove(file,fileList){
+                if(fileList.length>0){
+                    this.partnerForm.protocol=JSON.parse(fileList[0].response.objectLiteral);
+                }else{
+                    this.partnerForm.protocol='';
+                }
             },
             protocolUpload(response,file,fileList){
                 this.partnerForm.protocol=JSON.parse(response.objectLiteral);
             },
             beforeUpload(file){
+                if(this.partnerForm.protocol.length>0){
+                    this.$message.warning('有限合伙人协议模板只能存在一个!');
+                    return false;
+                }
                 if(file.size>=1024*1024*10){
                     this.$message.warning('不能上传大于10MB的文件！');
                     return false;
@@ -159,6 +166,7 @@
                         param.id=this.$route.params.projectId;
                         this.$store.dispatch('item_updatePartnerInfo',{param,vue:this}).then(()=>{
                              this.partnerForm=JSON.parse(JSON.stringify(this.partner));
+                             this.dialogFormVisible=false;
                         })
                         this.$refs['partnerForm'].resetFields();
                     } else {

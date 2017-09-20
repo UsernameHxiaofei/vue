@@ -5,12 +5,19 @@
 #step-bar .el-step:last-child{width: auto!important;}
 
 /*项目信息*/
-.item-info{padding:30px;border-top: 1px solid #eeeeee;border-bottom: 1px solid #eeeeee;overflow: hidden; }
-.com-img{float: left;margin-right: 20px;width: 26%;height: 230px;}
-.item-con{float: left;width: 70%;}
-.item-title{font-weight: bold;font-size: 20px;    line-height: 60px;}
+.item-info{
+    display: flex;
+    flex-flow:row nowrap;
+    padding:30px;
+    border-top: 1px solid #eeeeee;
+    border-bottom: 1px solid #eeeeee;
+    overflow: hidden; 
+}
+.com-img{float: left;margin-right: 20px;width: 26%;min-width:300px;height: 230px;}
+.item-con{float: left;width: 70%; align-self:center}
+.item-title{font-weight: bold;font-size: 20px;    line-height: 40px;}
 .item-list-info .grid-content{color: #666666;line-height: 29px;}
-.btn-team{overflow: hidden;margin-top: 20px;}
+.btn-team{overflow: hidden;margin-top: 10px;}
 #btnt-l{float: left;}
 #btnt-r{float: right;}
 #btnt-l .el-button{background: #06ccb6;border-color: #06ccb6;color: white;min-width: 100px;}
@@ -59,7 +66,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             <div class="item-list-info">
                 <el-row>
                     <el-col :span="6"><div class="grid-content">发&nbsp;起&nbsp;人：{{itemManageDetail.initiatorName}}</div></el-col>
-                    <el-col :span="6"><div class="grid-content">目标融资额：{{(((itemManageDetail.financingAmount||0)/10000).toFixed(2))}}万</div></el-col>
+                    <el-col :span="6"><div class="grid-content">目标融资额：{{(((itemManageDetail.financingAmount||0)/10000).toFixed(6))}}万</div></el-col>
                     <el-col :span="6"><div class="grid-content">融资时间：{{itemManageDetail.financingDays}}天</div></el-col>
                     <el-col :span="6"><div class="grid-content">项目编号：{{itemManageDetail.code}}</div></el-col>
                 </el-row>
@@ -71,13 +78,13 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 </el-row>
                 <el-row>
                     <el-col :span="6"><div class="grid-content">所属地区：{{itemManageDetail.regionCode|address}}</div></el-col>
-                    <el-col :span="6"><div class="grid-content">已投入额：{{((itemManageDetail.raisedAmount||0)/10000).toFixed(2)}}万</div></el-col>
+                    <el-col :span="6"><div class="grid-content">已投入额：{{((itemManageDetail.investedAmount||0)/10000).toFixed(6)}}万</div></el-col>
                     <el-col :span="6"><div class="grid-content">发起次数：{{itemManageDetail.ordinal}}</div></el-col>
                     <el-col :span="6"><div class="grid-content">领投：{{itemManageDetail.leadInvestorName}}</div></el-col>
                 </el-row>
                 <el-row>
-                    <el-col :span="6"><div class="grid-content">总投资额：{{((itemManageDetail.overallInvestment||0)/10000).toFixed(2)}}万</div></el-col>
-                    <el-col :span="6"><div class="grid-content">承诺出资：{{((itemManageDetail.commitmentAmount||0)/10000).toFixed(2)}}万</div></el-col>
+                    <el-col :span="6"><div class="grid-content">总投资额：{{((itemManageDetail.overallInvestment||0)/10000).toFixed(6)}}万</div></el-col>
+                    <el-col :span="6"><div class="grid-content">承诺出资：{{((itemManageDetail.commitmentAmount||0)/10000).toFixed(6)}}万</div></el-col>
                     <el-col :span="6"><div class="grid-content">阶&emsp;&emsp;段：<span class="cur-step">{{itemManageDetail.phase|projectPhase}}</span></div></el-col>
                     <el-col :span="6"><div class="grid-content">状态：{{itemManageDetail.status|projectStatus}}</div></el-col>
                 </el-row>
@@ -90,6 +97,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                     <el-button @click="setTimeInfo" :disabled="isSetTime" v-show="itemManageDetail.phase==7">{{isSetTime?'已设置上线时间':'设置上线时间'}}</el-button>
                     <el-button @click="dialogPartnerVisible = true" :disabled="isPartner" v-show="itemManageDetail.phase==10">{{isPartner?'已关联有限合伙':'关联有限合伙'}}</el-button>
                     <el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-show="itemManageDetail.phase==10">银账信息审核</el-button>
+                    <el-button @click="dialogMerchantVisible = true" :disabled="!!merchant.id"  v-show="itemManageDetail.phase==10">{{(!!merchant.id)?'已关联聚合支付商户信息':'关联聚合支付商户信息'}}</el-button>
                     <el-button @click="fangkuan" :disabled="isFun" v-show="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
                 </div>
                 <div id="btnt-r">
@@ -131,11 +139,14 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             <el-tab-pane label="时间信息" name="8" v-if="itemManageDetail.phase>=7">
                 <timeTab ></timeTab>
             </el-tab-pane>
-            <el-tab-pane label="有限合伙信息" v-if="itemManageDetail.phase>=10" name="10" > 
+            <el-tab-pane label="有限合伙信息" v-if="itemManageDetail.phase>=10" name="9" > 
                 <partnerTab ></partnerTab>
             </el-tab-pane>
-            <el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="9" >
+            <el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="10" >
                 <resisAuthTab  v-if="activeName=='9'"></resisAuthTab>
+            </el-tab-pane> 
+            <el-tab-pane label="聚合支付商户信息" v-if="itemManageDetail.phase>=10" name="11" >
+                <merchant  v-if="activeName=='11'"></merchant>
             </el-tab-pane> 
         </el-tabs>
     </div>
@@ -179,7 +190,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                     <el-input v-model="limitform.bankAccount" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="protocol" label="有限合伙协议模板" :label-width="formLabelWidth">
-                    <el-upload  :multiple="false" action="/ajax/fileupload" :auto-upload="true"  
+                    <el-upload ref="partnerContractDemo" :multiple="false" action="/ajax/fileupload" :auto-upload="true"  
                             :on-remove="protocol_remove" :before-upload="beforeUpload"   :on-success="protocolUpload" :data="{fileType:2}" 
                              >
                             <el-button size="small" type="primary">点击上传</el-button>
@@ -187,6 +198,28 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 </el-form-item>
                 
             </el-form>
+        </dialogComponent>
+    </div>
+     <!--关联聚合支付商户信息-->
+    <div class="p-form  refuse-form">
+        <dialogComponent :title="'关联聚合支付商户信息'"  :dialogFormVisible="dialogMerchantVisible" @dialog-confirm-callback="merchantSubmit" @dialog-cancel-callback="merchantQuit">
+                <el-form :model="merchantForm" ref="merchantForm" :rules="merchantFormRules" :label-width="'200px'" style="width:80%">
+                        <el-form-item prop="customer_num" label="商户编号">
+                            <el-input  v-model="merchantForm.customer_num" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="short_name" label="商户简称">
+                            <el-input  v-model="merchantForm.short_name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="shop_num" label="店铺编号">
+                            <el-input v-model="merchantForm.shop_num" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="shop_name" label="店铺名称">
+                            <el-input v-model="merchantForm.shop_name" auto-complete="off"></el-input>
+                        </el-form-item>
+                        <el-form-item prop="shop_name" label="机具号">
+                            <el-input v-model="merchantForm.machine_num" auto-complete="off"></el-input>
+                        </el-form-item>
+                    </el-form>
         </dialogComponent>
     </div>
     <div class="p-form  refuse-form">
@@ -264,6 +297,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
     import riskTab from './itemDetail/riskTab'
     import enterpriseRelationship from './itemDetail/enterpriseRelationship.vue'
     import thirdAuth from './itemDetail/thirdAuth.vue'
+    import merchant from './itemDetail/merchant.vue'
 
     import dialogComponent from '../../components/common/dialog'
     import projectList from '../../constant/projectPhase.js'
@@ -281,7 +315,8 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             riskTab,
             enterpriseRelationship,
             thirdAuth,
-            dialogComponent
+            dialogComponent,
+            merchant
         },
         computed: {
             itemManageDetail: function () {
@@ -304,10 +339,17 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             },
             operator:function(){
                 return this.$store.state.login.actor;
+            },
+            merchant: function () {
+                return this.$store.state.item.merchant || {};
             }
         },
         mounted() {
+            
             this.$store.dispatch('item_getManageDetail',  {id:this.projectId}).then(()=>{
+                if(this.itemManageDetail.phase>=10){
+                    this.$store.dispatch('item_getMerchant', {id:this.projectId})
+                }
                 if(this.itemManageDetail.enterpriseId){
                     this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId})
                 }
@@ -354,11 +396,23 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 dialogStopVisible: false,
                 dialogApplyVisible: false,
                 dialogPartnerVisible: false,
+                dialogMerchantVisible: false,
                 dialogAuthVisible:false,
                 dialogTimeVisible:false,
                 activeName: '1',
                 formLabelWidth: '130px',
                 auth_refuseReason:'',
+                merchantForm: {
+                    projectId:'',
+                    customer_num: '',
+                    short_name: '',
+                    shop_num: '',
+                    shop_name: '',
+                    machine_num: ''
+                },
+                merchantFormRules: {
+                    customer_num: [{ required: true, message: '请输入商户编号', trigger: 'blur' }]
+                },
                 reject: {
                     desc: ''
                 },
@@ -468,7 +522,23 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             };
         },
         methods: {
-             open2() {
+            merchantQuit(){
+                this.dialogMerchantVisible=false;
+                this.$refs['merchantForm'].resetFields();
+            },
+            merchantSubmit(){
+                this.$refs['merchantForm'].validate((valid) => {
+                        if (valid) {
+                            this.merchantForm.projectId=this.projectId;
+                            this.$store.dispatch('item_addMerchant',{param:this.merchantForm,vue:this})
+                            this.$refs['merchantForm'].resetFields();
+                            this.dialogMerchantVisible=false;
+                        } else {
+                            return false;
+                        }
+                });
+            },
+            open2() {
                 this.$confirm('重新发起项目将终止当前项目流程，在保留相关信息的基础上回到起点，再完整经历一遍项目周期。（请谨慎使用该功能）', '重新发起', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -482,13 +552,21 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             back(){
                 this.$router.go(-1);
             },
-            protocol_remove(){
-                this.limitform.protocol='';
+            protocol_remove(file, fileList){
+                if(fileList.length>0){
+                    this.limitform.protocol=JSON.parse(fileList[0].response.objectLiteral);
+                }else{
+                    this.limitform.protocol='';
+                }
             },
             protocolUpload(response,file,fileList){
                 this.limitform.protocol=JSON.parse(response.objectLiteral);
             },
             beforeUpload(file){
+                if(this.limitform.protocol.length>0){
+                    this.$message.warning('有限合伙人模板只能上传一个！');
+                    return false;
+                }
                 if(file.size>=1024*1024*10){
                     this.$message.warning('不能上传大于10MB的文件！');
                     return false;
