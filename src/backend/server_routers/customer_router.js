@@ -73,7 +73,6 @@ module.exports = function client(router, sc, passport) {
     router.all('/customer_statistics', function (req, res, next) {
         const stuff = sc.instanceRequest("CustomerCountTask", "selectCustomerCount", "customerManage");
         stuff.auxiliary = { [passport]: req.session.passport };
-        stuff.items = [];
         sc.send(stuff).then((resp) => {
             res.json(resp.object)
         });

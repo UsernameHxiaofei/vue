@@ -55,8 +55,8 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
-      customer_statistics: (param) => {
-        return Vue.http.post('customer_statistics',param).then(response => {
+      customer_statistics: () => {
+        return Vue.http.get('customer_statistics').then(response => {
           return response.body;
         });
       },

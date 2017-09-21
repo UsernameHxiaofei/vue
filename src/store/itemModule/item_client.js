@@ -10,8 +10,8 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
-      item_getHeadData: (param) => {
-        return Vue.http.post('item_getHeadData',param).then(response => {
+      item_getHeadData: () => {
+        return Vue.http.get('item_getHeadData').then(response => {
           return response.body;
         });
       },

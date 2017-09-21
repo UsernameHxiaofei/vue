@@ -106,8 +106,8 @@ export const moneyModule = {
                 commit("money_setList", data);
             });
         },
-        invest_getHeadInfo({ commit }, param) {
-            return api.invest_getHeadInfo(param).then((data) => {
+        invest_getHeadInfo({ commit }) {
+            return api.invest_getHeadInfo().then((data) => {
                 commit("money_setinvestHeadInfo", data);
             });
         },

@@ -177,14 +177,14 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 <el-form-item prop="bankName" label="开户银行" :label-width="formLabelWidth">
                     <el-input v-model="limitform.bankName" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item prop="bankOrgnizationName" label="开户行机构名" :label-width="formLabelWidth">
-                    <el-input v-model="limitform.bankOrgnizationName" auto-complete="off"></el-input>
-                </el-form-item>
                 <el-form-item prop="bankProvince" label="开户行省名" :label-width="formLabelWidth">
                     <el-input v-model="limitform.bankProvince" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="bankCity" label="开户行市名" :label-width="formLabelWidth">
                     <el-input v-model="limitform.bankCity" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item prop="bankOrgnizationName" label="开户行机构名" :label-width="formLabelWidth">
+                    <el-input v-model="limitform.bankOrgnizationName" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="bankAccount" label="银行账户" :label-width="formLabelWidth">
                     <el-input v-model="limitform.bankAccount" auto-complete="off"></el-input>

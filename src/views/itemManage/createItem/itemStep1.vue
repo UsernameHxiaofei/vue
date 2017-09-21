@@ -218,7 +218,6 @@
                         </el-form-item>
                     </transition>
                     <span class="tips">上线之前获得平台生成的邀请码，提供邀请码的投资人才能参与项目</span>
-               
                 </div>
             </el-form>
         </div>
@@ -301,7 +300,9 @@
                     overallInvestment: [
                         { required: true,min:0,type: 'number', message: '请输入数字', trigger: 'blur' },
                         {trigger:'blur',validator:(rule,value,callback)=>{
-                            this.$refs['planform'].validateField('commitmentAmount')
+                            if(this.planform.commitmentAmount!=''){
+                                this.$refs['planform'].validateField('commitmentAmount')
+                            }
                             callback();
                         }}
                     ],
@@ -311,7 +312,9 @@
                             if(this.planform.overallInvestment/2<this.planform.financingAmount){
                                 callback(new Error('目标融资额<=总投资额*50%'));
                             }
-                            this.$refs['planform'].validateField('commitmentAmount')
+                            if(this.planform.commitmentAmount!=''){
+                                this.$refs['planform'].validateField('commitmentAmount')
+                            }
                             callback();
                         }}
                     ],
@@ -324,7 +327,9 @@
                     investedAmount:[
                         {min:0, type: 'number', message: '请输入数字', trigger: 'blur' },
                         {trigger:'change',validator:(rule,value,callback)=>{
-                            this.$refs['planform'].validateField('commitmentAmount')
+                            if(this.planform.commitmentAmount!=''){
+                                this.$refs['planform'].validateField('commitmentAmount')
+                            }
                             callback();
                         }}
                     ],
@@ -515,6 +520,7 @@
                         this.conditionform.permanent = this.investorCondition.permanent;
                         this.selectedOptions2 = getSelectArray(this.investorCondition.permanent);
                         this.conditionform.invitation = this.investorCondition.invitation == 1 ? true : false;
+                        this.conditionform.invitationCode=this.investorCondition.invitationCode;
                     })
                     if(this.itemManageDetail.financingPlanId){
                         this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId }).then(() => {

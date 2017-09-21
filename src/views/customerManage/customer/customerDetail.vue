@@ -242,7 +242,9 @@ export default {
 			let actorParams = {
 				id: this.$route.params.actorId
 			}
-			this.$store.dispatch('customerInfoByActorId', actorParams);
+			this.$store.dispatch('customerInfoByActorId', actorParams).then(()=>{
+				this.customerInfoByActorId.email=this.customerInfoByActorId.email.address;
+			})
 			let customerParams = {
 				id: this.$route.params.customerId
 			}

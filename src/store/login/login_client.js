@@ -6,7 +6,7 @@
 module.exports=function client(Vue){
     return {
       login_check: () => {
-        return Vue.http.post('login_check').then(response => {
+        return Vue.http.get('login_check').then(response => {
           return response.body;
         });
       },

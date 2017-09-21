@@ -44,7 +44,7 @@
             <el-col :span="7">
                 <div class="ac-col-2">
                     <p>{{actor.mobileNumber}}</p>
-                    <p>{{actor.email}}</p>
+                    <p>{{actor.email||''}}</p>
                 </div>
             </el-col>
             <el-col :span="7">
@@ -1047,7 +1047,9 @@ export default {
             let actorParams = {
                 id: this.$route.params.actorId
             }
-            this.$store.dispatch('customerInfoByActorId', actorParams);
+            this.$store.dispatch('customerInfoByActorId', actorParams).then(()=>{
+                this.actor.email=this.actor.email.address;
+            })
             let customerParams = {
                 id: this.$route.params.customerId
             }

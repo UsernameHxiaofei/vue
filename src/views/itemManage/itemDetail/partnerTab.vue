@@ -66,14 +66,14 @@
                 <el-form-item prop="bankName" label="开户银行">
                     <el-input v-model="partnerForm.bankName" auto-complete="off"></el-input>
                 </el-form-item>
-                <el-form-item prop="bankOrgnizationName" label="开户银行机构">
-                    <el-input v-model="partnerForm.bankOrgnizationName" auto-complete="off"></el-input>
-                </el-form-item>
                 <el-form-item prop="bankProvince" label="开户行省名">
                     <el-input v-model="partnerForm.bankProvince" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="bankCity" label="开户行市名">
                     <el-input v-model="partnerForm.bankCity" auto-complete="off"></el-input>
+                </el-form-item>
+                <el-form-item prop="bankOrgnizationName" label="开户银行机构">
+                    <el-input v-model="partnerForm.bankOrgnizationName" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="bankAccount" label="银行账户">
                     <el-input v-model="partnerForm.bankAccount" auto-complete="off"></el-input>

@@ -10,13 +10,13 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
-    invest_getHeadInfo: (param) => {
-      return Vue.http.post('invest_getHeadInfo', param).then(response => {
+    invest_getHeadInfo: () => {
+      return Vue.http.get('invest_getHeadInfo').then(response => {
         return response.body;
       });
     },
-    moneySelect_getData: (param) => {
-      return Vue.http.post('moneySelect_getData', param).then(response => {
+    moneySelect_getData: () => {
+      return Vue.http.get('moneySelect_getData').then(response => {
         return response.body;
       });
     },
@@ -25,13 +25,13 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
-    getAll_transactionStatus: (param) => {
-      return Vue.http.post('getAll_transactionStatus', param).then(response => {
+    getAll_transactionStatus: () => {
+      return Vue.http.get('getAll_transactionStatus').then(response => {
         return response.body;
       });
     },
-    get_topupStatResult: (param) => {
-      return Vue.http.post('get_topupStatResult', param).then(response => {
+    get_topupStatResult: () => {
+      return Vue.http.get('get_topupStatResult').then(response => {
         return response.body;
       });
     },
@@ -45,8 +45,8 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
-    getHeadBrokerageFee: (param) => {
-      return Vue.http.post('getHeadBrokerageFee', param).then(response => {
+    getHeadBrokerageFee: () => {
+      return Vue.http.get('getHeadBrokerageFee').then(response => {
         return response.body;
       });
     },
@@ -60,8 +60,8 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
-    money_getHeadInfo: (param) => {
-      return Vue.http.post('money_getHeadInfo', param).then(response => {
+    money_getHeadInfo: () => {
+      return Vue.http.get('money_getHeadInfo').then(response => {
         return response.body;
       });
     },
@@ -125,8 +125,8 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
-    drawback_headInfo: (param) => {
-      return Vue.http.post('drawback_headInfo', param).then(response => {
+    drawback_headInfo: () => {
+      return Vue.http.get('drawback_headInfo').then(response => {
         return response.body;
       });
     },

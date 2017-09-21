@@ -11,8 +11,8 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
-       system_roleInfo: (param) => {
-        return Vue.http.post('system_roleInfo',param).then(response => {
+       system_roleInfo: () => {
+        return Vue.http.get('system_roleInfo').then(response => {
           return response.body;
         });
       },
@@ -38,8 +38,8 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
-      system_authRoleList: (param) => {
-        return Vue.http.post('system_authRoleList',param).then(response => {
+      system_authRoleList: () => {
+        return Vue.http.get('system_authRoleList').then(response => {
           return response.body;
         });
       },
@@ -89,8 +89,8 @@ module.exports=function client(Vue){
       },
 
       //////////////////权限分配
-       system_getPermissionList: (param) => {
-        return Vue.http.post('system_getPermissionList',param).then(response => {
+       system_getPermissionList: () => {
+        return Vue.http.get('system_getPermissionList').then(response => {
           return response.body;
         });
       },

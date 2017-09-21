@@ -88,7 +88,7 @@ export default {
     beforeMount () {
     //   this.$store.dispatch('cusHeadPortrait',{id:this.actor.id});
       this.actorParams = {
-            receiver: this.$route.params.id,
+            receiver: this.actor.id,
             msgType:3,
             pageNo: 1,
             pageSize: 10,
