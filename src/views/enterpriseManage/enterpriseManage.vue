@@ -55,8 +55,8 @@ export default {
     },
     mounted () {
         this.param={
-                beginTime:this.range[0],
-                endTime:this.range[1],
+                beginTime:this.range[0]||'',
+                endTime:this.range[1]||'',
                 addressCode:'',
                 keyword:this.keyword,
                 pageSize:10,
