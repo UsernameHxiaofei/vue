@@ -1479,9 +1479,14 @@ export default {
             })
         },
         cancel(formName) {
-            if(this.$refs[formName]){
-                this.$refs[formName].resetFields();
+            try {
+                if(this.$refs[formName]){
+                    this.$refs[formName].resetFields();
+                }
+            } catch (error) {
+                
             }
+            
             this.editPasswordDialog = false;
             this.expertDialog = false;
             this.leadDialog = false;
