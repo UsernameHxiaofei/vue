@@ -85,7 +85,7 @@
 
         <el-col class="businessTitle">
                 <img src="../../../assets/images/linear.png"  /> <span>企业银账授权信息</span>
-                <el-button class="modify"  @click="dialogFormVisible = true">修改</el-button>
+                <el-button class="modify" v-if="!!enterpriseAccount.id"  @click="dialogFormVisible = true">修改</el-button>
             </el-col>
         <el-col class="businessinfo-content">
             <table class="accunt-info">
@@ -118,7 +118,7 @@
         <el-row v-if="!!personAccount.id">
                 <el-col class="businessTitle">
                     <img src="../../../assets/images/linear.png"  /> <span>个人银账授权信息</span>
-                    <el-button class="modify"  @click="dialogFormVisible1 = true">修改</el-button>
+                    <el-button class="modify" v-if="!!personAccount.id"  @click="dialogFormVisible1 = true">修改</el-button>
                 </el-col>
                 <el-col class="businessinfo-content">
                     <table class="accunt-info">

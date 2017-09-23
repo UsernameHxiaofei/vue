@@ -1048,7 +1048,11 @@ export default {
                 id: this.$route.params.actorId
             }
             this.$store.dispatch('customerInfoByActorId', actorParams).then(()=>{
-                this.actor.email=this.actor.email.address;
+                if(this.actor.email){
+                    this.actor.email=this.actor.email.address;
+                }else{
+                    this.actor.email='';
+                }
             })
             let customerParams = {
                 id: this.$route.params.customerId
@@ -1360,7 +1364,7 @@ export default {
                     this.menuclick(1)
                 }
                 this.leadData.leadRegionOptions = [];
-                this.newIndustryList=this.leadData.industryLed;
+                this.newIndustryList=this.leadData.industryLed||[];
                 this.leadData.agree = true;
                 this.leadData.promise = true;
                 // this.leadData.industryList = [];

@@ -383,7 +383,7 @@ export default {
         },
         // 点击编辑用户查询信息
         getData(data) {
-            this.editUser = data;
+            this.editUser = JSON.parse(JSON.stringify(data));
             this.editUser.email = data.email&&data.email.address;
             this.roles = [];
             this.checked = false;
@@ -392,7 +392,6 @@ export default {
             for (var i = 0; i < this.editUser.roles.length; i++) {
                 this.roles[i] = this.editUser.roles[i].id;
             }
-            this.editUser.roles = [];
             this.editUser.roles = this.roles;
             this.dialogeditUserVisible = true;
             this.changeCommand();
@@ -424,7 +423,11 @@ export default {
                                 this.$store.dispatch('system_getManageList', this.param);
                                 this.dialogeditUserVisible = false;
                             } else {
-                                this.$message('编辑失败');
+                                if(this.systemUpdate.information==''){
+                                    this.$message.warning(this.systemUpdate.information);
+                                }else{
+                                    this.$message.warning('操作失败');
+                                }
                             }
                         });
                     }

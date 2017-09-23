@@ -125,9 +125,12 @@
                     </el-form-item>
                     <el-form-item label="目标融资额" prop="financingAmount">
                         <el-col :span="21">
-                            <el-input v-model.number="planform.financingAmount" placeholder="目标融资额<=总投资额*50%">
+                            <el-input v-model.number="planform.financingAmount" placeholder="请输入目标融资额">
                                 <template slot="append">万元</template>
                             </el-input>
+                            <!-- <el-input v-model.number="planform.financingAmount" placeholder="目标融资额<=总投资额*50%">
+                                <template slot="append">万元</template>
+                            </el-input> -->
                         </el-col>
                     </el-form-item>
                     <el-form-item label="融资时间" required prop="financingDays">
@@ -309,9 +312,9 @@
                     financingAmount: [
                         { required: true,min:0,type: 'number', message: '请输入数字', trigger: 'blur' },
                         { trigger: 'blur',validator:(rule, value, callback) => {
-                            if(this.planform.overallInvestment/2<this.planform.financingAmount){
-                                callback(new Error('目标融资额<=总投资额*50%'));
-                            }
+                            // if(this.planform.overallInvestment/2<this.planform.financingAmount){
+                            //     callback(new Error('目标融资额<=总投资额*50%'));
+                            // }
                             if(this.planform.commitmentAmount!=''){
                                 this.$refs['planform'].validateField('commitmentAmount')
                             }
@@ -347,7 +350,7 @@
                             }else{
                                 callback();
                             }
-                        }},
+                        }}, 
                     ],
                     selectedOptions: [
                         { type: "array", required: true, message: '请选择所属地区', trigger: 'change' }
@@ -511,7 +514,7 @@
                     this.form.industry = this.itemManageDetail.industry;
                     this.form.regionCode = this.itemManageDetail.regionCode;
                     this.form.selectedOptions = getSelectArray(this.itemManageDetail.regionCode);
-                    this.form.businessArea = this.itemManageDetail.businessArea;
+                    this.form.businessArea = (this.itemManageDetail.businessArea==undefined?'':this.itemManageDetail.businessArea);
                     this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.id }).then(() => {
                         this.conditionform.IsinvestorNativePlace = this.investorCondition.investorNativePlace&&this.investorCondition.investorNativePlace.length > 0 ? true : false;
                         this.conditionform.investorNativePlace = this.investorCondition.investorNativePlace;
@@ -530,8 +533,8 @@
                                 this.planform.financingDays = (this.financingPlanData.financingDays)||'';
                                 this.planform.transferringSharesRatio = (this.financingPlanData.transferringSharesRatio * 100)||0;
                                 this.planform.isInvested = (this.financingPlanData.investedAmount && this.financingPlanData.investedAmount > 0) ? true : false;
-                                this.planform.investedAmount = this.financingPlanData.investedAmount / 10000;
-                                this.planform.commitmentAmount = this.financingPlanData.commitmentAmount / 10000;
+                                this.planform.investedAmount = (this.financingPlanData.investedAmount / 10000)||'';
+                                this.planform.commitmentAmount = (this.financingPlanData.commitmentAmount / 10000)||'';
                                 this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id }).then(() => {
                                     for (let i = 0; i < this.investedEvidence.length; i++) {
                                         let item = this.investedEvidence[i];

@@ -2,7 +2,7 @@ const { StuffClient } = require('./client');
 const express = require('express');
 const router = express.Router();
 
-let sc = new StuffClient("127.0.0.1", 8881);
+let sc = new StuffClient("127.0.0.1", 8882);
 if (process.env.NODE_ENV === 'production') {
     if (process.env.server === 'test') {
         sc = new StuffClient("10.240.240.147", 9880);

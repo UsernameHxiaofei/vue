@@ -528,16 +528,17 @@ export const itemModule = {
                 dispatch('item_getMerchant',{id:param.projectId});
             })
         },
-        item_editMerchant({commit,dispatch},{param,vue}){
-            return api.item_editMerchant(param).then((data)=>{
+        item_deleteItem({commit,dispatch},{param,vue}){
+            return api.item_deleteItem(param).then((data)=>{
                 if(!data.success){
                     vue.$message.warning(data.information);
                 }else{
                     vue.$message.success(data.information);
+                    vue.$router.push('/main');
                 }
-                dispatch('item_getMerchant',{id:param.projectId});
             })
-        }
+        },
+
     },
     mutations: {
         item_setMerchant(state,data){

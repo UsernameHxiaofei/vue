@@ -249,7 +249,8 @@ export default {
                 pageSize:10,
                 pageNo:1
 			}
-        this.$store.dispatch('item_getManageList',this.param);
+		this.$store.dispatch('item_getManageList',this.param);
+		this.$store.dispatch('item_getHeadData');
 		this.$store.commit('enterprise_setMemberInfo',{});
 		this.$store.commit('enterprise_setInfo',{});
     },

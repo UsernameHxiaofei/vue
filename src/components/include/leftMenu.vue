@@ -163,6 +163,7 @@
         top: 0;
         left: 0;
         width: 230px;
+        z-index:2;
         bottom:0;
         overflow:auto;
         user-select: none;

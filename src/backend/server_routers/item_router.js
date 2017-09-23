@@ -1037,5 +1037,19 @@ module.exports = function client(router, sc, passport) {
                 res.json(resp.head);
             });
     });
+    //删除项目
+    router.all('/item_deleteItem', function(req, res, next) {
+            let param = req.body;
+            const stuff = sc.instanceRequest("FinancingProjectTask", "deleteProject", "projectManage");
+            stuff.auxiliary = {
+                [passport]: req.session.passport
+            };
+            stuff.items = [
+                param.id
+            ];
+            sc.send(stuff).then((resp) => {
+                res.json(resp.head);
+            });
+    });
     
 }

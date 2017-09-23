@@ -2,12 +2,18 @@
 /*融资数据*/
 .my-col .el-row{margin: 0!important;padding: 30px;background: #fcfcfc;}
 .my-col .el-col-4{padding: 0;height: 94px;-webkit-box-shadow:0 0 8px rgba(0,0,0,0.1);box-shadow:0 0 8px rgba(0,0,0,0.1);padding: 0!important;
-margin: 0 0.9%;width:18.5%;background: white;}
+margin: 10px 1.8% 10px 0;width:18.5%;background: white;min-width: 220px;}
 .my-col .el-row .el-col-4:first-child{margin-left: 0;}
 .my-col .el-row .el-col-4:last-child{margin-right: 0;}
 .my-col .grid-content .pic{float: left;}
-.num-box{float: left;margin: 25px 0 0 15px;}
-.num-box p{font-size: 24px;font-weight: bold;}
+.grid-content{
+    display: flex;
+    flex-flow: row nowrap;
+    
+}
+.num-box{margin: 25px auto auto 15px; display: flex;flex-flow:column nowrap;}
+.num-box p{font-size: 24px;font-weight: bold;position: relative;
+}
 .num-box p sup{font-size: 14px;}
 .color-blue{color: #00cbf6;}
 .color-yellow{color: #fbc937;}

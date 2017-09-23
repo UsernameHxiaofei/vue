@@ -31,10 +31,10 @@ function loginOn() {
     }
     var result=isIE?JSON.parse(xhr.response):xhr.response;
     if (!result.success) {
-      if(document.getElementById('rememberPwd').checked){
-          sessionStorage.setItem('rea',username)
-          sessionStorage.setItem('rep',password)
-      }
+      // if(document.getElementById('rememberPwd').checked){
+      //     sessionStorage.setItem('rea',username)
+      //     sessionStorage.setItem('rep',password)
+      // }
       alert(result.information);
     } else {
       location.href = '/main';

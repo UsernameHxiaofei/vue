@@ -99,6 +99,8 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                     <el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-show="itemManageDetail.phase==10">银账信息审核</el-button>
                     <el-button @click="dialogMerchantVisible = true" :disabled="!!merchant.id"  v-show="itemManageDetail.phase==10">{{(!!merchant.id)?'已关联聚合支付商户信息':'关联聚合支付商户信息'}}</el-button>
                     <el-button @click="fangkuan" :disabled="isFun" v-show="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
+                    <el-button @click="continueEdit" v-show="itemManageDetail.phase==1">继续申请</el-button>
+                    <el-button @click="deleteItem" v-show="itemManageDetail.phase==1">删除项目</el-button>
                 </div>
                 <div id="btnt-r">
                     <el-button class="reCreate" v-if="operator.category==2"  :disabled="itemManageDetail.status==12"  @click="open2">{{itemManageDetail.status==12?'已重新发起':'重新发起'}}</el-button>
@@ -143,7 +145,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 <partnerTab ></partnerTab>
             </el-tab-pane>
             <el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="10" >
-                <resisAuthTab  v-if="activeName=='9'"></resisAuthTab>
+                <resisAuthTab  v-if="activeName=='10'"></resisAuthTab>
             </el-tab-pane> 
             <el-tab-pane label="聚合支付商户信息" v-if="itemManageDetail.phase>=10" name="11" >
                 <merchant  v-if="activeName=='11'"></merchant>
@@ -522,6 +524,12 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             };
         },
         methods: {
+            continueEdit(){
+                this.$router.push('/itemStep1/'+this.projectId);
+            },
+            deleteItem(){
+                this.$store.dispatch('item_deleteItem',{param:{id:this.projectId},vue:this});
+            },
             merchantQuit(){
                 this.dialogMerchantVisible=false;
                 this.$refs['merchantForm'].resetFields();
