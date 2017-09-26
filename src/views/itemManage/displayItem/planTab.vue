@@ -5,7 +5,7 @@
 .borders{padding: 25px 0;border-top: 1px solid #eeeeee;border-bottom: 1px solid #eeeeee;}
 .basic-list{margin-bottom: 40px;}
 .span-label{color: #666666;}
-.span-con{color: #333333;font-weight: bold;}
+.span-con{color: #333333;font-weight: bold; white-space: pre-wrap;}
 
 .rewardLable{
     height:50px
@@ -37,7 +37,7 @@
                         </el-col>
                     </el-row>
                 </div>
-                <el-row>
+                <el-row v-if="investedEvidence&&investedEvidence.length>0">
                     <el-col :span="10">已投入额凭据</el-col>
                     <el-col :span="14">
                          <el-button v-for="(item,index) in investedEvidence" :key="item.index">

@@ -331,7 +331,7 @@ module.exports = function client(router, sc, passport) {
         stuff.auxiliary = {
             [passport]: req.session.passport
         };
-        stuff.items = [param.type];
+        stuff.items = [param.type,param.copies];
         sc.send(stuff).then((resp) => {
             res.json(resp.object);
         });

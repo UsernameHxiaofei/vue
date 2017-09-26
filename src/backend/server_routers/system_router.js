@@ -38,7 +38,7 @@
             ];
             sc.send(stuff).then((resp) =>{res.json(resp.head)});
         });
-         router.all('/system_updateUser*', function (req, res, next) {//根据用户ID更新账户信息
+        router.all('/system_updateUser*', function (req, res, next) {//根据用户ID更新账户信息
             let param=req.body;
             const stuff = sc.instanceRequest("ActorTask", "updateActorById", "securityCenter");
             stuff.auxiliary = {[passport]: req.session.passport};

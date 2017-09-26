@@ -156,6 +156,9 @@
                             </el-input>
                         </el-row>
                     </el-form-item>
+                    <el-form-item label="模拟投资项目投资人分成比例" prop="simulatePercent" v-if="">
+                        <el-input v-model.number="rateForm.simulatePercent"><template slot="append">%</template></el-input>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="cancel">取 消</el-button>
@@ -233,6 +236,8 @@
                                     </el-input>
                                 </el-row>
                     </el-form-item>
+                    
+                    
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="quit">取 消</el-button>
@@ -406,8 +411,7 @@ export default {
 
                 ],
                 minInvestPenaltyPercent: [
-                    { required: true, type: 'number', message: '请输入投资人最小违约金比例', trigger: 'blur' },
-
+                    { required: true, type: 'number', message: '请输入投资人最小违约金比例', trigger: 'blur' }
                 ]
             },
             keyword: '',

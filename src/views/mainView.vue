@@ -132,7 +132,12 @@
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange" :on-icon-click="customerKeywordChange">
 					</el-input>
 				</div>
-       		</div>	
+			   </div>	
+			   <el-form>
+				<el-form-item label="模拟投资最大购买份数" required v-if="itemType=='B'">
+					<el-input-number v-model.number="copies"  :min="1"></el-input-number>
+				</el-form-item>
+			</el-form>
 			<div class="my-table">
 				<el-table :data="customerList.list||customerInfoForSimulationList.list" stripe border style="width: 100%">
 					<el-table-column prop="" width="5">
@@ -172,7 +177,7 @@
 			<div  style="margin:10px 10px 30px 10px;" >
 				<pagination :total="customerList.totalRecords||customerInfoForSimulationList.totalRecords" @size-change="handleCustomerSizeChange" @current-change="handleCustomerCurrentChange"></pagination>
 			</div>
-			
+				
 		</el-dialog>
 		<el-dialog size="tiny" title="选择创建项目的类型" :visible.sync="chooseItemType">
 				<div class="itemType" @click="chooseType('A')">
@@ -213,7 +218,7 @@ export default {
 			status:'',
 			// 搜索
 			keyword: '',
-			
+			copies:1,
 			active: 'border-orange',
 			itemType:'A',
 			customerKeyword:'',
@@ -269,9 +274,7 @@ export default {
 					pageNo:1,
 					pageSize:10
 				}
-				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation).then(()=>{
-					console.log(this.customerInfoForSimulationList)
-				})
+				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation);
 			}
 			this.chooseItemType=false;
 			this.chooseItemCustomer=true;
@@ -298,7 +301,7 @@ export default {
 			}
 		},
 		createItemByCustomer(item){
-			this.$store.dispatch('item_createProject1',{type:this.itemType}).then(()=>{
+			this.$store.dispatch('item_createProject1',{type:this.itemType,copies:copies}).then(()=>{
 				if(!this.$store.state.item.createProjectId.length){
 					this.$message.warning('创建项目失败，请联系服务器开发人员')
 					return false;
