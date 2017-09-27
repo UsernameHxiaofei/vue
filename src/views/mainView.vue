@@ -301,7 +301,7 @@ export default {
 			}
 		},
 		createItemByCustomer(item){
-			this.$store.dispatch('item_createProject1',{type:this.itemType,copies:copies}).then(()=>{
+			this.$store.dispatch('item_createProject1',{type:this.itemType,copies:this.copies}).then(()=>{
 				if(!this.$store.state.item.createProjectId.length){
 					this.$message.warning('创建项目失败，请联系服务器开发人员')
 					return false;
