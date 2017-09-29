@@ -7,122 +7,83 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 	<title>实业项目股权投融资服务综合管理系统</title>
 	<link rel="stylesheet" href="/assets/css/reset.css" />
+	<link rel="stylesheet" href="/assets/fonts/iconfont.css" />
+	<script src="public/jquery-3.2.1.min.js"></script>
 	<style>
-		body {
-			background-image: url(/public/bg1.png);
-			background-size: 100% 100%;
-			z-index:1;
-			overflow: hidden;
-		}
-		*{
-			box-sizing: border-box;
-			-webkit-user-select: none;
-			-moz-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-			z-index:1;
-		}
-		.title{
-			width:100%;
-			margin:150px auto 50px auto;
-			text-align: center;
-			font-size:30px;
-			font-weight:bloder;
-			color:white;
-			font-family: "Microsoft YaHei";
-			color: rgb(255, 255, 255);
-			text-shadow: 0px 5px 5px rgba(8, 1, 2, 0.2);
-			vertical-align: middle;
-			line-height: 2.778;
-			z-index:3;
-		}
-		footer{
-			width:100%;
-			text-align: center;
-			vertical-align: middle;
-			font-size: 14px;
-			color: rgb(169, 169, 169);
-			line-height: 1.429;
-			-moz-transform: matrix( 1.00254213798051,0,0,0.99373991963041,0,0);
-			-webkit-transform: matrix( 1.00254213798051,0,0,0.99373991963041,0,0);
-			-ms-transform: matrix( 1.00254213798051,0,0,0.99373991963041,0,0);
-			padding-top:180px;
-			z-index:3;
-		}
-	
-		.centerBox{
-			z-index:99;
-			background: url(/public/centerbox.png) no-repeat center;
-			background-size: 1002px 217px;
-			width: 100%;
-			height: 321px;
-			z-index:3;
-		}
-		.login-form{
-			width: 604px;
-			height: 321px;
-			margin:0 auto;  
-			background: white;
-			padding:40px 20px; 
-			display: flex;
-			flex-flow: row nowrap;
-			z-index:3;
-			box-shadow: 0px 5px 5px #d2f8f3; 
-		}
-		.logo{
-			z-index:3;
-			width: 200px;
-			height: 100%;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			border-right:1px solid #d5d5d5;
-		}
-		.form{
-			z-index:3;
-			width:400px;
-			height:100%;
-			padding:40px 20px;
-		}
-		.form-group{
-			width: 100%;
-			display: flex;
-			flex-flow: row nowrap;
-			margin:20px 0;
-		}
-		.form-control {
-			display: inline-block;
-			height: 34px;
-			padding: 6px 12px;
-			font-size: 14px;
-			line-height: 1.42857143;
-			color: #555;
-			background-color: #fff;
-			background-image: none;
-			border: 1px solid #ccc;
-			outline: none;
-		}
-		.form-control:focus{
-			border-color: #06ccb6;
-			outline: 0;
-			-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
-			box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
-		}
-		.form-group label{
-			width:90px;
-			font-family: "Microsoft YaHei";
-			display: block;
-			padding:8px;
-			height: 34px;
-  			text-align: justify;
-			font-size: 16px;
-			color: rgb(51, 51, 51);
-		}
-		.submit-button label{
-			display: inline-block;
-			width:88px;
-		}
-		.submit-button button:active:focus:hover{
+		* {
+            box-sizing: border-box;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        body {
+            background: url(/public/bg.png) repeat;
+            overflow: hidden;
+        }
+        .center-block {
+            width: 800px;
+            margin: 0 auto;
+        }
+        
+        h3 {
+            font-size: 18px;
+            color: rgb(255, 255, 255);
+            line-height: 1.208;
+            text-align: center;
+            font-weight: 500;
+        }
+        h1 {
+            margin-top:12%;
+            text-align: center;
+            font-size: 26px;
+            color: rgb(255, 255, 255);
+            font-weight: 500;
+            line-height: 2.8;
+            text-shadow: 0px 5px 5px rgba(8, 1, 2, 0.2);
+            -moz-transform: matrix( 1.00118198271008, 0, 0, 1.00380945644161, 0, 0);
+            -webkit-transform: matrix( 1.00118198271008, 0, 0, 1.00380945644161, 0, 0);
+            -ms-transform: matrix( 1.00118198271008, 0, 0, 1.00380945644161, 0, 0);
+        }
+        .form-block{
+            z-index: 11;
+            background:url(/public/form.png);
+            background-size:100% 100%;
+            width: 680px;
+            height: 360px;
+            margin:80px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .input-block{
+            border-radius: 3px;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0px 5px 20px 0px rgba(8, 1, 2, 0.2);
+            width: 280px;
+            height: 286px;
+            display: flex;
+            flex-flow: column nowrap;
+            align-items: center;
+            justify-content: center;
+        }
+        footer{
+            position: absolute;
+            width: 100%;
+            bottom:20px;
+            font-size:12px;
+            text-align: center;
+        }
+        button{
+            background-color: rgb(6, 204, 182);
+            width: 91px;
+            height: 32px;
+            line-height: 32px;
+            vertical-align: middle;
+            color: white;
+            border: 0;
+        }
+        button:active:focus:hover{
 			    color: #fff;
 				background-color: #59cabd;
 				border-color: #59cabd;
@@ -130,69 +91,111 @@
 				-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
 				box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
 		}
-		.submit-button button:hover {
+        button:hover {
 			color: #fff;
 			background-color: #59cabd;
 				border-color: #59cabd;
 		}
-		.submit-button button{
-			background: #06ccb6;
-			font-size: 16px;
-			text-align: center;
-			width: 193px;
-			height: 33px;
-			line-height: 33px;
-			vertical-align: middle;
-			color: white;
-			border: 0;
-		}
-		.bottom-bg{
-			position: absolute;
-			bottom:0;
-			height:44%;
-			width:100%;
-			background: url('/public/bg2.png') no-repeat center;
-			background-size:100% 100%;
-			z-index: -1;
-		}
+        input[type='checkbox']{
+            border: 1px solid #ddd;
+            width: 15px;
+            height: 15px;
+            line-height: 134px;
+            vertical-align: middle;
 
+		}
+		i{
+			position: relative;
+			left:-30px;
+			top:1px;
+		}
+        .form-control{
+            margin:20px auto;
+            width: 220px;
+            height:36px;
+            outline: none;
+            border-left:none;
+            border-top:none;
+			border-right:none;
+        }
+        .form-control:focus{
+			border-color: #06ccb6;
+			outline: 0;
+			
+        }
+        .submit{
+            width:220px;
+            display: flex;
+            height:34px;
+            flex-flow: row nowrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .submit label{
+            font-size:12px;
+            line-height: 34px;
+            vertical-align: middle;
+        }
+        #home-canvas {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow: hidden;
+            z-index:-1;
+        }
+        #home-canvas canvas{
+            opacity: 0.5;
+        }
+        #footer{
+            position: absolute;
+            bottom:0;
+            color: rgb(53, 70, 89);
+		}
+		input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+			background-color: white;
+			background-image: none;
+			color: rgb(0, 0, 0);
+		}
+		.input-group:focus,.input-group:focus:active,.input-group:focus:visited{
+			color:#06ccb6;
+		}
 	</style>
 </head>
 
-<body >
-	<div class="title">
-		实业项目股权投融资服务综合管理系统
-	</div>
-	<div class="centerBox">
-		<div class="login-form">
-			<div class="logo">
-				<img src="/public/logo.png" alt="">
+<body onload="load()">
+	<div id="home-canvas"></div>
+	
+<div class="center-block">
+	<h1>实业项目股权投融资服务综合管理系统</h1>
+	<h3>投融资 & 征信 & 风控 & 信息披露</h3>
+	<div class="form-block">
+		<div class="input-block">
+			<div class="input-group">
+					<input type="text"  name="username" class="form-control" maxlength="11" autocomplete="false" id="userName" placeholder="用户名">
+					<i class="iconfont icon-yonghu"></i>
+					
 			</div>
-			<div class="form">
-				<div class="form-group">
-					<label for="userName">用户名</label>
-					<input type="text" name="username" class="form-control" maxlength="11" autocomplete="false" id="userName" placeholder="请输入账号">
-				</div>
-				<div class="form-group">
-					<label for="password">用户密码</label>
-					<input type="password" name="password" class="form-control"  autocomplete="false" id="password"  placeholder="请输入密码">
-				</div>
-				<div class="submit-button">
-					<label for="rememberPwd">
-						<!-- <input id="rememberPwd" type="checkbox" class="check-con">
-						记住密码 -->
-					</label>
-					<button onclick="loginOn()">登录</button>
-				</div>
-				
+			<div class="input-group">
+					<input type="password" name="password" class="form-control"  autocomplete="false" id="password"   placeholder="用户密码">
+					<i class="iconfont icon-mima"></i>
 			</div>
-				
-		</div>	
+			  
+			  
+			  <div class="submit">
+				  <label for="remeber"><input type="checkbox" name="remeber" id="remeber">记住密码</label>
+				  <button onclick="loginOn()">登录</button>
+			  </div>
+		</div>
 	</div>
-	<div class="bottom-bg"></div>
-	<footer>
-		Copyright@2017 上海链投信息科技有限公司 沪ICP备16030676号 | 市场有风险，投资需谨慎
-	</footer>
+</div>
+<footer>
+	Copyright@2017 上海链投信息科技有限公司 沪ICP备16030676号 | 市场有风险，投资需谨慎
+</footer>
+<div id="footer"></div>
+<script src="/public/v.js"></script>
+<script src="/public/bg.js"></script>
 </body>
 <script src="/public/login.js"></script>
 

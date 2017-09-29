@@ -156,7 +156,7 @@
                             </el-input>
                         </el-row>
                     </el-form-item>
-                    <el-form-item label="模拟投资项目投资人分成比例" prop="simulatePercent" v-if="">
+                    <el-form-item label="模拟投资项目投资人分成比例" prop="simulatePercent" v-if="editProjectType=='B'">
                         <el-input v-model.number="rateForm.simulatePercent"><template slot="append">%</template></el-input>
                     </el-form-item>
                 </el-form>
@@ -328,6 +328,7 @@ export default {
     data() {
         return {
             param: {},
+            editProjectType:'A',
             projectId: '',
             dialogOverallVisible: false,
             dialogRateVisible: false,
@@ -496,6 +497,7 @@ export default {
             let idParam = {
                 ownId: data.projectId
             }
+            this.editProjectType=data.type;
             this.projectId = data.projectId;
             this.$store.dispatch('id_fundRule2', idParam).then(() => {
                  this.rateForm = {};
@@ -514,6 +516,7 @@ export default {
         //保存已设置好或修改好的参数规则
         setRate() {
             this.rateForm.ownId = this.projectId;
+            this.editProjectType='A';
             let formParam = {
                 ltFundsRule: this.rateForm
             }

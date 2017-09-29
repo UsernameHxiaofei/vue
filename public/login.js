@@ -6,8 +6,12 @@ window.addEventListener('load', function () {
   });
 }, false)
 function load(){
-  document.getElementById('userName').value=sessionStorage.getItem('rea')
-  document.getElementById('password').value=sessionStorage.getItem('rep')
+  var name=localStorage.getItem('rea');
+  if(name.length>0){
+    document.getElementById('remeber').checked=true;
+  }
+  document.getElementById('userName').value=localStorage.getItem('rea')
+  document.getElementById('password').value=localStorage.getItem('rep')
 }
 function loginOn() {
   
@@ -31,12 +35,12 @@ function loginOn() {
     }
     var result=isIE?JSON.parse(xhr.response):xhr.response;
     if (!result.success) {
-      // if(document.getElementById('rememberPwd').checked){
-      //     sessionStorage.setItem('rea',username)
-      //     sessionStorage.setItem('rep',password)
-      // }
-      alert(result.information);
+        alert(result.information);
     } else {
+      if(document.getElementById('remeber').checked){
+        localStorage.setItem('rea',username)
+        localStorage.setItem('rep',password)
+      }
       location.href = '/main';
     }
   };

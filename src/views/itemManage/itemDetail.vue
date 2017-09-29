@@ -47,9 +47,6 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
 
 <template scope="scope">
 <div id="item">
-    <div class="back-button">
-            <el-button type="text" icon="arrow-left" style="margin-top:90px" @click="back()">返回上一级</el-button>
-        </div>
     <!--步骤条-->
     <el-row>    
         <el-col id="step-bar">
