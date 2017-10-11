@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24" style="background:#ffffff">
                 <el-row>
-                    <el-col :span="24" style="margin-top:50px;">
+                    <el-col :span="24" style="margin-top:20px;">
                         <label class="text-label">频&emsp;&emsp;率</label>
                         <el-button class="sbtn" size="small" @click="select(1)" :class="{'selectb':M}">月</el-button>
                         <el-button class="sbtn" size="small" @click="select(2)" :class="{'selectb':J}">季</el-button>

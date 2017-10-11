@@ -118,7 +118,7 @@ export default {
 .enp-search{margin-top:40px;}
 #enterpriseManage{right:0;}
 .enterprise-table .el-table .cell{text-align: center;}
-.enterprise-table .el-table__body .cell{color: #a3abbe;font-size: 12px;}
+.enterprise-table .el-table__body .cell{color: #535455;font-size: 12px;}
 #enterpriseManage .btn-style{font-size: 12px;padding: 6px 15px;border-color: #06ccb6;color: #06ccb6;margin: 0 5px;}
 #enterpriseManage .btn-style:hover{background: #06ccb6;color: white;}
 </style>

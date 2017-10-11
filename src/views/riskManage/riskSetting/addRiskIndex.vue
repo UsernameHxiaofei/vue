@@ -217,8 +217,8 @@
                         return false;
                     }
                     this.addform.cause=this.factors[0];
-                    this.addform.unit=this.form.cause.unit;
-                    this.addform.relation=this.form.cause.riskRelationInfo[0];
+                    this.addform.unit=this.factors[0].unit;
+                    this.addform.relation=this.factors[0].riskRelationInfo[0];
                 })
             },
             editfactorChange(){
@@ -249,7 +249,7 @@
                                 name:this.form.name,
                                 level:this.form.lv,
                                 category:this.form.region,
-                                projectId:this.$route.params.id,
+                                projectId:this.$route.params.id||'',
                                 code:this.form.code
                             },
                             riskRuleGroup:riskRuleGroups

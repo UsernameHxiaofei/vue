@@ -342,7 +342,7 @@
     }
 
     #enterpriseFunflow .el-table__body .cell {
-        color: #a3abbe;
+        color: #535455;
         font-size: 12px;
     }
 </style>

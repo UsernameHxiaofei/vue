@@ -57,7 +57,7 @@
 		<div class="search-box" style="margin:30px 0 10px 30px;">
 			<div class="output">
 				<el-input style="width:260px;" placeholder="项目编号 | 项目名称 | 发起人" icon="search" v-model.trim="keyword" :on-icon-click="search" @keyup.enter.native="search"></el-input>
-				<el-checkbox style="float:left;margin-top:5px" v-model="isRestart" @change="restartChange"><span style="color:#97bcbe;">显示历史记录</span></el-checkbox>
+				<el-checkbox style="float:left;margin-top:5px" v-model="isRestart" @change="restartChange"><span style="color:#97bcbe;font-weight:normal">显示历史记录</span></el-checkbox>
 			</div>
 			<div class="date-box">
 				<el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="click" change-on-select clearable :options="options3" v-model="where" @change="handleChange">

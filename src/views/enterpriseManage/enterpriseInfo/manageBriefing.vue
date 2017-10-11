@@ -3,7 +3,7 @@
         <el-row>
             <el-col :span="24" style="background:#ffffff">
                 <el-row>
-                    <el-col :span="24" style="margin-top:50px;">
+                    <el-col :span="24" style="margin-top:20px;">
                         <el-button class="sbtn"  @click="select(3)" :class="{'selectb':Y}">年报</el-button>
                         <el-button class="sbtn"  @click="select(2)" :class="{'selectb':J}">季报</el-button>
                         <el-button class="sbtn"  @click="select(1)" :class="{'selectb':M}">月报</el-button>

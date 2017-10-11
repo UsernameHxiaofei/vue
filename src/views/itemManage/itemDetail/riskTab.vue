@@ -63,10 +63,10 @@
   <div id="riskTab">
       <!--风险信息-->
       <el-row :gutter="20" >
-          <el-col class="businessTitle">
+          <el-col class="businessTitle" v-show="showSu">
             <img src="../../../assets/images/linear.png"  /> <span>行政处罚信息</span>
           </el-col>
-          <el-col class="businessinfo-content" >  
+          <el-col class="businessinfo-content" v-show="showSu">  
             <table class="tableInfo" v-if="!!(thirdReport&&thirdReport.tcEnterpriseBusinessInfo&&thirdReport.tcEnterpriseBusinessInfo.tcCaseinfo)"  v-for="item in (thirdReport&&thirdReport.tcEnterpriseBusinessInfo&&thirdReport.tcEnterpriseBusinessInfo.tcCaseinfo)" :key="item.businessId">
                <tr><td>案发时间</td><td>{{item.casetime }}</td><td>案由</td><td>{{item.casereason }}</td></tr>
                <tr><td>案值</td><td>{{item.caseval }}</td><td>案发时间</td><td>{{item.casetime }}</td></tr>
@@ -78,7 +78,7 @@
                <tr><td>处罚金额</td><td>{{item.penam }}</td><td>处罚执行情况</td><td>{{item.penexest }}</td></tr>
                <tr><td>证件号</td><td>{{item.cerno }}</td><td>当事人</td><td>{{item.name }}</td></tr>
             </table>
-            <table class="tableInfo" v-else>
+            <table v-show="showSu" class="tableInfo" v-else>
               <tr><td>没有查询到行政处罚信息</td></tr>
             </table>
           </el-col>
@@ -94,7 +94,7 @@
                   </tr>
               </table>
               <table class="tableInfo"   v-for="(item,index) in thirdReport.tcEnterpriseMemberInfo" :key="index">
-                  <tr><td>高管</td><td>{{item.tcBadInfo&&item.tcBadInfo.name||''}}{{item.tcBadInfo&&item.tcBadInfo.result==0?'(无不良记录)':''}}</td></tr>
+                  <tr><td>主要人员</td><td>{{item.tcBadInfo&&item.tcBadInfo.name||''}}{{item.tcBadInfo&&item.tcBadInfo.result==0?'(无不良记录)':''}}</td></tr>
                   <tr v-for="(i,ind) in item.tcBadInfo&&item.tcBadInfo.tcBadInfoItems" :key="ind">
                       <td>{{i.caseTime}}</td>
                       <td>{{i.caseSource}}</td>
@@ -118,7 +118,7 @@
                 </tbody>
               </table>  
               <table class="tableInfo"v-for="(item,index) in thirdReport.tcEnterpriseMemberInfo" :key="index"   >
-                <tr><td>高管</td><td>{{item.tcBadInfo&&item.tcBadInfo.name}}{{item.tcLitigationPerson&&item.tcLitigationPerson.length==0?'（无涉诉信息）':''}}</td></tr>
+                <tr><td>主要人员</td><td>{{item.tcBadInfo&&item.tcBadInfo.name}}{{item.tcLitigationPerson&&item.tcLitigationPerson.length==0?'（无涉诉信息）':''}}</td></tr>
                 <tbody v-if="item.tcLitigationPerson&&item.tcLitigationPerson.length>0" v-for="(i,ind) in item.tcLitigationPerson" :key="ind">
                     <tr><td>标题</td><td>{{i.title}}</td></tr>
                     <tr><td>内容</td><td>{{i.body}}</td></tr>
@@ -153,11 +153,15 @@
         }
     },
     mounted () {
-      this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId})
+      this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId});
+      if(this.$route.path.indexOf('riskRegionContainer')!=-1){
+        this.showSu=false;
+      }
+      
     },
     data() {
       return {
-        
+        showSu:true
       };
     }
   };

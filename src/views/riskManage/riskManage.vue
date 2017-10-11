@@ -272,6 +272,10 @@ margin-left:5px;
                             this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
                         })
                     })
+                }else if(rv.id==5){//
+                    this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
+                }else if(rv.id==6){//经营现场
+                    this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
                 }
             },
             formatData(){

@@ -25,7 +25,6 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.use(ElementUI)
-console.log=()=>{}
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp () {

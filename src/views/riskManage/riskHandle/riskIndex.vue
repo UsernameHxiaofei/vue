@@ -108,5 +108,5 @@
 
 <style>
   #riskIndex .el-table .cell{text-align: center;}
-  #riskIndex .el-table__body .cell{color: #a3abbe;font-size: 13px;}
+  #riskIndex .el-table__body .cell{color: #535455;font-size: 13px;}
 </style>

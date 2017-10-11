@@ -105,5 +105,5 @@
 
 <style >
     #riskhistory-table .el-table .cell{text-align: center;}
-    #riskhistory-table .el-table__body .cell{color: #a3abbe;font-size: 13px;}
+    #riskhistory-table .el-table__body .cell{color: #535455;font-size: 13px;}
 </style>

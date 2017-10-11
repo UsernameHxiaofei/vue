@@ -11,6 +11,14 @@ import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
 import funFlowTypes from '../constant/funFlowType'
 
+export function riskLv(value){
+    if(value==2){
+        return '中';
+    }else if(value==3){
+        return '高';
+    }
+}
+
 export function funFlowType(value){
     let type=parseInt(value)
     if(!type){

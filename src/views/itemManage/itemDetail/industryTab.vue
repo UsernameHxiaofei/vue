@@ -302,26 +302,5 @@
     text-indent: 20px;
     margin-right:5px;
   }
-  #industryTab .form-block{
-    border-bottom: 1px solid #06ccb7;
-    margin-bottom: 10px;
-  }
-  #industryTab .businessinfo-content .el-form-item__label {
-    text-align: right;
-    vertical-align: middle;
-    float: left;
-    font-size: 16px;
-    color: black;
-    line-height: 1;
-    padding: 11px 12px 11px 0;
-    box-sizing: border-box;
-}
- #industryTab .businessinfo-content .el-form-item__content {
-    line-height: 36px;
-    position: relative;
-    font-size: 16px;
-}
- #industryTab .businessinfo-content .el-form-item {
-    margin-bottom: 0px;
-}
+
 </style>

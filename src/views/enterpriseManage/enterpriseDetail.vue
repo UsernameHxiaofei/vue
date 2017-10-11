@@ -3,7 +3,7 @@
         <div class="back-button">
             <el-button type="text" icon="arrow-left" @click="back()">返回上一级</el-button>
         </div>
-        <el-row style="background:#fcfcfc;padding-bottom:10px">
+        <el-row style="background:#fcfcfc;">
             <el-col :span="20" :offset="2" style="margin-top:20px">
                 <el-dropdown class="el-dropdown-link" >
                         <span class="menu-mdzz" style="margin-left:0px;" :style="{'color':selectButton.menu1}">
@@ -34,8 +34,10 @@
                     </el-dropdown>
                 </span>
                 <span class="menu-mdzz" :style="{'color':selectButton.menu3}" @click="menuclick(8)">经营管理团队</span>
+                
             </el-col>
         </el-row>
+        <div class="enterprise-basicinfo">企业名称&emsp;{{enterpriseInfo.name}}&emsp;社会信用代码&emsp;{{enterpriseInfo.creditCode}}&emsp;所在地&emsp;{{enterpriseInfo.addressCode|address}}</div>
         <el-row>
             <el-col :span="20" :offset="2">
                 <enterprise-team :enterprise="enterpriseInfo" v-if="show==8"></enterprise-team>
@@ -101,6 +103,7 @@
            if(!this.enterpriseInfo.name){
                this.$message.warning('查询企业信息出现故障，请联系管理员')
            }
+           this.$store.dispatch('item_getAuthInfo',{id:this.enterpriseInfo.id});
            this.menuclick(1,'综合财务分析');
         },
         methods: {
@@ -158,12 +161,21 @@
     color: #06ccb6;
 }
 #enterpriseDetail .el-dropdown-menu__item{
-        list-style: none;
+    list-style: none;
     line-height: 36px;
     padding: 0 10px;
     margin: 0;
     cursor: pointer;
     background: #e2e6ef;
     color: #a3abbe;
+}
+#enterpriseDetail .enterprise-basicinfo{
+    width:100%;
+    background: #fcfcfc;
+    color: #a3abbe;
+    line-height: 30px;
+    height: 30px;
+    vertical-align: bottom;
+    text-indent: 150px;
 }
 </style>

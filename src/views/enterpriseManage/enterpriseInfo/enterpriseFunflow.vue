@@ -1,12 +1,126 @@
+
+<style>
+        #enterpriseFunflow #funflowIn{
+            width: 100%;
+            height: 600px;
+        }
+        #enterpriseFunflow #balance{
+            width: 100%;
+            height: 500px;
+        }
+        #enterpriseFunflow .titleField {
+            font-size: 18px;
+            font-weight: 600;
+            color: rgb(51, 51, 51);
+        }
+    
+        #enterpriseFunflow .datepp {
+            margin-left: 20px;
+        }
+    
+        #enterpriseFunflow .el-table .cell {
+            text-align: center;
+        }
+    
+        #enterpriseFunflow .el-table__body .cell {
+            color: #535455;
+            font-size: 12px;
+        }
+        #enterpriseFunflow .head-action{
+            width:500px;
+            height: 130px;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: stretch;
+            justify-content: flex-start;
+            border: 1px solid #b1b1b1;
+            padding:20px
+        }
+        #enterpriseFunflow .info .info-item{
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: stretch;
+            justify-content: flex-start;
+        }
+        #enterpriseFunflow .info .info-item label{
+            width:140px;
+            text-align: right;
+            margin-right:10px;
+        }
+        #enterpriseFunflow .banlance{
+            width:200px;
+        }
+        #enterpriseFunflow .banlance label{
+            margin: 20px auto 10px 30px;
+            font-size:14px;
+            display: block;
+
+        }
+        #enterpriseFunflow .banlance span{
+            font-size:16px;
+            margin-left:30px;
+            color:rgb(6, 204, 182);
+            font-weight:bold;
+        }
+        #enterpriseFunflow .typebutton{
+            width:75px;
+            color:rgb(6, 204, 182);
+            border-radius: 5px;
+            height:34px;
+            background: white;
+            outline: none;
+            
+            border: 1px solid rgb(6, 204, 182);
+        }
+        #enterpriseFunflow .typebutton:nth-child(1){
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+
+        }
+        #enterpriseFunflow .typebutton:nth-child(2){
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+        }
+        #enterpriseFunflow .noeffect{
+            color:#999;
+            background: rgb(205, 214, 214);
+            border:none;
+        }
+        #enterpriseFunflow .actionbar{
+           width:200px;
+           float: right;
+           margin-right:150px;
+        }
+    </style>
 <template>
     <div id='enterpriseFunflow'>
         <el-row style="margin:30px auto 30px auto;">
             <el-col :span="24">
-                <div class="titleField">
-                    <span>查询账号：</span>
-                    <span>{{enterprise.basicDepositAccountNumber}}</span> &emsp;&emsp;&emsp;&emsp;
-                    <span>账户名称：</span>
-                    <span>{{enterprise.accountName}}</span>
+                <div class="head-action">
+                    <div class="info">
+                        <div class="info-item">
+                            <label>开户许可核准号</label>
+                            <span>{{account.accountApprovalNumber}}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>开户银行</label>
+                            <span>{{account.depositBank}}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>基本存款账账户账号</label>
+                            <span>{{account.basicDepositAccountNumber}}</span>
+                        </div>
+                        <div class="info-item">
+                            <label>账号名称</label>
+                            <span>{{account.accountName}}</span>
+                        </div>
+                    </div>
+                    <div class="banlance">
+                        <label>账户余额</label>
+                        <span>{{lastBalance}}元</span>
+                    </div>
+                    
                 </div>
             </el-col>
         </el-row>
@@ -14,23 +128,27 @@
             <el-col :span="24">
                 <label class="titleField" for="dateRange">日期</label>&emsp;
                 <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="daterange" align="left" placeholder="选择日期范围"></el-date-picker>
+                <div class="actionbar">
+                    <button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="showChart=true"> 图表 </button>
+                    <button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="showChart=false"> 明细 </button>
+                </div> 
             </el-col>
         </el-row>
-        <el-row>
-            <el-col :span="24" style="margin-top:45px">
+        <el-row v-show="showChart">
+            <el-col :span="24" style="margin-top:15px">
                 <div id="balance">
 
                 </div>
             </el-col>
         </el-row>
-        <el-row>
+        <el-row v-show="showChart">
             <el-col :span="24" style="margin-top:45px">
                 <div id="funflowIn">
 
                 </div>
             </el-col>
         </el-row>
-        <el-row style="margin-top:60px">
+        <el-row v-show="!showChart">
             <el-col >
                 <div style="float:right;font-size: 18px;color: rgb(6, 204, 182);font-weight:600">
                     <span>合计：贷</span>
@@ -45,7 +163,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row>
+        <el-row v-show="!showChart">
             <el-col :span="24">
                 <el-table border :data="listData.list" stripe style="width: 100%">
                     <el-table-column prop="transactionTime" width="180"  label="交易时间" align="center"> </el-table-column>
@@ -86,6 +204,9 @@
             },
             listDayAmount:function (){
                 return this.$store.state.enterprise.listDayAmount||{};
+            },
+            account:function(){
+                return this.$store.state.item.authInfo&&this.$store.state.item.authInfo[0]||{};
             }
         },
         components: {
@@ -122,6 +243,7 @@
                         leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
                         bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
                         balance.push([new Date(item.transactionTime).getTime(),item.balance||0]);
+                        this.lastBalance=this.listDayAmount[this.listDayAmount.length-1].balance||0;
                     }
                     this.imageData={leanOut, bIn,balance }
                     this.buildEcharts();
@@ -264,6 +386,9 @@
         },
         data() {
             return {
+                showChart:true,
+                showTable:true,
+                lastBalance:0,
                 listData:{},
                 daterange: [],
                 param: {},
@@ -274,32 +399,3 @@
     }
 
 </script>
-
-<style>
-    #enterpriseFunflow #funflowIn{
-        width: 100%;
-        height: 600px;
-    }
-    #enterpriseFunflow #balance{
-        width: 100%;
-        height: 500px;
-    }
-    #enterpriseFunflow .titleField {
-        font-size: 18px;
-        font-weight: 600;
-        color: rgb(51, 51, 51);
-    }
-
-    .datepp {
-        margin-left: 20px;
-    }
-
-    #enterpriseFunflow .el-table .cell {
-        text-align: center;
-    }
-
-    #enterpriseFunflow .el-table__body .cell {
-        color: #a3abbe;
-        font-size: 12px;
-    }
-</style>
