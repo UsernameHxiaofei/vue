@@ -516,17 +516,17 @@ export default {
       build6(xAxis,listData){
           let myChart = echarts.init(document.getElementById('roe-and-roa'),'customed');
           let option = {
-              title: { text: 'ROE和ROA', x: 'center' },
+              title: { text: 'ROE(净资产收益率)和ROA(资产回报率)', x: 'center' },
               tooltip: { trigger: 'axis' }, 
-              legend: { data: ['ROE','ROA'], bottom:0, orient:'horizontal'},
+              legend: { data: ['ROE(净资产收益率)','ROA(资产回报率)'], bottom:0, orient:'horizontal'},
               xAxis: { data: xAxis },
                yAxis: [{ name:'百分比(%)', nameLocation:'end' }],
               series: [{
-                  name: 'ROE', type: 'line',
+                  name: 'ROE(净资产收益率)', type: 'line',
                   data: listData.roe,
                   lineStyle:{ normal:{ width:3 } }
               },{
-                  name: 'ROA', type: 'line',
+                  name: 'ROA(资产回报率)', type: 'line',
                   data: listData.roa,
                   lineStyle:{normal:{ width:3}}
               }]

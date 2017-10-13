@@ -83,7 +83,7 @@
             </table>
           </el-col>
           <el-col class="businessTitle">
-            <img src="../../../assets/images/linear.png"  /> <span>主要人员公安不良记录</span>
+            <img src="../../../assets/images/linear.png"  /> <span>核心团队成员公安不良记录</span>
           </el-col>
           <el-col class="businessinfo-content" >  
               <table class="tableInfo"  v-if="!!thirdReport.tcRepresentativeInfo"  >
@@ -102,7 +102,7 @@
               </table>
           </el-col>
           <el-col class="businessTitle">
-            <img src="../../../assets/images/linear.png"  /> <span>主要人员法院涉诉信息</span>
+            <img src="../../../assets/images/linear.png"  /> <span>核心团队成员法院涉诉信息</span>
           </el-col>
           <el-col class="businessinfo-content" >
               <table class="tableInfo" v-if="!!thirdReport.tcRepresentativeInfo">

@@ -246,4 +246,21 @@
             stuff.items=[param.id,param.category];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
+        //查询风险域以及指标分页
+        router.all('/risk_selectPageRiskCategory',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskTask", "selectPageRiskCategory", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items=[param.projectId||'',param.category||'',param.pageNo,param.pageSize];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
+        //团队人员预警接口
+        router.all('/addWarningForEnterpriseMemberChange',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskProjectWarningTask", "addRiskWarningByTeamChange", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            //type 添加ADD 删除DELETE 更新UPDATE
+            stuff.items=[param.type,param.enterpriseId,param.member];
+            sc.send(stuff).then((resp) =>{res.json(resp.head)});
+        });
     }

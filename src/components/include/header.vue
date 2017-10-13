@@ -25,7 +25,7 @@
     
         <!-- 编辑用戶弹窗 -->
         <div class="p-form">
-            <el-dialog title="个人信息修改" :visible.sync="dialogeditUserVisible" @close="cancel">
+            <el-dialog title="个人信息修改" :visible.sync="dialogeditUserVisible" @close="cancel" :close-on-click-modal="false">
                 <el-form :model="actor" :rules="actorRules" ref="editActor">
                     <!-- <el-form-item label="手机号" prop="mobileNumber">
                         <el-input v-model="actor.mobileNumber" auto-complete="off"></el-input>
@@ -52,7 +52,7 @@
         </div>
     
         <div class="p-form">
-            <el-dialog title="修改登录密码" :visible.sync="editPasswordDialog">
+            <el-dialog title="修改登录密码" :visible.sync="editPasswordDialog" :close-on-click-modal="false">
                 <el-form :rules="editPasswordRule" ref="editPassword" :model="password">
                     <el-form-item label="原始密码" prop="oldPassword">
                         <el-input v-model="password.oldPassword" type="password" auto-complete="off"></el-input>

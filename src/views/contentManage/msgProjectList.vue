@@ -55,7 +55,7 @@
     </div>
   
     <!-- 模态框（Modal） -->
-    <el-dialog class="p-form" title="编辑消息" :visible.sync="dialogFormVisible">
+    <el-dialog class="p-form" title="编辑消息" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
       <el-form :model="form">
         <el-form-item label="模板名称" :label-width="formLabelWidth">
           <el-input v-model="form.juename" auto-complete="off"></el-input>

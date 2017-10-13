@@ -30,7 +30,7 @@
                 <pagination :total="bannerList.count" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
             </div>
         </div>
-        <el-dialog title="添加轮播图" :visible.sync="dialogFormVisible" @close="resetForm">
+        <el-dialog title="添加轮播图" :visible.sync="dialogFormVisible" @close="resetForm" :close-on-click-modal="false">
             <el-form :model="fileParam" ref="fileParam" :label-width="'140px'" label-position="left" >
               <el-form-item label="上传图片" prop="imageUrl" :rules="[{ required: true, message: '请上传轮播图', trigger: 'blur,change' }]"> 
                  <el-button type="default" @click="chooseFile" >选择图片</el-button><br>

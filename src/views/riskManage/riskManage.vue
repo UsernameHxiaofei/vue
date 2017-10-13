@@ -178,7 +178,7 @@ margin-left:5px;
                 :total="listData.totalCount">
                 </el-pagination>
         </el-row>
-        <el-dialog size="tiny" title="选择查看的资金流" :visible.sync="riskfun">
+        <el-dialog size="tiny" title="选择查看的资金流" :visible.sync="riskfun" :close-on-click-modal="false">
             <el-row>
                 <el-col>
                     <el-button class="paction-button1" @click="handleFunFlow(1)">银行账户资金流</el-button>
@@ -264,17 +264,7 @@ margin-left:5px;
                             }
                         })
                     })
-                }else if(rv.id==4||rv.id==3){
-                    this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
-                }else if(rv.id==7){
-                    this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
-                        this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
-                            this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
-                        })
-                    })
-                }else if(rv.id==5){//
-                    this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
-                }else if(rv.id==6){//经营现场
+                }else if(rv.id>=3&&rv.id<=7){
                     this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
                 }
             },

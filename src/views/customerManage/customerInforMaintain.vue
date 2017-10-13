@@ -129,7 +129,7 @@
             </div>
         </div>
         <div class="p-form">
-            <el-dialog title="创建客户" :visible.sync="dialogFormVisible" @close="cancel">
+            <el-dialog title="创建客户" :visible.sync="dialogFormVisible" @close="cancel" :close-on-click-modal="false">
     
                 <el-form :model="customer" :rules="customerRules" ref="customer">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
@@ -150,7 +150,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-            <el-dialog title="客户信息" :visible.sync="showCustomerInfo" @close="cancelShow">
+            <el-dialog title="客户信息" :visible.sync="showCustomerInfo" @close="cancelShow" :close-on-click-modal="false">
                 <el-form :model="customerInfo" ref="customer1">
                     <el-form-item label="手机号" :label-width="formLabelWidth" >
                         {{customerInfo.mobileNumber}}

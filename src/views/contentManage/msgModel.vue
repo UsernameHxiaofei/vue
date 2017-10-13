@@ -51,7 +51,7 @@
     </div>
   
     <!-- 模态框（Modal） -->
-    <el-dialog class="p-form" :title="title" :visible.sync="dialogMsgVisible" @close="resetForm">
+    <el-dialog class="p-form" :title="title" :visible.sync="dialogMsgVisible" @close="resetForm" :close-on-click-modal="false">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm">
         <el-form-item v-show="false" label="模板id" :label-width="formLabelWidth" prop="templatId">
           <el-input v-model="ruleForm.templatId" auto-complete="off"></el-input>

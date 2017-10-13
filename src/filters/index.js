@@ -5,11 +5,13 @@ import projectPhaseData from '../constant/projectPhase'
 import certificateData from '../constant/certification'
 import personalData from '../constant/personal'
 import investorPersonalData from '../constant/investorPersonal'
+import marriageData from '../constant/marriage'
 
 import enterpriseData from '../constant/enterprise'
 import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
 import funFlowTypes from '../constant/funFlowType'
+import riskTypeData from '../constant/riskType'
 
 export function riskLv(value){
     if(value==2){
@@ -17,6 +19,36 @@ export function riskLv(value){
     }else if(value==3){
         return '高';
     }
+}
+export function riskType(value){
+    let name='';
+    for (var i = 0; i < riskTypeData.length; i++) {
+        var item = riskTypeData[i];
+        if(item.value===value){
+            name=item.name;
+            break;
+        }
+    }
+    if(name==''){
+        return '其他';
+    }
+    return name;
+    
+}
+export function marriage(value){
+    let name='';
+    for (var i = 0; i < marriageData.length; i++) {
+        var item = marriageData[i];
+        if(item.value===value){
+            name=item.label;
+            break;
+        }
+    }
+    if(name==''){
+        return '其他';
+    }
+    return name;
+    
 }
 
 export function funFlowType(value){

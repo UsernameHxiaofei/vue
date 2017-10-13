@@ -52,7 +52,7 @@
     </div>
   
     <!-- 模态框（Modal） -->
-    <el-dialog class="p-form creatInfo" title="创建短信" :visible.sync="dialogFormVisible" @close="resetForm">
+    <el-dialog class="p-form creatInfo" title="创建短信" :visible.sync="dialogFormVisible" @close="resetForm" :close-on-click-modal="false">
       <el-form :model="msgShortForm" ref="msgShortForm">
         <el-form-item label="接收手机号" :label-width="formLabelWidth" prop="receivers" :rules="[
             { required: true, message: '请输入手机号码', trigger: 'blur' },

@@ -565,3 +565,6 @@ output {
     width: 140px;
     height: 180px;
 }
+.loading-window{
+    opacity: 0;
+}

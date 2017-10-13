@@ -55,7 +55,7 @@
                 </el-row>
             </el-col>
         </el-row>
-        <el-dialog :title="formName" :visible.sync="editflag" size="tiny">
+        <el-dialog :title="formName" :visible.sync="editflag" size="tiny" :close-on-click-modal="false">
             <el-form :model="editform" :rules="editformrules" ref="editform" label-width="50px" style="width:80%;margin-left:10%">
                 <el-form-item label="因子" prop="factor">
                     <el-select v-model="editform.factor" value-key="id" class="full" @change="editfactorChange" :disabled="form.code&&form.code.length>0">

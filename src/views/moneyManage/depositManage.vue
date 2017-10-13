@@ -160,7 +160,7 @@
         </div>
         <!-- 弹窗 -->
         <div class="limit-width p-form" id="look">
-            <el-dialog title="保证金详情" :visible.sync="dialogLookVisible">
+            <el-dialog title="保证金详情" :visible.sync="dialogLookVisible" :close-on-click-modal="false">
                 <el-form :model="lookForm">
                     <div class="promise-box">
                         <div class="promise-list">

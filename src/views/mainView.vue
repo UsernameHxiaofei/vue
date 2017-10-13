@@ -126,7 +126,7 @@
 					</el-button>
 			</div>
 		</div>
-		<el-dialog title="选择创建项目的发起人" size="large" :visible.sync="chooseItemCustomer">
+		<el-dialog title="选择创建项目的发起人" size="large" :visible.sync="chooseItemCustomer" :close-on-click-modal="false">
 			<div v-if="itemType=='A'" class="search-box" style="margin:10px 10px 30px 10px;float:right">
 				<div class="output">
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange" :on-icon-click="customerKeywordChange">
@@ -179,7 +179,7 @@
 			</div>
 				
 		</el-dialog>
-		<el-dialog size="tiny" title="选择创建项目的类型" :visible.sync="chooseItemType">
+		<el-dialog size="tiny" title="选择创建项目的类型" :visible.sync="chooseItemType" :close-on-click-modal="false">
 				<div class="itemType" @click="chooseType('A')">
 					普通项目
 				</div>
@@ -201,7 +201,7 @@ export default {
 		pagination
 	},
 	asyncData ({ store,session,router }) {
-            return store.dispatch('item_getHeadData',session);
+		return store.dispatch('item_getManageList', session).then(()=>store.dispatch('item_getHeadData',session));
     },
 	data() {
 		return {
@@ -254,8 +254,10 @@ export default {
                 pageSize:10,
                 pageNo:1
 			}
-		this.$store.dispatch('item_getManageList',this.param);
-		this.$store.dispatch('item_getHeadData');
+		if(!this.itemManageList.list){
+			this.getListData();
+			this.$store.dispatch('item_getHeadData');
+		}
 		this.$store.commit('enterprise_setMemberInfo',{});
 		this.$store.commit('enterprise_setInfo',{});
     },
@@ -317,10 +319,13 @@ export default {
 		createProject(){
 			this.chooseItemType=true;
 		},
+		getListData(){
+			this.$store.dispatch('item_getManageList',this.param);
+		},
 		restartChange(){
 			this.param.isRestart = this.isRestart?1:0;
             this.param.pageNo=1;			
-			this.$store.dispatch('item_getManageList',this.param);
+			this.getListData();
 		},
 		customerKeywordChange(){
 			this.customerParam.keyword=this.customerKeyword;
@@ -330,31 +335,31 @@ export default {
 		search(){
             this.param.keyword=this.keyword;
             this.param.pageNo=1;
-            this.$store.dispatch('item_getManageList',this.param);
+            this.getListData();
         },
 		industryChange(){
 			this.param.industry = this.industry;
             this.param.pageNo=1;			
-			this.$store.dispatch('item_getManageList',this.param);
+			this.getListData();
 		},
 		phaseChange(){
 			this.param.phase = this.phase;
             this.param.pageNo=1;
-			this.$store.dispatch('item_getManageList',this.param);
+			this.getListData();
 		},
 		handleChange(value) {
 			this.param.regionCode=this.where.length>0?this.where[this.where.length-1]:''
 			this.param.pageNo=1;
-			this.$store.dispatch('item_getManageList',this.param);
+			this.getListData();
 		},
 		handleSizeChange(size){
             this.param.pageSize=size;
             this.param.pageNo=1;
-            this.$store.dispatch('item_getManageList',this.param);
+            this.getListData();
         },
         handleCurrentChange(page){
             this.param.pageNo=page;
-            this.$store.dispatch('item_getManageList',this.param);
+            this.getListData();
         }
 	}
 }

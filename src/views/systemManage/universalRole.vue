@@ -59,7 +59,7 @@
         </div>
         <!-- 新增泛角色弹窗 -->
         <div class="p-form role-form">
-            <el-dialog title="添加泛角色" :visible.sync="dialogUserVisible" @close="cancel">
+            <el-dialog title="添加泛角色" :visible.sync="dialogUserVisible" @close="cancel" :close-on-click-modal="false">
                 <el-form :model="addUser" :rules="rule" ref="addUser">
                     <el-form-item label="泛角色名称" prop="name">
                         <el-input v-model="addUser.name"></el-input>
@@ -80,7 +80,7 @@
     
         <!-- 编辑泛角色弹窗 -->
         <div class="p-form role-form">
-            <el-dialog title="编辑泛角色" :visible.sync="dialogEditPanRole" @close="quit">
+            <el-dialog title="编辑泛角色" :visible.sync="dialogEditPanRole" @close="quit" :close-on-click-modal="false">
                 <el-form :model="editPanRole" :rules="editRule" ref="editPanRole">
                     <el-form-item label="泛角色名称" prop="name">
                         <el-input v-model="editPanRole.name" auto-complete="off"></el-input>

@@ -74,7 +74,7 @@
         </div>
         <!--所属ID设置资金规则参数弹窗-->
         <div class="p-form inputgroup">
-            <el-dialog title="资金规则参数设置" :visible.sync="dialogRateVisible" @close="cancel">
+            <el-dialog title="资金规则参数设置" :visible.sync="dialogRateVisible" @close="cancel" :close-on-click-modal="false">
                 <el-form :model="rateForm" :rules="rules" ref="rateForm">
                     <el-form-item label="融资服务费率" prop="serviceChargeRate">
                         <el-input v-model.number="rateForm.serviceChargeRate">
@@ -168,7 +168,7 @@
         </div>
         <!--全局设置资金规则参数弹窗-->
         <div class="p-form inputgroup">
-            <el-dialog title="全局资金规则参数设置" :visible.sync="dialogOverallVisible" @close="quit">
+            <el-dialog title="全局资金规则参数设置" :visible.sync="dialogOverallVisible" @close="quit" :close-on-click-modal="false">
                 <el-form :model="overallForm" :rules="overrule" ref="overallForm">
                     <el-form-item label="融资服务费率" prop="serviceChargeRate">
                         <el-input v-model.number="overallForm.serviceChargeRate">

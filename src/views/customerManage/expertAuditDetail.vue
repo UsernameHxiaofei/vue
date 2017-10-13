@@ -64,7 +64,7 @@
         </div>
         <!-- 拒绝理由弹窗 -->
         <div class="p-form">
-            <el-dialog title="拒绝理由" :visible.sync="dialogClosureVisible" @close="cancel">
+            <el-dialog title="拒绝理由" :visible.sync="dialogClosureVisible" @close="cancel" :close-on-click-modal="false">
                 <el-form :model="refuseParam" :rules="rules" ref="refuseParam">
                     <el-form-item prop="rejection" label="拒绝理由">
                         <el-input class="inputing" :rows="5" v-model="refuseParam.rejection" type="textarea" placeholder="请输入拒绝理由..."></el-input>

@@ -8,7 +8,8 @@ Vue.http.options.emulateJSON = true;
 
 Vue.http.interceptors.push(function (request, next) {
   let service=Loading.service({
-    text:'loading'
+    text:'loading',
+    customClass:'loading-window'
   });
   // continue to next interceptor
   next(function (response) {

@@ -38,7 +38,7 @@
         <div>
             <el-col class="businessTitle">
                 <img src="../../../assets/images/linear.png" />
-                <span>经营管理团队成员相关舆情</span>
+                <span>核心团队成员相关舆情</span>
             </el-col>
             <el-col class="businessinfo-content">
                 <table class="tableInfo">

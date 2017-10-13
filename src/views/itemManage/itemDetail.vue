@@ -222,7 +222,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
         </dialogComponent>
     </div>
     <div class="p-form  refuse-form">
-        <el-dialog :title="'银账信息审核'"  :visible.sync="dialogAuthVisible" >
+        <el-dialog :title="'银账信息审核'"  :visible.sync="dialogAuthVisible" :close-on-click-modal="false" >
             <el-row>
                 <el-button type="default" style="margin-left:10px ;"   @click="auth(1)">通过</el-button>
                 <el-button type="primary"  style="margin-left:2em;" @click="auth(2)">拒绝</el-button>

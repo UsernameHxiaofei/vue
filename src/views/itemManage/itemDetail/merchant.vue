@@ -49,7 +49,7 @@
                 </ul>
                 <el-button class="bianji" type="success" @click="edit">编辑</el-button>
             </div>
-            <el-dialog :title="'编辑聚合支付商户信息'" :visible.sync="dialogFormVisible">
+            <el-dialog :title="'编辑聚合支付商户信息'" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
                 <el-form :model="merchantForm" ref="merchantForm" :rules="merchantFormRules" :label-width="'200px'" style="width:80%">
                     <el-form-item prop="customer_num" label="商户编号">
                         <el-input v-model="merchantForm.customer_num" auto-complete="off"></el-input>

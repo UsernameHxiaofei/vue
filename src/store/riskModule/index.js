@@ -14,7 +14,8 @@ export const riskModule = {
         riskFactors:[],
         riskSettingData:{},//风险设置首页数据
         riskIndexInfo:{},//查询风险指标数据
-        projectRiskRule:[]
+        projectRiskRule:[],
+        pageRiskCategory:{}//查询分页
     },
     actions: {
         risk_getList({ commit },param) {
@@ -165,16 +166,27 @@ export const riskModule = {
         },
         risk_addGlobRiskForProject({commit,dispatch},param){
             return api.risk_addGlobRiskForProject(param).then((data)=>{
-                return dispatch('risk_selectRiskCategory',param)
+                return dispatch('risk_selectRiskCategory',param);
             })
         },
         risk_selectProjectRiskRule({commit},param){
             return api.risk_selectProjectRiskRule(param).then((data)=>{
-                commit('risk_setProjectRiskRule',data)
+                commit('risk_setProjectRiskRule',data);
             })
         },
+        risk_selectPageRiskCategory({commit},param){
+            return api.risk_selectPageRiskCategory(param).then((data)=>{
+                commit('risk_selectPageRiskCategory',data);
+            })
+        },
+        addWarningForEnterpriseMemberChange({commit},param){
+            return api.addWarningForEnterpriseMemberChange(param)
+        }
     },
     mutations: {
+        risk_selectPageRiskCategory(state,data){
+            state.pageRiskCategory=data;
+        },
         risk_setProjectRiskRule(state,data){
             state.projectRiskRule=data;
         },

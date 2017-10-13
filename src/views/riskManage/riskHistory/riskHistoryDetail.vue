@@ -72,7 +72,7 @@
                                     </el-radio-group>
                                 </el-form-item>
                             </el-form>
-                            <el-dialog title="风险发布" :visible.sync="riskflag" >
+                            <el-dialog title="风险发布" :visible.sync="riskflag" :close-on-click-modal="false" >
                                 <div>
                                     <el-row >
                                         <el-col style="border:1px solid #dedede;padding:20px 40px">

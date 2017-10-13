@@ -258,10 +258,7 @@
                     </el-form-item>
                     <el-form-item label="婚姻状况" prop="marriage" label-width="140px">
                         <el-radio-group v-model="teamform.marriage">
-                            <el-radio :label="1">已婚</el-radio>
-                            <el-radio :label="2">未婚</el-radio>
-                            <el-radio :label="3">离异</el-radio>
-                            <el-radio :label="4">其他</el-radio>
+                            <el-radio v-for="(item,index) in marriages" :key="item.value" :label="item.value">{{item.label}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="职位" prop="position" label-width="140px" :maxlength="16">
@@ -285,6 +282,7 @@ import dialogComponent from '../../../components/common/dialog'
 import editor from '../../../components/editor/editor.vue'
 import educations from '../../../constant/education.js'
 import industryData from '../../../constant/industry.js'
+import marriageData from '../../../constant/marriage.js'
 import imageCropper from '../../../components/common/ImageDialogCropper'
 export default {
     name:'itemStep2',
@@ -359,6 +357,7 @@ export default {
             plan_materials:[],
             others_materials:[],
             educations:educations,
+            marriages:marriageData,
             dialogTeamVisible: false,
             title1: "添加团队成员",
             projectImg:'',

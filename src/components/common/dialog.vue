@@ -7,7 +7,7 @@ border-bottom:1px solid rgb(191, 217, 217);}
 .p-form .el-input{width:93% !important;}
 </style>
 <template>
-    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="handleClose">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible" :before-close="handleClose" :close-on-click-modal="false">
       <slot></slot>
       <div slot="footer" class="dialog-footer">
                 <el-button @click="cancel">取 消</el-button>

@@ -169,7 +169,7 @@
             </el-col>
         </el-row>
         <div class="p-form">
-            <el-dialog title="编辑账号" :visible.sync="dialogFormVisible" @close="cancel('actor')">
+            <el-dialog title="编辑账号" :visible.sync="dialogFormVisible" @close="cancel('actor')" :close-on-click-modal="false">
     
                 <el-form label-position="right" :model="actor" :rules="actorRules" ref="actor">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
@@ -189,7 +189,7 @@
         </div>
     
         <div class="p-form">
-            <el-dialog title="实名认证" :visible.sync="realNameDialog" @close="cancel('realName')">
+            <el-dialog title="实名认证" :visible.sync="realNameDialog" @close="cancel('realName')" :close-on-click-modal="false">
                 <el-form :rules="realNameRule" ref="realName" :model="actor">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="actor.mobileNumber" :readonly="customer.realName==1" auto-complete="off" value=""></el-input>
@@ -210,7 +210,7 @@
         </div>
     
         <div class="p-form">
-            <el-dialog title="行家认证" :visible.sync="expertDialog" @close="cancel('expert')">
+            <el-dialog title="行家认证" :visible.sync="expertDialog" @close="cancel('expert')" :close-on-click-modal="false">
                 <el-form :rules="expertRule" ref="expert" :model="expert">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="expert.mobileNumber" auto-complete="off" value="" :readonly="customer.realName?true:false"></el-input>
@@ -264,7 +264,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-            <el-dialog title="行家认证" :visible.sync="viewExpertDialog" @close="cancel('viewExpert')">
+            <el-dialog title="行家认证" :visible.sync="viewExpertDialog" @close="cancel('viewExpert')" :close-on-click-modal="false">
                 <el-form ref="viewExpert" :model="expertData">
                     <el-form-item label="手机号" :label-width="formLabelWidth">
                         <span>{{expertData.mobileNumber}}</span>
@@ -308,7 +308,7 @@
         </div>
     
         <div class="p-form">
-            <el-dialog title="行家认证" :visible.sync="editExpertDialog" @close="cancel('editExpert')">
+            <el-dialog title="行家认证" :visible.sync="editExpertDialog" @close="cancel('editExpert')" :close-on-click-modal="false">
                 <el-form :rules="expertRule" ref="editExpert" :model="expertData">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="expertData.mobileNumber" auto-complete="off" value="" :readonly="customer.realName?true:false"></el-input>
@@ -364,7 +364,7 @@
         </div>
     
         <div class="p-form">
-            <el-dialog title="领投认证" :visible.sync="leadDialog" @close="cancel('lead')">
+            <el-dialog title="领投认证" :visible.sync="leadDialog" @close="cancel('lead')" :close-on-click-modal="false">
                 <el-form ref="lead" :model="lead" :rules="leadRule">
                     <el-row>
                         <el-col :span="12" style="text-align: right;padding: 10px 10px;">
@@ -456,7 +456,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-            <el-dialog title="领投认证" :visible.sync="viewLeadDialog" @close="cancel('viewLead')">
+            <el-dialog title="领投认证" :visible.sync="viewLeadDialog" @close="cancel('viewLead')" :close-on-click-modal="false">
                 <el-form ref="viewLead" :model="leadData" >
                     <el-row>
                         <el-col :span="24" style="text-align: center;padding: 10px 10px;">
@@ -524,7 +524,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-            <el-dialog title="领投认证" :visible.sync="editLeadDialog" @close="cancel('editLead')">
+            <el-dialog title="领投认证" :visible.sync="editLeadDialog" @close="cancel('editLead')" :close-on-click-modal="false">
                 <el-form ref="editLead" :model="leadData" :rules="leadRule">
                     <el-row>
                         <el-col :span="12" style="text-align: right;padding: 10px 10px;">
@@ -616,7 +616,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-            <el-dialog title="合格投资人认证" :visible.sync="investorDialog" @close="cancel('investor')">
+            <el-dialog title="合格投资人认证" :visible.sync="investorDialog" @close="cancel('investor')" :close-on-click-modal="false">
                 <el-form ref="investor" :model="investor" :rules="investorRule">
                     <el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
                         <el-input v-model="investor.mobileNumber" auto-complete="off" value="" :readonly="customer.realName?true:false"></el-input>
@@ -666,7 +666,7 @@
             </el-dialog>
         </div>
         <div class="p-form">
-			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false">
+			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false" :close-on-click-modal="false">
 				<el-form>
 					<el-form-item  label="重置口令：">
 						<span style="color:red">{{resetPassword1}}</span>

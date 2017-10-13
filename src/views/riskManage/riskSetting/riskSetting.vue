@@ -52,7 +52,7 @@
                 <el-button class="region-button" @click="addIndex" size="small" type="success">新增指标</el-button>
             </div>
             <div class="my-table index-table">
-                    <el-table :data="showData" stripe border style="width: 100%">
+                    <el-table :data="riskRulePage.list" stripe border style="width: 100%">
                         <el-table-column type="index"  width="50px">
                         </el-table-column>
                         <el-table-column prop="name" label="指标名" width="160px" >
@@ -69,9 +69,12 @@
                         </el-table-column>
                         <el-table-column prop="createTime" label="生效时间" >
                         </el-table-column>
-                        <el-table-column prop="typeDes" label="类型">
+                        <el-table-column prop="riskType" label="类型">
+                                <template scope="scope">
+                                        {{scope.row.riskType|riskType}}
+                                 </template>
                         </el-table-column>
-                        <el-table-column prop="查看" label="状态" >
+                        <el-table-column  label="操作" >
                             <template scope="scope">
                                 <el-button class="btn-style" size="small" @click="handleIndex(scope.row.id)">查看</el-button>
                             </template>
@@ -79,6 +82,15 @@
                         <el-table-column prop="" width="20px">
                         </el-table-column>
                     </el-table>
+                    <el-pagination  class="ppage"
+                    @size-change="handleSizeChange" 
+                    @current-change="handleCurrentChange" 
+                    :current-page="1" 
+                    :page-sizes="[10, 20, 30, 40]" 
+                    :page-size="10" 
+                    layout="total, sizes, prev, pager, next, jumper" 
+                    :total="riskRulePage.totalCount">
+                    </el-pagination>
             </div>
         </el-row>
     </div>
@@ -94,9 +106,10 @@ export default {
     data () {
         return {
             choosed:0,
-            riskRegion:[],
+            riskRegion:riskRegion,
             basicData:[],
             showData:[],
+            param:{}
         }
     },
     computed: {
@@ -108,6 +121,9 @@ export default {
       },
       isProject:function(){
           return !!this.$route.params.id;
+      },
+      riskRulePage:function(){
+          return this.$store.state.risk.pageRiskCategory||{};
       }
     },
     mounted () {
@@ -117,33 +133,35 @@ export default {
         '$route':function(){
             this.fetchData();
         },
-        choosed:function(){
-            this.filter();
+        choosed:function(v){
+            this.param.category=v||'';
+            this.$store.dispatch('risk_selectPageRiskCategory',this.param)
         }
     },
     components: {
         'risk-column':riskColumn
     },
     methods: {
-      filter(){
-         if(this.choosed==0){
-             this.showData=this.basicData;
-             return;
-         }
-         this.showData=[];
-         for (let i = 0; i < this.basicData.length; i++) {
-             let item = this.basicData[i];
-             if(item.category==this.choosed){
-                 this.showData.push(item);
-             }
-         }
+      handleSizeChange(pageSize){
+        this.param.pageSize=pageSize;
+        this.param.pageNo=1;
+      },
+      handleCurrentChange(pageNo){
+        this.param.pageNo=pageNo;
+        this.formatData();
       },
       fetchData(){
             if(!!this.$route.params.id&&this.$route.params.id.length>0){
                 this.$store.dispatch('risk_getOne',{projectId:this.$route.params.id})
             }
-            this.$store.dispatch('risk_selectRiskCategory',{id:this.$route.params.id||''}).then(()=>{
-                if(this.$route.params.id&&this.riskSettingData.length==0){
+            this.param={
+                pageSize:10,
+                pageNo:1,
+                category:'',
+                projectId:this.$route.params.id||'',
+            }
+            this.$store.dispatch('risk_selectPageRiskCategory',this.param).then(()=>{
+                if(this.$route.params.id&&this.riskRulePage.list&&this.riskRulePage.list.length==0){
                     this.$store.dispatch('risk_addGlobRiskForProject',{id:this.$route.params.id}).then(()=>{
                         this.formatData();
                     })
@@ -153,30 +171,7 @@ export default {
             })
       },
       formatData(){
-            this.riskRegion=riskRegion;
-            let listData=[];
-            for (let i = 0; i < this.riskSettingData.length; i++) {
-                    let element = this.riskSettingData[i];
-                    if(element.riskList&&element.riskList.length>0){
-                        listData=listData.concat(element.riskList)
-                    }
-            }
-            for (let i = 0; i < listData.length; i++) {
-                let item = listData[i];
-                for (let m = 0; m < templateJson.length; m++) {
-                    let temp = templateJson[m];
-                    if(item.name==temp.name){
-                        item.typeDes=temp.type;
-                        item.createTime=temp.createTime;
-                    }
-                    if(!item.typeDes){
-                        item.typeDes='基础';
-                        item.createTime='2017-10-09 00:00:00';
-                    }
-                }
-            }
-            this.basicData=listData;
-            this.showData=listData;
+         this.$store.dispatch('risk_selectPageRiskCategory',this.param)
       },
       handleIndex(indexId){
           this.$router.push('/riskIndexDetail/'+indexId);

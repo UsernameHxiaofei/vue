@@ -54,7 +54,7 @@
                 </el-row>
             </el-col>
         </el-row>
-        <el-dialog title="添加规则" :visible.sync="addflag" size="tiny" >
+        <el-dialog title="添加规则" :visible.sync="addflag" size="tiny" :close-on-click-modal="false" >
                 <el-form :model="addform" ref="addform" :rules="addformrules" label-width="50px" style="width:80%;margin-left:10%">
                     <el-form-item label="因子" prop="cause">
                         <el-select v-model="addform.cause" class="full" value-key="id" @change="factorChange" >
@@ -79,7 +79,7 @@
                     
                 </el-form>
         </el-dialog>
-        <el-dialog title="编辑规则" :visible.sync="editflag" size="tiny" >
+        <el-dialog title="编辑规则" :visible.sync="editflag" size="tiny"  :close-on-click-modal="false">
                 <el-form :model="editform" :rules="editformrules" label-width="50px" style="width:80%;margin-left:10%">
                     <el-form-item label="因子" prop="cause">
                         <el-select v-model="editform.cause" value-key="id" class="full" @change="editfactorChange">

@@ -114,6 +114,16 @@ module.exports=function client(Vue){
         return Vue.http.post('risk_selectProjectRiskRule',param).then(response=>{
           return response.body;
         })
-      }
+      },
+      risk_selectPageRiskCategory:(param)=>{
+        return Vue.http.post('risk_selectPageRiskCategory',param).then(response=>{
+          return response.body;
+        })
+      },
+      addWarningForEnterpriseMemberChange:(param)=>{
+        return Vue.http.post('addWarningForEnterpriseMemberChange',param).then(response=>{
+          return response.body;
+        })
+      },
     } 
 }

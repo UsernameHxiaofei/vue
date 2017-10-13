@@ -33,11 +33,11 @@
                         </el-dropdown-menu>
                     </el-dropdown>
                 </span>
-                <span class="menu-mdzz" :style="{'color':selectButton.menu3}" @click="menuclick(8)">经营管理团队</span>
+                <span class="menu-mdzz" :style="{'color':selectButton.menu3}" @click="menuclick(8)">核心团队成员</span>
                 
             </el-col>
         </el-row>
-        <div class="enterprise-basicinfo">企业名称&emsp;{{enterpriseInfo.name}}&emsp;社会信用代码&emsp;{{enterpriseInfo.creditCode}}&emsp;所在地&emsp;{{enterpriseInfo.addressCode|address}}</div>
+        <div class="enterprise-basicinfo">企业名称&emsp;<span style="color:#06ccb6">{{enterpriseInfo.name}}</span>&emsp;社会信用代码&emsp;<span style="color:#06ccb6">{{enterpriseInfo.creditCode}}</span>&emsp;所在地&emsp;<span style="color:#06ccb6">{{enterpriseInfo.addressCode|address}}</span></div>
         <el-row>
             <el-col :span="20" :offset="2">
                 <enterprise-team :enterprise="enterpriseInfo" v-if="show==8"></enterprise-team>
@@ -173,8 +173,8 @@
     width:100%;
     background: #fcfcfc;
     color: #a3abbe;
-    line-height: 30px;
-    height: 30px;
+    line-height: 40px;
+    height: 40px;
     vertical-align: bottom;
     text-indent: 150px;
 }

@@ -141,7 +141,7 @@
         
         <!--编辑登记信息弹窗-->
         <div class="limitwidth">
-            <el-dialog :title="title" :visible.sync="dialogFormVisible" >
+            <el-dialog :title="title" :visible.sync="dialogFormVisible" :close-on-click-modal="false" >
                 <el-form :model="limitform1" ref="limitformTarget" :rules="limit" :label-width="'200px'">
                     <el-form-item prop="name" label="企业名称">
                         <el-input readonly v-model="limitform1.name" auto-complete="off"></el-input>
@@ -217,7 +217,7 @@
                     <el-button type="primary" @click="submitForm">确 定</el-button>
                 </div>
             </el-dialog>
-            <el-dialog :title="title1" :visible.sync="dialogFormVisible1" >
+            <el-dialog :title="title1" :visible.sync="dialogFormVisible1" :close-on-click-modal="false" >
                 <el-form :model="limitform2" ref="limitformTarget1" :rules="limit1" :label-width="'200px'">
                     <el-form-item prop="basicDepositAccountNumber" label="银行账户">
                         <el-input readonly v-model="limitform2.basicDepositAccountNumber" auto-complete="off"></el-input>

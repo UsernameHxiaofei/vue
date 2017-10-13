@@ -109,7 +109,7 @@
 		</div>
 	
 		<div class="p-form">
-			<el-dialog title="编辑账号" :visible.sync="dialogFormVisible" @close="cancel('customer')">
+			<el-dialog title="编辑账号" :visible.sync="dialogFormVisible" @close="cancel('customer')" :close-on-click-modal="false">
 		
 				<el-form label-position="right" :model="customerInfoByActorId" :rules="customerRules" ref="customer">
 					<el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
@@ -147,7 +147,7 @@
 		</div>
 		<!-- 封禁理由弹窗 -->
 		<div class="p-form">
-			<el-dialog title="封禁理由" :visible.sync="dialogClosureVisible" @close="cancel('actor')">
+			<el-dialog title="封禁理由" :visible.sync="dialogClosureVisible" @close="cancel('actor')" :close-on-click-modal="false">
 				<el-form :model="actor" :rules="actorRule" ref="actor">
 					<el-form-item prop="rejection" label="封禁理由">
 						<el-input class="inputing" v-model="actor.rejection" type="textarea" placeholder="请输入封禁理由..."></el-input>
@@ -160,7 +160,7 @@
 			</el-dialog>
 		</div>
 		<div class="p-form">
-			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false">
+			<el-dialog title="口令信息" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false" :close-on-click-modal="false">
 				<el-form>
 					<el-form-item  label="重置口令：">
 						<span style="color:red">{{resetPassword}}</span>

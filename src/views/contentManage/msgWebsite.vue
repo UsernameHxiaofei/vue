@@ -65,7 +65,7 @@
       </div>
     </div>
     <!-- 模态框（Modal） allActorList-->
-    <el-dialog class="p-form" title="创建站内消息" :visible.sync="dialogFormVisible" @close="resetForm">
+    <el-dialog class="p-form" title="创建站内消息" :visible.sync="dialogFormVisible" @close="resetForm" :close-on-click-modal="false">
       <el-form :model="msgWebForm" ref="msgWebForm">
         <el-form-item label="接收人" :label-width="formLabelWidth" prop="receiver" :rules="[{ required: true, message: '请选择接收人', trigger: 'blur,change' }]">
           <el-select v-model="msgWebForm.receiver" clearable placeholder="接收人">

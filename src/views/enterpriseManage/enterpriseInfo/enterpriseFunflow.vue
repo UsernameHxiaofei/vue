@@ -41,6 +41,7 @@
             flex-flow: row nowrap;
             align-items: stretch;
             justify-content: flex-start;
+            width:300px;
         }
         #enterpriseFunflow .info .info-item label{
             width:140px;

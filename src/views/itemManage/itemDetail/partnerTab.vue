@@ -52,7 +52,7 @@
             </ul>
             <el-button class="bianji" type="success" @click="dialogFormVisible = true">编辑</el-button>
         </div>
-        <el-dialog :title="'编辑有限合伙人信息'" :visible.sync="dialogFormVisible">
+        <el-dialog :title="'编辑有限合伙人信息'" :visible.sync="dialogFormVisible" :close-on-click-modal="false">
             <el-form :model="partnerForm" ref="partnerForm" :rules="partnerRules" :label-width="'200px'" style="width:80%">
                 <el-form-item prop="name" label="企业名称">
                     <el-input disabled v-model="partnerForm.name" auto-complete="off"></el-input>

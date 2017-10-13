@@ -51,7 +51,7 @@
         </div>
         <!-- 添加角色弹窗 -->
         <div class="p-form">
-            <el-dialog title="添加角色" :visible.sync="dialogUserVisible" @close="cancel">
+            <el-dialog title="添加角色" :visible.sync="dialogUserVisible" @close="cancel" :close-on-click-modal="false">
                 <el-form :model="addRole" :rules="rule" ref="addRole">
                     <el-form-item label="角色名称" :label-width="formLabelWidth" prop="name">
                         <el-input v-model="addRole.name" auto-complete="off"></el-input>
@@ -70,7 +70,7 @@
         </div>
         <!-- 編輯角色弹窗 -->
         <div class="p-form">
-            <el-dialog title="编辑角色" :visible.sync="dialogEditRole" @close="quit">
+            <el-dialog title="编辑角色" :visible.sync="dialogEditRole" @close="quit" :close-on-click-modal="false">
                 <el-form :model="editRole" :rules="editRule" ref="editRole">
                     <el-form-item label="角色名称" :label-width="formLabelWidth" prop="name">
                         <el-input v-model="editRole.name"></el-input>
@@ -89,7 +89,7 @@
         </div>
         <!-- 封禁理由弹窗 -->
         <div class="p-form">
-            <el-dialog title="封禁理由" :visible.sync="dialogClosureVisible" @close="cancelBtn">
+            <el-dialog title="封禁理由" :visible.sync="dialogClosureVisible" @close="cancelBtn" :close-on-click-modal="false">
                 <el-form :model="closureUser" :rules="rule2" ref="closureUser">
                     <el-form-item prop="rejection" label="封禁理由">
                         <el-input class="inputing" v-model="closureUser.rejection" rows='5' type="textarea" placeholder="请输入封禁理由..."></el-input>

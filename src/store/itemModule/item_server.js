@@ -14,6 +14,24 @@ module.exports=function server(sc,passport){
         return sc.send(req).then((resp)=>{
             return resp.object
         });
-      }
+      },
+      item_getManageList:(param)=>{
+        const req = sc.instanceRequest("FinancingProjectInfoTask", "selectFinancingProjectInfo", "projectManage");
+        req.auxiliary = {
+            [passport]: param.passport
+        };
+        req.items = [
+            '',
+            '',
+            '',
+            '',
+            1,
+            10,
+            0
+        ];
+        return sc.send(req).then((resp)=>{
+            return resp.object
+        });
+      },
     }
   }
