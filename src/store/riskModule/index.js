@@ -90,11 +90,6 @@ export const riskModule = {
                 }
             })
         },
-        risk_selectRiskCategory({commit},param){
-            return api.risk_selectRiskCategory(param).then((data)=>{
-                commit('risk_setRiskSettingData',data);
-            })
-        },
         risk_selectRiskInfo({commit},param){
             return api.risk_selectRiskInfo(param).then((data)=>{
                 commit('risk_setRiskIndexInfo',data);
@@ -165,9 +160,7 @@ export const riskModule = {
             })
         },
         risk_addGlobRiskForProject({commit,dispatch},param){
-            return api.risk_addGlobRiskForProject(param).then((data)=>{
-                return dispatch('risk_selectRiskCategory',param);
-            })
+            return api.risk_addGlobRiskForProject(param);
         },
         risk_selectProjectRiskRule({commit},param){
             return api.risk_selectProjectRiskRule(param).then((data)=>{
@@ -195,9 +188,6 @@ export const riskModule = {
         },
         risk_setRiskIndexInfo(state,data){
             state.riskIndexInfo=data;
-        },
-        risk_setRiskSettingData(state,data){
-            state.riskSettingData=data;
         },
         risk_setFactors(state,data){
             state.riskFactors=data;

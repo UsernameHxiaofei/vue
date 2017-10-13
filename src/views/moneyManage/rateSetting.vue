@@ -172,7 +172,7 @@
                 <el-form :model="overallForm" :rules="overrule" ref="overallForm">
                     <el-form-item label="融资服务费率" prop="serviceChargeRate">
                         <el-input v-model.number="overallForm.serviceChargeRate">
-                                <template slot="append">%</template> 
+                            <template slot="append">%</template> 
                         </el-input>
                     </el-form-item>
                     <el-form-item label="交易手续费率" prop="feeRate">
@@ -236,8 +236,9 @@
                                     </el-input>
                                 </el-row>
                     </el-form-item>
-                    
-                    
+                    <el-form-item label="模拟投资项目投资人分成比例" prop="simulatePercent">
+                        <el-input v-model.number="overallForm.simulatePercent"><template slot="append">%</template></el-input>
+                    </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
                     <el-button @click="quit">取 消</el-button>
@@ -278,7 +279,8 @@ export default {
                     aboveEnsurePercent: '',
                     investEnsurePercent: '',
                     minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: ''
+                    maxInvestPenaltyPercent: '',
+                    simulatePercent:''
                 };
             } else {
                 return this.$store.state.money.idFundRule;
@@ -303,7 +305,8 @@ export default {
                     aboveEnsurePercent: '',
                     investEnsurePercent: '',
                     minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: ''
+                    maxInvestPenaltyPercent: '',
+                    simulatePercent:''
                 };
             } else {
                 return this.$store.state.money.overallFundRule;
@@ -441,7 +444,8 @@ export default {
                     aboveEnsurePercent: '',
                     investEnsurePercent: '',
                     minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: ''
+                    maxInvestPenaltyPercent: '',
+                    simulatePercent:''
                 };
             this.dialogRateVisible = false;
             this.$store.dispatch('rate_getList', this.param);
@@ -466,7 +470,8 @@ export default {
                     aboveEnsurePercent: '',
                     investEnsurePercent: '',
                     minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: ''
+                    maxInvestPenaltyPercent: '',
+                    simulatePercent:''
                 };
             this.dialogOverallVisible = false;
             this.$store.dispatch('rate_getList', this.param);

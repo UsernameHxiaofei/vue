@@ -158,14 +158,6 @@
             })
             
         });
-        //根据项目id查询风险域指标信息
-        router.all('/risk_selectRiskCategory',function(req, res, next){
-            let param=req.body;
-            const stuff = sc.instanceRequest("RiskTask", "selectRiskCategory", "riskManage");
-            stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items=[param.id||''];
-            sc.send(stuff).then((resp) =>{res.json(resp.object)});
-        });
         //根据风险指标查询指标详细信息
         router.all('/risk_selectRiskInfo',function(req, res, next){
             let param=req.body;

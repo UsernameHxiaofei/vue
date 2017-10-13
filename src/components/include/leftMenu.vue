@@ -91,7 +91,6 @@
             go(path,index){
                 sessionStorage.setItem('menu_index',JSON.stringify({path,index}));
                 this.$store.commit('risk_projectInfo',{});
-                this.$store.commit('risk_setRiskSettingData',{});
                 this.$store.commit('enterprise_clear');
                 this.$store.commit('item_clear');
                 sessionStorage.setItem('risk_projectInfo','{}');
