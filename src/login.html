@@ -7,194 +7,240 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
 	<title>实业项目股权投融资服务综合管理系统</title>
 	<link rel="stylesheet" href="/assets/css/reset.css" />
-	<link rel="stylesheet" href="/assets/fonts/iconfont.css" />
-	<script src="public/jquery-3.2.1.min.js"></script>
 	<style>
 		* {
             box-sizing: border-box;
-            -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
         }
         body {
-            background: url(/public/bg.png) repeat;
-            overflow: hidden;
+            background: url(/public/login/bg212.png) no-repeat;
+            background-size:100% 100%;
+            /* background: #0b2131; */
+            min-width:1024px;
+            overflow-y: hidden;
+            overflow-x:hidden;
         }
-        .center-block {
-            width: 800px;
-            margin: 0 auto;
-        }
-        
-        h3 {
-            font-size: 18px;
-            color: rgb(255, 255, 255);
-            line-height: 1.208;
-            text-align: center;
-            font-weight: 500;
-        }
-        h1 {
-            margin-top:12%;
-            text-align: center;
-            font-size: 26px;
-            color: rgb(255, 255, 255);
-            font-weight: 500;
-            line-height: 2.8;
-            text-shadow: 0px 5px 5px rgba(8, 1, 2, 0.2);
-            -moz-transform: matrix( 1.00118198271008, 0, 0, 1.00380945644161, 0, 0);
-            -webkit-transform: matrix( 1.00118198271008, 0, 0, 1.00380945644161, 0, 0);
-            -ms-transform: matrix( 1.00118198271008, 0, 0, 1.00380945644161, 0, 0);
+        .logo-block{
+            position: absolute;
+            top:0;
+            bottom: 0;
+            width: 33.3%;
+            min-width:500px;
+            height:100%;
         }
         .form-block{
-            z-index: 11;
-            background:url(/public/form.png);
-            background-size:100% 100%;
-            width: 680px;
-            height: 360px;
-            margin:80px auto;
+            position:absolute;
+            top:0;
+            right:0;
+            bottom:0;
+            min-width: 599px;
+            width:66.6%;
+            background: url(/public/login/888.png) no-repeat center;
+            background-color: #0b202e;
+            background-size: 100% 100%;
+        }
+        .center-block{
+            width: 598px;
+            margin:0 auto;
+            height:100%;
+            position: relative;
+            bottom: 0;
+            top:0;
+            
+        }
+        .title{
+            width: 130%;
+            margin:20vh -15% 0 -15%;
+            /* background: url() no-repeat;
+            background-position:center;
+            background-size:cover; */
+            text-align: center;
+        }
+        .title-bg{
+            width:82vh;
+            margin:-15.5vh auto 0 auto; 
+            z-index: -3;
+        }
+        .title h2{
+            margin-top:-11vh;
+            font-size: 16px;
+            z-index: 3;
+            font-family: "STHeiti","Heiti SC","Microsoft JhengHei","serif","pingfang";
+            color: rgb(255, 255, 255);
+            vertical-align:middle;
+            text-align: center;
+            background: url(/public/login/stitle.png) no-repeat center;
+
+        }
+        .dot{
+            display: inline-block;
+            content: "";
+            vertical-align: middle;
+            background: rgb(255, 255, 255);
+            width: 6px;
+            height:2px;
+            margin:auto 3px;
+            border-radius: 2px;
+        }
+        .form{
+            width:80%;
+            padding:8vh 6.5vh 5vh 5vh;
+            margin:12vh auto;
+        }
+        
+        
+        .logo-bg{
+            position: absolute;
+            z-index: 3;
+            height:84vh;
+            width: 95vh;
+            top:12%;
+            left: -35%;
+        }
+        /* 1.06 */
+        .logo{
+            position: absolute;
+            top:47%;
+            left: 60%;
+            width:30%;
+        }
+        .form-item{
+            height:6vh;
+            width: 100%;
+            text-align: center;
+        }
+        .form-item input[type="text"], .form-item input[type="password"]{
+            height:5vh;
+            max-height: 34px;
+            width: 38vh;
+            vertical-align: middle;
+            font-size: 14px;
+            border-width: 1px;
+            border-color: rgb(15, 103, 141);
+            border-style: solid;
+            border-radius: 3px;
+            box-shadow: inset 0px 5px 5px 0px rgba(14, 39, 96, 0.5);
+            outline:currentColor;
+            text-indent: 10px;
+        }
+        label{
+            color: rgb(255, 255, 255);
+            font-size: 12px;
+            line-height: 35px;
+            vertical-align: middle;
             display: flex;
-            justify-content: center;
+            flex-flow: row nowrap;
             align-items: center;
         }
-        .input-block{
-            border-radius: 3px;
+        :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: #000; 
             background-color: rgb(255, 255, 255);
-            box-shadow: 0px 5px 20px 0px rgba(8, 1, 2, 0.2);
-            width: 280px;
-            height: 286px;
-            display: flex;
-            flex-flow: column nowrap;
-            align-items: center;
-            justify-content: center;
+        }
+        
+        ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: #000;
+            background-color: rgb(255, 255, 255);
+        }
+        .form-control:focus,.input-group:focus:active,.input-group:focus:visited{
+			color:#000;
+        }
+        #userName::-webkit-input-placeholder{
+            letter-spacing: 7px;
+        }
+        input[type="checkbox"]{
+            border-width: 1px;
+            border-color: rgb(15, 103, 141);
+            border-style: solid;
+            box-shadow: inset 0.5px 0.866px 3px 0px rgba(14, 49, 103, 0.75);
+            width: 15px;
+            height: 15px;
+            position: relative;
+        }
+        input:-ms-input-placeholder{
+            color: #000;
+        }
+        
+        input::-webkit-input-placeholder{
+            color: #000;
+        }
+        button{
+            border-radius: 3px;
+            background-color: rgb(42, 138, 188);
+            background: url(/public/login/button.png) no-repeat;
+            box-shadow: 0px 5px 5px 0px rgba(8, 1, 2, 0.2),inset 0px 2px 2px 0px rgba(255, 255, 255, 0.004);
+            border: none;
+            width: 50%;
+            font-size:16px;
+            margin-left:30px;
+            max-height: 33px;
+            min-height:25px;
+            color: white;
+            cursor: pointer;
         }
         footer{
             position: absolute;
+            color: #2b5b77;
             width: 100%;
-            bottom:20px;
+            bottom:11vh;
             font-size:12px;
+            text-indent: 35%;
             text-align: center;
         }
-        button{
-            background-color: rgb(6, 204, 182);
-            width: 91px;
-            height: 32px;
-            line-height: 32px;
-            vertical-align: middle;
-            color: white;
-            border: 0;
-        }
-        button:active:focus:hover{
-			    color: #fff;
-				background-color: #59cabd;
-				border-color: #59cabd;
-				outline: 0;
-				-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
-				box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
-		}
-        button:hover {
-            color: #fff;
-            cursor: pointer;
-			background-color: #59cabd;
-				border-color: #59cabd;
-		}
-        input[type='checkbox']{
-            border: 1px solid #ddd;
-            width: 15px;
-            height: 15px;
-            line-height: 134px;
-            vertical-align: middle;
-
-		}
-		i{
-			position: relative;
-			left:-30px;
-			top:1px;
-		}
-        .form-control{
-            width: 220px;
-            height:36px;
-            margin:20px auto 20px 20px;
-            outline: none;
-            border-left:none;
-            border-top:none;
-			border-right:none;
-        }
-        .form-control:focus{
-			border-color: #06ccb6;
-			outline: 0;
-			
-        }
-        .submit{
-            width:220px;
-            height:34px;
-        }
-        .submit label{
-            font-size:12px;
-            line-height: 34px;
-            vertical-align: middle;
-        }
-        #home-canvas {
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-            overflow: hidden;
-            z-index:-1;
-        }
-        #home-canvas canvas{
-            opacity: 0.5;
-        }
-        #footer{
-            position: absolute;
-            bottom:0;
-            color: rgb(53, 70, 89);
-		}
-		input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
-			background-color: white;
-			background-image: none;
-			color: rgb(0, 0, 0);
-		}
-		.form-control:focus,.input-group:focus:active,.input-group:focus:visited{
-			color:#06ccb6;
+        .item-div{
+            height:5vh;
+            max-height: 34px;
+            width: 38vh;
+            margin:auto auto;
+            display: flex;
+            justify-content:space-between;
         }
         
 	</style>
 </head>
-
 <body onload="load()">
-	<div id="home-canvas"></div>
-	
-<div class="center-block">
-	<h1>实业项目股权投融资服务综合管理系统</h1>
-	<h3>投融资 & 征信 & 风控 & 信息披露</h3>
-	<div class="form-block">
-		<div class="input-block">
-			<div class="input-group">
-					<input type="text"  name="username" class="form-control" maxlength="11" autocomplete="false" id="userName" placeholder="用户名">
-					<i class="iconfont icon-yonghu"></i>
-					
-			</div>
-			<div class="input-group">
-					<input type="password" name="password" class="form-control"  autocomplete="false" id="password"   placeholder="用户密码">
-					<i class="iconfont icon-mima"></i>
-			</div>
-			  
-			  
-			  <div class="submit">
-				  <label for="remeber"><input type="checkbox" name="remeber" id="remeber">记住密码</label>
-				  <button onclick="loginOn()" style="float:right;">登录</button>
-			  </div>
-		</div>
-	</div>
-</div>
-<footer>
-	Copyright@2017 上海链投信息科技有限公司 沪ICP备16030676号 | 市场有风险，投资需谨慎
-</footer>
-<div id="footer"></div>
-<script src="/public/v.js"></script>
-<script src="/public/bg.js"></script>
-</body>
+    <div class="logo-block">
+       <img class="logo-bg" src="/public/login/logo-bg.png" alt="">
+    </div>
+    <div class="form-block">
+        <div class="center-block">
+            <div class="title">
+                <img class="title-bg" src="/public/login/title1.png" alt="">
+                <h2>投融资<span class="dot"></span>征信<span class="dot"></span>风控<span class="dot"></span>信息披露</h2>
+            </div>
+            
+            <div class="form">
+                <div class="form-item">
+                    <input type="text"  name="username" class="form-control" maxlength="11" autocomplete="false" id="userName" placeholder="用户名">
+                </div>
+                <div class="form-item">
+                    <input type="password" name="password" class="form-control"  autocomplete="false" id="password"   placeholder="用户密码">
+                </div>
+                <div class="form-item">
+                    <div class="item-div">
+                            <label for="remeber">
+                                    <input type="checkbox" name="remeber"  id="remeber">&nbsp;记住密码
+                                </label>
+                                <button  onclick="loginOn()">登录</button>
+                    </div>
+                    
+                </div>
+                <!-- <span class="k1"></span>
+                <span class="k2"></span>
+                <span class="k3"></span>
+                <span class="k4"></span>
+                <img class="k51" src="/public/login/k52.png" alt="">
+                <img class="k52" src="/public/login/k51.png" alt=""> -->
+            </div>
+        </div>
+    </div>
+    <footer>
+            Copyright@2017 上海链投信息科技有限公司 沪ICP备16030676号 | 市场有风险，投资需谨慎
+    </footer>
+        
 <script src="/public/login.js"></script>
+</body>
+
 
 </html>

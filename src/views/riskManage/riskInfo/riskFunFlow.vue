@@ -132,7 +132,7 @@
                         totalbNum+=item.creditAmount;
                     }
                 }
-                this.totalData= { totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2) }; 
+                this.totalData= {totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2)}; 
             },
             rangechange(v) {
                 this.daterange = v.split(' - ');
@@ -163,7 +163,6 @@
                 });
             },
             buildEcharts() {
-                
                 let myChart = echarts.init(document.getElementById('funflowIn'),'customed');
                 // 指定图表的配置项和数据
                 let option = {
@@ -171,7 +170,6 @@
                     legend: { data: ['流入'], right: 50, orient: 'vertical' },
                     xAxis:  { type:'time'},
                     yAxis: { name: '金额(元)',type:'value', nameLocation: 'end',max:function(value){
-                        
                         return value.max<this.riskLine.FLOWS_INTO_MEDIUM?this.riskLine.FLOWS_INTO_MEDIUM:value.max;
                     }},
                     series: [{
@@ -260,7 +258,7 @@
                                 let riskRuleInfo1=item.riskRuleGroup[0].riskRuleInfo;
                                 for (let i = 0; i < riskRuleInfo1.length; i++) {
                                     let it = riskRuleInfo1[i];
-                                    if(it.relationName=='<'){
+                                    if(it.relationName=='<='){
                                         this.riskLine.FLOWS_INTO_MEDIUM=parseInt(it.value);
                                     }
                                 }
@@ -272,7 +270,7 @@
                                 let riskRuleInfo2=item.riskRuleGroup[0].riskRuleInfo;
                                 for (let i = 0; i < riskRuleInfo2.length; i++) {
                                     let it = riskRuleInfo2[i];
-                                    if(it.relationName=='>'){
+                                    if(it.relationName=='>='){
                                         this.riskLine.FLOWS_OUT_MEDIUM=parseInt(it.value);
                                     }
                                 }

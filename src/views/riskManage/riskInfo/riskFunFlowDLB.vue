@@ -196,7 +196,7 @@
                                 let riskRuleInfo1=item.riskRuleGroup[0].riskRuleInfo;
                                 for (let i = 0; i < riskRuleInfo1.length; i++) {
                                     let it = riskRuleInfo1[i];
-                                    if(it.relationName=='<'){
+                                    if(it.relationName=='<='){
                                         this.riskLine.DLB_IN_MIDDLE=parseInt(it.value);
                                     }
                                 }

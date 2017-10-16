@@ -280,21 +280,24 @@ export default {
             this.$refs['teamform'].validate((valid) => {
                 if (valid) {
                     let param=this.teamform;
+                    let warningParam=JSON.parse(JSON.stringify(this.teamform));
                     param.enterpriseId=this.enterpriseInfo.id;
                     if(this.editMember.length>0){
                         param.id=this.editMember;
                         this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
-                            this.addWarning('UPDATE',this.teamform)
                             if(this.isRepresent&&this.enterpriseInfo.representativeId!=this.editMember){
-                                param.id=this.enterpriseInfo.id;
                                 param.representativeId=this.editMember;
+                                param.id=this.enterpriseInfo.id;
                                 this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
+                                warningParam.representativeId=this.editMember;
+                                this.addWarning('UPDATE',warningParam);
+                            }else{
+                                this.addWarning('UPDATE',this.teamform);
                             }
                             if(!this.isRepresent&&this.enterpriseInfo.representativeId==this.editMember){
                                this.$message.warning('请勾选其他团队成员的法定代表人复选款来变更法定代表人，只能变更不能取消')
                             }
                             this.editMember='';
-                            
                         })
                     }else{
                         this.$store.dispatch('item_createEnterpriseMember',{param,vue:this}).then(()=>{
@@ -304,6 +307,8 @@ export default {
                                 param.id=this.enterpriseInfo.id;
                                 param.representativeId=JSON.parse(this.$store.state.item.enterpriseMemberId);
                                 this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this });
+                            }else{
+
                             }
                         })
                     }
