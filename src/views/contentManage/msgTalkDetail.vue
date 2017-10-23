@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="back-button1">
+        <div class="back-button">
             <router-link class="pull-left" :to="{path: '/msgWebsite'}">
                 <el-button type="text" icon="arrow-left">返回上一级</el-button>
             </router-link>

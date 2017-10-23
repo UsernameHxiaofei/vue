@@ -6,12 +6,10 @@
         <el-row>
             <risk-column v-if="projectInfo.projectId&&projectInfo.projectId.length>0"></risk-column>
         </el-row>
-        <el-row>
-            <el-col :span="21" :offset="3" :style="{'marginTop':projectInfo.projectId?0:'100px'}">
-                <el-row>
-                    <el-col :span="18">
+        <el-row :style="{'marginTop':projectInfo.projectId?0:'100px'}">
+            <div style="width:70%;min-width:650px;margin:auto auto;">
                         <h2 style="text-align:center;color:#bcc8ce;min-width:702.648px">风险指标设置</h2>
-                        <el-form class="addForm" ref="form" :model="form" :rules="formrules" label-width="290px">
+                        <el-form class="addForm" ref="form" :model="form" :rules="formrules" label-width="120px">
                             <el-form-item label="指标名" prop="name">
                                 <el-input v-model="form.name" placeholder="请输入指标名"></el-input>
                             </el-form-item>
@@ -35,7 +33,7 @@
                                     <el-table-column prop="relationName" label="关系" align="center"> </el-table-column>
                                     <el-table-column prop="value" label="取值" align="center"> </el-table-column>
                                     <el-table-column prop="unit" label="单位" align="center"> </el-table-column>
-                                    <el-table-column prop="" align="center" width="140">
+                                    <el-table-column prop="" align="center" >
                                         <template scope="scope">
                                             <el-button v-show="!scope.row.flag" size="small" @click="edit(scope.row)">编辑</el-button>
                                             <el-button v-show="!scope.row.flag" size="small"  @click="del(scope.row)">删除</el-button>
@@ -51,12 +49,10 @@
                                 <el-button type="primary" style="float:right" @click="submit">保存</el-button>
                             </el-form-item>
                         </el-form>
-                    </el-col>
-                </el-row>
-            </el-col>
+                </div>
         </el-row>
         <el-dialog :title="formName" :visible.sync="editflag" size="tiny" :close-on-click-modal="false">
-            <el-form :model="editform" :rules="editformrules" ref="editform" label-width="50px" style="width:80%;margin-left:10%">
+            <el-form :model="editform" :rules="editformrules" ref="editform" label-width="80px" style="width:80%;margin-left:10%">
                 <el-form-item label="因子" prop="factor">
                     <el-select v-model="editform.factor" value-key="id" class="full" @change="editfactorChange">
                         <el-option v-for="(item,index) in factors"  :key="item.id" :value="item" :label="item.name"></el-option>
@@ -326,7 +322,7 @@
 
 <style>
     #editRiskIndex .addForm {
-        margin-top: 40px;
+        margin: 40px auto 0 auto;
         width: 80%;
         min-width: 702.648px;
     }

@@ -127,8 +127,12 @@
         </el-row>
         <el-row>
             <el-col :span="24">
-                <label class="titleField" for="dateRange">日期</label>&emsp;
-                <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="daterange" align="left" placeholder="选择日期范围"></el-date-picker>
+                <label class="titleField" >日期</label>&emsp;
+                <span >
+                    <el-date-picker :clearable="false"  v-model="startTime" align="right" :editable="false" type="date"   @change="startChange" placeholder="选择开始日期"></el-date-picker>
+                    至
+                    <el-date-picker :clearable="false"  v-model="endTime" align="right" :editable="false" type="date"  @change="endChange" placeholder="选择结束日期"></el-date-picker>
+                </span>
                 <div class="actionbar">
                     <button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="showChart=true"> 图表 </button>
                     <button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="showChart=false"> 明细 </button>
@@ -245,15 +249,21 @@
                         bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
                         balance.push([new Date(item.transactionTime).getTime(),item.balance||0]);
                         this.lastBalance=this.listDayAmount[this.listDayAmount.length-1].balance||0;
-                    }
+                    } 
                     this.imageData={leanOut, bIn,balance }
                     this.buildEcharts();
                 })
             },
-            rangechange(v) {
-                this.daterange = v.split(' - ');
-                this.param.beginTime = this.daterange[0];
-                this.param.endTime = this.daterange[1];
+            startChange(v){
+                this.param.beginTime=v||'';
+                this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
+                    this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData()
+                    this.getImageData()
+                });
+            },
+            endChange(v){
+                this.param.endTime=v||'';
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData()
@@ -342,7 +352,7 @@
                 };
                 let balanceOption ={
                     title: { text: '银账资金账户余额情况', x: 'center' }, tooltip: { trigger: 'axis' },
-                    legend: { data: ['余额'], right: 200, orient: 'vertical'},
+                    legend: { data: ['余额'], right: 100, orient: 'vertical'},
                     xAxis: { type:'time' ,position: 'bottom',
                     axisPointer:{label:{ formatter:function(params){ return moment(new Date(params.value)).format('YYYY-MM-DD');}},
                         axisTick:{length:1}
@@ -369,10 +379,11 @@
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            this.daterange=[start,end];
+            this.startTime=start;
+            this.endTime=end;
             this.param = {
-                beginTime: this.daterange[0],
-                endTime: this.daterange[1],
+                beginTime:start,
+                endTime: end,
                 id: this.enterprise.id,
                 pageSize: 10,
                 pageNo: 1,
@@ -387,11 +398,11 @@
         },
         data() {
             return {
+                startTime:'',
+                endTime:'',
                 showChart:true,
-                showTable:true,
                 lastBalance:0,
                 listData:{},
-                daterange: [],
                 param: {},
                 imageData:{},
                 totalData:{}

@@ -255,4 +255,20 @@
             stuff.items=[param.type,param.enterpriseId,param.member];
             sc.send(stuff).then((resp) =>{res.json(resp.head)});
         });
+        //团队人员变更记录列表接口
+        router.all('/selectPageRiskMemberChange',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskMemberChangeTask", "selectPageRiskMemberChange", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items=[param.projectId,param.pageNo,param.pageSize];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
+        //查询规则的projectCode;
+        router.all('/selectRiskByProjectIdAndCode',function(req, res, next){
+            let param=req.body;
+            const stuff = sc.instanceRequest("RiskTask", "selectProjectRiskRuleGroup", "riskManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items=[param.projectId,param.code];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
     }

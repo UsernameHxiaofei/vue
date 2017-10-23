@@ -15,7 +15,11 @@
         <el-row>
             <el-col :span="24">
                 <label class="titleField" for="dateRange">日期</label>&emsp;
-                <el-date-picker id="dateRange" v-model="daterange" @change="rangechange" clearable type="daterange" align="left" placeholder="选择日期范围"></el-date-picker>
+                <span >
+                        <el-date-picker v-model="startTime" :clearable="false" align="right" :editable="false" type="date"   @change="startChange" placeholder="选择开始日期"></el-date-picker>
+                        至
+                        <el-date-picker v-model="endTime" :clearable="false"  align="right" :editable="false" type="date"  @change="endChange" placeholder="选择结束日期"></el-date-picker>
+                </span>
             </el-col>
         </el-row>
         <el-row>
@@ -38,20 +42,20 @@
             <el-col :span="24">
                 <el-table border :data="listData.list" stripe style="width: 100%">
                     <el-table-column prop="order_num" width="120"  label="订单号" align="center"> </el-table-column>
-                    <el-table-column prop="order_amount"  label="订单金额" align="center"> </el-table-column>
-                    <el-table-column prop="pay_amount"  label="实付金额" align="center"> </el-table-column>
-                    <el-table-column prop="dlb_discount"  label="哆啦宝补贴" align="center"> </el-table-column>
-                    <el-table-column prop="merchant_discount"  label="商家补贴" align="center"> </el-table-column>
+                    <el-table-column prop="order_amount"  label="订单金额" width="100" align="center"> </el-table-column>
+                    <el-table-column prop="pay_amount"  label="实付金额" width="100" align="center"> </el-table-column>
+                    <el-table-column prop="dlb_discount"  label="哆啦宝补贴" width="110" align="center"> </el-table-column>
+                    <el-table-column prop="merchant_discount"  label="商家补贴" width="100" align="center"> </el-table-column>
                     <el-table-column prop="balance_account_time" width="110" label="入账时间" align="center"> </el-table-column>
-                    <el-table-column prop="complete_time" width="110" label="完成时间" align="center"> </el-table-column>
-                    <el-table-column prop="refund_time" width="110"  label="退款时间" align="center"> </el-table-column>
-                    <el-table-column prop="fee"  width="90"  label="交易费率" align="center"> </el-table-column>
+                    <el-table-column prop="complete_time" label="完成时间" align="center"> </el-table-column>
+                    <el-table-column prop="refund_time"   label="退款时间" align="center"> </el-table-column>
+                    <el-table-column prop="fee"  width="100"  label="交易费率" align="center"> </el-table-column>
                     <el-table-column prop="fee_value"  width="80"  label="手续费" align="center"> </el-table-column>
-                    <el-table-column prop="status"  label="订单状态" width="90" align="center"> </el-table-column>
+                    <el-table-column prop="status"  label="订单状态" width="100" align="center"> </el-table-column>
                     <el-table-column prop="batch_num" width="90" label="批次号" align="center"> </el-table-column>
                     <el-table-column prop="machine_num" width="90" label="机具号" align="center"> </el-table-column>
-                    <el-table-column prop="shop_name" width="90" label="店铺名称" align="center"> </el-table-column>
-                    <el-table-column prop="shop_num" width="90" label="店铺编号" align="center"> </el-table-column>
+                    <el-table-column prop="shop_name" width="110" label="店铺名称" align="center"> </el-table-column>
+                    <el-table-column prop="shop_num" width="100" label="店铺编号" align="center"> </el-table-column>
                 </el-table>
                 <pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
             </el-col>
@@ -107,15 +111,21 @@
                 }
                 this.totalData= { totalLean, totalb, totalLeanNum, totalbNum };
             },
-            rangechange(v) {
-                this.daterange = v.split(' - ');
-                this.param.beginTime = this.daterange[0];
-                this.param.endTime = this.daterange[1];
+            startChange(v){
+                this.param.beginTime=v||'';
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
-                     this.listData=JSON.parse(JSON.stringify(this.dataList));
-                     this.getTotalData();
-                     this.getImageData();
-                });
+                    this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData();
+                    this.getImageData();
+               });
+            },
+            endChange(v){
+                this.param.endTime=v||'';
+                this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
+                    this.listData=JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData();
+                    this.getImageData();
+               });
             },
             handleSizeChange(size) {
                 this.param.pageSize = size;
@@ -163,10 +173,11 @@
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            this.daterange=[start,end];
+            this.startTime=start;
+            this.endTime=end;
             this.param = {
-                beginTime: this.daterange[0],
-                endTime: this.daterange[1],
+                beginTime: start,
+                endTime:end,
                 id: this.enterprise.id,
                 pageSize: 10,
                 pageNo: 1
@@ -176,11 +187,11 @@
                 this.getTotalData();
                 this.getImageData();
             });
-
         },
         data() {
             return {
-                daterange: [],
+                startTime:'',
+                endTime:'',
                 param: {},
                 totalData:{},
                 imageData:[],

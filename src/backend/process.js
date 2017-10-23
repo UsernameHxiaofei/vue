@@ -14,10 +14,8 @@ if (process.env.NODE_ENV === 'production') {
         sc = new StuffClient("10.240.240.152", 9880);
     }
 }
-
-const passport = "linktou.base.task.data.Passport"; //放置通行证对象的字段名
-
 const multer = require('multer');
+const passport = "linktou.base.task.data.Passport"; //放置通行证对象的字段名
 
 //这里调用的router方法，来拦截vue请求给node服务器
 require('./server_routers/login_router')(router, sc, passport);
@@ -41,7 +39,6 @@ router.all('/fileupload', multer().single('file'), function(req, res, next) { //
     }; 
     stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
     sc.send(stuff).then((resp) => {
-        console.log(JSON.stringify(resp) + '<====上传返回的数据数据');
         res.json(resp)
     });
 });
@@ -54,7 +51,6 @@ router.all('/fileuploadBlob', multer().single('file'), function(req, res, next) 
         [passport]: req.session.passport };
     stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
     sc.send(stuff).then((resp) => {
-        console.log(JSON.stringify(resp) + '<====上传返回的数据数据');
         res.json(resp)
     });
 });

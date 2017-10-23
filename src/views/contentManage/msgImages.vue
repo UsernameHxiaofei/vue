@@ -47,7 +47,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="resetForm">取 消</el-button>
-              <el-button type="primary" @click="submitForm">添加</el-button>
+              <el-button type="primary" :loading="adding"  @click="submitForm">添加</el-button>
             </div>
         </el-dialog>
     </div>
@@ -85,10 +85,10 @@ export default {
     },
     data() {
         return {
+            adding:false,
             dialogFormVisible:false,
             uploadList: [],
             param: {},
-            
             fileParam: {
                 show_sequence:1,
                 targetSrc:'',
@@ -112,10 +112,12 @@ export default {
                     fd.append('bannerSize',this.fileParam.bannerSize)
                     fd.append('targetSrc',this.fileParam.targetSrc)
                     fd.append('show_sequence',this.fileParam.show_sequence)
+                    this.adding=true;
                     this.$http.post('/ajax/banner_uploadByFile',fd).then((res)=>{
                         if(!res.body.success){
                             this.$message.warning(res.body.information);
                         }else{
+                            this.adding=false;
                             this.$message.success(res.body.information);
                             this.resetForm();
                             this.$store.dispatch('show_imageList', this.param);
@@ -136,7 +138,6 @@ export default {
             let fileSize = file.size / 1024 / 1024;
             let fileType = file.type;
             let isPic=false;
-            //this.picfile = file;
             if (fileType === 'image/jpeg' || fileType === 'image/png' || fileType === 'image/gif') {
                 isPic = true;
             }

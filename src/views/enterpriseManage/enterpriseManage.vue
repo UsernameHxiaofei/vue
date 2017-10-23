@@ -1,15 +1,13 @@
 <template>
     <div id='enterpriseManage'>
         <el-row class="search-box">
-            <el-col class="output" >
                 <el-input class="input1" style="width:300px" placeholder="企业名称|统一社会信用代码|法定代表人" clearable icon="search" v-model.trim="keyword" @keyup.enter.native="search" :on-icon-click="search"></el-input>
-            </el-col>
-            <el-col :span="6" style="float:right">
-                <el-date-picker v-model="range" type="datetimerange" clearable placeholder="选择日期范围" @change="rangechange"></el-date-picker>
-            </el-col>
-            <el-col :span="4" style="float:right" >
-                <el-cascader :options="options" v-model="where" @change="changeWhere" :editable="false" change-on-select clearable placeholder="所在地"></el-cascader>
-            </el-col>
+                <span style="float:right">
+                    <el-date-picker v-model="startTime" align="right" :editable="false" type="date"  clearable @change="startChange" placeholder="选择开始日期"></el-date-picker>
+                    至
+                    <el-date-picker v-model="endTime" align="right" :editable="false" type="date" clearable @change="endChange" placeholder="选择结束日期"></el-date-picker>
+                </span>
+                <el-cascader style="float:right;margin-right:30px;" :options="options" v-model="where" @change="changeWhere" :editable="false" change-on-select clearable placeholder="所在地"></el-cascader>
         </el-row>
         <el-row class="enp-search">
             <el-col :span="24" class="enterprise-table">
@@ -55,8 +53,8 @@ export default {
     },
     mounted () {
         this.param={
-                beginTime:this.range[0]||'',
-                endTime:this.range[1]||'',
+                beginTime:'',
+                endTime:'',
                 addressCode:'',
                 keyword:this.keyword,
                 pageSize:10,
@@ -67,6 +65,8 @@ export default {
     data () {
         return {
             where: [],
+            startTime:'',
+            endTime:'',
             options: regionData,
             keyword:'',
             range:[],
@@ -95,10 +95,12 @@ export default {
             }
             this.$store.dispatch('enterprise_getManageList',this.param);
         },
-        rangechange(v){
-            this.range= v.split(' - ');
-            this.param.beginTime=this.range[0];
-            this.param.endTime=this.range[1];
+        startChange(v){
+            this.param.beginTime=v||'';
+            this.$store.dispatch('enterprise_getManageList',this.param);
+        },
+        endChange(v){
+            this.param.endTime=v||'';
             this.$store.dispatch('enterprise_getManageList',this.param);
         },
         search(){

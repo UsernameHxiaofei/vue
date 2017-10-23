@@ -73,8 +73,8 @@ app.use(session({
     checkperiod: 10 * 60 //Defined how long MemoryStore will check for expired. In second.
   })
 }))
-app.use(bodyParser.json({limit:'20000kb'}));
 app.use(bodyParser.urlencoded({ extended: true,limit:'20000kb'}));
+app.use(bodyParser.json({limit:'20000kb'}));
 app.use(compression({ threshold: 0 }))
 app.use('/favicon.ico',serve('./public/favico.png', true))
 app.use('/dist', serve('./dist', true))

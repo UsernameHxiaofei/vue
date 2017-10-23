@@ -4,9 +4,9 @@
             <el-button type="text" icon="arrow-left" @click="back()">返回上一级</el-button>
         </div>
         <el-row style="background:#fcfcfc;">
-            <el-col :span="20" :offset="2" style="margin-top:20px">
+            <el-col  class="enterpriseDetail-navbar">
                 <el-dropdown class="el-dropdown-link" >
-                        <span class="menu-mdzz" style="margin-left:0px;" :style="{'color':selectButton.menu1}">
+                        <span class="menu-mdzz" :style="{'color':selectButton.menu1}">
                             <span>财务分析</span>
                             <span v-html="currentTable"></span>
                             <i class="iconfont icon-jiantou"></i>
@@ -38,8 +38,7 @@
             </el-col>
         </el-row>
         <div class="enterprise-basicinfo">企业名称&emsp;<span style="color:#06ccb6">{{enterpriseInfo.name}}</span>&emsp;社会信用代码&emsp;<span style="color:#06ccb6">{{enterpriseInfo.creditCode}}</span>&emsp;所在地&emsp;<span style="color:#06ccb6">{{enterpriseInfo.addressCode|address}}</span></div>
-        <el-row>
-            <el-col :span="20" :offset="2">
+        <div style="padding-left:40px;padding-right:40px;box-sizing:content-box;" >
                 <enterprise-team :enterprise="enterpriseInfo" v-if="show==8"></enterprise-team>
                 <enterprise-funflow :enterprise="enterpriseInfo" v-if="show==7"></enterprise-funflow>
                 <enterprise-funflow-DLB :enterprise="enterpriseInfo" v-if="show==9"></enterprise-funflow-DLB>
@@ -49,8 +48,7 @@
                 <debts :enterprise="enterpriseInfo" v-if="show==4"></debts>
                 <cashflow :enterprise="enterpriseInfo" v-if="show==5"></cashflow>
                 <manage-briefing :enterprise="enterpriseInfo" v-if="show==6"></manage-briefing>
-            </el-col>
-        </el-row>
+        </div>
     </div>
 </template>
 
@@ -153,12 +151,15 @@
     color: #a3abbe;
     border-radius: 15px;
     margin-right: 10px;
-    margin-left:20px;
     font-size: 13px;
     cursor: pointer;
 }
 .menu-mdzz:hover{
     color: #06ccb6;
+}
+#enterpriseDetail .enterpriseDetail-navbar{
+    padding-top:20px;
+    padding-left:40px;
 }
 #enterpriseDetail .el-dropdown-menu__item{
     list-style: none;
@@ -176,6 +177,6 @@
     line-height: 40px;
     height: 40px;
     vertical-align: bottom;
-    text-indent: 150px;
+    text-indent: 40px;
 }
 </style>

@@ -85,20 +85,20 @@
                 </el-table-column>
                 <el-table-column prop="name" label="姓名">
                 </el-table-column>
-                <el-table-column prop="mobileNumber" label="手机号" width="115px">
+                <el-table-column prop="mobileNumber" label="手机号" >
                 </el-table-column>
-                <el-table-column prop="identNumber" label="身份证号" width="165px">
+                <el-table-column prop="identNumber" label="身份证号">
                 </el-table-column>
-                <el-table-column prop="createTime" label="注册时间" width="160px">
+                <el-table-column prop="createTime" label="注册时间" >
                 </el-table-column>
-                <el-table-column prop="status" label="状态">
+                <el-table-column prop="status" label="状态" width="110px">
                     <template scope="scope">
                         <span v-if="scope.row.status==0">无效</span>
                         <span v-else-if="scope.row.status==1">正常</span>
                         <span v-else>已封禁</span>
                     </template>
                 </el-table-column>
-                <el-table-column prop="audit" label="认证" width="140px">
+                <el-table-column prop="audit" label="认证" width="128px">
                     <template scope="scope">
                         <span class="btn-small" :class="scope.row.projectParty==1 ? active : ''">项</span>
                         <span class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>

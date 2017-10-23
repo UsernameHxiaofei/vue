@@ -1,8 +1,8 @@
 <template>
     <div id='riskRegionContain'>
-        <div class="back-button">
-            <el-button type="text" icon="arrow-left" @click="back">返回上一级</el-button>
-        </div>
+            <div class="back-button">
+                    <el-button type="text" icon="arrow-left" @click="back">返回上一级</el-button>
+                </div>
         <industryTab v-if="category=='3'"></industryTab>
         <riskTab v-if="category=='4'"></riskTab>
         <riskTeam style="margin:0 auto" v-if="category=='7'"></riskTeam>
@@ -53,14 +53,8 @@
 </script>
 
 <style scoped>
-  
-
     #riskRegionContain {
-        margin: 50px auto;
-        padding-top: 30px;
-        width: 90%;
+        margin: 0px auto;
         min-width: 890px;
     }
-
-    
 </style>

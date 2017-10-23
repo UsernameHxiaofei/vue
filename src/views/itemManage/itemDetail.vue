@@ -144,7 +144,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             <el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="10" >
                 <resisAuthTab  v-if="activeName=='10'"></resisAuthTab>
             </el-tab-pane> 
-            <el-tab-pane label="聚合支付商户信息" v-if="itemManageDetail.phase>=10" name="11" >
+            <el-tab-pane label="聚合支付商户信息" v-if="!!merchant.id" name="11" >
                 <merchant  v-if="activeName=='11'"></merchant>
             </el-tab-pane> 
         </el-tabs>

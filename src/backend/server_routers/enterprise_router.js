@@ -39,7 +39,7 @@
             let param=req.body;
             const stuff = sc.instanceRequest("EnterpriseAccountDetailTask", "selectAccountDetailByEnterprisetId", "enterpriseManger");
             stuff.auxiliary = {[passport]: req.session.passport};
-            stuff.items = [param.id,param.beginTime,param.endTime,param.pageSize,param.pageNo];
+            stuff.items = [param.id,param.beginTime,param.endTime,param.pageNo,param.pageSize];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
         router.all('/enterprise_selectListDayAmount', function (req, res, next) {//获取账户流水

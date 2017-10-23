@@ -4,12 +4,10 @@
         <el-row >
               <risk-column v-if="projectInfo.projectId"></risk-column>
         </el-row>
-        <el-row>
-            <el-col :span="21" :offset="3" :style="{'marginTop':projectInfo.projectId?0:'100px'}">
-                <el-row>
-                    <el-col :span="20">
+        <el-row :style="{'marginTop':projectInfo.projectId?0:'100px'}">
+            <div style="width:70%;min-width:650px;margin:auto auto;">
                         <h2 style="text-align:center;color:#bcc8ce;min-width:702.648px">风险指标设置</h2>
-                        <el-form class="addForm" ref="form" :model="form" :rules="formrules"  label-width="290px">
+                        <el-form class="addForm" ref="form" :model="form" :rules="formrules"  label-width="120px">
                             <el-form-item label="指标名"  prop="name">
                                 <el-input v-model="form.name" placeholder="请输入指标名" :maxlength="15"></el-input>
                             </el-form-item>
@@ -30,14 +28,15 @@
                             <el-form-item label="风险规则" >
                                 <el-table  :data="totalRulesData"  >
                                     <el-table-column prop="cause.name" label="因子" width="160" align="center"> </el-table-column>
-                                    <el-table-column prop="relation.name" label="关系" align="center" > </el-table-column> 
+                                    <el-table-column prop="relation.name" label="关系" align="center"  > </el-table-column> 
                                     <el-table-column prop="value" label="取值"   align="center"> </el-table-column>
                                     <el-table-column prop="unit" label="单位" align="center"> </el-table-column>
-                                    <el-table-column prop=""  align="center" width="140">
+                                    <el-table-column prop=""  align="center" >
                                         <template scope="scope">
                                             <el-button v-show="!scope.row.flag" size="small" @click="edit(scope.row)">编辑</el-button>
                                             <el-button v-show="!scope.row.flag" size="small" @click="del(scope.row)">删除</el-button>
                                             <el-button v-show="scope.row.flag" size="small" @click="delGroup(scope.row)">删除组</el-button>
+                                            <el-button v-show="scope.row.flag" size="small" @click="addGroupRule(scope.row)">添加组内规则</el-button>
 						                </template>
                                     </el-table-column>
                                 </el-table>
@@ -50,12 +49,11 @@
                                 <el-button type="primary" style="float:right" @click="submit">保存</el-button>
                             </el-form-item>
                         </el-form>
-                    </el-col>
-                </el-row>
-            </el-col>
+                
+            </div>
         </el-row>
         <el-dialog title="添加规则" :visible.sync="addflag" size="tiny" :close-on-click-modal="false" >
-                <el-form :model="addform" ref="addform" :rules="addformrules" label-width="50px" style="width:80%;margin-left:10%">
+                <el-form :model="addform" ref="addform" :rules="addformrules" label-width="80px" style="width:80%;margin-left:10%">
                     <el-form-item label="因子" prop="cause">
                         <el-select v-model="addform.cause" class="full" value-key="id" @change="factorChange" >
                             <el-option v-for="(item,index) in factors"  :key="item.id"  :value="item" :label="item.name"></el-option>
@@ -76,11 +74,10 @@
                         <el-button style="float:right;" type="primary" @click="addRule">确 定</el-button>
                         <el-button style="float:right;margin-right:20px" @click="addflag = false">取 消</el-button>
                     </el-form-item>
-                    
                 </el-form>
         </el-dialog>
         <el-dialog title="编辑规则" :visible.sync="editflag" size="tiny"  :close-on-click-modal="false">
-                <el-form :model="editform" :rules="editformrules" label-width="50px" style="width:80%;margin-left:10%">
+                <el-form :model="editform" :rules="editformrules" label-width="80px" style="width:80%;margin-left:10%">
                     <el-form-item label="因子" prop="cause">
                         <el-select v-model="editform.cause" value-key="id" class="full" @change="editfactorChange">
                             <el-option v-for="(item,index) in factors"  :key="item.id" :value="item" :label="item.name"></el-option>
@@ -135,6 +132,7 @@
             return {
                 editflag:false,
                 addflag:false,
+                addGroupRuleFlag:false,
                 groupIndex:1,
                 riskRegion:riskRegion,
                 relations:[],
@@ -278,6 +276,10 @@
                 this.totalRulesData.push(rule);
                 this.groupIndex++;
             },
+            addGroupRule(item){
+                this.addGroupRuleFlag=item.groupIndex;
+                this.addflag=true;
+            },
             createRule() {               
                 this.addflag=true;
             },
@@ -292,9 +294,26 @@
                             value:this.addform.value,
                             unit:this.addform.unit,
                             index:new Date().getTime(),
-                            groupIndex:this.groupIndex
+                            groupIndex:this.addGroupRuleFlag?this.addGroupRuleFlag:this.groupIndex
                         }
-                        this.totalRulesData.push(rule);
+                        if(this.addGroupRuleFlag){
+                            let tempTotal=[],done=true; 
+                            for (let i = 0; i < this.totalRulesData.length+1; i++) {
+                                let item = this.totalRulesData[done?i:i-1];
+                                if(done&&item.groupIndex==this.addGroupRuleFlag){
+                                    tempTotal[i]=rule;
+                                    done=false;
+                                }else if(item.groupIndex<=this.addGroupRuleFlag){
+                                    tempTotal[i]=item;
+                                }else{
+                                    tempTotal[i+1]=item;
+                                }
+                            }
+                            this.totalRulesData=tempTotal;
+                        }else{
+                            this.totalRulesData.push(rule);
+                        }
+                        this.addGroupRuleFlag=false;
                         this.addflag=false;
                     } else {
                         return false;
@@ -307,7 +326,7 @@
 
 <style >
 #addRiskIndex .addForm{
-    margin-top:40px;
+    margin:40px auto 0 auto;
     width:80%;
     min-width: 702.648px;
 }

@@ -19,20 +19,21 @@
                 <el-col class="businessinfo-content">
                     <table class="tableInfo">
                         <tr>
-                            <td class="itemText">序号</td>
+                            <td class="itemText" style="width:40px">序号</td>
                             <td class="itemText">变更事项</td>
                             <td class="itemText">变更前内容</td>
                             <td class="itemText">变更后内容</td>
                             <td class="itemText">变更日期</td>
                         </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>变更董事长</td>
-                            <td>吕晓俊</td>
-                            <td>丁希岗</td>
-                            <td>2017-09-28</td>
+                        <tr v-for="(item,index) in pageRiskMemberChange.list">
+                            <td>{{index}}</td>
+                            <td>{{item.changeTask}}</td>
+                            <td>{{item.oldContent}}</td>
+                            <td>{{item.newContent}}</td>
+                            <td>{{item.createTime}}</td>
                         </tr>
                     </table>
+                    <pagination style="float:right;margin:10px 50px" :total="pageRiskMemberChange.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
                 </el-col>
             </div>
         </div>
@@ -40,18 +41,52 @@
 </template>
 
 <script>
+import pagination from '../../../components/common/pagination.vue'
+
 export default {
     name: 'riskTeam',
     props: ['enterprise'],
+    data () {
+        return {
+            param:{},
+        }
+    },
+    components: {
+        'pagination': pagination
+    },
     mounted () {
         this.$store.dispatch('enterprise_getMemberInfo',{id:this.enterpriseInfo.id||(this.enterprise&&this.enterprise.id)});
+        this.param={
+            projectId:this.itemManageDetail.id,
+            pageNo:1,
+            pageSize:10
+        }
+        
+        this.$store.dispatch('selectPageRiskMemberChange',this.param);
+    },
+    methods: {
+        handleSizeChange(size) {
+                this.param.pageSize = size;
+                this.param.pageNo = 1;
+                this.$store.dispatch('selectPageRiskMemberChange', this.param);
+        },
+        handleCurrentChange(page) {
+                this.param.pageNo = page;
+                this.$store.dispatch('selectPageRiskMemberChange', this.param);
+        },  
     },
     computed: {
+        itemManageDetail: function () {
+              return this.$store.state.item.itemManageDetail||{};
+        },
         datalist:function(){
             return this.$store.state.enterprise.enterpriseMember||{};
         },
         enterpriseInfo:function(){
             return this.$store.state.enterprise.enterpriseInfo||{};
+        },
+        pageRiskMemberChange:function(){
+            return this.$store.state.risk.pageRiskMemberChange||{};
         }
     }
 }

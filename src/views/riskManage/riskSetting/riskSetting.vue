@@ -37,7 +37,7 @@
 </style>
 <template>
     <div id='riskSetting'>
-        <div class="back-button"><el-button type="text" icon="arrow-left"  @click="back">返回上一级</el-button></div>
+        <div class="back-button"  v-if="isProject"><el-button type="text" icon="arrow-left"  @click="back">返回上一级</el-button></div>
         <el-row>
             <risk-column v-if="isProject"></risk-column>
         </el-row>

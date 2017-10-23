@@ -183,10 +183,16 @@ export default {
             this.$store.dispatch('find_topupByCondition', this.rechargeParam);
         },
         rangechange(v) {
-            this.range = v.split(' - ');
-            this.rechargeParam.startDate = this.range[0];
-            this.rechargeParam.endDate = this.range[1];
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam);
+            if(!v){
+                this.rechargeParam.startDate = '';
+                this.rechargeParam.endDate = ''; 
+                this.$store.dispatch('find_topupByCondition', this.rechargeParam);
+            }else{
+                this.range = v.split(' - ');
+                this.rechargeParam.startDate = this.range[0];
+                this.rechargeParam.endDate = this.range[1]; 
+                this.$store.dispatch('find_topupByCondition', this.rechargeParam);
+            }
         },
         statusChange() {
             this.rechargeParam.pageNum = 1;

@@ -250,6 +250,7 @@ margin-left:5px;
                 }else{
                     this.$router.push('/riskFunFlowDLB/'+this.itemManageDetail.enterpriseId);
                 }
+                this.riskfun=false;
             },
             handleRisk(item,rv){
                 console.log(item,rv);

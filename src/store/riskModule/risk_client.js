@@ -125,5 +125,10 @@ module.exports=function client(Vue){
           return response.body;
         })
       },
+      selectPageRiskMemberChange:(param)=>{
+        return Vue.http.post('selectPageRiskMemberChange',param).then(response=>{
+          return response.body;
+        })
+      }
     } 
 }

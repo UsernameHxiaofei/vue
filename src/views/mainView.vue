@@ -74,7 +74,7 @@
 		</div>
 		<!--表格-->
 		<div class="my-table">
-			<el-table :data="itemManageList.list" stripe border style="width: 100%">
+			<el-table v-loading="tableloading" :data="itemManageList.list" stripe border style="width: 100%">
 				<el-table-column prop="" width="40"></el-table-column>
 				<el-table-column type="index" width="60" label="序号"> </el-table-column>
 				<el-table-column prop="code" width="120" label="项目编号"> </el-table-column>
@@ -139,7 +139,7 @@
 				</el-form-item>
 			</el-form>
 			<div class="my-table">
-				<el-table :data="customerList.list||customerInfoForSimulationList.list" stripe border style="width: 100%">
+				<el-table    :data="customerList.list||customerInfoForSimulationList.list" stripe border style="width: 100%">
 					<el-table-column prop="" width="5">
 					</el-table-column>
 					<el-table-column type="index" label="序号" width="60px">
@@ -201,10 +201,11 @@ export default {
 		pagination
 	},
 	asyncData ({ store,session,router }) {
-		return store.dispatch('item_getManageList', session).then(()=>store.dispatch('item_getHeadData',session));
+		return Promise.all([store.dispatch('item_getManageList', session),store.dispatch('item_getHeadData',session)]);
     },
 	data() {
 		return {
+			tableloading:false,
 			param:{},
 			chooseItemType:false,
 			options3: regionData,
@@ -320,7 +321,10 @@ export default {
 			this.chooseItemType=true;
 		},
 		getListData(){
-			this.$store.dispatch('item_getManageList',this.param);
+			this.tableloading=true;
+			this.$store.dispatch('item_getManageList',this.param).then(()=>{
+				this.tableloading=false;
+			})
 		},
 		restartChange(){
 			this.param.isRestart = this.isRestart?1:0;

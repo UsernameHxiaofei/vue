@@ -9,18 +9,33 @@ function load(){
   var name=localStorage.getItem('rea');
   if(name.length>0){
     document.getElementById('remeber').checked=true;
+    document.getElementById('userName').value=localStorage.getItem('rea')
+    document.getElementById('password').value=localStorage.getItem('rep')
   }
-  document.getElementById('userName').value=localStorage.getItem('rea')
-  document.getElementById('password').value=localStorage.getItem('rep')
+}
+var uniqueError=true;
+function reportError(msg){
+  var target=document.getElementById('msg');
+  target.innerHTML=msg;
+  target.style.display='block';
+  if(uniqueError){
+    uniqueError=false;
+    var a=setTimeout(function(){
+      target.style.display='none';
+      clearTimeout(a);
+      uniqueError=true;
+    },1000);
+  }
+  
 }
 function loginOn() {
   
   var username = document.getElementById('userName').value;
   var password = document.getElementById('password').value;
-  if (!username) { alert('用户名不能为空'); return; }
-  if (!password) { alert('密码不能为空'); return; }
+  if (!username) { reportError('用户名不能为空'); return; }
+  if (!password) { reportError('密码不能为空'); return; }
   if (!/^1[34578]\d{9}$/.test(username)){
-     alert('用户名手机号格式不正确');
+     reportError('用户名手机号格式不正确');
      return;
   }
   var data = 'username=' + encodeURIComponent(username) + '&password=' + encodeURIComponent(password);
@@ -35,11 +50,14 @@ function loginOn() {
     }
     var result=isIE?JSON.parse(xhr.response):xhr.response;
     if (!result.success) {
-        alert(result.information);
+      reportError(result.information);
     } else {
       if(document.getElementById('remeber').checked){
         localStorage.setItem('rea',username)
         localStorage.setItem('rep',password)
+      }else{
+        localStorage.setItem('rea','')
+        localStorage.setItem('rep','')
       }
       location.href = '/main';
     }
