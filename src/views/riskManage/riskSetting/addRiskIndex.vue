@@ -156,8 +156,16 @@
                     relations:[]
                 },
                 addformrules:{
-                    value:[
-                        { required:true,message:'请输入单位数值',trigger:'blur'}
+                    value:  [
+                        {validator:(rule, value, callback) => {
+                            if (value === '') {
+                                callback(new Error('数值不能为空'));
+                            } else if (!/^[+-]?\d+(.\d+)?$/.test(value)) {
+                                callback(new Error('请输入数字'));
+                            } else {
+                                callback();
+                            }
+                        },trigger:'change'} 
                     ]
                 },
                 formrules:{
@@ -166,8 +174,16 @@
                     ]
                 },
                 editformrules:{
-                    value:[
-                        { required:true,message:'请输入单位数值',trigger:'blur'}
+                    value:  [
+                        {validator:(rule, value, callback) => {
+                            if (value === '') {
+                                callback(new Error('数值不能为空'));
+                            } else if (!/^[+-]?\d+(.\d+)?$/.test(value)) {
+                                callback(new Error('请输入数字'));
+                            } else {
+                                callback();
+                            }
+                        },trigger:'change'} 
                     ]
                 },
                 totalRulesData:[]

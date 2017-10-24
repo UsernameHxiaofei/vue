@@ -64,7 +64,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="取值" prop="value">
-                    <el-input v-model="editform.value" placeholder="请输入数值"></el-input>
+                    <el-input  v-model="editform.value" placeholder="请输入数值"></el-input>
                 </el-form-item>
                 <el-form-item label="单位" prop="unit">
                     {{editform.unit}}
@@ -125,9 +125,18 @@
                     ]
                 },
                 editformrules: {
-                    value: [
-                        { required: true, message: '请输入数值', trigger: 'blur' }
+                    value:  [
+                        {validator:(rule, value, callback) => {
+                            if (value === '') {
+                                callback(new Error('数值不能为空'));
+                            } else if (!/^[+-]?\d+(.\d+)?$/.test(value)) {
+                                callback(new Error('请输入数字'));
+                            } else {
+                                callback();
+                            }
+                        },trigger:'change'} 
                     ]
+                    
                 },
                 formName: '编辑规则',
                 totalRulesData: []
