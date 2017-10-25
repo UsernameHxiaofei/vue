@@ -8,10 +8,14 @@
         <riskTeam style="margin:0 auto" v-if="category=='7'"></riskTeam>
         <publicOpinion v-if="category=='5'"></publicOpinion>
         <scence v-if="category=='6'"></scence>
+        <riskFunflow v-if="category=='11'"></riskFunflow>
+        <riskFunflowDBL v-if="category=='12'"></riskFunflowDBL>
     </div>
 </template>
 
 <script>
+    import riskFunflow from './riskFunFlow.vue'
+    import riskFunflowDBL from './riskFunFlowDLB.vue'
     import industryTab from '../../itemManage/itemDetail/industryTab'
     import riskTab from '../../itemManage/itemDetail/riskTab'
     import riskTeam from './riskTeam.vue'
@@ -24,7 +28,9 @@
             riskTab,
             riskTeam,
             publicOpinion,
-            scence
+            scence,
+            riskFunflow,
+            riskFunflowDBL
         },
         data() {
             return {

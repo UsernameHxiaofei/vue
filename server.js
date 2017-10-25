@@ -86,11 +86,13 @@ const { router } = require('./src/backend/process');
 app.use('/ajax', router);
 app.use('/login',  serve('./src/login.html'));
 app.use('/forgotPassword',  serve('./src/forgotPassword.html'));
+app.use('/factory',  serve('./src/factory.html'));
 // app.use('/register',  serve('./src/register.html'));
 
 
 app.use('*',function (req, res, next) {
     var url = req.originalUrl;
+    console.log(url)
     if (url != '/login' && !req.session.passport) {
         return res.redirect('/login');
     }

@@ -34,7 +34,9 @@
             align-items: stretch;
             justify-content: flex-start;
             border: 1px solid #b1b1b1;
-            padding:20px
+            padding:20px;
+            float:left;
+            margin:20px;
         }
         #enterpriseFunflow .info .info-item{
             display: flex;
@@ -96,34 +98,32 @@
     </style>
 <template>
     <div id='enterpriseFunflow'>
-        <el-row style="margin:30px auto 30px auto;">
-            <el-col :span="24">
-                <div class="head-action">
+        <el-row style="margin:10px auto 10px auto;">
+                <div class="head-action"  v-for="(item,index) in account" :key="index">
                     <div class="info">
                         <div class="info-item">
                             <label>开户许可核准号</label>
-                            <span>{{account.accountApprovalNumber}}</span>
+                            <span>{{item.accountApprovalNumber}}</span>
                         </div>
                         <div class="info-item">
                             <label>开户银行</label>
-                            <span>{{account.depositBank}}</span>
+                            <span>{{item.depositBank}}</span>
                         </div>
                         <div class="info-item">
                             <label>基本存款账账户账号</label>
-                            <span>{{account.basicDepositAccountNumber}}</span>
+                            <span>{{item.basicDepositAccountNumber}}</span>
                         </div>
                         <div class="info-item">
                             <label>账号名称</label>
-                            <span>{{account.accountName}}</span>
+                            <span>{{item.accountName}}</span>
                         </div>
                     </div>
                     <div class="banlance">
                         <label>账户余额</label>
-                        <span>{{lastBalance}}元</span>
+                        <span>{{item.balance||0}}元</span>
                     </div>
                     
                 </div>
-            </el-col>
         </el-row>
         <el-row>
             <el-col :span="24">
@@ -211,7 +211,7 @@
                 return this.$store.state.enterprise.listDayAmount||{};
             },
             account:function(){
-                return this.$store.state.item.authInfo&&this.$store.state.item.authInfo[0]||{};
+                return this.$store.state.item.authInfo&&this.$store.state.item.authInfo||{};
             }
         },
         components: {
@@ -224,13 +224,13 @@
                         let item = this.dataList.list[i];
                         let flag=item.debitAmount>item.creditAmount;//true就是借,就是流出
                         if(flag){
-                        totalLean++;
-                        totalLeanNum+=item.debitAmount;
+                            totalLean++;
+                            totalLeanNum+=item.debitAmount;
                         }else{
-                        totalb++;
-                        item.creditAmount=item.creditAmount||0;
-                        totalbNum+=item.creditAmount;
-                    }
+                            totalb++;
+                            item.creditAmount=item.creditAmount||0;
+                            totalbNum+=item.creditAmount;
+                        }
                 }
                 this.totalData= { totalLean, totalb, totalLeanNum:totalLeanNum.toFixed(2), totalbNum:totalbNum.toFixed(2) };
             },
@@ -238,24 +238,31 @@
                 let param={
                     type:0,
                     enterpriseId:this.enterprise.id,
-                    beginTime:this.param.beginTime,
-                    endTime:this.param.endTime
+                    beginTime: this.param.beginTime.toLocaleString(),
+                    endTime: this.param.endTime.toLocaleString()
                 }
                 let leanOut=[],bIn=[],balance=[];
                 this.$store.dispatch('enterprise_selectListDayAmount',param).then(()=>{
-                    for (let i=0;i<this.listDayAmount.length;i++){
-                        let item=this.listDayAmount[i];
-                        leanOut.push([new Date(item.transactionTime).getTime(),item.creditAmount||0]);
-                        bIn.push([new Date(item.transactionTime).getTime(),item.debitAmount||0]);
-                        balance.push([new Date(item.transactionTime).getTime(),item.balance||0]);
-                        this.lastBalance=this.listDayAmount[this.listDayAmount.length-1].balance||0;
-                    } 
+                    Object.keys(this.listDayAmount).forEach((key)=>{
+                        let creditAmount=0,debitAmount=0,balan=0;
+                        this.listDayAmount[key].forEach((item)=>{
+                            creditAmount+=item.creditAmount||0;
+                            debitAmount+=item.debitAmount||0;
+                            balan+=item.balance||0;
+                        })
+                        leanOut.push([new Date(key).getTime(), creditAmount || 0]);
+                        bIn.push([new Date(key).getTime(),debitAmount || 0]);
+                        balance.push([new Date(key).getTime(),balan||0]);
+                    })
                     this.imageData={leanOut, bIn,balance }
                     this.buildEcharts();
                 })
             },
             startChange(v){
-                this.param.beginTime=v||'';
+                if(!this.ready){
+                    return;
+                }
+                this.param.beginTime=v;
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData()
@@ -263,7 +270,10 @@
                 });
             },
             endChange(v){
-                this.param.endTime=v||'';
+                if(!this.ready){
+                    return;
+                }
+                this.param.endTime=v;
                 this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData()
@@ -390,14 +400,16 @@
                 type:1//1：银行
             }
             this.$store.dispatch('enterprise_getAccountDetail', this.param).then(()=>{
+                this.ready=true;
                 this.listData=JSON.parse(JSON.stringify(this.dataList));
-                 this.getTotalData();
-                 this.getImageData();
+                this.getTotalData();
+                this.getImageData();
             });
 
         },
         data() {
             return {
+                ready:false,
                 startTime:'',
                 endTime:'',
                 showChart:true,

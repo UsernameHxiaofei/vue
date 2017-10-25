@@ -14,18 +14,19 @@
                 <el-table border :data="enterpriseListData.list" stripe style="width: 100%">
                      <el-table-column width="30" prop="" label="" align="center"> </el-table-column> 
                      <el-table-column type="index" label="序号" width="70px"></el-table-column>
-                     <el-table-column prop="creditCode" label="统一社会信用代码" align="center"> </el-table-column> 
+                     <el-table-column prop="creditCode" label="统一社会信用代码" width="220" align="center"> </el-table-column> 
                      <el-table-column prop="name" label="企业名称"  align="center"> </el-table-column>
-                     <el-table-column label="所在地" align="center" >
+                     <el-table-column label="所在地"  width="200"  align="center" >
                         <template scope="scope">
                             {{scope.row.addressCode|address}}
                         </template>
                     </el-table-column>
                      <el-table-column width="120" prop="representativeName" label="法定代表人" align="center"> </el-table-column>
                      <el-table-column width="240" prop="createTime" label="入库时间" align="center"> </el-table-column>
-                     <el-table-column label="" width="100" align="center">
+                     <el-table-column label="" width="300" align="center">
                          <template scope="scope">
                             <el-button class="btn-style" size="small" @click="detail(scope.row)">详情</el-button>
+                            <el-button class="btn-style" size="small" @click="findItems(scope.row)">查看融资项目</el-button>
                         </template>
                     </el-table-column>
                     <el-table-column width="30" prop="" label="" align="center"> </el-table-column> 
@@ -33,6 +34,40 @@
                 <pagination style="float:right;margin:10px 50px" :total="enterpriseListData.totalCount"  @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
             </el-col>
         </el-row>
+        <el-dialog :title="'融资企业名称：'+titleName" size="large" :visible.sync="dialogTableVisible">
+                <el-table :data="items" stripe border style="width: 100%">
+                        <el-table-column prop="code" width="120" label="项目编号"> </el-table-column>
+                        <el-table-column prop="name"  label="项目名称"> </el-table-column>
+                        <el-table-column prop="initiatorName" width="120" label="发起人"> </el-table-column>
+                        <el-table-column prop="industry" width="120" label="所属行业"> 
+                            <template scope="scope">
+                                {{scope.row.industry|industry}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="regionCode"  label="所属区域" >
+                            <template scope="scope">
+                                {{scope.row.regionCode|address}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="lastUpdate" label="更新时间" >
+                        </el-table-column>
+                        <el-table-column prop="phase"  label="阶段">
+                            <template scope="scope">
+                                {{scope.row.phase|projectPhase}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="status"  label="状态">
+                            <template scope="scope">
+                                {{scope.row.status|projectStatus}}
+                            </template>
+                        </el-table-column>
+                        <el-table-column width="180">
+                            <template scope="scope">
+                                    <el-button @click="itemDetail(scope.row)" class="btn-style">详情</el-button>
+                            </template>
+                        </el-table-column>
+                </el-table>
+        </el-dialog>
     </div>
 </template>
 
@@ -49,6 +84,9 @@ export default {
     computed: {
          enterpriseListData:function(){
              return this.$store.state.enterprise.enterpriseManageList;
+         },
+         items:function(){
+             return this.$store.state.enterprise.items;
          }
     },
     mounted () {
@@ -70,10 +108,21 @@ export default {
             options: regionData,
             keyword:'',
             range:[],
-            param:{}
+            param:{},
+            dialogTableVisible:false,
+            titleName:''
         }
     },
     methods: {
+        findItems(item){
+            this.$store.dispatch('enterprise_getItems',{enterpriseId:item.id});
+            this.titleName=item.name;
+            this.dialogTableVisible=true;
+        },
+        itemDetail(item){
+            this.dialogTableVisible=false;
+            this.$router.push('/itemDetail/'+item.id);
+        },
         handleSizeChange(size){
             this.param.pageSize=size;
             this.param.pageNo=1;

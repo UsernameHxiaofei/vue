@@ -308,6 +308,8 @@ export default {
 				if(!this.$store.state.item.createProjectId.length){
 					this.$message.warning('创建项目失败，请联系服务器开发人员')
 					return false;
+				}else{
+					this.chooseItemCustomer=true;
 				}
 				let projectParam={
 					id:this.$store.state.item.createProjectId,

@@ -21,6 +21,7 @@
 #btnt-l{float: left;}
 #btnt-r{float: right;}
 #btnt-l .el-button{background: #06ccb6;border-color: #06ccb6;color: white;min-width: 100px;}
+#btnt-l .el-button:first-child{margin-left:0px;}
 #btnt-l .el-button:hover{background: #fff;border-color: #06ccb6;color: #06ccb6;min-width: 100px;}
 #btnt-r .el-button{border-color: #06ccb6;color: #06ccb6;min-width: 100px;margin-left: 10px;}
 #btnt-r .el-button:hover{border-color: #06ccb6;background: #06ccb6;color: #fff;min-width: 100px;margin-left: 10px;}
@@ -88,21 +89,21 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             </div>
             <div class="btn-team">
                 <div id="btnt-l" v-if="itemManageDetail.status!=12">
-                    <el-button @click="pass"  v-show="itemManageDetail.phase==4||itemManageDetail.phase==5">通过</el-button>
-                    <el-button v-show="itemManageDetail.phase==4||itemManageDetail.phase==5" @click="dialogStopVisible = true">拒绝</el-button>
-                    <el-button @click="editProject" :disabled="isEdit" v-show="itemManageDetail.phase==6">{{isEdit?'项目已编辑':'编辑项目'}}</el-button>
-                    <el-button @click="setTimeInfo" :disabled="isSetTime" v-show="itemManageDetail.phase==7">{{isSetTime?'已设置上线时间':'设置上线时间'}}</el-button>
-                    <el-button @click="dialogPartnerVisible = true" :disabled="isPartner" v-show="itemManageDetail.phase==10">{{isPartner?'已关联有限合伙':'关联有限合伙'}}</el-button>
-                    <el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-show="itemManageDetail.phase==10">银账信息审核</el-button>
-                    <el-button @click="dialogMerchantVisible = true" :disabled="!!merchant.id"  v-show="itemManageDetail.phase==10">{{(!!merchant.id)?'已关联聚合支付商户信息':'关联聚合支付商户信息'}}</el-button>
-                    <el-button @click="fangkuan" :disabled="isFun" v-show="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
-                    <el-button @click="continueEdit" v-show="itemManageDetail.phase==1">继续申请</el-button>
-                    <el-button @click="deleteItem" v-show="itemManageDetail.phase==1">删除项目</el-button>
+                    <el-button @click="pass"  v-if="itemManageDetail.phase==4||itemManageDetail.phase==5">通过</el-button>
+                    <el-button v-if="itemManageDetail.phase==4||itemManageDetail.phase==5" @click="dialogStopVisible = true">拒绝</el-button>
+                    <el-button @click="editProject" :disabled="isEdit" v-if="itemManageDetail.phase==6">{{isEdit?'项目已编辑':'编辑项目'}}</el-button>
+                    <el-button @click="setTimeInfo" :disabled="isSetTime" v-if="itemManageDetail.phase==7">{{isSetTime?'已设置上线时间':'设置上线时间'}}</el-button>
+                    <el-button @click="dialogPartnerVisible = true" :disabled="isPartner" v-if="itemManageDetail.phase==10">{{isPartner?'已关联有限合伙':'关联有限合伙'}}</el-button>
+                    <el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-if="itemManageDetail.phase==10">银账信息审核</el-button>
+                    <el-button @click="dialogMerchantVisible = true" :disabled="!!merchant.id"  v-if="itemManageDetail.phase==10">{{(!!merchant.id)?'已关联聚合支付商户信息':'关联聚合支付商户信息'}}</el-button>
+                    <el-button @click="fangkuan" :disabled="isFun" v-if="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
+                    <el-button @click="continueEdit" v-if="itemManageDetail.phase==1">继续申请</el-button>
+                    <el-button @click="deleteItem" v-if="itemManageDetail.phase==1">删除项目</el-button>
                 </div>
                 <div id="btnt-r">
                     <el-button class="reCreate" v-if="operator.category==2"  :disabled="itemManageDetail.status==12"  @click="open2">{{itemManageDetail.status==12?'已重新发起':'重新发起'}}</el-button>
                     <router-link v-if="itemManageDetail.phase>1" :to="{path: '/enterpriseDetail/'+enterpriseInfo.id}" >
-                        <el-button v-show="enterpriseInfo.id" >企业详情</el-button>
+                        <el-button v-if="enterpriseInfo.id" >企业详情</el-button>
                     </router-link>
                     <router-link v-if="itemManageDetail.phase>1" :to="{path: '/displayItem/'+projectId}" >
                         <el-button >项目展示</el-button>
@@ -343,8 +344,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
                 return this.$store.state.item.merchant || {};
             }
         },
-        mounted() {
-            
+        beforeMount (){
             this.$store.dispatch('item_getManageDetail',  {id:this.projectId}).then(()=>{
                 if(this.itemManageDetail.phase>=10){
                     this.$store.dispatch('item_getMerchant', {id:this.projectId})

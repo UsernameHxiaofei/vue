@@ -571,4 +571,5 @@ output {
 }
 .loading-window{
     opacity: 0;
+    background-color: currentColor;
 }

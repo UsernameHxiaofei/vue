@@ -31,11 +31,12 @@
 }
 
 .auth-th p:first-child {
-  width: 30%;
+  width: 20%;
+  margin-left:30px;
 }
 
 .auth-th p:last-child {
-  width: 70%;
+  margin-left:30px;
 }
 
 .auth-con {
@@ -94,7 +95,7 @@
           </el-tree>
         </div>
         <div class="auth-transfer">
-          <el-transfer v-model="havePrivilegeList" :props="{key: 'id', label: 'name' }" :data="allList" :button-texts="['收回 = = ', ' = = 赋予']" :titles="['可用权限','拥有权限']">
+          <el-transfer filterable :filter-method="filterMethod"  filter-placeholder="请输入权限名" v-model="havePrivilegeList" :props="{key: 'id', label: 'name' }" :data="allList" :button-texts="['收回 = = ', ' = = 赋予']" :titles="['可用权限','拥有权限']">
           </el-transfer>
         </div>
       </div>
@@ -144,18 +145,40 @@ export default {
           roleId: data.id
         }
         this.$store.dispatch('system_inquiryList', inquiryParams).then(()=>{
-          this.allList =  this.systemInquiryList.noHavePrivilegeList.concat(this.systemInquiryList.havePrivilegeList);
+          let templist=[],oldTemplist=[];
           if(this.systemInquiryList.havePrivilegeList){
-           this.havePrivilegeList = [];
-            for (let i = 0; i < this.systemInquiryList.havePrivilegeList.length; i++) {
-              this.havePrivilegeList.push(this.systemInquiryList.havePrivilegeList[i].id);
-            }
-            this.oldList = this.havePrivilegeList;
-          }else{
-            this.oldList = [];
+            Object.keys(this.systemInquiryList.havePrivilegeList).forEach((item,index)=>{
+              let elements=this.systemInquiryList.havePrivilegeList[item];
+              elements.forEach((element,j)=>{
+                oldTemplist.push(element.id);
+                templist.push(element);
+              })
+            })
           }
+          Object.keys(this.systemInquiryList.noHavePrivilegeList).forEach((item,index)=>{
+            let elements=this.systemInquiryList.noHavePrivilegeList[item];
+            elements.forEach((element,j)=>{
+                templist.push(element);
+            })
+          })
+          this.allList=templist;
+          this.oldList = oldTemplist;
+          this.havePrivilegeList=oldTemplist;
+          // if(this.systemInquiryList.havePrivilegeList){
+          //  this.havePrivilegeList = [];
+          //   for (let i = 0; i < this.systemInquiryList.havePrivilegeList.length; i++) {
+          //     this.havePrivilegeList.push(this.systemInquiryList.havePrivilegeList[i].id);
+          //   }
+          //   this.oldList = this.havePrivilegeList;
+          // }else{
+          //   this.oldList = [];
+          // }
         });
       }
+    },
+    filterMethod(query, item){
+      return true;
+      // return item.name.match(query);
     },
     preserve() {
       let updateParams = {

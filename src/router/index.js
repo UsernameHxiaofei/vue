@@ -48,8 +48,6 @@ const riskHistoryDetail = () => import('../views/riskManage/riskHistory/riskHist
 const riskSetting = () => import('../views/riskManage/riskSetting/riskSetting.vue')
 const addRiskIndex = () => import('../views/riskManage/riskSetting/addRiskIndex.vue')
 const itemEdit = () => import('../views/itemManage/editItem/editItem.vue')
-const riskFunFlow = () => import('../views/riskManage/riskInfo/riskFunFlow.vue')
-const riskFunFlowDLB = () => import('../views/riskManage/riskInfo/riskFunFlowDLB.vue')
 const editRiskIndex =()=>import('../views/riskManage/riskSetting/editRiskIndex.vue')
 const riskIndexDetail=()=>import('../views/riskManage/riskSetting/riskIndexDetail.vue')
 const riskRegionContainer=()=>import('../views/riskManage/riskInfo/riskRegionContainer.vue')
@@ -102,8 +100,6 @@ const routes = [
   { path: '/itemEdit/:id', component: itemEdit},
   { path: '/displayItem/:projectId', component: displayItem },
   { path: '/enterpriseDetail/:id', component: enterpriseDetail },
-  { path: '/riskFunFlow/:id',component:riskFunFlow},
-  { path: '/riskFunFlowDLB/:id',component:riskFunFlowDLB},
   { path: '/riskRegionContainer/:category/:projectId',component:riskRegionContainer },
   { path: '/', redirect: '/main' }
 ]
@@ -111,7 +107,6 @@ const routes = [
 export function createRouter() {
   return new Router({
     mode: 'history',
-    scrollBehavior: () => ({ y: 0 }),
     routes: routes
   })
 }

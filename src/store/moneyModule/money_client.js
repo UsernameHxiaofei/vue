@@ -30,8 +30,8 @@ module.exports = function client(Vue) {
         return response.body;
       });
     },
-    get_topupStatResult: () => {
-      return Vue.http.get('get_topupStatResult').then(response => {
+    get_topupStatResult: (param) => {
+      return Vue.http.post('get_topupStatResult',param).then(response => {
         return response.body;
       });
     },

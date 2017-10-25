@@ -235,6 +235,7 @@ margin-left:5px;
                 type: '',
                 types: industryData,
                 keyword: "",
+                tempItem:{},
                 lvColor:{
                     4:'rgb(255, 135, 97)',
                     3:'rgb(251, 201, 55)',
@@ -246,28 +247,31 @@ margin-left:5px;
         methods: {
             handleFunFlow(index){
                 if(index==1){
-                    this.$router.push('/riskFunFlow/'+this.itemManageDetail.enterpriseId);
+                    this.$router.push('/riskRegionContainer/11/'+this.tempItem.projectId);
                 }else{
-                    this.$router.push('/riskFunFlowDLB/'+this.itemManageDetail.enterpriseId);
+                    this.$router.push('/riskRegionContainer/12/'+this.tempItem.projectId);
                 }
                 this.riskfun=false;
             },
             handleRisk(item,rv){
                 console.log(item,rv);
-                if(rv.id==1||rv.id==2){
+                this.tempItem=item;
+                if(rv.id==1){//资金风险
+                    this.riskfun=true;
+                    return;
+                }
+                if(rv.id==2){
                     this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
                         this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
-                            if(rv.id==1){//资金风险
-                                this.riskfun=true;
-                            }
+                            
                             if(rv.id==2){//财务分析
                                 this.$router.push('/enterpriseDetail/'+this.itemManageDetail.enterpriseId)
                             }
                         })
                     })
-                }else if(rv.id>=3&&rv.id<=7){
-                    this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
+                    return;
                 }
+                this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
             },
             formatData(){
                 this.listData=this.result;

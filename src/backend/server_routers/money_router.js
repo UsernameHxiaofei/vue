@@ -23,9 +23,10 @@ module.exports = function client(router, sc, passport) {
     });
     ////////////充值记录头部信息
     router.all('/get_topupStatResult', function (req, res, next) {
+        let param=req.body;
         const stuff = sc.instanceRequest("transactionInquiry.TopupInquiry", "getTopupStatResult", "dealManage");
         stuff.auxiliary = { [passport]: req.session.passport };
-        stuff.items = [];
+        stuff.items = [param.startDate==''?null:param.startDate,param.endDate==''?null:param.endDate];
         sc.send(stuff).then((resp) => { res.json(resp.object) });
     });
 

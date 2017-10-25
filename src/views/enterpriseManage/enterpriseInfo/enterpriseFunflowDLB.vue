@@ -90,14 +90,17 @@
                 let param={
                     type:1,
                     enterpriseId:this.enterprise.id,
-                    beginTime:this.param.beginTime,
-                    endTime:this.param.endTime,
+                    beginTime: this.param.beginTime.toLocaleString(),
+                    endTime: this.param.endTime.toLocaleString()
                 }
                 this.$store.dispatch('enterprise_selectListDayAmount',param).then(()=>{
-                    for (let i=0;this.listDayAmount&&i<this.listDayAmount.length;i++){
-                        let item=this.listDayAmount[i];
-                        bIn.push([new Date(item.transactionTime).getTime(),item.order_amount||0]);
-                    }
+                    Object.keys(this.listDayAmount).forEach((key)=>{
+                        let pay_amount=0;
+                        this.listDayAmount[key].forEach((item)=>{
+                            pay_amount+=item.pay_amount||0;
+                        })
+                        bIn.push([new Date(key).getTime(),pay_amount||0]);
+                    })
                     this.imageData={bIn};
                     this.buildEcharts();
                 })
@@ -107,12 +110,15 @@
                 for (let i=0;this.dataList.list&&i<this.dataList.list.length;i++){
                     let item=this.dataList.list[i];
                     totalb++;
-                    totalbNum+=item.order_amount;
+                    totalbNum+=item.pay_amount;
                 }
                 this.totalData= { totalLean, totalb, totalLeanNum, totalbNum };
             },
             startChange(v){
-                this.param.beginTime=v||'';
+                if(!this.ready){
+                    return;
+                }
+                this.param.beginTime=v;
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData();
@@ -120,7 +126,10 @@
                });
             },
             endChange(v){
-                this.param.endTime=v||'';
+                if(!this.ready){
+                    return;
+                }
+                this.param.endTime=v;
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData();
@@ -183,6 +192,7 @@
                 pageNo: 1
             }
             this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
+                this.ready=true;
                 this.listData=JSON.parse(JSON.stringify(this.dataList));
                 this.getTotalData();
                 this.getImageData();
@@ -190,6 +200,7 @@
         },
         data() {
             return {
+                ready:false,
                 startTime:'',
                 endTime:'',
                 param: {},

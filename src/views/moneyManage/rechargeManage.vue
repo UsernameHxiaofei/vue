@@ -50,17 +50,15 @@
                 </el-input>
             </div>
             <div class="date-box">
-                <div class="my-calender">
-                    <el-date-picker v-model="range" type="datetimerange" clearable align="right" placeholder="选择日期范围" :picker-options="pickerOptions" @change="rangechange">
-                    </el-date-picker>
-                </div>
+                <el-date-picker v-model="startDate" align="right" type="datetime"  clearable @change="startChange" placeholder="选择开始日期"></el-date-picker>
+                  至
+                <el-date-picker v-model="endDate" align="right"  type="datetime" clearable @change="endChange" placeholder="选择结束日期"></el-date-picker>
                 <el-select v-model="statusCode" clearable @change="statusChange" placeholder="状态">
                     <el-option v-for="item in transactionStatuses" :key="item.code" :label="item.name" :value="item.code">
                     </el-option>
                 </el-select>
             </div>
         </div>
-    
         <!--表格-->
         <div class="my-table">
             <el-table :data="topupByConditions.records" stripe border style="width: 100%">
@@ -142,18 +140,19 @@ export default {
     mounted() {
         this.rechargeParam = {
             fuzzy: this.keyword,
-            startDate: this.startDate,
-            endDate: this.endDate,
+            startDate: null,
+            endDate: null,
             statusCode: this.statusCode,
             page: 1,
             number: 10
         }
+        console.log(this.rechargeParam);
         //条件查询充值记录
         this.$store.dispatch('find_topupByCondition', this.rechargeParam);
         //获取交易状态的所有状态信息
         this.$store.dispatch('getAll_transactionStatus');
         //获取充值记录的统计结果
-        this.$store.dispatch('get_topupStatResult');
+        this.$store.dispatch('get_topupStatResult',this.rechargeParam);
     },
     computed: {
         topupByConditions: function () {
@@ -182,17 +181,15 @@ export default {
             this.rechargeParam.page = val;
             this.$store.dispatch('find_topupByCondition', this.rechargeParam);
         },
-        rangechange(v) {
-            if(!v){
-                this.rechargeParam.startDate = '';
-                this.rechargeParam.endDate = ''; 
-                this.$store.dispatch('find_topupByCondition', this.rechargeParam);
-            }else{
-                this.range = v.split(' - ');
-                this.rechargeParam.startDate = this.range[0];
-                this.rechargeParam.endDate = this.range[1]; 
-                this.$store.dispatch('find_topupByCondition', this.rechargeParam);
-            }
+        startChange(v){
+            this.rechargeParam.startDate = v?v:null;
+            this.$store.dispatch('get_topupStatResult',this.rechargeParam);
+            this.$store.dispatch('find_topupByCondition', this.rechargeParam);
+        },
+        endChange(v){
+            this.rechargeParam.endDate =v?v:null;
+            this.$store.dispatch('get_topupStatResult',this.rechargeParam);
+            this.$store.dispatch('find_topupByCondition', this.rechargeParam);
         },
         statusChange() {
             this.rechargeParam.pageNum = 1;

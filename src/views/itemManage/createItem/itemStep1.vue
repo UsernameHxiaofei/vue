@@ -367,7 +367,7 @@
                         if(this.investorCondition.financeId){
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
-                                invitationCode:this.conditionform.invitationCode,
+                                invitationCode:this.conditionform.invitationCode||'',
                                 investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
                                 permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
                                 financeId: this.$route.params.id
@@ -376,7 +376,7 @@
                         }else{
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
-                                invitationCode:this.conditionform.invitationCode,
+                                invitationCode:this.conditionform.invitationCode||'',
                                 investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
                                 permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
                                 financeId: this.$route.params.id

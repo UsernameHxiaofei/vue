@@ -1,6 +1,5 @@
 <template>
     <div id='riskFunflow' >
-        <div class="back-button"><el-button type="text" icon="arrow-left" @click="back">返回上一级</el-button></div>
         <el-row style="padding:50px;">
         <el-row style="margin:30px auto 30px auto;">
             <el-col :span="24">
@@ -103,14 +102,17 @@
                 let param={
                     type:1,
                     enterpriseId:this.enterprise.id,
-                    beginTime:this.param.beginTime,
-                    endTime:this.param.endTime,
+                    beginTime: this.param.beginTime.toLocaleString(),
+                    endTime: this.param.endTime.toLocaleString()
                 }
                 this.$store.dispatch('enterprise_selectListDayAmount',param).then(()=>{
-                    for (let i=0;this.listDayAmount&&i<this.listDayAmount.length;i++){
-                        let item=this.listDayAmount[i];
-                        bIn.push([new Date(item.transactionTime).getTime(),item.pay_amount||0]);
-                    }
+                    Object.keys(this.listDayAmount).forEach((key)=>{
+                        let pay_amount=0;
+                        this.listDayAmount[key].forEach((item)=>{
+                            pay_amount+=item.pay_amount||0;
+                        })
+                        bIn.push([new Date(key).getTime(),pay_amount||0]);
+                    })
                     this.imageData={bIn};
                     this.buildEcharts();
                 })
@@ -123,12 +125,14 @@
                     let flag=item.refund_time&&item.refund_time.length>0;//true就是借,就是流出
                     totalb++;
                     totalbNum+=item.pay_amount;
-                    
                 }
                 this.totalData= { totalLean, totalb, totalLeanNum, totalbNum };
             },
             startChange(v){
-                this.param.beginTime=v||'';
+                if(!this.ready){
+                    return;
+                }
+                this.param.beginTime=v;
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData();
@@ -136,7 +140,10 @@
                });
             },
             endChange(v){
-                this.param.endTime=v||'';
+                if(!this.ready){
+                    return;
+                }
+                this.param.endTime=v;
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
                     this.getTotalData();

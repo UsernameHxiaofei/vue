@@ -14,7 +14,8 @@ export const enterpriseModule = {
         coreFinance:[], //核心财务指标
         sf:{},   //综合
         statementBrief:{},
-        listDayAmount:{}//每日流水数据
+        listDayAmount:{},//每日流水数据
+        items:[]//融资企业项目信息
     },
     actions: {
         enterprise_getManageList({ commit },param) {
@@ -85,9 +86,17 @@ export const enterpriseModule = {
             return api.enterprise_selectListDayAmount(param).then((data)=>{
                 commit('enterprise_setListDayAmount',data);
             })
+        },
+        enterprise_getItems({commit},param){
+            return api.enterprise_getItems(param).then((data)=>{
+                commit('enterprise_setItems',data);
+            })
         }
     },
     mutations: {
+        enterprise_setItems(state,data){
+            state.items=data;
+        },
         enterprise_setListDayAmount(state,data){
             state.listDayAmount=data;
         },

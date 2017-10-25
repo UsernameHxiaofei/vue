@@ -271,22 +271,22 @@
             return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrinv
         },
         tcTpcinfoTrademark(){
-            return this.$store.state.item.thirdReport.tcTpcinfoTrademark
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoTrademark||{}
         },
         tcTpcinfoPatent(){
-            return this.$store.state.item.thirdReport.tcTpcinfoPatent
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoPatent
         },
         tcRepresentativeInfo(){
-            return this.$store.state.item.thirdReport.tcRepresentativeInfo
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcRepresentativeInfo
         },
         tcEnterpriseMemberInfo(){
-            return this.$store.state.item.thirdReport.tcEnterpriseMemberInfo
+            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseMemberInfo
         },
         expertAdvice(){
-            return this.$store.state.item.expertAd||{};
+            return this.$store.state.item.thirdReport&&this.$store.state.item.expertAd||{};
         },
         leadInvestorIntention(){
-            return this.$store.state.item.leadAd||{};
+            return this.$store.state.item.thirdReport&&this.$store.state.item.leadAd||{};
         }
     },
     data() {

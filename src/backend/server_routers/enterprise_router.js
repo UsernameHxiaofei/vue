@@ -44,13 +44,14 @@
         });
         router.all('/enterprise_selectListDayAmount', function (req, res, next) {//获取账户流水
             let param=req.body;
+            console.log(req.body);
             const stuff = sc.instanceRequest("EnterpriseAccountDetailTask", "selectListDayAmount", "enterpriseManger");
             stuff.auxiliary = {[passport]: req.session.passport};
             stuff.items = [
                 param.type,
                 param.enterpriseId,
-                param.beginTime||'',
-                param.endTime||''
+                param.beginTime,
+                param.endTime
             ]
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
@@ -119,4 +120,15 @@
             ];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
+        //根据企业id查询项目
+        router.all('/enterprise_getItems', function (req, res, next) {
+            let param=req.body;
+            const stuff = sc.instanceRequest("FinancingProjectTask", "selectProjectListByenterpriseId", "projectManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items = [
+                param.enterpriseId
+            ];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
+
     }
