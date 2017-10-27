@@ -200,9 +200,9 @@ export default {
 	components: {
 		pagination
 	},
-	asyncData ({ store,session,router }) {
-		return Promise.all([store.dispatch('item_getManageList', session),store.dispatch('item_getHeadData',session)]);
-    },
+	// asyncData ({ store,session,router }) {
+	// 	return Promise.all([store.dispatch('item_getManageList', session),store.dispatch('item_getHeadData',session)]);
+    // },
 	data() {
 		return {
 			tableloading:false,
@@ -255,10 +255,8 @@ export default {
                 pageSize:10,
                 pageNo:1
 			}
-		if(!this.itemManageList.list){
-			this.getListData();
-			this.$store.dispatch('item_getHeadData');
-		}
+		this.getListData();
+		this.$store.dispatch('item_getHeadData');
 		this.$store.commit('enterprise_setMemberInfo',{});
 		this.$store.commit('enterprise_setInfo',{});
     },

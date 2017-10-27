@@ -608,12 +608,20 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
             },
             setTimeInfo(){
                 //设置时间信息
-                this.dialogTimeVisible=true;
-                for (let key in this.dateform) {
-                    if (this.dateform.hasOwnProperty(key)) {
-                        this.dateform[key]=this.timeInfo[key];
+                this.$store.dispatch('item_checkDeposit',{projectId:this.projectId}).then((data)=>{
+                    if(!data){
+                        this.$message.warning('项目方或领投的保证金未缴纳！请确认保证金缴纳之后再设置时间信息');
+                        return;
+                    }else{
+                        this.dialogTimeVisible=true;
+                        for (let key in this.dateform) {
+                            if (this.dateform.hasOwnProperty(key)) {
+                                this.dateform[key]=this.timeInfo[key];
+                            }
+                        }
                     }
-                }
+                })
+                
             },
             editProject(){
                 this.$router.push('/itemEdit/'+this.$route.params.projectId)

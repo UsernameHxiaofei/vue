@@ -138,7 +138,7 @@
                             <el-checkbox v-model="isRepresent"></el-checkbox>
                         </el-form-item>
                         <el-form-item label="姓名" prop="name"  label-width="140px">
-                            <el-input v-model="teamform.name" :maxlength="16"></el-input>
+                            <el-input v-model="teamform.name" :maxlength="32"></el-input>
                         </el-form-item>
                         <el-form-item label="手机号" prop="mobileNumber"  label-width="140px">
                             <el-input v-model="teamform.mobileNumber" :maxlength="11"></el-input>

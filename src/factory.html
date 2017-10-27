@@ -22,38 +22,150 @@
             overflow-y: hidden;
             overflow-x: hidden;
         }
+        .logo{
+            position: absolute;
+            left:4%;
+            top:9%;
+            height:2.5vh;
+            z-index: 11;
+        }
         .left{
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            height:100%;
-            width:50%;
-        }
-        .logo{
-            float:left;
-            margin:10% auto auto 8%;
+            bottom:15vh;
+
         }
         .right{
             position: absolute;
-            right: 0;
-            top: 0;
-            bottom: 0;
-            height:100%;
-            width:50%;
+            right:10%;
+            top:10%;
+            height:70vh;
         }
-        .right img{
-            margin:15% 10%;
-            height:70%;
+        .title{
+            position: absolute;
+            left:33vh;
+            top:19vh;
+            height:4vh;
+            z-index: 11;
+        }
+        .form-bg{
+            position: absolute;
+            width:95vh;
+            
+            left:-6vh;
+            top:-55vh;
+        }
+        .form{
+            position: absolute;
+            width:33vh;
+            height:33.5vh;
+            left:25.6vh;
+            top:25vh;
+            border-radius: 3px;
+            background-color: rgb(255, 255, 255);
+            box-shadow: 0px 5px 20px 0px rgba(8, 1, 2, 0.2);
+        }
+        .user-group{
+            margin-top:10vh;
+            width:100%;
+            text-align: center;
+        }
+        .password-group{
+            margin-top:3vh;
+            width:100%;
+            text-align: center;
+        }
+        .user-group input{
+            width:80%;
+            height:3.5vh;
+            font-size:16px;
+            text-indent:3vh;
+            margin-left:5%;
+            outline: none;
+            background-color: rgb(238, 238, 238);
+            box-shadow: inset 0px 2px 3px 0px rgba(8, 1, 2, 0.3);
+            border-radius: 3px;
+        }
+        .password-group input{
+            width:80%;
+            height:3.5vh;
+            margin-left:5%;
+            text-indent:3vh;
+            font-size:16px;
+            outline: none;
+            background-color: rgb(238, 238, 238);
+            box-shadow: inset 0px 2px 3px 0px rgba(8, 1, 2, 0.3);
+            border-radius: 3px;
+        }
+        .sumbmit-group{
+            width:100%;
+            margin-top:6vh;
+        }
+        .center-group{
+            width:75%;
+            margin: 0 auto;
+            height: 3vh;
+            line-height: 3vh;
+            vertical-align:middle;
+        }
+        .center-group button{
+            cursor: pointer;
+            float: right;
+            width:45%;
+            height:3.1vh;
+            border:none;
+            color: rgb(238, 238, 238);
+            border-radius: 3px;
+            background-color: rgb(44, 101, 216);
+        }
+        .center-group button:hover{
+            background-color:rgb(82, 130, 226)
+        }
+        .center-group input{
+            width:14px;
+            height:14px;
+        }
+        .center-group label{
+            width: 50%;
+            line-height: 3vh;
+            vertical-align: middle;
+        }
+        .user-group img{
+            position: relative;
+            left:-78%;
+            width:1.5vh;
+            top:0.5vh;
+        }
+        .password-group img{
+            position: relative;
+            left:-78%;
+            width:1.4vh;
+            top:0.5vh;
         }
     </style>
 </head>
 <body>
-    <div class="left">
-        <img class="logo" src="/public/factory/logo.png" alt="">
+    <img class="logo" src="/public/factory/logo.png" alt="">
+    <img class="title" src="/public/factory/title.png" alt="">
+    <img class="form-bg" src="/public/factory/form.png" >
+    <div class="form">
+        <div class="user-group">
+            <input type="text" placeholder="用&nbsp;户&nbsp;名">
+            <img src="/public/factory/user.png" alt="">
+        </div>
+        <div class="password-group">
+            <input type="password" placeholder="用户密码">
+            <img src="/public/factory/pwd.png" alt="">
+        </div>
+        <div class="sumbmit-group">
+            <div class="center-group">
+                <label>
+                        <input type="checkbox" name="remember" >
+                        <span>记住密码</span>
+                </label>
+                <button>登录</button>
+            </div>
+        </div>
     </div>
-    <div class="right">
-        <img src="/public/factory/right.png" alt="">
-    </div>
+    <img class="right" src="/public/factory/right.png" alt="">
 </body>
 </html>

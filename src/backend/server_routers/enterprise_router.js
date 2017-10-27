@@ -130,5 +130,26 @@
             ];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
+        //哆啦宝上传账单数据
+        router.all('/enterprise_savePOSData', function (req, res, next) {
+            let param=req.body;
+            const stuff = sc.instanceRequest("DuolabaoProcessService", "savePOSData", "enterpriseManger");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items = [
+                param.path
+            ];
+            sc.send(stuff).then((resp) =>{res.json(resp.head)});
+        });
+        //哆啦宝上传账单数据
+        router.all('/item_checkDeposit', function (req, res, next) {
+            let param=req.body;
+            const stuff = sc.instanceRequest("DealManageTask", "checkDeposit", "dealManage");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items = [
+                param.projectId
+            ];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
 
+        
     }

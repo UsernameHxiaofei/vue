@@ -31,7 +31,6 @@
 }
 
 .auth-th p:first-child {
-  width: 20%;
   margin-left:30px;
 }
 
@@ -78,9 +77,7 @@
 </style>
 <template>
   <div class="permission">
-    <div class="reserve">
-      <el-button :plain="true" type="success" @click="preserve">保存</el-button>
-    </div>
+    
     <!--权限-->
     <div class="">
       <div class="auth-th">
@@ -99,6 +96,9 @@
           </el-transfer>
         </div>
       </div>
+    </div>
+    <div class="reserve">
+      <el-button :plain="true" type="success" @click="preserve">保存</el-button>
     </div>
   </div>
 </template>
@@ -151,6 +151,7 @@ export default {
               let elements=this.systemInquiryList.havePrivilegeList[item];
               elements.forEach((element,j)=>{
                 oldTemplist.push(element.id);
+                element.name=element.grouping+'-'+element.name;
                 templist.push(element);
               })
             })
@@ -158,6 +159,7 @@ export default {
           Object.keys(this.systemInquiryList.noHavePrivilegeList).forEach((item,index)=>{
             let elements=this.systemInquiryList.noHavePrivilegeList[item];
             elements.forEach((element,j)=>{
+                element.name=element.grouping+'-'+element.name;
                 templist.push(element);
             })
           })
@@ -177,8 +179,7 @@ export default {
       }
     },
     filterMethod(query, item){
-      return true;
-      // return item.name.match(query);
+      return item.name.match(query);
     },
     preserve() {
       let updateParams = {

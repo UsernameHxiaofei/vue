@@ -9,9 +9,13 @@
 .footer-button{margin-top: 20px;background: white;overflow: hidden;padding-bottom: 30px;}
 
 .choose-list .el-col-12{margin-top: 20px;}
-.choose-list .grid-content{border: 1px solid #dedede;overflow: hidden;background: #fafafa;height:120px;}
-.choose-list .grid-content img{width:120px;height: 120px;border-radius: 50%;float:left;}
-.choose-list .grid-content .info-content{background: white;padding: 10px;display:block;height:120px;margin-left:120px;}
+.choose-list .grid-content{border: 1px solid #dedede;overflow: hidden;background: #fafafa;height:120px;width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+}
+.choose-list .grid-content img{width:120px;height: 120px;border-radius: 50%;}
+.choose-list .grid-content .info-content{background: white;padding: 10px;display:block;height:120px;margin-left:0px;width:100%;}
 .choose-list .grid-content .info-content p{color:#999;margin-top:10px;text-indent: 20px;overflow: none;text-overflow: ellipsis;}
 .choose-list .el-col-12 .grid-content:hover{border-color: #06ccb7;}
 .choose-list .choosed{

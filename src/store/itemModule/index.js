@@ -538,7 +538,9 @@ export const itemModule = {
                 }
             })
         },
-
+        item_checkDeposit({commit,dispatch},param){
+            return api.item_checkDeposit(param);
+        }
     },
     mutations: {
         item_setMerchant(state,data){

@@ -70,5 +70,10 @@ module.exports=function client(Vue){
           return response.body;
         });
       },
+      enterprise_savePOSData:(param)=>{
+        return Vue.http.post('enterprise_savePOSData',param).then(response =>{
+          return response.body;
+        })
+      }
     } 
 }

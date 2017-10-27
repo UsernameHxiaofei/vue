@@ -91,6 +91,9 @@ export const enterpriseModule = {
             return api.enterprise_getItems(param).then((data)=>{
                 commit('enterprise_setItems',data);
             })
+        },
+        enterprise_savePOSData({commit},param){
+            return api.enterprise_savePOSData(param).then((data)=>data)
         }
     },
     mutations: {

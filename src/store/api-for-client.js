@@ -7,13 +7,9 @@ Vue.http.options.root = '/ajax';
 Vue.http.options.emulateJSON = true;
 
 Vue.http.interceptors.push(function (request, next) {
-  let service=Loading.service({
-    text:'loading',
-    customClass:'loading-window'
-  });
+  
   // continue to next interceptor
   next(function (response) {
-    service.close();
     if(response.body.assignUniqueSecretMessage){
       Message.closeAll();
       Message.warning(response.body.assignUniqueSecretMessage);

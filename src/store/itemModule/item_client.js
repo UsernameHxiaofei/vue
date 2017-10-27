@@ -305,6 +305,11 @@ module.exports=function client(Vue){
           return response.body;
         })
       },
+      item_checkDeposit:(param)=>{
+        return Vue.http.post('item_checkDeposit',param).then(response=>{
+          return response.body;
+        })
+      },
     } 
 }
 
