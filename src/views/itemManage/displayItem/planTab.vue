@@ -7,9 +7,6 @@
 .span-label{color: #666666;}
 .span-con{color: #333333;font-weight: bold; white-space: pre-wrap;}
 
-.rewardLable{
-    height:50px
-}
 </style>
 <template>
   <div>
@@ -40,7 +37,7 @@
                 <el-row v-if="investedEvidence&&investedEvidence.length>0">
                     <el-col :span="10">已投入额凭据</el-col>
                     <el-col :span="14">
-                         <el-button v-for="(item,index) in investedEvidence" :key="item.index">
+                         <el-button v-for="(item,index) in investedEvidence" :key="index">
                              <a :href="'/ajax/filedownload?url='+encodeURIComponent(item.evidenceURL)+'&name='+encodeURIComponent(item.name)" >{{item.name}}</a>
                         </el-button>
                     </el-col>

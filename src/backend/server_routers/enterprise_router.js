@@ -150,6 +150,15 @@
             ];
             sc.send(stuff).then((resp) =>{res.json(resp.object)});
         });
-
-        
+        //上传民生银行excel
+        router.all('/item_saveDataEnterCMBC', function (req, res, next) {
+            let param=req.body;
+            const stuff = sc.instanceRequest("BankAccountFlowService", "saveDataEnterCMBC", "enterpriseManger");
+            stuff.auxiliary = {[passport]: req.session.passport};
+            stuff.items = [
+                param.accountId,
+                param.path
+            ];
+            sc.send(stuff).then((resp) =>{res.json(resp.object)});
+        });
     }

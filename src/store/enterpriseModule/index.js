@@ -94,6 +94,9 @@ export const enterpriseModule = {
         },
         enterprise_savePOSData({commit},param){
             return api.enterprise_savePOSData(param).then((data)=>data)
+        },
+        item_saveDataEnterCMBC({commit},param){
+            return api.item_saveDataEnterCMBC(param).then((data)=>data)
         }
     },
     mutations: {

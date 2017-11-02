@@ -74,6 +74,11 @@ module.exports=function client(Vue){
         return Vue.http.post('enterprise_savePOSData',param).then(response =>{
           return response.body;
         })
+      },
+      item_saveDataEnterCMBC:(param)=>{
+        return Vue.http.post('item_saveDataEnterCMBC',param).then(response =>{
+          return response.body;
+        })
       }
     } 
 }

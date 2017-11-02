@@ -368,8 +368,8 @@
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
                                 invitationCode:this.conditionform.invitationCode||'',
-                                investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
-                                permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
+                                investorNativePlace: (this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '')||'',
+                                permanent: (this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '')||'',
                                 financeId: this.$route.params.id
                             }
                             this.$store.dispatch('item_updateInvestorCondition', { param: investorCondition, vue: this })
@@ -377,8 +377,8 @@
                             let investorCondition = {
                                 invitation: this.conditionform.invitation ? 1 : 0,
                                 invitationCode:this.conditionform.invitationCode||'',
-                                investorNativePlace: this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '',
-                                permanent: this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '',
+                                investorNativePlace: (this.conditionform.IsinvestorNativePlace ? this.selectedOptions1[this.selectedOptions1.length-1] : '')||'',
+                                permanent: (this.conditionform.Ispermanent ? this.selectedOptions2[this.selectedOptions2.length-1] : '')||'',
                                 financeId: this.$route.params.id
                             }
                             this.$store.dispatch('item_createInvestorCondition', { param: investorCondition, vue: this })

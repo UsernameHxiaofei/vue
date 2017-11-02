@@ -117,12 +117,17 @@
                             <label>账号名称</label>
                             <span>{{item.accountName}}</span>
                         </div>
+                        <div class="info-item">
+                            <label>
+                                <el-button size="mini" @click="uploadMS(item)">上传民生银行excel</el-button>
+                            </label>   
+                        </div>
+
                     </div>
                     <div class="banlance">
                         <label>账户余额</label>
                         <span>{{item.balance||0}}元</span>
                     </div>
-                    
                 </div>
         </el-row>
         <el-row>
@@ -190,6 +195,32 @@
                 <pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
             </el-col>
         </el-row>
+        <el-dialog title="导入哆啦宝pos民生银行账单" :visible.sync="MSPosImport">
+                <el-form>
+                    <el-form-item label="上传账单excel">
+                        <el-button @click="uploadFile" :loading="fileloading">上传</el-button>
+                    </el-form-item>
+                    <el-form-item label="上传文件列表">
+                        <el-table border :data="exportlist" stripe style="width: 100%">
+                            <el-table-column prop="name" label="文件名"></el-table-column>
+                            <el-table-column prop="size" label="文件大小" align="center"> </el-table-column>
+                            <el-table-column prop="time" label="上传时间" align="center"> </el-table-column>
+                            <el-table-column label="操作" align="center">
+                                <template scope="scope">
+                                    <el-button class="btn-style" size="small" :disabled="scope.row.isExported" @click="exportFile(scope.row)">{{scope.row.isExported?'已导入':'导入'}}</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                        <form style="display:none">
+                            <input type="file" @change="fileChange" name="file" ref="fileInput">
+                        </form>
+                    </el-form-item>
+                </el-form>
+                <el-row>
+                    <el-button style="float:right"  @click="MSPosImport=false">取消</el-button>
+                    <el-button style="float:right;margin-right:10px;" type="primary" @click="MSPosImport=false">确定</el-button>
+                </el-row>
+        </el-dialog>
     </div>
 </template>
 
@@ -218,6 +249,57 @@
             'pagination': pagination
         },
         methods: {
+            uploadMS(item){
+                // if(!item.id){
+                //     this.$message.warning('银行账号未设置！');
+                //     return;
+                // }
+                this.accountId=item.id;
+                this.MSPosImport=true;
+            },
+            uploadFile() {
+                this.$refs['fileInput'].click();
+                // this.exportlist
+            },
+            fileChange(event) {
+                if(event.target.files.length==0){
+                    return;
+                }
+                let file = event.target.files[0];
+                let formData = new FormData();
+                formData.append('file', file);
+                let xhr = new XMLHttpRequest();
+                xhr.open('post', '/ajax/fileupload');
+                let self = this;
+                this.fileloading=true;
+                xhr.onload = function () {
+                    self.fileloading=false;
+                    if (!xhr.response) {
+                        self.$message.warning(JSON.parse(xhr.response).information);
+                    } else if (xhr.status == 200) {
+                        self.$message.success('上传完成');
+                        let temp = {
+                            name:file.name,
+                            size:file.size+'byte',
+                            time:new Date().toLocaleString(),
+                            path:JSON.parse(JSON.parse(xhr.response).objectLiteral),
+                            isExported:false
+                        }
+                        self.exportlist.push(temp);
+                    }
+                };
+                xhr.send(formData);
+            },
+            exportFile(item) {
+                this.$store.dispatch('item_saveDataEnterCMBC',{accountId:this.accountId,path:item.path}).then((data)=>{
+                    if(data.success){
+                        this.$message.success('导入成功');
+                        item.isExported=true;
+                    }else{
+                        this.$message.warning(data.information);
+                    }
+                })
+            },
             getTotalData(){
                 let totalLean=0,totalb=0,totalLeanNum=0,totalbNum=0;
                 for (let i = 0; this.dataList.list&&i < this.dataList.list.length; i++) {
@@ -409,6 +491,10 @@
         },
         data() {
             return {
+                accountId:'',
+                MSPosImport:false,
+                fileloading:false,
+                exportlist:[],
                 ready:false,
                 startTime:'',
                 endTime:'',

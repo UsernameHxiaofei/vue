@@ -8,8 +8,9 @@
 						<img class="pic" src="../assets/images/fund5.png" />
 						<div class="num-box">
 							<span class="color-yellow">成功融资</span>
-							<p><span style="font-size:0.7em;vertical-align: top">¥</span>
-								{{itemManageHeadData.raisedAmountTatol||0}}
+							<p>
+								<span style="font-size:0.7em;vertical-align: top">¥</span>
+								{{itemManageHeadData.raisedAmountTatol&&itemManageHeadData.raisedAmountTatol.toFixed(0)||0}}
 							</p>
 						</div>
 					</div>

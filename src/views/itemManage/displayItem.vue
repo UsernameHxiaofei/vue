@@ -171,7 +171,7 @@
                         </el-col>
                     </el-row>
                     <div class="progress-box">
-                        <el-progress :percentage="(show.raisedAmount/show.financingAmount)*100||0"></el-progress>
+                        <el-progress :percentage="((show.raisedAmount/show.financingAmount+leadAd.investmentRatio)*100||0)"></el-progress>
                         <p>剩余{{show.lastDay}}天</p>
                     </div>
                 </el-col>
@@ -324,7 +324,10 @@
             },
             projectItem:function(){
                 return this.$store.state.item.show;
-            }    
+            },
+            leadAd:function(){
+                return this.$store.state.item.leadAd||{};
+            }  
         },
         data() {
             return {

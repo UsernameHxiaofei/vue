@@ -180,10 +180,10 @@
                 xhr.send(formData);
             },
             exportFile(item) {
-                item.isExported=true;
                 this.$store.dispatch('enterprise_savePOSData',{path:item.path}).then((data)=>{
                     if(data.success){
                         this.$message.success('导入成功');
+                        item.isExported=true;
                     }else{
                         this.$message.warning(data.information);
                     }
