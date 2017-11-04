@@ -115,9 +115,6 @@
                 this.totalData= { totalLean, totalb, totalLeanNum, totalbNum };
             },
             startChange(v){
-                if(!this.ready){
-                    return;
-                }
                 this.param.beginTime=v;
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
@@ -126,9 +123,6 @@
                });
             },
             endChange(v){
-                if(!this.ready){
-                    return;
-                }
                 this.param.endTime=v;
                 this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
                     this.listData=JSON.parse(JSON.stringify(this.dataList));
@@ -192,7 +186,6 @@
                 pageNo: 1
             }
             this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(()=>{
-                this.ready=true;
                 this.listData=JSON.parse(JSON.stringify(this.dataList));
                 this.getTotalData();
                 this.getImageData();
@@ -200,7 +193,6 @@
         },
         data() {
             return {
-                ready:false,
                 startTime:'',
                 endTime:'',
                 param: {},

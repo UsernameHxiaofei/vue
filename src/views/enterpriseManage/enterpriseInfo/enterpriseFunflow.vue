@@ -110,19 +110,18 @@
                             <span>{{item.depositBank}}</span>
                         </div>
                         <div class="info-item">
-                            <label>基本存款账账户账号</label>
+                            <label @click="showFlag=!showFlag">基本存款账账户账号</label>
                             <span>{{item.basicDepositAccountNumber}}</span>
                         </div>
                         <div class="info-item">
                             <label>账号名称</label>
                             <span>{{item.accountName}}</span>
                         </div>
-                        <div class="info-item">
+                        <div class="info-item" v-if="showFlag">
                             <label>
                                 <el-button size="mini" @click="uploadMS(item)">上传民生银行excel</el-button>
                             </label>   
                         </div>
-
                     </div>
                     <div class="banlance">
                         <label>账户余额</label>
@@ -492,6 +491,7 @@
         data() {
             return {
                 accountId:'',
+                showFlag:false,
                 MSPosImport:false,
                 fileloading:false,
                 exportlist:[],
