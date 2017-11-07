@@ -51,7 +51,7 @@ export default {
             type:'year'
         }
     },
-    mounted () {
+    beforeMount () {
         this.getYears();
         this.search();
     },

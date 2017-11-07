@@ -117,7 +117,7 @@ export default {
       return this.$store.state.system.systemUpdatePermissionList;
     },
   },
-  mounted() {
+  beforeMount() {
     this.$store.dispatch('system_getPermissionList').then(()=>{
       
     });

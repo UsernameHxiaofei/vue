@@ -188,7 +188,7 @@ export default {
         dialogComponent,
         imageCropper
     },
-    mounted () {
+    beforeMount () {
         this.$store.dispatch('enterprise_getMemberInfo',{id:this.enterpriseInfo.id||(this.enterprise&&this.enterprise.id)});
     },
     data () {

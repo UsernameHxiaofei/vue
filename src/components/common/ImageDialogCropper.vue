@@ -46,9 +46,6 @@ export default {
             default:null
         }
     },
-    mounted () {
-        
-    },
     data () {
         return {
             option: {

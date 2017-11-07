@@ -6,7 +6,6 @@ import certificateData from '../constant/certification'
 import personalData from '../constant/personal'
 import investorPersonalData from '../constant/investorPersonal'
 import marriageData from '../constant/marriage'
-
 import enterpriseData from '../constant/enterprise'
 import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
@@ -14,16 +13,22 @@ import funFlowTypes from '../constant/funFlowType'
 import riskTypeData from '../constant/riskType'
 
 export function riskLv(value){
-    if(value==2){
-        return '中';
-    }else if(value==3){
-        return '高';
+    switch (value) {
+        case 1:
+            return '中';
+            break;
+        case 2:
+            return '高';
+            break;
+        default:
+            return '未知';
+            break;
     }
 }
 export function riskType(value){
     let name='';
-    for (var i = 0; i < riskTypeData.length; i++) {
-        var item = riskTypeData[i];
+    for (let i = 0; i < riskTypeData.length; i++) {
+        let item = riskTypeData[i];
         if(item.value===value){
             name=item.name;
             break;
@@ -37,8 +42,8 @@ export function riskType(value){
 }
 export function marriage(value){
     let name='';
-    for (var i = 0; i < marriageData.length; i++) {
-        var item = marriageData[i];
+    for (let i = 0; i < marriageData.length; i++) {
+        let item = marriageData[i];
         if(item.value===value){
             name=item.label;
             break;
@@ -65,8 +70,8 @@ export function funFlowType(value){
 
 export function riskRegion(value){
     let name='';
-    for (var i = 0; i < riskData.length; i++) {
-        var item = riskData[i];
+    for (let i = 0; i < riskData.length; i++) {
+        let item = riskData[i];
         if(item.id===value){
             name=item.name;
             break;
@@ -83,8 +88,8 @@ export function education(value) {
     if (!code) {
         return '无学历信息';
     }
-    for (var i = 0; i < educations.length; i++) {
-        var item = educations[i];
+    for (let i = 0; i < educations.length; i++) {
+        let item = educations[i];
         if (code == item.value) {
             return item.lable;
         }
@@ -245,22 +250,22 @@ export function enterpriseIndustryLevel(value) { //企业情况
 //日期格式化
 export function getNowFormatDate(x) {
     //if(x)
-    var date = new Date(x);
-    var seperator1 = "-";
-    var seperator2 = ":";
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
+    let date = new Date(x);
+    let seperator1 = "-";
+    let seperator2 = ":";
+    let month = date.getMonth() + 1;
+    let strDate = date.getDate();
     if (month >= 1 && month <= 9) {
         month = "0" + month;
     }
     if (strDate >= 0 && strDate <= 9) {
         strDate = "0" + strDate;
     }
-    var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
-    var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
-    var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
+    let h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours()
+    let m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
+    let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
 
-    var currentdate = " " + date.getFullYear() + seperator1 + month + seperator1 + strDate +
+    let currentdate = " " + date.getFullYear() + seperator1 + month + seperator1 + strDate +
         " " + h + seperator2 + m +
         seperator2 + s;
 
@@ -270,11 +275,11 @@ export function getNowFormatDate(x) {
 //金额
 export function currency(number) {
     number = number || 0;
-    var places = !isNaN(places = Math.abs(places)) ? places : 2;
-    var symbol = symbol !== undefined ? symbol : "";
-    var thousand = thousand || ",";
-    var decimal = decimal || ".";
-    var negative = number < 0 ? "-" : "",
+    let places = !isNaN(places = Math.abs(places)) ? places : 2;
+    let symbol = symbol !== undefined ? symbol : "";
+    let thousand = thousand || ",";
+    let decimal = decimal || ".";
+    let negative = number < 0 ? "-" : "",
         i = parseInt(number = Math.abs(+number || 0).toFixed(places), 10) + "",
         j = (j = i.length) > 3 ? j % 3 : 0;
     return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");

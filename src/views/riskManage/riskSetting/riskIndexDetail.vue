@@ -47,7 +47,7 @@
         components: {
             riskColumn
         },
-        mounted () {
+        beforeMount () {
             this.$store.dispatch('risk_selectRiskInfo',{id:this.$route.params.id}).then(()=>{
                 for (let i = 0; this.indexInfo.riskRuleGroup&&i < this.indexInfo.riskRuleGroup.length; i++) {
                     let item = this.indexInfo.riskRuleGroup[i];

@@ -218,7 +218,7 @@ export default {
             return this.$store.state.customer.questionnaire;
         }
     },
-    mounted() {
+    beforeMount() {
         this.$store.dispatch('getQuestionnaire',{id:this.$route.params.actorId}).then(()=>{
             if(this.questionnaire.answer&&this.questionnaire.answerArray.length){
                 this.answers=this.questionnaire.answerArray;

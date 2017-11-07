@@ -19,14 +19,14 @@
                     <el-table-column prop="creditCode" label="统一社会信用代码" width="220" align="center"> </el-table-column>
                     <el-table-column prop="name" label="企业名称" align="center"> </el-table-column>
                     <el-table-column label="所在地" width="200" align="center">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             {{scope.row.addressCode|address}}
                         </template>
                     </el-table-column>
                     <el-table-column width="120" prop="representativeName" label="法定代表人" align="center"> </el-table-column>
                     <el-table-column width="240" prop="createTime" label="入库时间" align="center"> </el-table-column>
                     <el-table-column label="" width="300" align="center">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             <el-button class="btn-style" size="small" @click="detail(scope.row)">详情</el-button>
                             <el-button class="btn-style" size="small" @click="findItems(scope.row)">查看融资项目</el-button>
                         </template>
@@ -43,29 +43,29 @@
                 <el-table-column prop="name" label="项目名称"> </el-table-column>
                 <el-table-column prop="initiatorName" width="120" label="发起人"> </el-table-column>
                 <el-table-column prop="industry" width="120" label="所属行业">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         {{scope.row.industry|industry}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="regionCode" label="所属区域">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         {{scope.row.regionCode|address}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="lastUpdate" label="更新时间">
                 </el-table-column>
                 <el-table-column prop="phase" label="阶段">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         {{scope.row.phase|projectPhase}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="status" label="状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         {{scope.row.status|projectStatus}}
                     </template>
                 </el-table-column>
                 <el-table-column width="180">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button @click="itemDetail(scope.row)" class="btn-style">详情</el-button>
                     </template>
                 </el-table-column>
@@ -82,7 +82,7 @@
                         <el-table-column prop="size" label="文件大小" align="center"> </el-table-column>
                         <el-table-column prop="time" label="上传时间" align="center"> </el-table-column>
                         <el-table-column label="操作" align="center">
-                            <template scope="scope">
+                            <template slot-scope="scope">
                                 <el-button class="btn-style" size="small" :disabled="scope.row.isExported" @click="exportFile(scope.row)">{{scope.row.isExported?'已导入':'导入'}}</el-button>
                             </template>
                         </el-table-column>
@@ -118,7 +118,7 @@
                 return this.$store.state.enterprise.items;
             }
         },
-        mounted() {
+        beforeMount() {
             this.param = {
                 beginTime: '',
                 endTime: '',

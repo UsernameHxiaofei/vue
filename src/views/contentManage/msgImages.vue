@@ -61,7 +61,7 @@ export default {
     components: {
         'pagination': pagination
     },
-    mounted() {
+    beforeMount() {
         this.param = {
             pageSize: this.pageSize,
             pageNo: this.pageNo

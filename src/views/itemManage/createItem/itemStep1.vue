@@ -252,7 +252,7 @@
                 return this.$store.state.item.investorCondition || {};
             }
         },
-        mounted() {
+        beforeMount() {
             this.editDataReview();
         },
         data() {

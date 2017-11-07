@@ -154,7 +154,7 @@ import { getSelectArray } from '../../../util/index.js'
 		components: {
 			imageCropper	
 		},
-		mounted(){
+		beforeMount(){
 			this.enterpriseInit();
 		},
 		 data() {

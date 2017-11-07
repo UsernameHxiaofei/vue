@@ -58,24 +58,24 @@
                         <el-table-column prop="name" label="指标名" width="160px" >
                         </el-table-column>
                         <el-table-column prop="category" label="风险域">
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                        {{scope.row.category|riskRegion}}
                                 </template>
                         </el-table-column>
                         <el-table-column prop="level" label="等级" >
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                         {{scope.row.level|riskLv}}
                                  </template>
                         </el-table-column>
                         <el-table-column prop="createTime" label="生效时间" >
                         </el-table-column>
                         <el-table-column prop="riskType" label="类型">
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                         {{scope.row.riskType|riskType}}
                                  </template>
                         </el-table-column>
                         <el-table-column  label="操作" >
-                            <template scope="scope">
+                            <template slot-scope="scope">
                                 <el-button class="btn-style" size="small" @click="handleIndex(scope.row.id)">查看</el-button>
                             </template>
                         </el-table-column>
@@ -126,7 +126,7 @@ export default {
           return this.$store.state.risk.pageRiskCategory||{};
       }
     },
-    mounted () {
+    beforeMount () {
         this.fetchData();
     },
     watch:{

@@ -228,7 +228,7 @@
         return this.$store.state.item.itemManageDetail || {};
       }
     },
-    mounted () {
+    beforeMount () {
       
         this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId}).then(()=>{
             this.businessInfo=(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo)||{}

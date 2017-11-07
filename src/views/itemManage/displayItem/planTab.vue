@@ -124,7 +124,7 @@
                 return this.$store.state.item.leadAd||{};
             }
         },
-        mounted () {
+        beforeMount () {
             
         }
     }

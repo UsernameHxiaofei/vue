@@ -49,7 +49,7 @@
                 <el-table-column prop="payAmount" label="申请注资额(元)">
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <router-link :to="{path: '/approval/'+scope.row.projectId}">
                             <el-button class="btn-style btn-margin" @click="approval(scope.row)">明细</el-button>
                         </router-link>
@@ -78,7 +78,7 @@ export default {
             return this.$store.state.money.getCapitalInjectionList;
         },
     },
-    mounted() {
+    beforeMount() {
         this.param = {
             projectName: this.keyword,
             page: 1,

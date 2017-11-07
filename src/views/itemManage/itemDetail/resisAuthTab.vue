@@ -265,7 +265,7 @@
                 return this.$store.state.item.itemManageDetail||{};
             }
         },
-        mounted() {
+        beforeMount() {
             this.$store.dispatch('item_getAuthInfo', { id: this.itemManageDetail.enterpriseId }).then(()=>{
                 this.formatData();
             })

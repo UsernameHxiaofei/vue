@@ -54,7 +54,7 @@ export default {
     components: {
         'pagination': pagination
     },
-    mounted () {
+    beforeMount () {
         this.$store.dispatch('enterprise_getMemberInfo',{id:this.enterpriseInfo.id||(this.enterprise&&this.enterprise.id)});
         this.param={
             projectId:this.itemManageDetail.id,

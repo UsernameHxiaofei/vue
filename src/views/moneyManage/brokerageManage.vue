@@ -147,7 +147,7 @@
                 <el-table-column prop="projectName"  width="220"  label="项目名称">
                 </el-table-column>
                 <el-table-column prop="projectStatus"  width="100" label="状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span>{{scope.row.projectStatus|projectStatus}}</span>
                     </template>
                 </el-table-column>
@@ -166,7 +166,7 @@
                 <el-table-column prop="payStatus" label="收费状态">
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button v-if="scope.row.payStatusCode==0&&scope.row.projectStatus==9" class="btn-style" @click="collection(scope.row)">催收</el-button>
                         <el-button v-if="scope.row.payStatusCode==2" class="btn-style" @click="openLook(scope.row)">分成</el-button>
                     </template>
@@ -294,7 +294,7 @@ export default {
             return this.$store.state.login.actor;
         },
     },
-    mounted() {
+    beforeMount() {
         this.$store.dispatch('getHeadBrokerageFee');
         this.$store.dispatch('moneySelect_getData');
         this.param = {

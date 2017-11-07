@@ -46,7 +46,7 @@ border-radius: 15px;margin-right: 10px;font-size: 12px;}
 .refuse-form .el-form-item__content{margin-left: 135px!important;}
 </style>
 
-<template scope="scope">
+<template>
 <div id="item">
     <!--步骤条-->
     <el-row>    

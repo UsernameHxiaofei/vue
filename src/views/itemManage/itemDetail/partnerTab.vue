@@ -97,7 +97,7 @@
 <script>
     export default {
         name: 'partnerTab',
-        mounted() {
+        beforeMount() {
             this.$store.dispatch('item_getPartnerInfo', { id: this.$route.params.projectId }).then(()=>{
                 this.partnerForm=JSON.parse(JSON.stringify(this.partner));
                 if(this.partner.protocol&&this.partner.protocol.length>0){

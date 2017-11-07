@@ -147,7 +147,7 @@ export default {
       range: [],
     }
   },
-  mounted() {
+  beforeMount() {
     this.msgShortParam = {
       sendStatus: this.statusCode,
       content: this.keyword,

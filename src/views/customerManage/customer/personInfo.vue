@@ -150,7 +150,7 @@ import _ from 'lodash'
                 return this.$store.state.customer.customerUpdate;
             }
         },
-		mounted(){
+		beforeMount(){
 			this.personInit();
 		},
 		 data() {

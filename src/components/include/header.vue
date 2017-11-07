@@ -195,7 +195,6 @@ export default {
         },
         updateMyself() {
             this.dialogeditUserVisible = true;
-            // this.$store.dispatch('login_out',this);
         },
         onSubmit() {
             this.$refs['editActor'].validate((valid) => {
@@ -206,7 +205,6 @@ export default {
                                 type: 'success',
                                 message: '修改成功'
                             })
-                            // this.exit();
                             this.cancel();
                         } else {
                             this.$message.error('修改失败')

@@ -261,7 +261,7 @@
     import enterpriseTeam from '../enterpriseManage/enterpriseInfo/enterpriseTeam'
 
     export default {
-        mounted () {
+        beforeMount () {
             this.$store.dispatch('item_getManageDetail', { id: this.$route.params.projectId }).then(() => {
                 if(this.itemManageDetail.leadInvestorIntentionId){
                     this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId});

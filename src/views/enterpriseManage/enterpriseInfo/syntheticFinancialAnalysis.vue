@@ -126,7 +126,7 @@
                 return this.$store.state.enterprise.sf;
             }
         },
-        mounted() {
+        beforeMount() {
             let now = new Date();
             this.getYears();
             this.param = {

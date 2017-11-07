@@ -12,7 +12,7 @@
                     <el-table-column type="index" label="序号" width="80"> </el-table-column>
                     <el-table-column prop="riskName" label="指标名" align="center" width="150"> </el-table-column>
                     <el-table-column prop="riskCategory" label="风险域" width="120" align="center">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             {{scope.row.riskCategory|riskRegion}}
                         </template>
                     </el-table-column>
@@ -22,7 +22,7 @@
                     <el-table-column prop="status" label="状态" width="150" align="center" :formatter="stateDes"></el-table-column>
                     <el-table-column prop="operateName" label="处理人" width="125" align="center"> </el-table-column>
                     <el-table-column label="" align="center">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                             <el-button class="btn-style" size="small" @click="detail(scope.row)">查看</el-button>
                         </template>
                     </el-table-column>
@@ -48,7 +48,7 @@
                return this.$store.state.risk.historyList;
            }  
         },
-        mounted () {
+        beforeMount () {
            this.param={
                pageSize:10,
                pageNo:1,

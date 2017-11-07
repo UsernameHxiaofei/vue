@@ -143,7 +143,7 @@ export default {
             },
         }
     },
-    mounted() {
+    beforeMount() {
         let leadParam = {
             id: this.$route.params.actorId
         }

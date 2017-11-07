@@ -1039,7 +1039,7 @@ export default {
         },
 
     },
-    mounted() {
+    beforeMount() {
         this.customerInit();
     },
     methods: {

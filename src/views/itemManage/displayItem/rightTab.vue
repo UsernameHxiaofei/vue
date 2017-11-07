@@ -43,7 +43,7 @@ export default {
             return this.$store.state.item.credit;
         }  
     },
-    mounted () {
+    beforeMount () {
         
     }
 }

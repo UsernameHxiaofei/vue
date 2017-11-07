@@ -13,7 +13,7 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import 'quill/dist/quill.core.css'
 
-console.log=()=>{}
+// console.log=()=>{}
 // register global utility directive.
 Object.keys(directive).forEach(key=>{
   Vue.directive(key,directive[key])
@@ -25,6 +25,28 @@ Object.keys(filters).forEach(key => {
 })
 
 Vue.use(ElementUI)
+
+// Vue.mixin({
+//   beforeRouteEnter(to, from, next) {
+//     // let loadingInstance=ElementUI.Loading.service({ 
+//     //   fullscreen: true,
+//     //   text:'loading',
+//     //   customClass:'loading-window' });
+//     next(vm => {
+//       // 通过 `vm` 访问组件实例
+//       // new Promise(()=>{
+//       //   vm.beforeMount()
+//       // },(error)=>{
+//       //   console.error(error)
+//       // }).then(()=>{
+//       //   loadingInstance.close();
+//       // })
+//       console.log(vm)
+//     })
+//   },
+// })
+
+
 // Expose a factory function that creates a fresh set of store, router,
 // app instances on each call (which is called for each SSR request)
 export function createApp () {

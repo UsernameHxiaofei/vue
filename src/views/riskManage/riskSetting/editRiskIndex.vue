@@ -34,7 +34,7 @@
                                     <el-table-column prop="value" label="取值" align="center"> </el-table-column>
                                     <el-table-column prop="unit" label="单位" align="center"> </el-table-column>
                                     <el-table-column prop="" align="center" >
-                                        <template scope="scope">
+                                        <template slot-scope="scope">
                                             <el-button v-show="!scope.row.flag" size="small" @click="edit(scope.row)">编辑</el-button>
                                             <el-button v-show="!scope.row.flag" size="small"  @click="del(scope.row)">删除</el-button>
                                             <el-button v-show="scope.row.flag" size="small"  @click="createRule(scope.row)">添加组内规则</el-button>
@@ -87,7 +87,7 @@
         components: {
             'risk-column': riskColumn
         },
-        mounted() {
+        beforeMount() {
             this.fetchData();
         },
         computed: {

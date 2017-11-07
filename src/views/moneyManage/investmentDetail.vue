@@ -99,7 +99,7 @@ em {
         <el-table-column prop="investPercent" label="投资比例">
         </el-table-column>
         <el-table-column prop="isLeaderByName" label="领投">
-          <template scope="scope">
+          <template slot-scope="scope">
             <span v-if="scope.row.isLeader=='no'">否</span>
             <span v-if="scope.row.isLeader=='yes'">是</span>
           </template>
@@ -111,7 +111,7 @@ em {
         <el-table-column prop="isPayByName" label="状态">
         </el-table-column>
         <el-table-column>
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button class="btn-style" v-if="scope.row.refundStatus==0 && scope.row.isRefound==true" @click="refund(scope.row)">退款</el-button>
             <el-button class="btn-style" v-if="scope.row.refundStatus==1 && scope.row.isRefound==true" @click="refund(scope.row)">重新申请退款</el-button>
             <span v-if="scope.row.refundStatus==2 && scope.row.isRefound==true">退款中</span>
@@ -147,7 +147,7 @@ export default {
       return this.$store.state.login.actor;
     },
   },
-  mounted() {
+  beforeMount() {
     this.investparam = {
       projectId: this.$route.params.projectId,
       page: 1,

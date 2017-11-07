@@ -13,7 +13,7 @@ export default context => {
 
 
     const { url,session } = context
-    const fullPath = router.resolve(url).route.fullPath
+    const { fullPath } = router.resolve(url).route
 
     if (fullPath !== url) {
       reject({ url: fullPath })
@@ -21,14 +21,14 @@ export default context => {
 
 
     // set router's location
-    router.push(context.url)
+    router.push(url)
 
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()
       // no matched routes
       if (!matchedComponents.length) {
-        reject({ code: 404 })
+        return reject({ code: 404 })
       }
       // Call asyncData in App.vue for userInfo
       matchedComponents.push(App);

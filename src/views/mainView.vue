@@ -82,29 +82,29 @@
 				<el-table-column prop="name"  label="项目名称"> </el-table-column>
 				<el-table-column prop="initiatorName" width="120" label="发起人"> </el-table-column>
 				<el-table-column prop="industry" width="120" label="所属行业"> 
-					<template scope="scope">
+					<template slot-scope="scope">
 						{{scope.row.industry|industry}}
 					</template>
 				</el-table-column>
 				<el-table-column prop="regionCode"  label="所属区域" >
-					<template scope="scope">
+					<template slot-scope="scope">
 						{{scope.row.regionCode|address}}
 					</template>
 				</el-table-column>
 				<el-table-column prop="lastUpdate" label="更新时间" >
 				</el-table-column>
 				<el-table-column prop="phase"  label="阶段">
-					<template scope="scope">
+					<template slot-scope="scope">
 						{{scope.row.phase|projectPhase}}
 					</template>
 				</el-table-column>
 				<el-table-column prop="status"  label="状态">
-					<template scope="scope">
+					<template slot-scope="scope">
 						{{scope.row.status|projectStatus}}
 					</template>
 				</el-table-column>
 				<el-table-column width="180">
-					<template scope="scope">
+					<template slot-scope="scope">
 						<router-link :to="{path: '/itemDetail/'+scope.row.id}">
 							<el-button class="btn-style">详情</el-button>
 						</router-link>
@@ -154,12 +154,12 @@
 					<el-table-column prop="createTime" label="注册时间" width="160px">
 					</el-table-column>
 					<el-table-column prop="status" label="状态">
-						<template scope="scope">
+						<template slot-scope="scope">
 							<span>{{scope.row.status ? "正常" : "无效"}}</span>
 						</template>
 					</el-table-column>
 					<el-table-column prop="audit" label="认证" width="140px">
-						<template scope="scope">
+						<template slot-scope="scope">
 							<span class="btn-small" :class="scope.row.projectParty==1 ? active : ''">项</span>
 							<span class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>
 							<span class="btn-small" :class="scope.row.leadInvestor==2 ? active : ''">领</span>
@@ -167,7 +167,7 @@
 						</template>
 					</el-table-column>
 					<el-table-column>
-						<template scope="scope">
+						<template slot-scope="scope">
 							<el-button class="btn-style" @click="createItemByCustomer(scope.row)">选择</el-button>
 						</template>
 					</el-table-column>

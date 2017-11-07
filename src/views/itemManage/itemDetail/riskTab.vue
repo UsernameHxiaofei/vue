@@ -152,7 +152,7 @@
           return this.$store.state.item.thirdReport||{};
         }
     },
-    mounted () {
+    beforeMount () {
       this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId});
       if(this.$route.path.indexOf('riskRegionContainer')!=-1){
         this.showSu=false;

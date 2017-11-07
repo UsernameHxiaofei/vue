@@ -83,7 +83,7 @@
                 <el-table-column prop="investTime" label="认投时间">
                 </el-table-column>
                 <el-table-column prop="refundStatus" label="退款状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span v-if="scope.row.refundStatus==0">审核中</span>
                         <span v-if="scope.row.refundStatus==2">拒绝退款</span>
                         <span v-if="scope.row.refundStatus==3">退款中</span>
@@ -92,7 +92,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column width="160">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button class="btn-style btn-margin" @click="success(scope.row)" :disabled="scope.row.refundStatus!=0">通过</el-button>
                         <el-button class="btn-style" @click="fail(scope.row)" :disabled="scope.row.refundStatus!=0">拒绝</el-button>
                     </template>
@@ -142,7 +142,7 @@ export default {
             return this.$store.state.login.actor;
         },
     },
-    mounted() {
+    beforeMount() {
         this.$store.dispatch('drawback_headInfo');
         this.param = {
             keyword: this.keyword,

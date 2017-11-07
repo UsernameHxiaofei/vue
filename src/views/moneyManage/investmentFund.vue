@@ -47,7 +47,7 @@
         <el-table-column prop="projectName"  width="290" label="项目名称">
         </el-table-column>
         <el-table-column prop="projecStatus" width="100" label="状态">
-          <template scope="scope">
+          <template slot-scope="scope">
             {{scope.row.projecStatus|projectStatus}}
           </template>
         </el-table-column>
@@ -62,7 +62,7 @@
         <el-table-column prop="crowdFundingEnd" label="结束时间">
         </el-table-column>
         <el-table-column>
-          <template scope="scope">
+          <template slot-scope="scope">
             <router-link :to="{path: '/investmentDetail/'+scope.row.projectId}">
               <el-button class="btn-style" @click="investmentDetail(scope.row)">明细</el-button>
             </router-link>
@@ -95,7 +95,7 @@ export default {
       return this.$store.state.money.investGetHeadInfo;
     },
   },
-  mounted() {
+  beforeMount() {
     this.param = {
       projectName: this.keyword,
       projectStatus: this.itemStatus,

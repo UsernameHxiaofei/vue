@@ -76,7 +76,7 @@
                 <el-table-column prop="name" label="姓名">
                 </el-table-column>
                 <el-table-column prop="institution" label="领投类型">
-                    <template scope="scope">
+                    <template  slot-scope="scope">
                         {{scope.row.institution==1?'机构':'个人'}}
                     </template>
                 </el-table-column>
@@ -89,14 +89,14 @@
                 <el-table-column prop="lastAlterTime" label="最后更新时间" width="160px">
                 </el-table-column>
                 <el-table-column prop="status" label="状态">
-                    <template scope="scope">
+                    <template  slot-scope="scope">
                         <span v-if="scope.row.status==0">无效</span>
                         <span v-else-if="scope.row.status==1">正常</span>
                         <span v-else>已封禁</span>
                     </template>
                 </el-table-column>
                 <el-table-column prop="audit" label="认证" width="140px">
-                    <template scope="scope">
+                    <template  slot-scope="scope">
                         <span class="btn-small" :class="scope.row.projectParty==1 ? active : ''">项</span>
                         <span class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>
                         <span class="btn-small" :class="scope.row.leadInvestor==2 ? active : ''">领</span>
@@ -104,7 +104,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template  slot-scope="scope">
                         <router-link :to="{path: '/leadAuditDetail/'+scope.row.actorId+'/'+scope.row.customerId}">
                             <el-button class="btn-style">审核</el-button>
                         </router-link>
@@ -149,7 +149,7 @@ export default {
             param: {},
         }
     },
-    mounted() {
+    beforeMount() {
         this.$store.dispatch('customer_statistics').then(() => {
             if (this.customerStatistics) {
                 this.customerStatistics.allCount = this.customerStatistics.UnCertifiCount + this.customerStatistics.expertCount + this.customerStatistics.investorCount + this.customerStatistics.leadInvestorCount + this.customerStatistics.projectPartyCount;

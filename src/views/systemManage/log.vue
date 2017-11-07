@@ -38,7 +38,7 @@
         <el-table-column type='index' width="70" label="序号">
         </el-table-column>
         <el-table-column type="expand">
-          <template scope="props">
+          <template slot-scope="props">
             <el-form label-position="left" inline class="demo-table-expand">
               <el-form-item label="输入数据">
                 <span>{{ props.row.inputData }}</span>
@@ -85,7 +85,7 @@ export default {
       return this.$store.state.system.systemLogList;
     },
   },
-  mounted() {
+  beforeMount() {
     this.param = {
       beginTime: this.startTime,
       endTime: this.endTime,

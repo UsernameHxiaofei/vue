@@ -133,7 +133,7 @@
                 <el-table-column prop="leadInvestorName" label="领投">
                 </el-table-column>
                 <el-table-column prop="statusName" label="状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span>{{scope.row.status|projectStatus}}</span>
                     </template>
                 </el-table-column>
@@ -144,7 +144,7 @@
                 <el-table-column prop="proDepositRate" label="保证金比例">
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button class="btn-style" @click="openLook(scope.row)">查看</el-button>
                     </template>
                 </el-table-column>
@@ -264,7 +264,7 @@ export default {
             return this.$store.state.login.actor;
         },
     },
-    mounted() {
+    beforeMount() {
         this.param = {
             status: this.projectStatu,
             keyword: this.keyword,

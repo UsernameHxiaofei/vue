@@ -201,7 +201,7 @@ margin-left:5px;
         components: {
           pagination:pagination
         },
-        mounted() {
+        beforeMount() {
             this.param={
                 industry:null,
                 regionCode:'',

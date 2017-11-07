@@ -44,7 +44,7 @@
                 <el-table-column prop="carryPercent" label="投资Carry比例">
                 </el-table-column>
                 <el-table-column prop="projectStatus" label="状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span>{{scope.row.projectStatus|projectStatus}}</span>
                     </template>
                 </el-table-column>
@@ -55,7 +55,7 @@
                 <el-table-column prop="serviceChargeRate" label="融资服务费率">
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <el-button class="btn-style" @click="openRate(scope.row)">设置规则参数</el-button>
                     </template>
                 </el-table-column>
@@ -319,7 +319,7 @@ export default {
             return this.$store.state.money.rateGetList;
         }
     },
-    mounted() {
+    beforeMount() {
         this.param = {
             projectName: this.keyword,
             projectStatus: this.itemStatu,

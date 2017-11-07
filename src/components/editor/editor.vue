@@ -53,7 +53,7 @@
         }
       }
     },
-    mounted() {
+    beforeMount() {
       this.initialize()
     },
     beforeDestroy() {

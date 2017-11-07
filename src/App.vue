@@ -21,7 +21,7 @@
         asyncData ({ store,session,router }) {
             return store.dispatch('login_getUser',session);
         },
-        mounted () {
+        beforeMount () {
             this.$store.dispatch('login_check');
         }
     }

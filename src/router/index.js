@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+
 Vue.use(Router)
 
 const MainView = () => import('../views/mainView.vue')
@@ -102,7 +103,9 @@ const routes = [
   { path: '/enterpriseDetail/:id', component: enterpriseDetail },
   { path: '/riskRegionContainer/:category/:projectId',component:riskRegionContainer },
   { path: '/', redirect: '/main' }
-]
+];
+
+
 
 export function createRouter() {
   return new Router({

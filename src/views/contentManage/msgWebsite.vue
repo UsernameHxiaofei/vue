@@ -34,7 +34,7 @@
         <el-table-column prop="statusName" label="状态">
         </el-table-column>
         <el-table-column width="140" label="认证">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <span class="btn-small" :class="scope.row.projectParty==1 ? active : ''">项</span>
             <span class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>
             <span class="btn-small" :class="scope.row.leadInvestor==2 ? active : ''">领</span>
@@ -42,7 +42,7 @@
           </template>
         </el-table-column>
         <el-table-column width="90">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <router-link :to="{path: '/msgWebDetail/'+scope.row.id}">
               <el-button class="btn-style btn-margin">消息</el-button>
             </router-link>
@@ -151,7 +151,7 @@ export default {
       formLabelWidth: '120px'
     }
   },
-  mounted() {
+  beforeMount() {
     this.msgWebParam = {
       status: this.statusCode,
       keyword: this.keyword,

@@ -25,14 +25,14 @@
                 </el-table-column>
                 </el-table-column>
                 <el-table-column prop="status" label="状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span v-if="scope.row.status==0">无效</span>
                         <span v-if="scope.row.status==1">正常</span>
                         <span v-if="scope.row.status==2">已禁用</span>
                     </template>
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span title="禁用/激活" class="normalize" :class="{ active: scope.row.status==2 }" @click="openClosure(scope.row)">
                         </span>
                         <span title="编辑角色" class="edits" @click="getData(scope.row)">
@@ -127,7 +127,7 @@ export default {
             return this.$store.state.system.systemUpdateRole;
         },
     },
-    mounted() {
+    beforeMount() {
         this.param = {
             name: this.search_value,
             pageNo: 1,

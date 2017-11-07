@@ -5,26 +5,30 @@ import { Loading,Message } from 'element-ui';
 Vue.use(Resource);
 Vue.http.options.root = '/ajax';
 Vue.http.options.emulateJSON = true;
-
 Vue.http.interceptors.push(function (request, next) {
-  let loading =Loading.service({
+  let loadingInstance =Loading.service({ 
+    fullscreen: true,
     text:'loading',
-    customClass:'loading-window'
-  });
+    fullscreen: true ,
+    customClass:'loading-window' });
   // continue to next interceptor
-  next(function (response) {
-    loading.close();
+  next( (response)=>{
     if(response.body.assignUniqueSecretMessage){
       Message.closeAll();
       Message.warning(response.body.assignUniqueSecretMessage);
       if(response.body.assignUniqueSecretMessage=='账号未登录！'){
         setTimeout(()=>{
           location.href='/login';
-        },2000)
+        },1000)
       }
-      response.body=null;
+      request.respondWith({}, {
+        status: 500,
+        statusText:response.body.assignUniqueSecretMessage
+      })
     }
+    loadingInstance.close();
   });
+  
 });
 
 const loginApi = require('./login/login_client')(Vue);

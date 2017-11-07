@@ -110,7 +110,7 @@
         components: {
           'risk-info':riskColumn
         },
-        mounted() {
+        beforeMount() {
                 this.$store.dispatch('risk_selectRiskWarningById',{ id: this.$route.params.id}).then(()=>{
                     if(this.riskIndex.riskRuleInfo){
                         for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {

@@ -37,6 +37,6 @@ router.onReady(() => {
 })
 
 // service worker
-if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+if ('https:' === location.protocol && navigator.serviceWorker) {
   navigator.serviceWorker.register('/service-worker.js')
 }

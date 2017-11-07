@@ -10,7 +10,7 @@
                             <el-table-column type="index"></el-table-column>
                             <el-table-column prop="riskName" label="指标名" align="center"> </el-table-column> 
                             <el-table-column prop="riskCategory" label="风险域" align="center">
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                     {{scope.row.riskCategory|riskRegion}}
                                 </template>
                             </el-table-column>
@@ -18,7 +18,7 @@
                             <el-table-column prop="createTime" label="预警触发时间" width="200" align="center" > </el-table-column>
                             <el-table-column prop="status" label="状态" align="center":formatter="stateDes"></el-table-column>
                             <el-table-column label="" align="center">
-                                <template scope="scope">
+                                <template slot-scope="scope">
                                     <el-button class="btn-style" size="small" @click="detail(scope.row)">处理</el-button>
                                 </template>
                             </el-table-column>

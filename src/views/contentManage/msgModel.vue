@@ -12,7 +12,7 @@
     <div class="my-table">
       <el-table :data="msgModelGetList.list" stripe border style="width: 100%">
         <el-table-column type="expand">
-          <template scope="props">
+          <template  slot-scope="props">
             <label for="模板内容">模板内容</label><br>
                   {{props.row.templatContent}}
           </template>
@@ -28,7 +28,7 @@
         <el-table-column prop="createTime" label="创建时间">
         </el-table-column>
         <el-table-column width="180">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <el-button @click="selectMsgModel(scope.row.templatId)" class="btn-style">编辑</el-button>
             <el-button @click="deleteMsgModel(scope.row.templatId)" class="btn-style">删除</el-button>
           </template>
@@ -91,7 +91,7 @@ export default {
   components: {
     'pagination': pagination
   },
-  mounted() {
+  beforeMount() {
     this.msgModelparam = {
       templatName: this.keyword,
       pageNo: 1,

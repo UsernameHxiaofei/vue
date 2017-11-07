@@ -76,7 +76,7 @@ em {
         <el-table-column prop="realPay" label="本次实际注资额(元)">
         </el-table-column>
         <el-table-column width="120">
-          <template scope="scope">
+          <template slot-scope="scope">
             <el-button v-if="scope.row.statusCode==0" class="btn-style" @click="injection(scope.row)">注资</el-button>
             <el-button v-if="scope.row.statusCode==5" class="btn-style" @click="renewApply(scope.row)">重新申请</el-button>
           </template>
@@ -116,7 +116,7 @@ export default {
       return this.$store.state.money.renewCapitalInjection;
     },
   },
-  mounted() {
+  beforeMount() {
     this.approvalInit()
   },
   data() {

@@ -777,11 +777,14 @@
             }
         },
         mounted() {
-            this.showPreview()
-            this.$refs.cropperImg.onload = () => {
-                // 图片加载成功后布局
-                this.reload()
-            }
+            this.$nextTick(()=>{
+                this.showPreview()
+                this.$refs.cropperImg.onload = () => {
+                    // 图片加载成功后布局
+                    this.reload()
+                }
+            })
+            
         }
     }
 

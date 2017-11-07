@@ -36,7 +36,7 @@
         <el-table-column prop="th7" label="创建时间">
         </el-table-column>
         <el-table-column width="200">
-          <template scope="scope">
+          <template  slot-scope="scope">
             <router-link :to="{path: '/itemDetail'}">
               <el-button class="btn-style">编辑</el-button>
             </router-link>

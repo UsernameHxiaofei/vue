@@ -57,7 +57,7 @@ module.exports = {
     ]
   },
   performance: {
-    maxEntrypointSize: 300000,
+    maxEntrypointSize: 800000,
     hints: isProd ? 'warning' : false
   },
   plugins: isProd
@@ -65,6 +65,7 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
           compress: { warnings: false }
         }),
+        new webpack.optimize.ModuleConcatenationPlugin(),
         new ExtractTextPlugin({
           filename: 'common.[chunkhash].css'
         })

@@ -70,7 +70,7 @@
                 return this.$store.state.customer.postalAddressDelete;
             },
         },
-		mounted(){
+		beforeMount(){
             this.postalAddressInit();
 		},
         data(){

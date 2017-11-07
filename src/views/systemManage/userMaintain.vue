@@ -32,12 +32,12 @@
                 <el-table-column prop="name" label="姓名">
                 </el-table-column>
                 <el-table-column  label="Email">
-                        <template scope="scope">
+                        <template slot-scope="scope">
                               {{(scope.row.email&&scope.row.email.address)||''}}
                         </template>
                 </el-table-column>
                 <el-table-column prop="roles" label="角色">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <div v-for="(item,index) in scope.row.roles">
                             {{ item.name+" "}}
                         </div>
@@ -46,14 +46,14 @@
                 <el-table-column prop="createdTime" label="创建时间">
                 </el-table-column>
                 <el-table-column prop="status" label="状态">
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span v-if="scope.row.status==0">无效</span>
                         <span v-if="scope.row.status==1">正常</span>
                         <span v-if="scope.row.status==2">已封禁</span>
                     </template>
                 </el-table-column>
                 <el-table-column>
-                    <template scope="scope">
+                    <template slot-scope="scope">
                         <span title="禁用/激活" class="normalize" :class="{ active: scope.row.status==2 }" @click="openClosure(scope.row)">
                         </span>
                         <span title="编辑账号" class="edits" @click="getData(scope.row)">
@@ -179,7 +179,7 @@ export default {
             return this.$store.state.login.actor;
         },
     },
-    mounted() {
+    beforeMount() {
         this.param = {
             name: this.search_value,
             pageNo: 1,
@@ -189,8 +189,8 @@ export default {
         this.$store.dispatch('system_roleInfo');
     },
     data() {
-        var validatePass = (rule, value, callback) => {
-            if (value === '') {
+        let validatePass = (rule, value, callback) => {
+            if (!value||value === '') {
                 callback(new Error('请输入登录口令'));
             } else {
                 if (this.addUser.psw1 !== '') {
@@ -199,8 +199,8 @@ export default {
                 callback();
             }
         };
-        var validatePass2 = (rule, value, callback) => {
-            if (value === '') {
+        let validatePass2 = (rule, value, callback) => {
+            if (!value||value === '') {
                 callback(new Error('请再次输入登录口令'));
             } else if (value !== this.addUser.loginPassword) {
                 callback(new Error('两次输入的登录口令不一致!'));
@@ -208,8 +208,8 @@ export default {
                 callback();
             }
         };
-        var validatePass3 = (rule, value, callback) => {
-            if (value === '') {
+        let validatePass3 = (rule, value, callback) => {
+            if (!value||value === '') {
                 callback(new Error('请输入登录口令'));
             } else {
                 if (this.editUser.psw1 !== '') {
@@ -218,8 +218,8 @@ export default {
                 callback();
             }
         };
-        var validatePass4 = (rule, value, callback) => {
-            if (value === '') {
+        let validatePass4 = (rule, value, callback) => {
+            if (!value||value === '') {
                 callback(new Error('请再次输入登录口令'));
             } else if (value !== this.editUser.loginPassword) {
                 callback(new Error('两次输入的登录口令不一致!'));
@@ -389,7 +389,7 @@ export default {
             this.checked = false;
             this.editUser.loginPassword = '';
             this.editUser.psw1 = '';
-            for (var i = 0; i < this.editUser.roles.length; i++) {
+            for (let i = 0; i < this.editUser.roles.length; i++) {
                 this.roles[i] = this.editUser.roles[i].id;
             }
             this.editUser.roles = this.roles;

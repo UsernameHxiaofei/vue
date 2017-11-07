@@ -534,9 +534,7 @@ output {
   position: absolute;
   left:230px;
   top:64px;
-  /*background-color: #fafafa;*/
   right:0;
-  overflow: auto;
   bottom:0;
   min-width: 1020px;
   padding-bottom:10px;
@@ -570,6 +568,7 @@ output {
     height: 180px;
 }
 .loading-window{
-    opacity: 0;
-    background-color: currentColor;
+    opacity: 0.5;
+    color:#06ccb7;
+    background-color: #fff;
 }

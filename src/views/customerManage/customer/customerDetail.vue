@@ -233,7 +233,7 @@ export default {
 			resetPassword:''
 		}
 	},
-	mounted() {
+	beforeMount() {
 		this.customerInit();
 	},
 	methods: {

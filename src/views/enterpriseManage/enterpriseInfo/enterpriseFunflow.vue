@@ -183,7 +183,7 @@
                     <el-table-column prop="recAccountNumber" label="对方账户" align="center"> </el-table-column>
                     <el-table-column prop="recAccountName" width="140" label="对方账户名称" align="center"> </el-table-column>
                     <el-table-column prop="voucherKind" label="凭证种类" align="center">
-                        <template scope="scope">
+                        <template  slot-scope="scope">
                             <span>{{scope.row.voucherKind|funFlowType}}</span>
                         </template>
                     </el-table-column>
@@ -205,7 +205,7 @@
                             <el-table-column prop="size" label="文件大小" align="center"> </el-table-column>
                             <el-table-column prop="time" label="上传时间" align="center"> </el-table-column>
                             <el-table-column label="操作" align="center">
-                                <template scope="scope">
+                                <template  slot-scope="scope">
                                     <el-button class="btn-style" size="small" :disabled="scope.row.isExported" @click="exportFile(scope.row)">{{scope.row.isExported?'已导入':'导入'}}</el-button>
                                 </template>
                             </el-table-column>
@@ -335,7 +335,7 @@
                         bIn.push([new Date(key).getTime(),debitAmount || 0]);
                         balance.push([new Date(key).getTime(),balan||0]);
                     })
-                    this.imageData={leanOut, bIn,balance }
+                    this.imageData={leanOut,bIn,balance}
                     this.buildEcharts();
                 })
             },
@@ -466,7 +466,7 @@
                 funflow.setOption(funflowOption);
             }
         },
-        mounted () {
+        beforeMount () {
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)

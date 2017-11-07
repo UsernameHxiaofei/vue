@@ -151,7 +151,7 @@ import industryData from '../../../constant/industry.js'
               return this.$store.state.login.actor;
           }
         },
-        mounted(){
+        beforeMount(){
             this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(()=>{
                 if(this.itemManageDetail.expertId&&this.itemManageDetail.leadInvestorId){
                     this.flag=true;

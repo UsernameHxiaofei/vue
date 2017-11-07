@@ -137,7 +137,7 @@ export default {
             }
         }
     },
-    mounted() {
+    beforeMount() {
         this.rechargeParam = {
             fuzzy: this.keyword,
             startDate: null,

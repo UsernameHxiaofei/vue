@@ -97,7 +97,7 @@
                return this.$store.state.enterprise.enterpriseInfo;
            }  
         },
-        mounted () {
+        beforeMount () {
            if(!this.enterpriseInfo.name){
                this.$message.warning('查询企业信息出现故障，请联系管理员')
            }

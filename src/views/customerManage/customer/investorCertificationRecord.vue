@@ -85,7 +85,7 @@ export default {
             look: false
         }
     },
-    mounted() {
+    beforeMount() {
         this.investorInit();
     },
     methods: {

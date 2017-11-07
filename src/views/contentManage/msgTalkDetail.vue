@@ -86,7 +86,7 @@ export default {
             return this.$store.state.content.updateIsRead;
         }
     },
-    mounted() {
+    beforeMount() {
         this.actorParams = {
             receiver: this.$route.params.id,
             msgType:4,

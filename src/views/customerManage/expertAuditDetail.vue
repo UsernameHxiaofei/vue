@@ -114,7 +114,7 @@ export default {
             industryList: industryList,
         }
     },
-    mounted() {
+    beforeMount() {
         let expertParam = {
             id: this.$route.params.actorId
         }
