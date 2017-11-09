@@ -113,149 +113,149 @@
 import dialogComponent from '../../../components/common/dialog'
 import moment from 'moment'
 
-  export default {
-    name:'timeTab',
-    components:{
-        dialogComponent
-    },
-    computed: {
-      timeInfo:function(){
-          return this.$store.state.item.timeInfo||{};
+export default {
+	name:'timeTab',
+	components:{
+		dialogComponent
+	},
+	computed: {
+		timeInfo:function(){
+			return this.$store.state.item.timeInfo||{}
       },
-      operator:function(){
-          return this.$store.state.login.actor;
+		operator:function(){
+			return this.$store.state.login.actor
       },
-      itemManageDetail: function () {
-                return this.$store.state.item.itemManageDetail || {};
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail || {}
+      }
+	},
+	data() {
+		return {
+			dialogTimeVisible: false,
+			title:'设置上线时间',
+			formLabelWidth:'120px',
+			dateform:{
+				reserveBegin:'',
+				reserveEnd:'',
+				subscriptionStartTime:'',
+				subscriptionEndTime:'',
+				crowdFundingBegin:'',
+				crowdFundingEnd:''
+			},
+			daterule:{
+				reserveBegin:[
+					{trigger: 'change',validator:(rule, value, callback) => {
+						if (value =='') {
+							callback(new Error('请选择预约开始时间!'))
+                    }else{
+							callback()
+                    }
+					}}
+				],
+				reserveEnd:[
+					{trigger: 'change',validator:(rule, value, callback) => {
+						if (value =='') {
+							callback(new Error('请选择预约结束时间!'))
+                            }else if(!moment(value).isAfter(this.dateform.reserveBegin)){
+							callback(new Error('预约结束时间必须在预约开始时间之后!'))
+                            }else{
+							callback()
+                            }
+					}} 
+				],
+				subscriptionStartTime:[
+					{trigger: 'change',validator:(rule, value, callback) => {
+						if (value =='') {
+							callback(new Error('请选择专享认购开始时间!'))
+                            }else if(!moment(value).isAfter(this.dateform.reserveEnd)){
+							callback(new Error('专享认购开始时间必须在预约结束时间之后!'))
+                            }else{
+							callback()
+                            }
+					}} 
+				],
+				subscriptionEndTime:[
+					{trigger: 'change',validator:(rule, value, callback) => {
+						if (value =='') {
+							callback(new Error('请选择专享认购结束时间!'))
+                            }else if(!moment(value).isAfter(this.dateform.subscriptionStartTime)){
+							callback(new Error('专享认购结束时间必须在专享认购开始时间之后!'))
+                            }else{
+							callback()
+                            }
+					}}
+				],
+				crowdFundingBegin:[
+					{trigger: 'change',validator:(rule, value, callback) => {
+						if (value =='') {
+							callback(new Error('请选择众投开始时间!'))
+                            }else if(!moment(value).isAfter(this.dateform.subscriptionEndTime)){
+							callback(new Error('众投开始时间必须在专享认购结束时间之后!'))
+                            }else{
+							callback()
+                            }
+					}}
+				],
+				crowdFundingEnd:[
+					{trigger: 'change',validator:(rule, value, callback) => {
+						if (value =='') {
+							callback(new Error('请选择众投结束时间!'))
+                            }else if(!moment(value).isAfter(this.dateform.crowdFundingBegin)){
+							callback(new Error('众投结束时间必须在众投开始时间之后!'))
+                            }else{
+							callback()
+                            }
+					}}
+				],
+			},
       }
     },
-    data() {
-      return {
-        dialogTimeVisible: false,
-        title:"设置上线时间",
-        formLabelWidth:'120px',
-        dateform:{
-            reserveBegin:'',
-            reserveEnd:'',
-            subscriptionStartTime:'',
-            subscriptionEndTime:'',
-            crowdFundingBegin:'',
-            crowdFundingEnd:''
-        },
-        daterule:{
-            reserveBegin:[
-                {trigger: 'change',validator:(rule, value, callback) => {
-                    if (value =='') {
-                        callback(new Error('请选择预约开始时间!'));
-                    }else{
-                        callback();
-                    }
-                }}
-            ],
-            reserveEnd:[
-                {trigger: 'change',validator:(rule, value, callback) => {
-                            if (value =='') {
-                             callback(new Error('请选择预约结束时间!'));
-                            }else if(!moment(value).isAfter(this.dateform.reserveBegin)){
-                                callback(new Error('预约结束时间必须在预约开始时间之后!'));
-                            }else{
-                                callback();
-                            }
-                    }} 
-            ],
-            subscriptionStartTime:[
-                {trigger: 'change',validator:(rule, value, callback) => {
-                            if (value =='') {
-                                callback(new Error('请选择专享认购开始时间!'));
-                            }else if(!moment(value).isAfter(this.dateform.reserveEnd)){
-                                callback(new Error('专享认购开始时间必须在预约结束时间之后!'));
-                            }else{
-                                callback();
-                            }
-                    }} 
-            ],
-            subscriptionEndTime:[
-                {trigger: 'change',validator:(rule, value, callback) => {
-                            if (value =='') {
-                                callback(new Error('请选择专享认购结束时间!'));
-                            }else if(!moment(value).isAfter(this.dateform.subscriptionStartTime)){
-                                callback(new Error('专享认购结束时间必须在专享认购开始时间之后!'));
-                            }else{
-                                callback();
-                            }
-                    }}
-            ],
-            crowdFundingBegin:[
-                {trigger: 'change',validator:(rule, value, callback) => {
-                            if (value =='') {
-                                callback(new Error('请选择众投开始时间!'));
-                            }else if(!moment(value).isAfter(this.dateform.subscriptionEndTime)){
-                                callback(new Error('众投开始时间必须在专享认购结束时间之后!'));
-                            }else{
-                                callback();
-                            }
-                    }}
-            ],
-            crowdFundingEnd:[
-                {trigger: 'change',validator:(rule, value, callback) => {
-                            if (value =='') {
-                                callback(new Error('请选择众投结束时间!'));
-                            }else if(!moment(value).isAfter(this.dateform.crowdFundingBegin)){
-                                callback(new Error('众投结束时间必须在众投开始时间之后!'));
-                            }else{
-                                callback();
-                            }
-                    }}
-            ],
-        },
-      };
-    },
-     methods: {
-       edit(){
-            if(this.itemManageDetail.phase>=10){
-                this.$message.warning('时间信息在认购成功之后无法修改！')
-                return;
+	methods: {
+		edit(){
+			if(this.itemManageDetail.phase>=10){
+				this.$message.warning('时间信息在认购成功之后无法修改！')
+                return
             }
-            this.$store.dispatch('item_checkDeposit',{projectId:this.$route.params.projectId}).then((data)=>{
-                    if(!data){
-                        this.$message.warning('项目方或领投的保证金未缴纳！请确认保证金缴纳之后再设置时间信息');
-                        return;
+			this.$store.dispatch('item_checkDeposit',{projectId:this.$route.params.projectId}).then((data)=>{
+				if(!data){
+					this.$message.warning('项目方或领投的保证金未缴纳！请确认保证金缴纳之后再设置时间信息');
+                        return
                     }else{
-                        this.dialogTimeVisible = true;
+					this.dialogTimeVisible = true
                         for (let key in this.dateform) {
-                            if (this.dateform.hasOwnProperty(key)) {
-                                this.dateform[key]=this.timeInfo[key];
+						if (this.dateform.hasOwnProperty(key)) {
+							this.dateform[key]=this.timeInfo[key]
                             }
-                        }
-                    }
-                })
+					}
+				}
+			})
             
-       },
-       time(dateform){
-            this.$refs['dateform'].validate((valid) => {
-                if (valid) {
-                    let param={};
+		},
+		time(dateform){
+			this.$refs['dateform'].validate((valid) => {
+				if (valid) {
+					let param={}
                     for (var attr in this.dateform) {
-                        if (this.dateform.hasOwnProperty(attr)) {
-                            var element = this.dateform[attr];
-                            param[attr]=moment(element).format('YYYY-MM-DD HH:mm:ss');
+						if (this.dateform.hasOwnProperty(attr)) {
+							var element = this.dateform[attr]
+                            param[attr]=moment(element).format('YYYY-MM-DD HH:mm:ss')
                         }
-                    }
-                    param.id=this.$route.params.projectId;
-                    param.status=this.itemManageDetail.status;
-                    param.phase=this.itemManageDetail.phase;
+					}
+					param.id=this.$route.params.projectId
+                    param.status=this.itemManageDetail.status
+                    param.phase=this.itemManageDetail.phase
                     this.$store.dispatch('item_updateTimeInfoNew',{param,vue:this}).then(()=>{
-                        this.dialogTimeVisible = false;
+						this.dialogTimeVisible = false
                     })
-                } else {
-                    return false;
+				} else {
+					return false
                 }
-            });
+			})
         },
-        cancel(dateform){
-            this.$refs['dateform'].resetFields();
-            this.dialogTimeVisible = false;              
+		cancel(dateform){
+			this.$refs['dateform'].resetFields()
+            this.dialogTimeVisible = false              
         }
-    }
-  };
+	}
+  }
 </script>

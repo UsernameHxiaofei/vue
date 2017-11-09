@@ -8,12 +8,12 @@
 
 <script>
 export default {
-    name: 'navbar',
-    methods: {
-        back(){
-            this.$router.go(-1)
-        }
-    }
+	name: 'navbar',
+	methods: {
+		back(){
+			this.$router.go(-1)
+		}
+	}
 
 }
 </script>

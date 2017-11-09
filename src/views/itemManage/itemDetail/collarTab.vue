@@ -32,16 +32,16 @@
     <!--tab2-->
 </template>
 <script>
-  export default {
-    name:'collarTab',
-    computed: {
-        leadAd:function(){
-            return this.$store.state.item.leadAd||{};
+export default {
+	name:'collarTab',
+	computed: {
+		leadAd:function(){
+			return this.$store.state.item.leadAd||{}
         },
-        itemManageDetail: function () {
-            return this.$store.state.item.itemManageDetail||{};
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail||{}
         }
-    }
-  };
+	}
+  }
 </script>
 

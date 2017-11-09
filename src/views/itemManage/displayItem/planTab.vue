@@ -102,30 +102,30 @@
   </div>
 </template>
 <script>
-    export default {
-        name: 'displayPlan',
-        computed: {
-            financingPlanData: function () {
-                return this.$store.state.item.financingPlanData || {};
-            },
-            investedEvidence: function () {
-                return this.$store.state.item.investedEvidence || {};
-            },
-            investorCondition: function () {
-                return this.$store.state.item.investorCondition || {};
-            },
-            rewardPlan:function(){
-                return this.$store.state.item.rewardPlan || {};
-            },
-            salesQuota:function(){
-                return this.$store.state.item.salesQuota || {};
-            },
-            leadAd:function(){
-                return this.$store.state.item.leadAd||{};
-            }
-        },
-        beforeMount () {
+export default {
+	name: 'displayPlan',
+	computed: {
+		financingPlanData: function () {
+			return this.$store.state.item.financingPlanData || {}
+		},
+		investedEvidence: function () {
+			return this.$store.state.item.investedEvidence || {}
+		},
+		investorCondition: function () {
+			return this.$store.state.item.investorCondition || {}
+		},
+		rewardPlan:function(){
+			return this.$store.state.item.rewardPlan || {}
+		},
+		salesQuota:function(){
+			return this.$store.state.item.salesQuota || {}
+		},
+		leadAd:function(){
+			return this.$store.state.item.leadAd||{}
+		}
+	},
+	beforeMount () {
             
-        }
-    }
+	}
+}
 </script>

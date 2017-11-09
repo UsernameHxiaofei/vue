@@ -33,18 +33,18 @@
     <!--tab1-->
 </template>
 <script>
-  export default {
-    name:'exportTab',
-    computed: {
-        expert:function(){
-            return this.$store.state.item.expertAd||{};
+export default {
+	name:'exportTab',
+	computed: {
+		expert:function(){
+			return this.$store.state.item.expertAd||{}
         }
-    },
-    data() {
-      return {
-        star: 0,
-        content:''
-      };
+	},
+	data() {
+		return {
+			star: 0,
+			content:''
+      }
     }
-  };
+  }
 </script>

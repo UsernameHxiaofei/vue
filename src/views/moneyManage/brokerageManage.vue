@@ -251,145 +251,145 @@
 import pagination from '../../components/common/pagination'
 import pstatus from '../../constant/projectStatus.js'
 export default {
-    components: {
-        pagination
-    },
-    data() {
-        return {
-            // btnStatus: false,
-            dialogLookVisible: false,
-            form: {},
-            moneySelectOption: '',
-            moneySelectOptions: [
-                { value: 0, label: '未收取' },
-                { value: 1, label: '处理中' },
-                { value: 2, label: '成功' },
-                { value: 3, label: '失败' },
-                { value: 4, label: '部分成功' }
-            ],
-            itemStatusOption: '',
-            itemStatusOptions: pstatus,
-            search_value: '',
-            projectId:''
-        }
-    },
-    computed: {
-        moneySelectData: function () {
-            return this.$store.state.money.moneySelectData;
+	components: {
+		pagination
+	},
+	data() {
+		return {
+			// btnStatus: false,
+			dialogLookVisible: false,
+			form: {},
+			moneySelectOption: '',
+			moneySelectOptions: [
+				{ value: 0, label: '未收取' },
+				{ value: 1, label: '处理中' },
+				{ value: 2, label: '成功' },
+				{ value: 3, label: '失败' },
+				{ value: 4, label: '部分成功' }
+			],
+			itemStatusOption: '',
+			itemStatusOptions: pstatus,
+			search_value: '',
+			projectId:''
+		}
+	},
+	computed: {
+		moneySelectData: function () {
+			return this.$store.state.money.moneySelectData
         },
-        headBrokerageFeeData: function () {
-            if(this.$store.state.money.headBrokerageFeeData)return this.$store.state.money.headBrokerageFeeData;
+		headBrokerageFeeData: function () {
+			if(this.$store.state.money.headBrokerageFeeData)return this.$store.state.money.headBrokerageFeeData
             else return {}
+		},
+		brokerageFeeList: function () {
+			return this.$store.state.money.brokerageFeeList
         },
-        brokerageFeeList: function () {
-            return this.$store.state.money.brokerageFeeList;
+		isCollection: function () {
+			return this.$store.state.money.isCollection
         },
-        isCollection: function () {
-            return this.$store.state.money.isCollection;
+		shareProfit: function () {
+			return this.$store.state.money.shareProfit
         },
-        shareProfit: function () {
-            return this.$store.state.money.shareProfit;
+		actor: function () {
+			return this.$store.state.login.actor
         },
-        actor: function () {
-            return this.$store.state.login.actor;
-        },
-    },
-    beforeMount() {
-        this.$store.dispatch('getHeadBrokerageFee');
-        this.$store.dispatch('moneySelect_getData');
+	},
+	beforeMount() {
+		this.$store.dispatch('getHeadBrokerageFee')
+        this.$store.dispatch('moneySelect_getData')
         this.param = {
-            projectName: this.search_value,
-            transactionStatus: this.moneySelectOption,
-            projectStatus: this.itemStatusOption,
-            page: 1,
-            number: 10,
-        }
-        this.$store.dispatch('getBrokerageFeeList', this.param);
+			projectName: this.search_value,
+			transactionStatus: this.moneySelectOption,
+			projectStatus: this.itemStatusOption,
+			page: 1,
+			number: 10,
+		}
+		this.$store.dispatch('getBrokerageFeeList', this.param)
     },
-    methods: {
-        // 搜索
-        handleIconClick() {
-            this.param.projectName = this.search_value;
-            this.param.page = 1;
-            this.$store.dispatch('getBrokerageFeeList', this.param);
+	methods: {
+		// 搜索
+		handleIconClick() {
+			this.param.projectName = this.search_value
+            this.param.page = 1
+            this.$store.dispatch('getBrokerageFeeList', this.param)
         },
-        // 分页
-        handleSizeChange(size) {
-            this.param.number = size;
-            this.param.page = 1;
-            this.$store.dispatch('getBrokerageFeeList', this.param);
+		// 分页
+		handleSizeChange(size) {
+			this.param.number = size
+            this.param.page = 1
+            this.$store.dispatch('getBrokerageFeeList', this.param)
         },
-        handleCurrentChange(page) {
-            this.param.page = page;
-            this.$store.dispatch('getBrokerageFeeList', this.param);
+		handleCurrentChange(page) {
+			this.param.page = page
+            this.$store.dispatch('getBrokerageFeeList', this.param)
         },
-        // 点击分成
-        openLook(data) {
-            this.form = data;
-            this.projectId=data.projectId;
-            this.dialogLookVisible = true;
+		// 点击分成
+		openLook(data) {
+			this.form = data
+            this.projectId=data.projectId
+            this.dialogLookVisible = true
         },
-        bonus(){
-            let shareParam = {
-                    projectId: this.projectId,
-                    operator:this.actor.id
-                }
-                this.$store.dispatch('share_profit', shareParam).then(() => {
-                    if (this.shareProfit.flag) {
-                        this.$message({
-                            type: 'success',
-                            message: '分红成功!'
-                        });
-                        this.dialogLookVisible = false;
-                        this.$store.dispatch('getBrokerageFeeList', this.param);
+		bonus(){
+			let shareParam = {
+				projectId: this.projectId,
+				operator:this.actor.id
+			}
+			this.$store.dispatch('share_profit', shareParam).then(() => {
+				if (this.shareProfit.flag) {
+					this.$message({
+						type: 'success',
+						message: '分红成功!'
+					})
+                        this.dialogLookVisible = false
+                        this.$store.dispatch('getBrokerageFeeList', this.param)
                     } else {
-                        this.$message({
-                            type: 'info',
-                            message: this.shareProfit.message
-                        });
+					this.$message({
+						type: 'info',
+						message: this.shareProfit.message
+					})
                     }
-                }, 300);
+			}, 300)
         },
-        // 选择收费状态
-        feeStatus(ind) {
-            this.param.transactionStatus = ind;
-            this.$store.dispatch('getBrokerageFeeList', this.param);
+		// 选择收费状态
+		feeStatus(ind) {
+			this.param.transactionStatus = ind
+            this.$store.dispatch('getBrokerageFeeList', this.param)
         },
-        // 选择项目状态
-        itemStatus(lv) {
-            this.param.projectStatus = lv;
-            this.$store.dispatch('getBrokerageFeeList', this.param);
+		// 选择项目状态
+		itemStatus(lv) {
+			this.param.projectStatus = lv
+            this.$store.dispatch('getBrokerageFeeList', this.param)
         },
-        //点击催收按钮
-        collection(data) {
-            this.$confirm('此操作将进行催收操作, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                let coParam = {
-                    projectId: data.projectId
-                }
-                this.$store.dispatch('is_collection', coParam).then(() => {
-                    if (this.isCollection.flag) {
-                        this.$message({
-                            type: 'success',
-                            message: '催收成功!'
-                        });
+		//点击催收按钮
+		collection(data) {
+			this.$confirm('此操作将进行催收操作, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				let coParam = {
+					projectId: data.projectId
+				}
+				this.$store.dispatch('is_collection', coParam).then(() => {
+					if (this.isCollection.flag) {
+						this.$message({
+							type: 'success',
+							message: '催收成功!'
+						})
                     } else {
-                        this.$message({
-                            type: 'info',
-                            message: this.isCollection.message
-                        });
+						this.$message({
+							type: 'info',
+							message: this.isCollection.message
+						})
                     }
-                }, 300);
+				}, 300)
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消催收'
-                });
-            });
+				this.$message({
+					type: 'info',
+					message: '已取消催收'
+				});
+			})
         }
-    }
+	}
 }
 </script>

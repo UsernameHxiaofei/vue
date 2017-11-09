@@ -96,172 +96,172 @@ em {
 <script>
 import pagination from '../../components/common/pagination'
 export default {
-  components: {
-    pagination
-  },
-  computed: {
-    getCapitalInjectionDetail: function () {
-      return this.$store.state.money.getCapitalInjectionDetail;
+	components: {
+		pagination
+	},
+	computed: {
+		getCapitalInjectionDetail: function () {
+			return this.$store.state.money.getCapitalInjectionDetail
     },
-    actor: function () {
-      return this.$store.state.login.actor;
+		actor: function () {
+			return this.$store.state.login.actor
     },
-    refuseCapitalInjection: function () {
-      return this.$store.state.money.refuseCapitalInjection;
+		refuseCapitalInjection: function () {
+			return this.$store.state.money.refuseCapitalInjection
     },
-    agreeCapitalInjection: function () {
-      return this.$store.state.money.agreeCapitalInjection;
+		agreeCapitalInjection: function () {
+			return this.$store.state.money.agreeCapitalInjection
     },
-    renewCapitalInjection: function () {
-      return this.$store.state.money.renewCapitalInjection;
+		renewCapitalInjection: function () {
+			return this.$store.state.money.renewCapitalInjection
     },
-  },
-  beforeMount() {
-    this.approvalInit()
-  },
-  data() {
-    return {
-      projectName:'',
-      raisedAmount:'',
-      statusCode:'',
-      param: {},
-      btnStatus: false,
-    }
-  },
-  methods: {
-    //初始化表格且判断拒绝审批按钮是否被禁用
-    approvalInit() {
-      this.param = {
-        projectId: this.$route.params.projectId,
-        page: 1,
-        number: 10
-      }
-      this.$store.dispatch("get_capitalInjectionDetail", this.param).then(()=>{
-          for (let i = 0; i < this.getCapitalInjectionDetail.content.length; i++) {
-            if (this.getCapitalInjectionDetail.content[i].statusCode == 0) {
-              this.btnStatus = false;
+	},
+	beforeMount() {
+		this.approvalInit()
+	},
+	data() {
+		return {
+			projectName:'',
+			raisedAmount:'',
+			statusCode:'',
+			param: {},
+			btnStatus: false,
+		}
+	},
+	methods: {
+		//初始化表格且判断拒绝审批按钮是否被禁用
+		approvalInit() {
+			this.param = {
+				projectId: this.$route.params.projectId,
+				page: 1,
+				number: 10
+			}
+			this.$store.dispatch('get_capitalInjectionDetail', this.param).then(()=>{
+				for (let i = 0; i < this.getCapitalInjectionDetail.content.length; i++) {
+					if (this.getCapitalInjectionDetail.content[i].statusCode == 0) {
+						this.btnStatus = false
             } else if (this.getCapitalInjectionDetail.content[i].statusCode != 0) {
-              this.btnStatus = true;
-              return;
+						this.btnStatus = true;
+              return
             }
-          }
-      });
+				}
+			})
       //parse用于从一个字符串中解析出json对象
-      let projectInfo=JSON.parse(sessionStorage.getItem('projectInfo'));
+      let projectInfo=JSON.parse(sessionStorage.getItem('projectInfo'))
       this.projectName=projectInfo.projectName,
-      this.raisedAmount=projectInfo.raisedAmount,
-      this.statusCode=projectInfo.statusCode
+			this.raisedAmount=projectInfo.raisedAmount,
+			this.statusCode=projectInfo.statusCode
+		},
+		//分页
+		handleSizeChange(size) {
+			this.param.number = size
+      this.param.page = 1
+      this.$store.dispatch('get_capitalInjectionDetail', this.param)
     },
-    //分页
-    handleSizeChange(size) {
-      this.param.number = size;
-      this.param.page = 1;
-      this.$store.dispatch('get_capitalInjectionDetail', this.param);
+		handleCurrentChange(page) {
+			this.param.page = page
+      this.$store.dispatch('get_capitalInjectionDetail', this.param)
     },
-    handleCurrentChange(page) {
-      this.param.page = page;
-      this.$store.dispatch('get_capitalInjectionDetail', this.param);
-    },
-    //拒绝审批
-    refuse() {
-      this.$confirm('此操作将进行拒绝审批, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        let refuseParam = {
-          projectId: this.$route.params.projectId,
-          checkerId: this.actor.id
-        }
-        this.$store.dispatch("refuse_capitalInjection", refuseParam).then(() => {
-          if (this.refuseCapitalInjection.result == "success") {
-            this.$message({
-              type: 'success',
-              message: '拒绝审批成功!'
-            });
-            this.btnStatus = true;
-            this.$store.dispatch('get_capitalInjectionDetail', this.param);
+		//拒绝审批
+		refuse() {
+			this.$confirm('此操作将进行拒绝审批, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let refuseParam = {
+					projectId: this.$route.params.projectId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('refuse_capitalInjection', refuseParam).then(() => {
+					if (this.refuseCapitalInjection.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '拒绝审批成功!'
+						})
+            this.btnStatus = true
+            this.$store.dispatch('get_capitalInjectionDetail', this.param)
             
           } else {
-            this.$message({
-              type: 'warning',
-              message: '拒绝审批失败!'
-            });
+						this.$message({
+							type: 'warning',
+							message: '拒绝审批失败!'
+						})
           }
-        }, 300);
+				}, 300)
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消此操作'
-        });
-      });
+				this.$message({
+					type: 'info',
+					message: '已取消此操作'
+				});
+			})
     },
-    //注资
-    injection(data) {
-      this.$confirm('此操作将进行注资, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        let agreeParam = {
-          transactionId: data.transactionId,
-          checkerId: this.actor.id
-        }
-        this.$store.dispatch("agree_capitalInjection", agreeParam).then(() => {
-          if (this.agreeCapitalInjection.result == 'success') {
-            this.$message({
-              type: 'success',
-              message: '注资成功!'
-            });
-            this.$store.dispatch('get_capitalInjectionDetail', this.param);
+		//注资
+		injection(data) {
+			this.$confirm('此操作将进行注资, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let agreeParam = {
+					transactionId: data.transactionId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('agree_capitalInjection', agreeParam).then(() => {
+					if (this.agreeCapitalInjection.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '注资成功!'
+						})
+            this.$store.dispatch('get_capitalInjectionDetail', this.param)
           } else {
-            this.$message({
-              type: 'warning',
-              message: '注资失败!'
-            });
+						this.$message({
+							type: 'warning',
+							message: '注资失败!'
+						})
           }
-        }, 300);
+				}, 300)
 
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消此操作'
-        });
-      });
+				this.$message({
+					type: 'info',
+					message: '已取消此操作'
+				});
+			})
     },
-    //重新申请
-    renewApply(data) {
-      this.$confirm('此操作将进行重新申请, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(() => {
-        let renewParam = {
-          transactionId: data.transactionId,
-          checkerId: this.actor.id
-        }
-        this.$store.dispatch("renew_capitalInjection", renewParam).then(() => {
-          if (this.renewCapitalInjection.result == 'success') {
-            this.$message({
-              type: 'success',
-              message: '重新申请成功!'
-            });
-            this.$store.dispatch('get_capitalInjectionDetail', this.param);
+		//重新申请
+		renewApply(data) {
+			this.$confirm('此操作将进行重新申请, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let renewParam = {
+					transactionId: data.transactionId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('renew_capitalInjection', renewParam).then(() => {
+					if (this.renewCapitalInjection.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '重新申请成功!'
+						})
+            this.$store.dispatch('get_capitalInjectionDetail', this.param)
           } else {
-            this.$message({
-              type: 'warning',
-              message: '重新申请失败!'
-            });
+						this.$message({
+							type: 'warning',
+							message: '重新申请失败!'
+						})
           }
-        }, 300);
+				}, 300)
 
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消此操作'
-        });
-      });
+				this.$message({
+					type: 'info',
+					message: '已取消此操作'
+				});
+			})
     }
-  }
+	}
 }
 </script>

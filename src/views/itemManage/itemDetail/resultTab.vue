@@ -56,31 +56,31 @@
     </div>
 </template>
 <script>
-    import dialogComponent from '../../../components/common/dialog'
-    export default {
-        name: 'resultTab',
-        components: {
-            dialogComponent
-        },
-        data() {
-            return {
-                dialogReviewVisible: false
-            };
-        },
-        computed: {
-            itemManageDetail: function () {
-                return this.$store.state.item.itemManageDetail || {};
-            },
-            resultInfo:function(){
-                return this.$store.state.item.resultInfo||{};
-            },
-            isShowFirst:function(){
-                return this.resultInfo.rejection&&this.resultInfo.rejection.length>0&&this.resultInfo.phase==4;
-            },
-            isShowSecond:function(){
-                return this.resultInfo.rejection&&this.resultInfo.rejection.length>0&&this.resultInfo.phase==5;
+import dialogComponent from '../../../components/common/dialog'
+export default {
+	name: 'resultTab',
+	components: {
+		dialogComponent
+	},
+	data() {
+		return {
+			dialogReviewVisible: false
             }
-        }
-    };
+        },
+	computed: {
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail || {}
+            },
+		resultInfo:function(){
+			return this.$store.state.item.resultInfo||{}
+            },
+		isShowFirst:function(){
+			return this.resultInfo.rejection&&this.resultInfo.rejection.length>0&&this.resultInfo.phase==4
+            },
+		isShowSecond:function(){
+			return this.resultInfo.rejection&&this.resultInfo.rejection.length>0&&this.resultInfo.phase==5
+            }
+	}
+    }
 
 </script>

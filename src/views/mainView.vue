@@ -203,7 +203,7 @@ export default {
 	},
 	// asyncData ({ store,session,router }) {
 	// 	return Promise.all([store.dispatch('item_getManageList', session),store.dispatch('item_getHeadData',session)]);
-    // },
+	// },
 	data() {
 		return {
 			tableloading:false,
@@ -229,48 +229,48 @@ export default {
 		}
 	},
 	computed: {
-         itemManageList:function(){
-             return this.$store.state.item.itemManageList||{};
-         },
-         itemManageHeadData:function(){
-             return this.$store.state.item.itemManageHeadData||{};
-         },
+		itemManageList:function(){
+			return this.$store.state.item.itemManageList||{}
+		},
+		itemManageHeadData:function(){
+			return this.$store.state.item.itemManageHeadData||{}
+		},
 		 customerList:function(){
-			 return this.$store.state.item.customerList||{};
+			 return this.$store.state.item.customerList||{}
 		 },
-         customerInfoForSimulationList:function(){
-             return this.$store.state.item.customerInfoForSimulationList||{};
-         },
+		customerInfoForSimulationList:function(){
+			return this.$store.state.item.customerInfoForSimulationList||{}
+		},
 	     operator:function(){
 			 return this.$store.state.login.actor
 		 }
-    },
+	},
 	beforeMount () {
-        this.param={
-                industry:this.industry,
-				phase:this.phase,
-				status:'',
-				isRestart:0,
-                regionCode:this.where.length>0?this.where[this.where.length-1]:'',
-                keyword:this.keyword,
-                pageSize:10,
-                pageNo:1
-			}
-		this.getListData();
-		this.$store.dispatch('item_getHeadData');
-		this.$store.commit('enterprise_setMemberInfo',{});
-		this.$store.commit('enterprise_setInfo',{});
-    },
+		this.param={
+			industry:this.industry,
+			phase:this.phase,
+			status:'',
+			isRestart:0,
+			regionCode:this.where.length>0?this.where[this.where.length-1]:'',
+			keyword:this.keyword,
+			pageSize:10,
+			pageNo:1
+		}
+		this.getListData()
+		this.$store.dispatch('item_getHeadData')
+		this.$store.commit('enterprise_setMemberInfo',{})
+		this.$store.commit('enterprise_setInfo',{})
+	},
 	methods: {
 		chooseType(type){
-			this.itemType=type;
+			this.itemType=type
 			if(type=='A'){
 				this.customerParam={
 					keyword: this.customerKeyword,
 					pageNo:1,
 					pageSize:10
 				}
-				this.$store.dispatch('item_getCustomerList',this.customerParam);
+				this.$store.dispatch('item_getCustomerList',this.customerParam)
 			}else{
 				this.customerParamForSimulation={
 					pageNo:1,
@@ -278,27 +278,27 @@ export default {
 				}
 				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation);
 			}
-			this.chooseItemType=false;
-			this.chooseItemCustomer=true;
+			this.chooseItemType=false
+			this.chooseItemCustomer=true
 		},
 		handleCustomerCurrentChange(val){
 			if(this.itemType='A'){
-				this.customerParam.pageNo=val;
-				this.$store.dispatch('item_getCustomerList',this.customerParam);
+				this.customerParam.pageNo=val
+				this.$store.dispatch('item_getCustomerList',this.customerParam)
 			}else{
-				this.customerParamForSimulation.pageNo=val;
+				this.customerParamForSimulation.pageNo=val
 				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation)
 			}
 			
 		},
 		handleCustomerSizeChange(val){
 			if(this.itemType='A'){
-				this.customerParam.pageNo=1;
-				this.customerParam.pageSize=val;
-				this.$store.dispatch('item_getCustomerList',this.customerParam);
+				this.customerParam.pageNo=1
+				this.customerParam.pageSize=val
+				this.$store.dispatch('item_getCustomerList',this.customerParam)
 			}else{
-				this.customerParamForSimulation.pageNo=1;
-				this.customerParamForSimulation.pageSize=val;
+				this.customerParamForSimulation.pageNo=1
+				this.customerParamForSimulation.pageSize=val
 				this.$store.dispatch('item_getCustomerInfoForSimulation',this.customerParamForSimulation)
 			}
 		},
@@ -306,66 +306,66 @@ export default {
 			this.$store.dispatch('item_createProject1',{type:this.itemType,copies:this.copies}).then(()=>{
 				if(!this.$store.state.item.createProjectId.length){
 					this.$message.warning('创建项目失败，请联系服务器开发人员')
-					return false;
+					return false
 				}else{
 					this.chooseItemCustomer=true;
 				}
 				let projectParam={
 					id:this.$store.state.item.createProjectId,
-                    initiatorId: item.actorId
-                }
-               	this.$store.dispatch('item_updateProject', { param: projectParam, vue: this });
-				this.$router.push('/itemStep1/'+this.$store.state.item.createProjectId);
-			});
+					initiatorId: item.actorId
+				}
+               	this.$store.dispatch('item_updateProject', { param: projectParam, vue: this })
+				this.$router.push('/itemStep1/'+this.$store.state.item.createProjectId)
+			})
 		},
 		createProject(){
-			this.chooseItemType=true;
+			this.chooseItemType=true
 		},
 		getListData(){
-			this.tableloading=true;
+			this.tableloading=true
 			this.$store.dispatch('item_getManageList',this.param).then(()=>{
-				this.tableloading=false;
+				this.tableloading=false
 			})
 		},
 		restartChange(){
-			this.param.isRestart = this.isRestart?1:0;
-            this.param.pageNo=1;			
-			this.getListData();
+			this.param.isRestart = this.isRestart?1:0
+			this.param.pageNo=1			
+			this.getListData()
 		},
 		customerKeywordChange(){
-			this.customerParam.keyword=this.customerKeyword;
-			this.customerParam.pageNo=1;
-			this.$store.dispatch('item_getCustomerList',this.customerParam);
+			this.customerParam.keyword=this.customerKeyword
+			this.customerParam.pageNo=1
+			this.$store.dispatch('item_getCustomerList',this.customerParam)
 		},
 		search(){
-            this.param.keyword=this.keyword;
-            this.param.pageNo=1;
-            this.getListData();
-        },
+			this.param.keyword=this.keyword
+			this.param.pageNo=1
+			this.getListData()
+		},
 		industryChange(){
-			this.param.industry = this.industry;
-            this.param.pageNo=1;			
-			this.getListData();
+			this.param.industry = this.industry
+			this.param.pageNo=1			
+			this.getListData()
 		},
 		phaseChange(){
-			this.param.phase = this.phase;
-            this.param.pageNo=1;
-			this.getListData();
+			this.param.phase = this.phase
+			this.param.pageNo=1
+			this.getListData()
 		},
 		handleChange(value) {
 			this.param.regionCode=this.where.length>0?this.where[this.where.length-1]:''
-			this.param.pageNo=1;
-			this.getListData();
+			this.param.pageNo=1
+			this.getListData()
 		},
 		handleSizeChange(size){
-            this.param.pageSize=size;
-            this.param.pageNo=1;
-            this.getListData();
-        },
-        handleCurrentChange(page){
-            this.param.pageNo=page;
-            this.getListData();
-        }
+			this.param.pageSize=size
+			this.param.pageNo=1
+			this.getListData()
+		},
+		handleCurrentChange(page){
+			this.param.pageNo=page
+			this.getListData();
+		}
 	}
 }
 </script>

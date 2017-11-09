@@ -17,30 +17,30 @@ border-bottom:1px solid rgb(191, 217, 217);}
 </template>
 
 <script>
- export default {
-   props:["dialogFormVisible","title"],
-    data() {
-      return {
+export default {
+	props:['dialogFormVisible','title'],
+	data() {
+		return {
         
-      };
-    },
-    methods:{
-       handleClose() {
-         this.$emit('dialog-cancel-callback') 
-      },
-      cancel(){
-        this.$emit('dialog-cancel-callback')        
-        // this.dialogFormVisible = false;
-        // this.$emit('',)
-      },
-      confirm(){
-        this.$emit('dialog-confirm-callback')
       }
     },
-    computed: {
+	methods:{
+		handleClose() {
+			this.$emit('dialog-cancel-callback') 
+		},
+		cancel(){
+			this.$emit('dialog-cancel-callback')        
+			// this.dialogFormVisible = false;
+			// this.$emit('',)
+		},
+		confirm(){
+			this.$emit('dialog-confirm-callback')
+		}
+	},
+	computed: {
 
-    }
-  };
+	}
+};
 </script>
 
 <style scoped>

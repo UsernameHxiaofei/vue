@@ -145,24 +145,24 @@
   </div>
 </template>
 <script>
-  export default {
-    name:'riskTab',
-    computed: {
-        thirdReport:function(){
-          return this.$store.state.item.thirdReport||{};
+export default {
+	name:'riskTab',
+	computed: {
+		thirdReport:function(){
+			return this.$store.state.item.thirdReport||{}
         }
-    },
-    beforeMount () {
-      this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId});
+	},
+	beforeMount () {
+		this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId})
       if(this.$route.path.indexOf('riskRegionContainer')!=-1){
-        this.showSu=false;
+			this.showSu=false
       }
       
-    },
-    data() {
-      return {
-        showSu:true
-      };
+	},
+	data() {
+		return {
+			showSu:true
+      }
     }
-  };
+  }
 </script>

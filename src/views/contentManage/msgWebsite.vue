@@ -87,145 +87,144 @@
 <script>
 import pagination from '../../components/common/pagination.vue'
 export default {
-  components: {
-    'pagination': pagination
-  },
-   computed: {
-    webMessage: function () {
-      return this.$store.state.content.selectWebMessage;
-    },
-    postWebMessage: function () {
-      return this.$store.state.content.postWebMessage;
-    },
-    allActorList: function () {
-      return this.$store.state.content.allActorList;
-    },
-  },
-  data() {
-    return {
-      statusCode: '',
-      keyword: '',
-      indentType: '',
-      active: 'border-orange',
-      msgWebForm: {
-        receiver: '',
-        content: '',
-        senderId: '',
-      },
-      optionsType: [{
-        value: 'A',
-        label: '实名'
-      }, {
-        value: 'B',
-        label: '行家'
-      }, {
-        value: 'C',
-        label: '项目方'
-      }, {
-        value: 'D',
-        label: '投资人'
-      }, {
-        value: 'E',
-        label: '领投'
-      }],
-      optionsStatus: [{
-        value: '1',
-        label: '正常'
-      }, {
-        value: '2',
-        label: '已封禁'
-      }],
-      dialogTableVisible: false,
-      dialogFormVisible: false,
-      form: {
-        name: '',
-        region: '',
-        date1: '',
-        date2: '',
-        delivery: false,
-        type: [],
-        resource: '',
-        desc: '',
-      },
-      msgWebParam: {},
-      formLabelWidth: '120px'
-    }
-  },
-  beforeMount() {
-    this.msgWebParam = {
-      status: this.statusCode,
-      keyword: this.keyword,
-      indentType: this.indentType,
-      pageNo: 1,
-      pageSize: 10,
-    }
-    //分页查询站内消息,模糊查询
-    this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-    //查询站内所有用户信息
-    this.$store.dispatch('select_allActor', '').then(()=>{
-      for(let i=0;i<this.allActorList.length;i++){
-        if(this.allActorList[i].name==''){
-          this.allActorList[i].name='未知'
-        }
-      }
-    });
-  },
-  methods: {
-    resetForm() {
-      this.$refs['msgWebForm'].resetFields();
-      this.dialogFormVisible = false;
-    },
-    handleIconClick(ev) {
-      this.msgWebParam.keyword = this.keyword;
-      this.msgWebParam.pageNo = 1;
-      this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-    },
-    handleSizeChange(val) {
-      this.msgWebParam.pageSize = val;
-      this.msgWebParam.pageNo = 1;
-      this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-    },
-    handleCurrentChange(val) {
-      this.msgWebParam.pageNo = val;
-      this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-    },
-    typeChange() {
-      this.msgWebParam.pageNo = 1;
-      this.msgWebParam.indentType = this.indentType;
-      this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-    },
-    statusChange() {
-      this.msgWebParam.pageNo = 1;
-      this.msgWebParam.status = this.statusCode;
-      this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-    },
-    addMsgWeb() {
-      this.msgWebForm.senderId = this.$store.state.login.actor.id;
-      this.$refs['msgWebForm'].validate((valid) => {
-        if (valid) {
-          this.$store.dispatch('send_webMessage', this.msgWebForm).then(() => {
-            if (this.postWebMessage.success) {
-              this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-              this.$message({
-                type: 'success',
-                message: '创建消息成功!'
-              });
-              this.dialogFormVisible = false;
-            } else {
-              this.$message({
-                type: 'error',
-                message: '创建消息失败!'
-              });
-            }
-          }).catch(() => {
+	components: {
+		'pagination': pagination
+	},
+	computed: {
+		webMessage: function () {
+			return this.$store.state.content.selectWebMessage
+		},
+		postWebMessage: function () {
+			return this.$store.state.content.postWebMessage
+		},
+		allActorList: function () {
+			return this.$store.state.content.allActorList
+		},
+	},
+	data() {
+		return {
+			statusCode: '',
+			keyword: '',
+			indentType: '',
+			active: 'border-orange',
+			msgWebForm: {
+				receiver: '',
+				content: '',
+				senderId: '',
+			},
+			optionsType: [{
+				value: 'A',
+				label: '实名'
+			}, {
+				value: 'B',
+				label: '行家'
+			}, {
+				value: 'C',
+				label: '项目方'
+			}, {
+				value: 'D',
+				label: '投资人'
+			}, {
+				value: 'E',
+				label: '领投'
+			}],
+			optionsStatus: [{
+				value: '1',
+				label: '正常'
+			}, {
+				value: '2',
+				label: '已封禁'
+			}],
+			dialogTableVisible: false,
+			dialogFormVisible: false,
+			form: {
+				name: '',
+				region: '',
+				date1: '',
+				date2: '',
+				delivery: false,
+				type: [],
+				resource: '',
+				desc: '',
+			},
+			msgWebParam: {},
+			formLabelWidth: '120px'
+		}
+	},
+	beforeMount() {
+		this.msgWebParam = {
+			status: this.statusCode,
+			keyword: this.keyword,
+			indentType: this.indentType,
+			pageNo: 1,
+			pageSize: 10,
+		}
+		//分页查询站内消息,模糊查询
+		this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		//查询站内所有用户信息
+		this.$store.dispatch('select_allActor', '').then(()=>{
+			for(let i=0;i<this.allActorList.length;i++){
+				if(this.allActorList[i].name==''){
+					this.allActorList[i].name='未知'
+				}
+			}
+		})
+	},
+	methods: {
+		resetForm() {
+			this.$refs['msgWebForm'].resetFields()
+			this.dialogFormVisible = false
+		},
+		handleIconClick() {
+			this.msgWebParam.keyword = this.keyword
+			this.msgWebParam.pageNo = 1
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		handleSizeChange(val) {
+			this.msgWebParam.pageSize = val
+			this.msgWebParam.pageNo = 1
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		handleCurrentChange(val) {
+			this.msgWebParam.pageNo = val
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		typeChange() {
+			this.msgWebParam.pageNo = 1
+			this.msgWebParam.indentType = this.indentType
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		statusChange() {
+			this.msgWebParam.pageNo = 1
+			this.msgWebParam.status = this.statusCode
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		addMsgWeb() {
+			this.msgWebForm.senderId = this.$store.state.login.actor.id
+			this.$refs['msgWebForm'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('send_webMessage', this.msgWebForm).then(() => {
+						if (this.postWebMessage.success) {
+							this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+							this.$message({
+								type: 'success',
+								message: '创建消息成功!'
+							})
+							this.dialogFormVisible = false
+						} else {
+							this.$message({
+								type: 'error',
+								message: '创建消息失败!'
+							})
+						}
+					}).catch(() => {
 
-          });
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
-    },
-  }
+					})
+				} else {
+					return false
+				}
+			})
+		},
+	}
 }
 </script>

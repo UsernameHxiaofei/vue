@@ -15,14 +15,14 @@
   </div>
 </template>
 <script>
-  export default {
-    name:'enterpriseRelation',
-    data() {
-      return {
+export default {
+	name:'enterpriseRelation',
+	data() {
+		return {
         
-      };
+      }
     }
-  };
+  }
 </script>
 <style scoped> 
   #enterpriseRelation{

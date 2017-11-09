@@ -75,46 +75,46 @@
         </div>
     </template>
     <script>
-        export default {
-            name: 'merchant',
-            data() {
-                return {
-                    dialogFormVisible: false,
-                    merchantForm: {
-                        projectId:'',
-                        customer_num: '',
-                        short_name: '',
-                        shop_num: '',
-                        shop_name: '',
-                        machine_num: ''
-                    },
-                    merchantFormRules: {
-                        customer_num: [{ required: true, message: '请输入商户编号', trigger: 'blur' }]
-                    }
-                }
-            },
-            methods: {
-                edit(){
-                    this.dialogFormVisible = true;
-                    this.merchantForm=JSON.parse(JSON.stringify(this.merchant));
+export default {
+	name: 'merchant',
+	data() {
+		return {
+			dialogFormVisible: false,
+			merchantForm: {
+				projectId:'',
+				customer_num: '',
+				short_name: '',
+				shop_num: '',
+				shop_name: '',
+				machine_num: ''
+			},
+			merchantFormRules: {
+				customer_num: [{ required: true, message: '请输入商户编号', trigger: 'blur' }]
+			}
+		}
+	},
+	methods: {
+		edit(){
+			this.dialogFormVisible = true
+                    this.merchantForm=JSON.parse(JSON.stringify(this.merchant))
                 },
-                submitForm() {
-                    this.$refs['merchantForm'].validate((valid) => {
-                        if (valid) {
-                            this.$store.dispatch('item_editMerchant',{param:this.merchantForm,vue:this});
-                            this.dialogFormVisible = false;
-                            this.$refs['merchantForm'].resetFields();
+		submitForm() {
+			this.$refs['merchantForm'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('item_editMerchant',{param:this.merchantForm,vue:this})
+                            this.dialogFormVisible = false
+                            this.$refs['merchantForm'].resetFields()
                         } else {
-                            return false;
+					return false
                         }
-                    });
+			})
                 }
-            },
-            computed: {
-                merchant: function () {
-                    return this.$store.state.item.merchant || {};
+	},
+	computed: {
+		merchant: function () {
+			return this.$store.state.item.merchant || {}
                 }
-            }
-        }
+	}
+}
     
     </script>

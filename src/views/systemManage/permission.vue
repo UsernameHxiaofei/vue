@@ -106,99 +106,99 @@
 
 import _ from 'lodash'
 export default {
-  computed: {
-    systemGetPermissionList: function () {
-      return this.$store.state.system.systemGetPermissionList;
+	computed: {
+		systemGetPermissionList: function () {
+			return this.$store.state.system.systemGetPermissionList
     },
-    systemInquiryList: function () {
-      return this.$store.state.system.systemInquiryList;
+		systemInquiryList: function () {
+			return this.$store.state.system.systemInquiryList
     },
-    systemUpdatePermissionList: function () {
-      return this.$store.state.system.systemUpdatePermissionList;
+		systemUpdatePermissionList: function () {
+			return this.$store.state.system.systemUpdatePermissionList
     },
-  },
-  beforeMount() {
-    this.$store.dispatch('system_getPermissionList').then(()=>{
+	},
+	beforeMount() {
+		this.$store.dispatch('system_getPermissionList').then(()=>{
       
-    });
+		})
   },
-  data() {
-    return {
-      str: '',
-      roleId: '',
-      allList:[],
-      oldList:[],
-      havePrivilegeList:[],
-      defaultProps: {
-        label: 'name',
-        children: 'roles'
-      }
-    };
-  },
-
-  methods: {
-    handleNodeClick(data, node) {
-      this.roleId = data.id;
-      if (node.level === 2) {//  1是一级  泛角色 ， 2是2级 角色 
-        this.str = data.name;
-        let inquiryParams = {
-          roleId: data.id
-        }
-        this.$store.dispatch('system_inquiryList', inquiryParams).then(()=>{
-          let templist=[],oldTemplist=[];
-          if(this.systemInquiryList.havePrivilegeList){
-            Object.keys(this.systemInquiryList.havePrivilegeList).forEach((item,index)=>{
-              let elements=this.systemInquiryList.havePrivilegeList[item];
-              elements.forEach((element,j)=>{
-                oldTemplist.push(element.id);
-                element.name=element.grouping+'-'+element.name;
-                templist.push(element);
-              })
-            })
-          }
-          Object.keys(this.systemInquiryList.noHavePrivilegeList).forEach((item,index)=>{
-            let elements=this.systemInquiryList.noHavePrivilegeList[item];
-            elements.forEach((element,j)=>{
-                element.name=element.grouping+'-'+element.name;
-                templist.push(element);
-            })
-          })
-          this.allList=templist;
-          this.oldList = oldTemplist;
-          this.havePrivilegeList=oldTemplist;
-          // if(this.systemInquiryList.havePrivilegeList){
-          //  this.havePrivilegeList = [];
-          //   for (let i = 0; i < this.systemInquiryList.havePrivilegeList.length; i++) {
-          //     this.havePrivilegeList.push(this.systemInquiryList.havePrivilegeList[i].id);
-          //   }
-          //   this.oldList = this.havePrivilegeList;
-          // }else{
-          //   this.oldList = [];
-          // }
-        });
-      }
-    },
-    filterMethod(query, item){
-      return item.name.match(query);
-    },
-    preserve() {
-      let updateParams = {
-          roleId: this.roleId,
-          forAdd: _.difference(this.havePrivilegeList,this.oldList),
-          forDelete:_.difference(this.oldList,this.havePrivilegeList),
-        }
-      this.$store.dispatch('system_updatePermissionList', updateParams).then(() => {
-        if (this.systemUpdatePermissionList.success) {
-          this.$message({
-            message: '保存成功',
-            type: 'success'
-          });
-        } else {
-          this.$message('保存失败');
-        }
-      });
+	data() {
+		return {
+			str: '',
+			roleId: '',
+			allList:[],
+			oldList:[],
+			havePrivilegeList:[],
+			defaultProps: {
+				label: 'name',
+				children: 'roles'
+			}
     }
   },
+
+	methods: {
+		handleNodeClick(data, node) {
+			this.roleId = data.id
+      if (node.level === 2) {//  1是一级  泛角色 ， 2是2级 角色 
+				this.str = data.name
+        let inquiryParams = {
+					roleId: data.id
+				}
+				this.$store.dispatch('system_inquiryList', inquiryParams).then(()=>{
+					let templist=[],oldTemplist=[]
+          if(this.systemInquiryList.havePrivilegeList){
+						Object.keys(this.systemInquiryList.havePrivilegeList).forEach((item,index)=>{
+							let elements=this.systemInquiryList.havePrivilegeList[item]
+              elements.forEach((element,j)=>{
+								oldTemplist.push(element.id)
+                element.name=element.grouping+'-'+element.name
+                templist.push(element)
+              })
+						})
+					}
+					Object.keys(this.systemInquiryList.noHavePrivilegeList).forEach((item,index)=>{
+						let elements=this.systemInquiryList.noHavePrivilegeList[item]
+            elements.forEach((element,j)=>{
+							element.name=element.grouping+'-'+element.name
+                templist.push(element)
+            })
+					})
+					this.allList=templist
+          this.oldList = oldTemplist
+          this.havePrivilegeList=oldTemplist;
+					// if(this.systemInquiryList.havePrivilegeList){
+					//  this.havePrivilegeList = [];
+					//   for (let i = 0; i < this.systemInquiryList.havePrivilegeList.length; i++) {
+					//     this.havePrivilegeList.push(this.systemInquiryList.havePrivilegeList[i].id);
+					//   }
+					//   this.oldList = this.havePrivilegeList;
+					// }else{
+					//   this.oldList = [];
+					// }
+				})
+      }
+		},
+		filterMethod(query, item){
+			return item.name.match(query)
+    },
+		preserve() {
+			let updateParams = {
+				roleId: this.roleId,
+				forAdd: _.difference(this.havePrivilegeList,this.oldList),
+				forDelete:_.difference(this.oldList,this.havePrivilegeList),
+			}
+			this.$store.dispatch('system_updatePermissionList', updateParams).then(() => {
+				if (this.systemUpdatePermissionList.success) {
+					this.$message({
+						message: '保存成功',
+						type: 'success'
+					})
+        } else {
+					this.$message('保存失败')
+        }
+			})
+    }
+	},
 
 
 };

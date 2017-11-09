@@ -95,91 +95,91 @@
     </div>
 </template>
 <script>
-    export default {
-        name: 'partnerTab',
-        beforeMount() {
-            this.$store.dispatch('item_getPartnerInfo', { id: this.$route.params.projectId }).then(()=>{
-                this.partnerForm=JSON.parse(JSON.stringify(this.partner));
+export default {
+	name: 'partnerTab',
+	beforeMount() {
+		this.$store.dispatch('item_getPartnerInfo', { id: this.$route.params.projectId }).then(()=>{
+			this.partnerForm=JSON.parse(JSON.stringify(this.partner))
                 if(this.partner.protocol&&this.partner.protocol.length>0){
-                    this.protocols=[{name:'有限合伙人模板',response:{objectLiteral:this.partner.protocol},url:this.partner.protocol}]
-                }
-            })
-        },
-        data() {
-            return {
-                dialogFormVisible: false,
-                partnerForm: {
-                    name: '',
-                    code: '',
-                    licence: '',
-                    bankName: '',
-                    bankOrgnizationName: '',
-                    bankProvince: '',
-                    bankCity: '',
-                    bankAccount: '',
-                    protocol:''
-                },
-                protocols:[],
-                partnerRules: {
-                    name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
-                    code: [{ required: true, message: '请输入统一社会信用代码', trigger: 'blur' }],
-                    licence: [{ required: true, message: '请输入开户许可核准号', trigger: 'blur' }],
-                    bankName: [{ required: true, message: '请输入开户银行', trigger: 'blur' }],
-                    bankOrgnizationName: [{ required: true, message: '请输入开户银行机构', trigger: 'blur' }],
-                    bankProvince: [{ required: true, message: '请输入开户行省名', trigger: 'blur' }],
-                    bankCity: [{ required: true, message: '请输入开户行市名', trigger: 'blur' }],
-                    bankAccount: [{ required: true, message: '请输入银行账户', trigger: 'blur' }],
-                    protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'blur' }]
-                }
-            }
-        },
-        methods: {
-            protocol_remove(file,fileList){
-                if(fileList.length>0){
-                    this.partnerForm.protocol=JSON.parse(fileList[0].response.objectLiteral);
+				this.protocols=[{name:'有限合伙人模板',response:{objectLiteral:this.partner.protocol},url:this.partner.protocol}]
+			}
+		})
+	},
+	data() {
+		return {
+			dialogFormVisible: false,
+			partnerForm: {
+				name: '',
+				code: '',
+				licence: '',
+				bankName: '',
+				bankOrgnizationName: '',
+				bankProvince: '',
+				bankCity: '',
+				bankAccount: '',
+				protocol:''
+			},
+			protocols:[],
+			partnerRules: {
+				name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
+				code: [{ required: true, message: '请输入统一社会信用代码', trigger: 'blur' }],
+				licence: [{ required: true, message: '请输入开户许可核准号', trigger: 'blur' }],
+				bankName: [{ required: true, message: '请输入开户银行', trigger: 'blur' }],
+				bankOrgnizationName: [{ required: true, message: '请输入开户银行机构', trigger: 'blur' }],
+				bankProvince: [{ required: true, message: '请输入开户行省名', trigger: 'blur' }],
+				bankCity: [{ required: true, message: '请输入开户行市名', trigger: 'blur' }],
+				bankAccount: [{ required: true, message: '请输入银行账户', trigger: 'blur' }],
+				protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'blur' }]
+			}
+		}
+	},
+	methods: {
+		protocol_remove(file,fileList){
+			if(fileList.length>0){
+				this.partnerForm.protocol=JSON.parse(fileList[0].response.objectLiteral)
                 }else{
-                    this.partnerForm.protocol='';
+				this.partnerForm.protocol=''
                 }
+		},
+		protocolUpload(response,file,fileList){
+			this.partnerForm.protocol=JSON.parse(response.objectLiteral)
             },
-            protocolUpload(response,file,fileList){
-                this.partnerForm.protocol=JSON.parse(response.objectLiteral);
+		beforeUpload(file){
+			if(this.partnerForm.protocol.length>0){
+				this.$message.warning('有限合伙人协议模板只能存在一个!')
+                    return false
+                }
+			if(file.size>=1024*1024*10){
+				this.$message.warning('不能上传大于10MB的文件！')
+                    return false
+                }
+			if(file.type!='application/pdf'){
+				this.$message.warning('协议模板必须是pdf文件！')
+                    return false
+                }
+			return true
             },
-            beforeUpload(file){
-                if(this.partnerForm.protocol.length>0){
-                    this.$message.warning('有限合伙人协议模板只能存在一个!');
-                    return false;
-                }
-                if(file.size>=1024*1024*10){
-                    this.$message.warning('不能上传大于10MB的文件！');
-                    return false;
-                }
-                if(file.type!='application/pdf'){
-                    this.$message.warning('协议模板必须是pdf文件！');
-                    return false;
-                }
-                return true;
-            },
-            submitForm() {
-                this.$refs['partnerForm'].validate((valid) => {
-                    if (valid) {
-                        let param=this.partnerForm;
-                        param.id=this.$route.params.projectId;
+		submitForm() {
+			this.$refs['partnerForm'].validate((valid) => {
+				if (valid) {
+					let param=this.partnerForm
+                        param.id=this.$route.params.projectId
                         this.$store.dispatch('item_updatePartnerInfo',{param,vue:this}).then(()=>{
-                             this.partnerForm=JSON.parse(JSON.stringify(this.partner));
-                             this.dialogFormVisible=false;
+						this.partnerForm=JSON.parse(JSON.stringify(this.partner))
+                             this.dialogFormVisible=false
                         })
-                        this.$refs['partnerForm'].resetFields();
+					this.$refs['partnerForm'].resetFields()
                     } else {
-                        return false;
+					return false
                     }
-                });
+			})
             }
-        },
-        computed: {
-            partner: function () {
-                return this.$store.state.item.partnerInfo || {};
+	},
+	computed: {
+		partner: function () {
+			return this.$store.state.item.partnerInfo || {}
             }
-        }
-    }
+	}
+}
 
 </script>

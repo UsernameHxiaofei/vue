@@ -13,13 +13,13 @@ const contentApi = require('./contentModule/content_server')(sc);
 const employeeApi = require('./employeeModule/employee_server')(sc, passport);
 
 export const api = {
-    ...loginApi,
-    ...riskApi,
-    ...customerApi,
-    ...enterpriseApi,
-    ...systemApi,
-    ...moneyApi,
-    ...itemApi,
-    ...contentApi,
-    ...employeeApi
-}
+	...loginApi,
+	...riskApi,
+	...customerApi,
+	...enterpriseApi,
+	...systemApi,
+	...moneyApi,
+	...itemApi,
+	...contentApi,
+	...employeeApi
+};

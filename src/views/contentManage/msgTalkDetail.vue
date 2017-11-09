@@ -69,102 +69,102 @@
 <script>
 import pagination from '../../components/common/pagination.vue'
 export default {
-    components: {
-        'pagination': pagination
-    },
-    computed: {
-        //根据id获取收到的信息
-        webMessageByActorid: function () {
-            return this.$store.state.content.webMessageByActorid;
-        },
-        //根据id获取发送的信息
-        webMessageBySenderid: function () {
-            return this.$store.state.content.webMessageBySenderid;
-        },
-        //改变阅读状态
-        updateIsRead: function () {
-            return this.$store.state.content.updateIsRead;
-        }
-    },
-    beforeMount() {
-        this.actorParams = {
-            receiver: this.$route.params.id,
-            msgType:4,
-            pageNo: 1,
-            pageSize: 10,
-        };
-        this.actorParams1 = {
-            senderId: this.$route.params.id,
-            msgType:4,
-            pageNo: 1,
-            pageSize: 10,
-        },
-        //根据id获取收到的信息
-        this.$store.dispatch('select_webMessageByActorid', this.actorParams);
-        //根据id获取发送的信息
-        this.$store.dispatch('select_webMessageBySenderid', this.actorParams1);
-    },
-    data() {
-        return {
-            // 表格
-            tableData: [],
-            dialogFormVisible: false,
-            formLabelWidth: '120px',
-            actorParams: {},
-            actorParams1: {},
-            form: {},
-        }
-    },
-    methods: {
-        forbiden(id){
-            this.$prompt('请输入屏蔽该信息理由', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消'
-            }).then(({ value }) => {
-                let param={
-                    messageId:id,
-                    reason:value
-                }
-                this.$store.dispatch('forBidMessageById',param).then(()=>{
-                    if(this.$store.state.content.fobidStatus.success){
-                        this.$message.warning(this.$store.state.content.fobidStatus.information)
-                        this.$store.dispatch('select_webMessageByActorid', this.actorParams);
-                    }else{
-                        this.$message.success(this.$store.state.content.fobidStatus.information)
-                    }
-                })
-            }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '取消输入'
-            });       
-            });
-        },
-        handleSizeChange(val) {
-            this.actorParams.pageSize = val;
-            this.actorParams.pageNo = 1;
-            this.$store.dispatch('select_webMessageByActorid', this.actorParams);
-        },
-        handleCurrentChange(val) {
-            this.actorParams.pageNo = val;
-            this.$store.dispatch('select_webMessageByActorid', this.actorParams);
-        },
-        handleSizeChange1(val) {
-            this.actorParams1.pageSize = val;
-            this.actorParams1.pageNo = 1;
-            this.$store.dispatch('select_webMessageBySenderid', this.actorParams1);
-        },
-        handleCurrentChange1(val) {
-            this.actorParams1.pageNo = val;
-            this.$store.dispatch('select_webMessageBySenderid', this.actorParams1);
-        },
-        showContent(index, isRead) {
-            if (!isRead) {
-                this.actorParams.messageId = index;
-                this.$store.dispatch('update_isReadByMessageId', this.actorParams);
-            }
-        },
-    },
+	components: {
+		'pagination': pagination
+	},
+	computed: {
+		//根据id获取收到的信息
+		webMessageByActorid: function () {
+			return this.$store.state.content.webMessageByActorid
+		},
+		//根据id获取发送的信息
+		webMessageBySenderid: function () {
+			return this.$store.state.content.webMessageBySenderid
+		},
+		//改变阅读状态
+		updateIsRead: function () {
+			return this.$store.state.content.updateIsRead
+		}
+	},
+	beforeMount() {
+		this.actorParams = {
+			receiver: this.$route.params.id,
+			msgType:4,
+			pageNo: 1,
+			pageSize: 10,
+		}
+		this.actorParams1 = {
+			senderId: this.$route.params.id,
+			msgType:4,
+			pageNo: 1,
+			pageSize: 10,
+		},
+		//根据id获取收到的信息
+		this.$store.dispatch('select_webMessageByActorid', this.actorParams)
+		//根据id获取发送的信息
+		this.$store.dispatch('select_webMessageBySenderid', this.actorParams1)
+	},
+	data() {
+		return {
+			// 表格
+			tableData: [],
+			dialogFormVisible: false,
+			formLabelWidth: '120px',
+			actorParams: {},
+			actorParams1: {},
+			form: {},
+		}
+	},
+	methods: {
+		forbiden(id){
+			this.$prompt('请输入屏蔽该信息理由', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消'
+			}).then(({ value }) => {
+				let param={
+					messageId:id,
+					reason:value
+				}
+				this.$store.dispatch('forBidMessageById',param).then(()=>{
+					if(this.$store.state.content.fobidStatus.success){
+						this.$message.warning(this.$store.state.content.fobidStatus.information)
+						this.$store.dispatch('select_webMessageByActorid', this.actorParams)
+					}else{
+						this.$message.success(this.$store.state.content.fobidStatus.information)
+					}
+				})
+			}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '取消输入'
+				})       
+			})
+		},
+		handleSizeChange(val) {
+			this.actorParams.pageSize = val
+			this.actorParams.pageNo = 1
+			this.$store.dispatch('select_webMessageByActorid', this.actorParams)
+		},
+		handleCurrentChange(val) {
+			this.actorParams.pageNo = val
+			this.$store.dispatch('select_webMessageByActorid', this.actorParams)
+		},
+		handleSizeChange1(val) {
+			this.actorParams1.pageSize = val
+			this.actorParams1.pageNo = 1
+			this.$store.dispatch('select_webMessageBySenderid', this.actorParams1)
+		},
+		handleCurrentChange1(val) {
+			this.actorParams1.pageNo = val
+			this.$store.dispatch('select_webMessageBySenderid', this.actorParams1)
+		},
+		showContent(index, isRead) {
+			if (!isRead) {
+				this.actorParams.messageId = index
+				this.$store.dispatch('update_isReadByMessageId', this.actorParams)
+			}
+		},
+	},
 }
 </script>
 

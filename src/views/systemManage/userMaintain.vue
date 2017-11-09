@@ -156,368 +156,368 @@
 <script>
 import pagination from '../../components/common/pagination'
 export default {
-    components: {
-        pagination
+	components: {
+		pagination
+	},
+	computed: {
+		systemManageList: function () {
+			return this.$store.state.system.systemManageList
+        },
+		systemRole: function () {
+			return this.$store.state.system.systemRole
+        },
+		systemCreate: function () {
+			return this.$store.state.system.systemCreateUser
+        },
+		systemUpdate: function () {
+			return this.$store.state.system.systemUpdateUser
+        },
+		systemClosure: function () {
+			return this.$store.state.system.systemClosureUser
+        },
+		actor: function () {
+			return this.$store.state.login.actor
+        },
+	},
+	beforeMount() {
+		this.param = {
+			name: this.search_value,
+			pageNo: 1,
+			pageSize: 10
+		}
+		this.$store.dispatch('system_getManageList', this.param)
+        this.$store.dispatch('system_roleInfo')
     },
-    computed: {
-        systemManageList: function () {
-            return this.$store.state.system.systemManageList;
-        },
-        systemRole: function () {
-            return this.$store.state.system.systemRole;
-        },
-        systemCreate: function () {
-            return this.$store.state.system.systemCreateUser;
-        },
-        systemUpdate: function () {
-            return this.$store.state.system.systemUpdateUser;
-        },
-        systemClosure: function () {
-            return this.$store.state.system.systemClosureUser;
-        },
-        actor: function () {
-            return this.$store.state.login.actor;
-        },
-    },
-    beforeMount() {
-        this.param = {
-            name: this.search_value,
-            pageNo: 1,
-            pageSize: 10
-        }
-        this.$store.dispatch('system_getManageList', this.param);
-        this.$store.dispatch('system_roleInfo');
-    },
-    data() {
-        let validatePass = (rule, value, callback) => {
-            if (!value||value === '') {
-                callback(new Error('请输入登录口令'));
+	data() {
+		let validatePass = (rule, value, callback) => {
+			if (!value||value === '') {
+				callback(new Error('请输入登录口令'))
             } else {
-                if (this.addUser.psw1 !== '') {
-                    this.$refs.addUser.validateField('psw1');
+				if (this.addUser.psw1 !== '') {
+					this.$refs.addUser.validateField('psw1')
                 }
-                callback();
-            }
-        };
+				callback();
+			}
+        }
         let validatePass2 = (rule, value, callback) => {
-            if (!value||value === '') {
-                callback(new Error('请再次输入登录口令'));
+			if (!value||value === '') {
+				callback(new Error('请再次输入登录口令'))
             } else if (value !== this.addUser.loginPassword) {
-                callback(new Error('两次输入的登录口令不一致!'));
+				callback(new Error('两次输入的登录口令不一致!'))
             } else {
-                callback();
-            }
-        };
+				callback();
+			}
+        }
         let validatePass3 = (rule, value, callback) => {
-            if (!value||value === '') {
-                callback(new Error('请输入登录口令'));
+			if (!value||value === '') {
+				callback(new Error('请输入登录口令'))
             } else {
-                if (this.editUser.psw1 !== '') {
-                    this.$refs.editUser.validateField('psw1');
+				if (this.editUser.psw1 !== '') {
+					this.$refs.editUser.validateField('psw1')
                 }
-                callback();
-            }
-        };
+				callback();
+			}
+        }
         let validatePass4 = (rule, value, callback) => {
-            if (!value||value === '') {
-                callback(new Error('请再次输入登录口令'));
+			if (!value||value === '') {
+				callback(new Error('请再次输入登录口令'))
             } else if (value !== this.editUser.loginPassword) {
-                callback(new Error('两次输入的登录口令不一致!'));
+				callback(new Error('两次输入的登录口令不一致!'))
             } else {
-                callback();
-            }
-        };
+				callback();
+			}
+        }
         return {
-            command: false,
-            checked: false,
-            roles: [],
-            search_value: '',
-            formLabelWidth: '100px',
-            dialogUserVisible: false,
-            dialogClosureVisible: false,
-            dialogeditUserVisible: false,
-            closureUser: {
-                rejection: '',
-                status: '',
-                actorId: '',
-            },
-            addUser: {
-                mobileNumber: '',
-                name: '',
-                email: '',
-                loginPassword: '',
-                roles: []
-            },
-            editUser: {
-                mobileNumber: '',
-                name: '',
-                email: '',
-                loginPassword: '',
-                roles: [],
-            },
-            rule: {
-                mobileNumber: [
-                    { required: true, message: '请输入手机号码', trigger: 'blur' },
-                    { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
-                ],
-                name: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' }
-                ],
-                email: [
-                    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
-                ],
-                roles: [
-                    { required: true, type: 'array', message: '请至少选择一个角色', trigger: 'blur,change' }
-                ],
-                loginPassword: [
-                    { required: true, validator: validatePass, trigger: 'blur' }
-                ],
-                psw1: [
-                    { required: true, validator: validatePass2, trigger: 'blur' }
-                ],
-            },
-            editRule: {
-                mobileNumber: [
-                    { required: true, message: '请输入手机号码', trigger: 'blur' },
-                    { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
-                ],
-                name: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' }
-                ],
-                email: [
-                    { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
-                ],
-                roles: [
-                    { required: true, type: 'array', message: '请至少选择一个角色', trigger: 'blur,change' }
-                ],
-                loginPassword: [
-                    { required: true, validator: validatePass3, trigger: 'blur' }
-                ],
-                psw1: [
-                    { required: true, validator: validatePass4, trigger: 'blur' }
-                ],
-            },
-            rule2: {
-                rejection: [
-                    { required: true, message: '请填写封禁理由', trigger: 'blur' }
-                ]
-            },
+			command: false,
+			checked: false,
+			roles: [],
+			search_value: '',
+			formLabelWidth: '100px',
+			dialogUserVisible: false,
+			dialogClosureVisible: false,
+			dialogeditUserVisible: false,
+			closureUser: {
+				rejection: '',
+				status: '',
+				actorId: '',
+			},
+			addUser: {
+				mobileNumber: '',
+				name: '',
+				email: '',
+				loginPassword: '',
+				roles: []
+			},
+			editUser: {
+				mobileNumber: '',
+				name: '',
+				email: '',
+				loginPassword: '',
+				roles: [],
+			},
+			rule: {
+				mobileNumber: [
+					{ required: true, message: '请输入手机号码', trigger: 'blur' },
+					{ pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
+				],
+				name: [
+					{ required: true, message: '请输入姓名', trigger: 'blur' }
+				],
+				email: [
+					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+				],
+				roles: [
+					{ required: true, type: 'array', message: '请至少选择一个角色', trigger: 'blur,change' }
+				],
+				loginPassword: [
+					{ required: true, validator: validatePass, trigger: 'blur' }
+				],
+				psw1: [
+					{ required: true, validator: validatePass2, trigger: 'blur' }
+				],
+			},
+			editRule: {
+				mobileNumber: [
+					{ required: true, message: '请输入手机号码', trigger: 'blur' },
+					{ pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
+				],
+				name: [
+					{ required: true, message: '请输入姓名', trigger: 'blur' }
+				],
+				email: [
+					{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+				],
+				roles: [
+					{ required: true, type: 'array', message: '请至少选择一个角色', trigger: 'blur,change' }
+				],
+				loginPassword: [
+					{ required: true, validator: validatePass3, trigger: 'blur' }
+				],
+				psw1: [
+					{ required: true, validator: validatePass4, trigger: 'blur' }
+				],
+			},
+			rule2: {
+				rejection: [
+					{ required: true, message: '请填写封禁理由', trigger: 'blur' }
+				]
+			},
 
-        }
-    },
-    methods: {
-        //新增的取消
-        cancel() {
-            this.$refs['addUser'].resetFields();
+		}
+	},
+	methods: {
+		//新增的取消
+		cancel() {
+			this.$refs['addUser'].resetFields()
             this.addUser = {
-                mobileNumber: '',
-                name: '',
-                email: '',
-                loginPassword: '',
-                roles: []
-            };
-            this.$store.dispatch('system_getManageList', this.param);
-            this.dialogUserVisible = false;
+				mobileNumber: '',
+				name: '',
+				email: '',
+				loginPassword: '',
+				roles: []
+            }
+            this.$store.dispatch('system_getManageList', this.param)
+            this.dialogUserVisible = false
         },
-        //编辑的取消
-        quit() {
-            this.dialogeditUserVisible = false;
-            this.$refs['editUser'].resetFields();
+		//编辑的取消
+		quit() {
+			this.dialogeditUserVisible = false
+            this.$refs['editUser'].resetFields()
             this.editUser = {
-                mobileNumber: '',
-                name: '',
-                email: '',
-                loginPassword: '',
-                roles: []
-            };
-            this.$store.dispatch('system_getManageList', this.param);
+				mobileNumber: '',
+				name: '',
+				email: '',
+				loginPassword: '',
+				roles: []
+            }
+            this.$store.dispatch('system_getManageList', this.param)
         },
-        //封禁的取消
-        cancelBtn() {
-            this.$refs['closureUser'].resetFields();
+		//封禁的取消
+		cancelBtn() {
+			this.$refs['closureUser'].resetFields()
             this.closureUser = {
-                rejection: '',
-                status: '',
-                actorId: '',
-            };
-            this.$store.dispatch('system_getManageList', this.param);
-            this.dialogClosureVisible = false;
+				rejection: '',
+				status: '',
+				actorId: '',
+            }
+            this.$store.dispatch('system_getManageList', this.param)
+            this.dialogClosureVisible = false
         },
-        // 搜索
-        handleIconClick() {
-            this.param.name = this.search_value;
-            this.param.pageNo = 1;
-            this.$store.dispatch('system_getManageList', this.param);
+		// 搜索
+		handleIconClick() {
+			this.param.name = this.search_value
+            this.param.pageNo = 1
+            this.$store.dispatch('system_getManageList', this.param)
         },
-        // 分页
-        handleSizeChange(size) {
-            this.param.pageSize = size;
-            this.param.pageNo = 1;
-            this.$store.dispatch('system_getManageList', this.param);
+		// 分页
+		handleSizeChange(size) {
+			this.param.pageSize = size
+            this.param.pageNo = 1
+            this.$store.dispatch('system_getManageList', this.param)
         },
-        handleCurrentChange(page) {
-            this.param.pageNo = page;
-            this.$store.dispatch('system_getManageList', this.param);
+		handleCurrentChange(page) {
+			this.param.pageNo = page
+            this.$store.dispatch('system_getManageList', this.param)
         },
-        // 保存添加用户
-        client() {
-            this.$refs['addUser'].validate((valid) => {
-                if (valid) {
-                    this.$store.dispatch('system_createUser', this.addUser).then(() => {
-                        if (this.systemCreate.success) {
-                            this.$message({
-                                message: '添加账号成功！',
-                                type: 'success'
-                            });
-                            this.$store.dispatch('system_getManageList', this.param);
-                            this.dialogUserVisible = false;
+		// 保存添加用户
+		client() {
+			this.$refs['addUser'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('system_createUser', this.addUser).then(() => {
+						if (this.systemCreate.success) {
+							this.$message({
+								message: '添加账号成功！',
+								type: 'success'
+							})
+                            this.$store.dispatch('system_getManageList', this.param)
+                            this.dialogUserVisible = false
                         } else {
-                            this.$message('添加失败');
+							this.$message('添加失败')
                         }
-                    });
+					})
                 } else {
-                    console.log('error submit!!');
-                    return false;
+					console.log('error submit!!')
+                    return false
                 }
-            });
+			})
         },
-        // 点击编辑用户查询信息
-        getData(data) {
-            this.editUser = JSON.parse(JSON.stringify(data));
-            this.editUser.email = data.email&&data.email.address;
-            this.roles = [];
-            this.checked = false;
-            this.editUser.loginPassword = '';
-            this.editUser.psw1 = '';
+		// 点击编辑用户查询信息
+		getData(data) {
+			this.editUser = JSON.parse(JSON.stringify(data))
+            this.editUser.email = data.email&&data.email.address
+            this.roles = []
+            this.checked = false
+            this.editUser.loginPassword = ''
+            this.editUser.psw1 = ''
             for (let i = 0; i < this.editUser.roles.length; i++) {
-                this.roles[i] = this.editUser.roles[i].id;
+				this.roles[i] = this.editUser.roles[i].id
             }
-            this.editUser.roles = this.roles;
-            this.dialogeditUserVisible = true;
-            this.changeCommand();
+			this.editUser.roles = this.roles
+            this.dialogeditUserVisible = true
+            this.changeCommand()
         },
-        //变更口令
-        changeCommand() {
-            if (this.checked == true) {
-                this.command = true;
+		//变更口令
+		changeCommand() {
+			if (this.checked == true) {
+				this.command = true
             } else {
-                this.command = false;
+				this.command = false
             }
-        },
-        //保存编辑用户
-        editClient() {
-            if (this.editUser.loginPassword == '') {
-                this.editUser.type = 0;
+		},
+		//保存编辑用户
+		editClient() {
+			if (this.editUser.loginPassword == '') {
+				this.editUser.type = 0
             } else {
-                this.editUser.type = 1;
+				this.editUser.type = 1
             }
-            this.$refs['editUser'].validate((valid) => {
-                if (valid) {
-                    if (this.editUser.id) {
-                        this.$store.dispatch('system_updateUser', this.editUser).then(() => {
-                            if (this.systemUpdate.success) {
-                                this.$message({
-                                    message: '编辑用户成功！',
-                                    type: 'success'
-                                });
-                                this.$store.dispatch('system_getManageList', this.param);
-                                this.dialogeditUserVisible = false;
+			this.$refs['editUser'].validate((valid) => {
+				if (valid) {
+					if (this.editUser.id) {
+						this.$store.dispatch('system_updateUser', this.editUser).then(() => {
+							if (this.systemUpdate.success) {
+								this.$message({
+									message: '编辑用户成功！',
+									type: 'success'
+								})
+                                this.$store.dispatch('system_getManageList', this.param)
+                                this.dialogeditUserVisible = false
                             } else {
-                                if(this.systemUpdate.information==''){
-                                    this.$message.warning(this.systemUpdate.information);
+								if(this.systemUpdate.information==''){
+									this.$message.warning(this.systemUpdate.information)
                                 }else{
-                                    this.$message.warning('操作失败');
+									this.$message.warning('操作失败')
                                 }
-                            }
-                        });
+							}
+						})
                     }
-                } else {
-                    console.log('error submit!!');
-                    return false;
+				} else {
+					console.log('error submit!!')
+                    return false
                 }
-            });
+			})
         },
-        //点击封禁
-        openClosure(row) {
-            this.closureUser.actorId = row.id;
+		//点击封禁
+		openClosure(row) {
+			this.closureUser.actorId = row.id
             if (row.status == 1) {
-                this.closureUser.status = 2;
-                this.dialogClosureVisible = true;
+				this.closureUser.status = 2
+                this.dialogClosureVisible = true
             } else {
-                this.closureUser.status = 1;
+				this.closureUser.status = 1
                 this.$store.dispatch('system_closureUser', this.closureUser).then(() => {
-                    if (this.systemClosure.success) {
-                        this.$message({
-                            message: '激活成功！',
-                            type: 'success'
-                        });
-                        this.$store.dispatch('system_getManageList', this.param);
+					if (this.systemClosure.success) {
+						this.$message({
+							message: '激活成功！',
+							type: 'success'
+						})
+                        this.$store.dispatch('system_getManageList', this.param)
                     } else {
-                        this.$message('激活失败');
+						this.$message('激活失败')
                     }
-                });
+				})
             }
 
 
-        },
-        // 判断封禁用户是否成功
-        closure() {
-            this.$refs['closureUser'].validate((valid) => {
-                if (valid) {
-                    this.$store.dispatch('system_closureUser', this.closureUser).then(() => {
-                        if (this.systemClosure.success) {
-                            this.$message({
-                                message: '您已成功提交封禁理由！',
-                                type: 'success'
-                            });
-                            this.$store.dispatch('system_getManageList', this.param);
-                            this.dialogClosureVisible = false;
+		},
+		// 判断封禁用户是否成功
+		closure() {
+			this.$refs['closureUser'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('system_closureUser', this.closureUser).then(() => {
+						if (this.systemClosure.success) {
+							this.$message({
+								message: '您已成功提交封禁理由！',
+								type: 'success'
+							})
+                            this.$store.dispatch('system_getManageList', this.param)
+                            this.dialogClosureVisible = false
                         } else {
-                            this.$message('封禁失败');
+							this.$message('封禁失败')
                         }
-                    });
+					})
                 } else {
-                    console.log('error submit!!');
-                    return false;
+					console.log('error submit!!')
+                    return false
                 }
-            });
+			})
         },
-        delBtn(data) {
-            this.$confirm('此操作将永久删除账户, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                let delParams = {
-                    rejection: '',
-                    status: 0,
-                    actorId: data.id,
-                }
-                if (data.id != this.actor.id) {
-                    this.$store.dispatch('system_closureUser', delParams).then(() => {
-                        if (this.systemClosure.success) {
-                            this.$message({
-                                message: '删除成功！',
-                                type: 'success'
-                            });
-                            this.$store.dispatch('system_getManageList', this.param);
+		delBtn(data) {
+			this.$confirm('此操作将永久删除账户, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				let delParams = {
+					rejection: '',
+					status: 0,
+					actorId: data.id,
+				}
+				if (data.id != this.actor.id) {
+					this.$store.dispatch('system_closureUser', delParams).then(() => {
+						if (this.systemClosure.success) {
+							this.$message({
+								message: '删除成功！',
+								type: 'success'
+							})
+                            this.$store.dispatch('system_getManageList', this.param)
                         } else {
-                            this.$message('删除失败');
+							this.$message('删除失败')
                         }
-                    });
+					})
                 } else {
-                    this.$message({
-                        type: 'info',
-                        message: '不能删除自己的账户！'
-                    });
+					this.$message({
+						type: 'info',
+						message: '不能删除自己的账户！'
+					})
                 }
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消删除'
-                });
-            });
+			}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '已取消删除'
+				});
+			})
         }
-    },
+	},
 }
 </script>

@@ -255,266 +255,266 @@
 </template>
 <script>
     
-    export default {
-        name: 'resisAuthTab',
-        computed: {
-            authInfoList: function () {
-                return this.$store.state.item.authInfo || {};
+export default {
+	name: 'resisAuthTab',
+	computed: {
+		authInfoList: function () {
+			return this.$store.state.item.authInfo || {}
             },
-            itemManageDetail: function () {
-                return this.$store.state.item.itemManageDetail||{};
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail||{}
             }
-        },
-        beforeMount() {
-            this.$store.dispatch('item_getAuthInfo', { id: this.itemManageDetail.enterpriseId }).then(()=>{
-                this.formatData();
+	},
+	beforeMount() {
+		this.$store.dispatch('item_getAuthInfo', { id: this.itemManageDetail.enterpriseId }).then(()=>{
+			this.formatData()
             })
-        },
-        data() {
-            return {
-                dialogFormVisible: false,
-                dialogFormVisible1:false,
-                title: '修改企业银账授权信息',
-                title1:'修改个人银账授权信息',
-                enterpriseAccount:{},
-                personAccount:{},
-                limitform1: {
-                    name: '',
-                    creditCode: '',
-                    accountApprovalNumber: '',
-                    depositBank: '',
-                    basicDepositAccountNumber: '',
-                    queryAuthorization: 1,
-                    queryPassword: '',
-                    confirmPassword: '',
-                    businessLicenseURL: '',
-                    accountLicenceURL: '',
-                    accountName:'',
-                    customerCode:'',
-                    userLoginName:'',
-                    pinCode:'',
-                    activationCode:'',
-                    type:0 , //类型0：企业 1：个人
-                    province:'',//省份
-                    city:'',//市
-                    subbranch:''//支行
-                },
-                limitform2: {
-                    name: '',
-                    creditCode: '',
-                    accountApprovalNumber: '',
-                    depositBank: '',
-                    basicDepositAccountNumber: '',
-                    queryAuthorization: 1,
-                    queryPassword: '',
-                    confirmPassword: '',
-                    businessLicenseURL: '',
-                    accountLicenceURL: '',
-                    accountName:'',
-                    customerCode:'',
-                    userLoginName:'',
-                    pinCode:'',
-                    activationCode:'',
-                    type:1, //类型0：企业 1：个人
-                    province:'',//省份
-                    city:'',//市
-                    subbranch:''//支行
-                },
-                businessLicenseURLs:[],
-                accountLicenceURLs:[],
-                fileInfo:{
-                    fileType:2
-                },
-                limit:{
-                    province:[
-                        {required: true, message: '请输入开户行省名', trigger: 'blur' },
-                    ],
-                    city:[
-                        {required: true, message: '请输入开户行市名', trigger: 'blur' },
-                    ],
-                    subbranch:[
-                        {required: true, message: '请输入开户支行名', trigger: 'blur' },
-                    ],
-                    accountApprovalNumber:[
-                        {required: true, message: '请输入开户许可核准号', trigger: 'blur' },
-                    ],
-                    depositBank:[
-                        {required: true, message: '请输入开户银行', trigger: 'blur' }
-                    ],
-                    basicDepositAccountNumber:[
-                        {required: true, message: '请输入基本存款账户账号', trigger: 'blur' }
-                    ],
-                    accountName:[
-                        {required: true, message: '请输入开户名', trigger: 'blur' }
-                    ],
-                    businessLicenseURL:[
-                        {required: true, message: '请上传营业执照影印件', trigger: 'blur' }
-                    ],
-                    accountLicenceURL:[
-                        {required: true, message: '请上传开户许可证影印件', trigger: 'blur' }
-                    ],
-                    queryPassword:[
-                        {required: true, message: '请输入密码', trigger: 'blur'}
-                    ],
-                    customerCode:[
-                        {trigger: 'blur',validator:(rule, value, callback) => {
-                            if (this.limitform1.queryAuthorization==1&&value == '') {
-                            callback(new Error('请输入网银客户号/企业客户号'));
+	},
+	data() {
+		return {
+			dialogFormVisible: false,
+			dialogFormVisible1:false,
+			title: '修改企业银账授权信息',
+			title1:'修改个人银账授权信息',
+			enterpriseAccount:{},
+			personAccount:{},
+			limitform1: {
+				name: '',
+				creditCode: '',
+				accountApprovalNumber: '',
+				depositBank: '',
+				basicDepositAccountNumber: '',
+				queryAuthorization: 1,
+				queryPassword: '',
+				confirmPassword: '',
+				businessLicenseURL: '',
+				accountLicenceURL: '',
+				accountName:'',
+				customerCode:'',
+				userLoginName:'',
+				pinCode:'',
+				activationCode:'',
+				type:0 , //类型0：企业 1：个人
+				province:'',//省份
+				city:'',//市
+				subbranch:''//支行
+			},
+			limitform2: {
+				name: '',
+				creditCode: '',
+				accountApprovalNumber: '',
+				depositBank: '',
+				basicDepositAccountNumber: '',
+				queryAuthorization: 1,
+				queryPassword: '',
+				confirmPassword: '',
+				businessLicenseURL: '',
+				accountLicenceURL: '',
+				accountName:'',
+				customerCode:'',
+				userLoginName:'',
+				pinCode:'',
+				activationCode:'',
+				type:1, //类型0：企业 1：个人
+				province:'',//省份
+				city:'',//市
+				subbranch:''//支行
+			},
+			businessLicenseURLs:[],
+			accountLicenceURLs:[],
+			fileInfo:{
+				fileType:2
+			},
+			limit:{
+				province:[
+					{required: true, message: '请输入开户行省名', trigger: 'blur' },
+				],
+				city:[
+					{required: true, message: '请输入开户行市名', trigger: 'blur' },
+				],
+				subbranch:[
+					{required: true, message: '请输入开户支行名', trigger: 'blur' },
+				],
+				accountApprovalNumber:[
+					{required: true, message: '请输入开户许可核准号', trigger: 'blur' },
+				],
+				depositBank:[
+					{required: true, message: '请输入开户银行', trigger: 'blur' }
+				],
+				basicDepositAccountNumber:[
+					{required: true, message: '请输入基本存款账户账号', trigger: 'blur' }
+				],
+				accountName:[
+					{required: true, message: '请输入开户名', trigger: 'blur' }
+				],
+				businessLicenseURL:[
+					{required: true, message: '请上传营业执照影印件', trigger: 'blur' }
+				],
+				accountLicenceURL:[
+					{required: true, message: '请上传开户许可证影印件', trigger: 'blur' }
+				],
+				queryPassword:[
+					{required: true, message: '请输入密码', trigger: 'blur'}
+				],
+				customerCode:[
+					{trigger: 'blur',validator:(rule, value, callback) => {
+						if (this.limitform1.queryAuthorization==1&&value == '') {
+							callback(new Error('请输入网银客户号/企业客户号'))
                             } else {
-                            callback();
+							callback()
                             }
-                        }}
-                    ],
-                    userLoginName:[
-                        {trigger: 'blur',validator:(rule, value, callback) => {
-                            if (this.limitform1.queryAuthorization==1&&value == '') {
-                            callback(new Error('请输入用户名'));
+					}}
+				],
+				userLoginName:[
+					{trigger: 'blur',validator:(rule, value, callback) => {
+						if (this.limitform1.queryAuthorization==1&&value == '') {
+							callback(new Error('请输入用户名'))
                             } else {
-                            callback();
+							callback()
                             }
-                        }}
-                    ],
-                    activationCode:[
-                        {trigger: 'blur',validator:(rule, value, callback) => {
-                            if (this.limitform1.queryAuthorization==2&&value == '') {
-                            callback(new Error('请输入激活码'));
+					}}
+				],
+				activationCode:[
+					{trigger: 'blur',validator:(rule, value, callback) => {
+						if (this.limitform1.queryAuthorization==2&&value == '') {
+							callback(new Error('请输入激活码'))
                             } else {
-                            callback();
+							callback()
                             }
-                        }}
-                    ],
-                    pinCode:[
-                        {trigger: 'blur',validator:(rule, value, callback) => {
-                            if (this.limitform1.queryAuthorization==2&&value == '') {
-                            callback(new Error('请输入pin码'));
+					}}
+				],
+				pinCode:[
+					{trigger: 'blur',validator:(rule, value, callback) => {
+						if (this.limitform1.queryAuthorization==2&&value == '') {
+							callback(new Error('请输入pin码'))
                             } else {
-                            callback();
+							callback()
                             }
-                        }}
-                    ]
-                },
-                limit1:{
-                    province:[
-                        {required: true, message: '请输入开户行省名', trigger: 'blur' },
-                    ],
-                    city:[
-                        {required: true, message: '请输入开户行市名', trigger: 'blur' },
-                    ],
-                    subbranch:[
-                        {required: true, message: '请输入开户行机构名', trigger: 'blur' },
-                    ],
-                    depositBank:[
-                        {required: true, message: '请输入开户银行', trigger: 'blur' }
-                    ],
-                    basicDepositAccountNumber:[
-                        {required: true, message: '请输入银行账户', trigger: 'blur' }
-                    ],
-                    queryPassword:[
-                        {required: true, message: '请输入查询口令', trigger: 'blur'}
-                    ],
-                    queryPassword1:[
-                        {trigger: 'blur',validator:(rule, value, callback) => {
-                            if(value==''){
-                                callback(new Error('请确认查询口令'))
-                            }else if (value==this.limitform2.queryPassword) {
-                                callback(new Error('两次输入口令不一致'));
+					}}
+				]
+			},
+			limit1:{
+				province:[
+					{required: true, message: '请输入开户行省名', trigger: 'blur' },
+				],
+				city:[
+					{required: true, message: '请输入开户行市名', trigger: 'blur' },
+				],
+				subbranch:[
+					{required: true, message: '请输入开户行机构名', trigger: 'blur' },
+				],
+				depositBank:[
+					{required: true, message: '请输入开户银行', trigger: 'blur' }
+				],
+				basicDepositAccountNumber:[
+					{required: true, message: '请输入银行账户', trigger: 'blur' }
+				],
+				queryPassword:[
+					{required: true, message: '请输入查询口令', trigger: 'blur'}
+				],
+				queryPassword1:[
+					{trigger: 'blur',validator:(rule, value, callback) => {
+						if(value==''){
+							callback(new Error('请确认查询口令'))
+						}else if (value==this.limitform2.queryPassword) {
+							callback(new Error('两次输入口令不一致'))
                             } else {
-                                callback();
+							callback()
                             }
-                        }}
-                    ],
-                    userLoginName:[
-                        {required: true, message: '请输入登录名', trigger: 'blur'}
-                    ]
-                }
-            }
-        },
-        methods: {
-            submitForm1(){
-                this.$refs['limitformTarget1'].validate((valid) => {
-                    if (valid) {
-                        let param=this.limitform2;
-                        param.id=this.personAccount.id;
-                        param.enterpriseId= this.itemManageDetail.enterpriseId;
+					}}
+				],
+				userLoginName:[
+					{required: true, message: '请输入登录名', trigger: 'blur'}
+				]
+			}
+		}
+	},
+	methods: {
+		submitForm1(){
+			this.$refs['limitformTarget1'].validate((valid) => {
+				if (valid) {
+					let param=this.limitform2
+                        param.id=this.personAccount.id
+                        param.enterpriseId= this.itemManageDetail.enterpriseId
                         this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
-                            this.dialogFormVisible1=false;
+						this.dialogFormVisible1=false
                             this.formatData()
-                        })
-                    } else {
-                        return false;
+					})
+				} else {
+					return false
                     }
-                });
+			})
             },
-            formatData(){
-                let auth=JSON.parse(JSON.stringify(this.authInfoList));
+		formatData(){
+			let auth=JSON.parse(JSON.stringify(this.authInfoList))
                 for (let i = 0; i < auth.length; i++) {
-                    let item = auth[i];
+				let item = auth[i]
                     if(item.type==0){
-                        this.enterpriseAccount=item;
+					this.enterpriseAccount=item
                     }else if(item.type==1){
-                        this.personAccount=item;
+					this.personAccount=item
                     }
-                }
-                if(this.enterpriseAccount.businessLicenseURL&&this.enterpriseAccount.businessLicenseURL.length>0){
-                    this.businessLicenseURLs.push({url:this.enterpriseAccount.businessLicenseURL,name:'营业执照影印件'})
-                }
-                if(this.enterpriseAccount.accountLicenceURL&&this.enterpriseAccount.accountLicenceURL.length>0){
-                    this.accountLicenceURLs.push({url:this.enterpriseAccount.accountLicenceURL,name:'客户许可证影印件'})
-                }
-                if(this.enterpriseAccount.id)this.limitform1=this.enterpriseAccount;
-                if(this.personAccount.id)this.limitform2=this.personAccount;
+			}
+			if(this.enterpriseAccount.businessLicenseURL&&this.enterpriseAccount.businessLicenseURL.length>0){
+				this.businessLicenseURLs.push({url:this.enterpriseAccount.businessLicenseURL,name:'营业执照影印件'})
+			}
+			if(this.enterpriseAccount.accountLicenceURL&&this.enterpriseAccount.accountLicenceURL.length>0){
+				this.accountLicenceURLs.push({url:this.enterpriseAccount.accountLicenceURL,name:'客户许可证影印件'})
+			}
+			if(this.enterpriseAccount.id)this.limitform1=this.enterpriseAccount
+                if(this.personAccount.id)this.limitform2=this.personAccount
             },
-            accountLicenceURL_remove(){
-                this.limitform1.accountLicenceURL='';
+		accountLicenceURL_remove(){
+			this.limitform1.accountLicenceURL=''
             },
-            businessLicenseURL_remove(){
-                this.limitform1.businessLicenseURL='';
+		businessLicenseURL_remove(){
+			this.limitform1.businessLicenseURL=''
             },
-            beforeUploadb(file){
-                if(this.limitform1.businessLicenseURL&&this.limitform1.businessLicenseURL.length>0){
-                    this.$message.warning('只能上传一份营业执照影印件');
-                    return false;
+		beforeUploadb(file){
+			if(this.limitform1.businessLicenseURL&&this.limitform1.businessLicenseURL.length>0){
+				this.$message.warning('只能上传一份营业执照影印件')
+                    return false
                 }
-                if(file.size>=1024*1024*10){
-                    this.$message.warning('不能上传大于10MB的文件！');
-                    return false;
+			if(file.size>=1024*1024*10){
+				this.$message.warning('不能上传大于10MB的文件！')
+                    return false
                 }
-                return true;
+			return true
             },
-            beforeUploada(file){
-                if(this.limitform1.accountLicenceURL&&this.limitform1.accountLicenceURL.length>0){
-                    this.$message.warning('只能上传一份客户许可证影印件');
-                    return false;
+		beforeUploada(file){
+			if(this.limitform1.accountLicenceURL&&this.limitform1.accountLicenceURL.length>0){
+				this.$message.warning('只能上传一份客户许可证影印件')
+                    return false
                 }
-                if(file.size>=1024*1024*10){
-                    this.$message.warning('不能上传大于10MB的文件！');
-                    return false;
+			if(file.size>=1024*1024*10){
+				this.$message.warning('不能上传大于10MB的文件！')
+                    return false
                 }
-                return true;
+			return true
             },
-            successUpload1(response,file,fileList){
-                this.limitform1.businessLicenseURL=JSON.parse(response.objectLiteral);
+		successUpload1(response,file,fileList){
+			this.limitform1.businessLicenseURL=JSON.parse(response.objectLiteral)
             },
-            successUpload2(response,file,fileList){
-                this.limitform1.accountLicenceURL=JSON.parse(response.objectLiteral);
+		successUpload2(response,file,fileList){
+			this.limitform1.accountLicenceURL=JSON.parse(response.objectLiteral)
             },
-            submitForm(){
-                this.$refs['limitformTarget'].validate((valid) => {
-                    if (valid) {
-                        let param=this.limitform1;
-                        param.id=this.enterpriseAccount.id;
-                        param.enterpriseId= this.itemManageDetail.enterpriseId;
+		submitForm(){
+			this.$refs['limitformTarget'].validate((valid) => {
+				if (valid) {
+					let param=this.limitform1
+                        param.id=this.enterpriseAccount.id
+                        param.enterpriseId= this.itemManageDetail.enterpriseId
                         this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
-                            this.dialogFormVisible=false;
+						this.dialogFormVisible=false
                             this.formatData()
-                        })
-                    } else {
-                        return false;
+					})
+				} else {
+					return false
                     }
-                });
+			})
             }
             
-        }
-    }
+	}
+}
 
 </script>

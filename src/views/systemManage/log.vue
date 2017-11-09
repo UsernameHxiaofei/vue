@@ -77,89 +77,89 @@
 <script>
 import pagination from '../../components/common/pagination'
 export default {
-  components: {
-    pagination
-  },
-  computed: {
-    systemLogList: function () {
-      return this.$store.state.system.systemLogList;
+	components: {
+		pagination
+	},
+	computed: {
+		systemLogList: function () {
+			return this.$store.state.system.systemLogList
     },
+	},
+	beforeMount() {
+		this.param = {
+			beginTime: this.startTime,
+			endTime: this.endTime,
+			operatorName:this.operatorName,
+			componentCode:this.componentCode,
+			inputAndOutData:this.inputAndOutData,
+			pageNo: 1,
+			pageSize: 10
+		}
+		this.$store.dispatch('system_logList', this.param)
   },
-  beforeMount() {
-    this.param = {
-      beginTime: this.startTime,
-      endTime: this.endTime,
-      operatorName:this.operatorName,
-      componentCode:this.componentCode,
-      inputAndOutData:this.inputAndOutData,
-      pageNo: 1,
-      pageSize: 10
-    }
-    this.$store.dispatch('system_logList', this.param);
-  },
-  data() {
-    return {
-      startTime: '',
-      endTime: '',
-      operatorName:'',
-      componentCode:'',
-      inputAndOutData:'',
-      pickerOptions: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
+	data() {
+		return {
+			startTime: '',
+			endTime: '',
+			operatorName:'',
+			componentCode:'',
+			inputAndOutData:'',
+			pickerOptions: {
+				shortcuts: [{
+					text: '最近一周',
+					onClick(picker) {
+						const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+            picker.$emit('pick', [start, end])
           }
-        }, {
-          text: '最近一个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
+				}, {
+					text: '最近一个月',
+					onClick(picker) {
+						const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+            picker.$emit('pick', [start, end])
           }
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
+				}, {
+					text: '最近三个月',
+					onClick(picker) {
+						const end = new Date()
+            const start = new Date()
+            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+            picker.$emit('pick', [start, end])
           }
-        }]
-      },
-      range: []
-    }
-  },
-  methods: {
-    // 搜索
-    handleIconClick() {
-      this.param.operatorName=this.operatorName;
-      this.param.componentCode=this.componentCode;
-      this.param.inputAndOutData=this.inputAndOutData;
-      this.param.pageNo = 1;
-      this.$store.dispatch('system_logList', this.param);
+				}]
+			},
+			range: []
+		}
+	},
+	methods: {
+		// 搜索
+		handleIconClick() {
+			this.param.operatorName=this.operatorName
+      this.param.componentCode=this.componentCode
+      this.param.inputAndOutData=this.inputAndOutData
+      this.param.pageNo = 1
+      this.$store.dispatch('system_logList', this.param)
     },
-    // 分页
-    handleSizeChange(size) {
-      this.param.pageSize = size;
-      this.param.pageNo = 1;
-      this.$store.dispatch('system_logList', this.param);
+		// 分页
+		handleSizeChange(size) {
+			this.param.pageSize = size
+      this.param.pageNo = 1
+      this.$store.dispatch('system_logList', this.param)
     },
-    handleCurrentChange(page) {
-      this.param.pageNo = page;
-      this.$store.dispatch('system_logList', this.param);
+		handleCurrentChange(page) {
+			this.param.pageNo = page
+      this.$store.dispatch('system_logList', this.param)
     },
-    // 时间
-    rangechange(v) {
-      this.range = v.split(' - ');
-      this.param.beginTime = this.range[0];
-      this.param.endTime = this.range[1];
-      this.$store.dispatch('system_logList', this.param);
+		// 时间
+		rangechange(v) {
+			this.range = v.split(' - ')
+      this.param.beginTime = this.range[0]
+      this.param.endTime = this.range[1]
+      this.$store.dispatch('system_logList', this.param)
     },
-  }
+	}
 }
 </script>

@@ -4,26 +4,26 @@
    * @param Vue 实例
    */
 module.exports=function client(Vue){
-    return {
-      login_check: () => {
-        return Vue.http.get('login_check').then(response => {
-          return response.body;
-        });
-      },
-      login_out:() => {
-         return Vue.http.post('login_out').then(response => {
-          return response.body;
-         });
-      },
-      login_getUser:()=>{
-        return Vue.http.post('login_getUser').then(response => {
-          return response.body;
-         });
-      },
-      login_getUserByPassport:()=>{
-        return Vue.http.post('login_getUser').then(response => {
-          return response.body;
-        });
-      }
-    } 
+	return {
+		login_check: () => {
+			return Vue.http.get('login_check').then(response => {
+				return response.body
+			})
+		},
+		login_out:() => {
+			return Vue.http.post('login_out').then(response => {
+				return response.body
+			})
+		},
+		login_getUser:()=>{
+			return Vue.http.post('login_getUser').then(response => {
+				return response.body
+			})
+		},
+		login_getUserByPassport:()=>{
+			return Vue.http.post('login_getUser').then(response => {
+				return response.body
+			})
+		}
+	} 
 }

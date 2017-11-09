@@ -62,97 +62,97 @@
         </div>
       </template>
       <script>
-      import pagination from '../../components/common/pagination.vue'
-      export default {
-        components: {
-          'pagination': pagination
-        },
-         computed: {
-          webMessage: function () {
-            return this.$store.state.content.selectWebMessage;
-          }
-        },
-        data() {
-          return {
-            statusCode: '',
-            keyword: '',
-            indentType: '',
-            active: 'border-orange',
-            optionsType: [{
-              value: 'A',
-              label: '实名'
-            }, {
-              value: 'B',
-              label: '行家'
-            }, {
-              value: 'C',
-              label: '项目方'
-            }, {
-              value: 'D',
-              label: '投资人'
-            }, {
-              value: 'E',
-              label: '领投'
-            }],
-            optionsStatus: [{
-              value: '1',
-              label: '正常'
-            }, {
-              value: '2',
-              label: '已封禁'
-            }],
-            dialogTableVisible: false,
-            form: {
-              name: '',
-              region: '',
-              date1: '',
-              date2: '',
-              delivery: false,
-              type: [],
-              resource: '',
-              desc: '',
-            },
-            msgWebParam: {},
-            formLabelWidth: '120px'
-          }
-        },
-        beforeMount() {
-          this.msgWebParam = {
-            status: this.statusCode,
-            keyword: this.keyword,
-            indentType: this.indentType,
-            pageNo: 1,
-            pageSize: 10,
-          }
-          //分页查询站内消息,模糊查询
-          this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-        },
-        methods: {
-          handleIconClick(ev) {
-            this.msgWebParam.keyword = this.keyword;
-            this.msgWebParam.pageNo = 1;
-            this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          },
-          handleSizeChange(val) {
-            this.msgWebParam.pageSize = val;
-            this.msgWebParam.pageNo = 1;
-            this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          },
-          handleCurrentChange(val) {
-            this.msgWebParam.pageNo = val;
-            this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          },
-          typeChange() {
-            this.msgWebParam.pageNo = 1;
-            this.msgWebParam.indentType = this.indentType;
-            this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          },
-          statusChange() {
-            this.msgWebParam.pageNo = 1;
-            this.msgWebParam.status = this.statusCode;
-            this.$store.dispatch('selectPage_byCondition', this.msgWebParam);
-          }
-        }
-      }
+import pagination from '../../components/common/pagination.vue'
+export default {
+	components: {
+		'pagination': pagination
+	},
+	computed: {
+		webMessage: function () {
+			return this.$store.state.content.selectWebMessage
+		}
+	},
+	data() {
+		return {
+			statusCode: '',
+			keyword: '',
+			indentType: '',
+			active: 'border-orange',
+			optionsType: [{
+				value: 'A',
+				label: '实名'
+			}, {
+				value: 'B',
+				label: '行家'
+			}, {
+				value: 'C',
+				label: '项目方'
+			}, {
+				value: 'D',
+				label: '投资人'
+			}, {
+				value: 'E',
+				label: '领投'
+			}],
+			optionsStatus: [{
+				value: '1',
+				label: '正常'
+			}, {
+				value: '2',
+				label: '已封禁'
+			}],
+			dialogTableVisible: false,
+			form: {
+				name: '',
+				region: '',
+				date1: '',
+				date2: '',
+				delivery: false,
+				type: [],
+				resource: '',
+				desc: '',
+			},
+			msgWebParam: {},
+			formLabelWidth: '120px'
+		}
+	},
+	beforeMount() {
+		this.msgWebParam = {
+			status: this.statusCode,
+			keyword: this.keyword,
+			indentType: this.indentType,
+			pageNo: 1,
+			pageSize: 10,
+		}
+		//分页查询站内消息,模糊查询
+		this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+	},
+	methods: {
+		handleIconClick() {
+			this.msgWebParam.keyword = this.keyword
+			this.msgWebParam.pageNo = 1
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		handleSizeChange(val) {
+			this.msgWebParam.pageSize = val
+			this.msgWebParam.pageNo = 1
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		handleCurrentChange(val) {
+			this.msgWebParam.pageNo = val
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		typeChange() {
+			this.msgWebParam.pageNo = 1
+			this.msgWebParam.indentType = this.indentType
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		},
+		statusChange() {
+			this.msgWebParam.pageNo = 1
+			this.msgWebParam.status = this.statusCode
+			this.$store.dispatch('selectPage_byCondition', this.msgWebParam)
+		}
+	}
+}
       </script>
       

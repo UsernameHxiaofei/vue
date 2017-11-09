@@ -218,29 +218,29 @@
 </template>
 <script>
 
-  export default {
-    name:'industryTab',
-    computed: {
-      thirdReport:function(){
-        return this.$store.state.item.thirdReport;
+export default {
+	name:'industryTab',
+	computed: {
+		thirdReport:function(){
+			return this.$store.state.item.thirdReport
       },
-      itemManageDetail: function () {
-        return this.$store.state.item.itemManageDetail || {};
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail || {}
       }
-    },
-    beforeMount () {
+	},
+	beforeMount () {
       
-        this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId}).then(()=>{
-            this.businessInfo=(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo)||{}
-        })
+		this.$store.dispatch('item_getThirdReport',{id:this.$route.params.projectId}).then(()=>{
+			this.businessInfo=(this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo)||{}
+		})
       
-    },
-    data () {
-      return {
-        businessInfo:{}
-      }
-    }
-  };
+	},
+	data () {
+		return {
+			businessInfo:{}
+		}
+	}
+  }
 </script>
 <style>
   #industryTab .tableInfo{

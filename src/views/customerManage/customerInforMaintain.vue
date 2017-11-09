@@ -175,152 +175,152 @@
 <script>
 import pagination from '../../components/common/pagination'
 export default {
-    name: 'customerInforMaintain',
-    components: {
-        pagination
-    },
-    computed: {
-        customerListData: function () {
-            return this.$store.state.customer.customerListData;
-        },
-        customerStatistics: function () {
-            return this.$store.state.customer.customerStatistics;
-        },
-        customerActorData: function () {
-            return this.$store.state.customer.actorData;
-        },
-        customerData: function () {
-            return this.$store.state.customer.customerData;
-        }
-    },
-    data() {
-        return {
-            statusOptions: [ { value: 1, label: '正常' }, { value: 2, label: '已封禁' }],
-            certifiOptions: [{ value: 'A', label: '实名' }, { value: 'B', label: '行家' },
-            { value: 'C', label: '项目方' },
-            { value: 'D', label: '投资人' },
-            { value: 'E', label: '领投人' }],
-            active: 'border-orange',
-            dialogFormVisible: false,
-            showCustomerInfo:false,
-            formLabelWidth: '120px',
-            keyword: '',
-            certifi: '',
-            status: '',
-            param: {},
-            customer: {
-                identNumber: '',
-                mobileNumber: '',
-                name: '',
-            },
-            customerInfo:{},
-            customerRules: {
-                mobileNumber: [
-                    { required: true, message: '请输入手机号码', trigger: 'blur' },
-                    { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
-                ],
-                name: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' },
-                    // { pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文', trigger: 'blur' }
-                ],
-                identNumber: [
-                    { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
-                ],
-            }
-        }
-    },
-    beforeMount() {
-        this.$store.dispatch('customer_statistics').then(()=>{
-            if(this.customerStatistics){
-                this.customerStatistics.allCount = this.customerStatistics.UnCertifiCount+this.customerStatistics.expertCount+this.customerStatistics.investorCount+this.customerStatistics.leadInvestorCount+this.customerStatistics.projectPartyCount;
-            }
-        });
-        this.param = {
-            keyword: this.keyword,
-            status: this.status,
-            certifi: this.certifi,
-            pageSize: 10,
-            pageNum: 1
-        }
-        this.$store.dispatch('customer_getList', this.param);
-    },
-    methods: {
-        handleSizeChange(val) {
-            this.param.pageSize = val;
-            this.param.pageNum = 1;
-            this.$store.dispatch('customer_getList', this.param);
-        },
-        handleCurrentChange(val) {
-            this.param.pageNum = val;
-            this.$store.dispatch('customer_getList', this.param);
-        },
-        certifiChange() {
-            this.param.pageNum = 1;
-            this.param.certifi = this.certifi;
-            this.$store.dispatch('customer_getList', this.param);
-        },
-        statusChange() {
-            this.param.pageNum = 1;
-            this.param.status = this.status;
-            this.$store.dispatch('customer_getList', this.param);
-        },
-        keywordChange() {
+	name: 'customerInforMaintain',
+	components: {
+		pagination
+	},
+	computed: {
+		customerListData: function () {
+			return this.$store.state.customer.customerListData
+		},
+		customerStatistics: function () {
+			return this.$store.state.customer.customerStatistics
+		},
+		customerActorData: function () {
+			return this.$store.state.customer.actorData
+		},
+		customerData: function () {
+			return this.$store.state.customer.customerData
+		}
+	},
+	data() {
+		return {
+			statusOptions: [ { value: 1, label: '正常' }, { value: 2, label: '已封禁' }],
+			certifiOptions: [{ value: 'A', label: '实名' }, { value: 'B', label: '行家' },
+				{ value: 'C', label: '项目方' },
+				{ value: 'D', label: '投资人' },
+				{ value: 'E', label: '领投人' }],
+			active: 'border-orange',
+			dialogFormVisible: false,
+			showCustomerInfo:false,
+			formLabelWidth: '120px',
+			keyword: '',
+			certifi: '',
+			status: '',
+			param: {},
+			customer: {
+				identNumber: '',
+				mobileNumber: '',
+				name: '',
+			},
+			customerInfo:{},
+			customerRules: {
+				mobileNumber: [
+					{ required: true, message: '请输入手机号码', trigger: 'blur' },
+					{ pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
+				],
+				name: [
+					{ required: true, message: '请输入姓名', trigger: 'blur' },
+					// { pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文', trigger: 'blur' }
+				],
+				identNumber: [
+					{ required: true, message: '请输入身份证号', trigger: 'blur' },
+					{ pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
+				],
+			}
+		}
+	},
+	beforeMount() {
+		this.$store.dispatch('customer_statistics').then(()=>{
+			if(this.customerStatistics){
+				this.customerStatistics.allCount = this.customerStatistics.UnCertifiCount+this.customerStatistics.expertCount+this.customerStatistics.investorCount+this.customerStatistics.leadInvestorCount+this.customerStatistics.projectPartyCount
+			}
+		})
+		this.param = {
+			keyword: this.keyword,
+			status: this.status,
+			certifi: this.certifi,
+			pageSize: 10,
+			pageNum: 1
+		}
+		this.$store.dispatch('customer_getList', this.param)
+	},
+	methods: {
+		handleSizeChange(val) {
+			this.param.pageSize = val
+			this.param.pageNum = 1
+			this.$store.dispatch('customer_getList', this.param)
+		},
+		handleCurrentChange(val) {
+			this.param.pageNum = val
+			this.$store.dispatch('customer_getList', this.param)
+		},
+		certifiChange() {
+			this.param.pageNum = 1
+			this.param.certifi = this.certifi
+			this.$store.dispatch('customer_getList', this.param)
+		},
+		statusChange() {
+			this.param.pageNum = 1
+			this.param.status = this.status
+			this.$store.dispatch('customer_getList', this.param)
+		},
+		keywordChange() {
 
-            this.param.keyword = this.keyword;
-            this.param.pageNum = 1;
-            this.$store.dispatch('customer_getList', this.param);
-        },
-        addActor() {
-            this.$refs['customer'].validate((valid) => {
-                if (valid) {
-                    this.$store.dispatch('add_actor',this.customer ).then(() => {
-                        if (this.customerActorData.head.success) {
-                            this.customerInfo=JSON.parse(JSON.stringify(this.customer));
-                            this.customerActorData.objectLiteral=JSON.parse(this.customerActorData.objectLiteral)
-                            this.customerInfo.password=this.customerActorData.objectLiteral.loginPassword;
-                            this.addCustomer();
-                            this.dialogFormVisible = false;
-                            this.showCustomerInfo = true;
-                        } else {
-                            this.$message.error(this.customerActorData.head.information)
-                        }
+			this.param.keyword = this.keyword
+			this.param.pageNum = 1
+			this.$store.dispatch('customer_getList', this.param)
+		},
+		addActor() {
+			this.$refs['customer'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('add_actor',this.customer ).then(() => {
+						if (this.customerActorData.head.success) {
+							this.customerInfo=JSON.parse(JSON.stringify(this.customer))
+							this.customerActorData.objectLiteral=JSON.parse(this.customerActorData.objectLiteral)
+							this.customerInfo.password=this.customerActorData.objectLiteral.loginPassword
+							this.addCustomer()
+							this.dialogFormVisible = false
+							this.showCustomerInfo = true
+						} else {
+							this.$message.error(this.customerActorData.head.information)
+						}
 
-                    });
-                }
-            });
-        },
-        addCustomer() {
-            let customerParam = {
-                actorId: this.customerActorData.objectLiteral.id,
-                mobileNumber: this.customer.mobileNumber,
-                name: this.customer.name,
-                identNumber: this.customer.identNumber
-            }
-            this.$store.dispatch('add_customer', customerParam).then(() => {
-                if (this.customerData.success) {
-                    this.$message({
-                        message: '添加成功！',
-                        type: 'success'
-                    });
-                    this.param.pageNum = 1;
-                    this.$store.dispatch('customer_getList', this.param);
-                } else {
-                    this.$message.error(this.customerData.information)
-                }
+					})
+				}
+			})
+		},
+		addCustomer() {
+			let customerParam = {
+				actorId: this.customerActorData.objectLiteral.id,
+				mobileNumber: this.customer.mobileNumber,
+				name: this.customer.name,
+				identNumber: this.customer.identNumber
+			}
+			this.$store.dispatch('add_customer', customerParam).then(() => {
+				if (this.customerData.success) {
+					this.$message({
+						message: '添加成功！',
+						type: 'success'
+					})
+					this.param.pageNum = 1
+					this.$store.dispatch('customer_getList', this.param)
+				} else {
+					this.$message.error(this.customerData.information)
+				}
 
                 
-            });
-        },
-        cancel() {
-            this.dialogFormVisible = false;
-            this.$refs['customer'].resetFields();
-        },
-        cancelShow(){
-            this.showCustomerInfo = false;
+			})
+		},
+		cancel() {
+			this.dialogFormVisible = false
+			this.$refs['customer'].resetFields()
+		},
+		cancelShow(){
+			this.showCustomerInfo = false
             
-        }
-    }
+		}
+	}
 }
 
 </script>

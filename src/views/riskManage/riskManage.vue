@@ -190,159 +190,159 @@ margin-left:5px;
 </template>
 
 <script>
-    import pagination from '../../components/common/pagination.vue'
-    import { regionData } from 'element-china-area-data'
-    import riskRegions from '../../constant/riskRegion.js'
-    import industryData from  '../../constant/industry.js'
-    import riskLv from '../../constant/riskLevel.js'
+import pagination from '../../components/common/pagination.vue'
+import { regionData } from 'element-china-area-data'
+import riskRegions from '../../constant/riskRegion.js'
+import industryData from  '../../constant/industry.js'
+import riskLv from '../../constant/riskLevel.js'
 
-    export default {
-        name: 'riskManage',
-        components: {
-          pagination:pagination
-        },
-        beforeMount() {
-            this.param={
-                industry:null,
-                regionCode:'',
-                keyword:'',
-                level:'',
-                pageNo:1,
-                pageSize:10
-            }
-            this.$store.dispatch('risk_getList',this.param).then(()=>{
-                this.formatData();
+export default {
+	name: 'riskManage',
+	components: {
+		pagination:pagination
+	},
+	beforeMount() {
+		this.param={
+			industry:null,
+			regionCode:'',
+			keyword:'',
+			level:'',
+			pageNo:1,
+			pageSize:10
+		}
+		this.$store.dispatch('risk_getList',this.param).then(()=>{
+			this.formatData()
             })
-        },
-        computed: {
-          result:function(){
-              return this.$store.state.risk.listData;
+	},
+	computed: {
+		result:function(){
+			return this.$store.state.risk.listData
           },
-          itemManageDetail: function () {
-              return this.$store.state.item.itemManageDetail||{};
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail||{}
           }
-        },
-        data() {
-            return {
-                riskfun:false,
-                listData:{},
-                riskRegion:riskRegions,
-                param:{},
-                where: [],
-                options: regionData,
-                risklvs: riskLv,
-                risklv: '',
-                type: '',
-                types: industryData,
-                keyword: "",
-                tempItem:{},
-                lvColor:{
-                    4:'rgb(255, 135, 97)',
-                    3:'rgb(251, 201, 55)',
-                    2:'#f3c6d9',
-                    1:'#08cc06'
-                }
-            }
-        },
-        methods: {
-            handleFunFlow(index){
-                if(index==1){
-                    this.$router.push('/riskRegionContainer/11/'+this.tempItem.projectId);
+	},
+	data() {
+		return {
+			riskfun:false,
+			listData:{},
+			riskRegion:riskRegions,
+			param:{},
+			where: [],
+			options: regionData,
+			risklvs: riskLv,
+			risklv: '',
+			type: '',
+			types: industryData,
+			keyword: '',
+			tempItem:{},
+			lvColor:{
+				4:'rgb(255, 135, 97)',
+				3:'rgb(251, 201, 55)',
+				2:'#f3c6d9',
+				1:'#08cc06'
+			}
+		}
+	},
+	methods: {
+		handleFunFlow(index){
+			if(index==1){
+				this.$router.push('/riskRegionContainer/11/'+this.tempItem.projectId)
                 }else{
-                    this.$router.push('/riskRegionContainer/12/'+this.tempItem.projectId);
+				this.$router.push('/riskRegionContainer/12/'+this.tempItem.projectId)
                 }
-                this.riskfun=false;
+			this.riskfun=false
             },
-            handleRisk(item,rv){
-                console.log(item,rv);
-                this.tempItem=item;
+		handleRisk(item,rv){
+			console.log(item,rv)
+                this.tempItem=item
                 if(rv.id==1){//资金风险
-                    this.riskfun=true;
-                    return;
+				this.riskfun=true;
+                    return
                 }
-                if(rv.id==2){
-                    this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
-                        this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
+			if(rv.id==2){
+				this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
+					this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
                             
-                            if(rv.id==2){//财务分析
-                                this.$router.push('/enterpriseDetail/'+this.itemManageDetail.enterpriseId)
-                            }
-                        })
-                    })
-                    return;
+						if(rv.id==2){//财务分析
+							this.$router.push('/enterpriseDetail/'+this.itemManageDetail.enterpriseId)
+						}
+					})
+				})
+                    return
                 }
-                this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId);
+			this.$router.push('/riskRegionContainer/'+rv.id+'/'+item.projectId)
             },
-            formatData(){
-                this.listData=this.result;
+		formatData(){
+			this.listData=this.result
                 for (let i = 0; this.listData.list&&i < this.listData.list.length; i++) {
-                        let item = this.listData.list[i];
-                        let riskRegion=JSON.parse(JSON.stringify(this.riskRegion));
+				let item = this.listData.list[i]
+                        let riskRegion=JSON.parse(JSON.stringify(this.riskRegion))
                         for (let j = 0; item.riskProjectList&&j < item.riskProjectList.length; j++) {
-                            let risk = item.riskProjectList[j];
+					let risk = item.riskProjectList[j]
                             for (let n = 0;riskRegion&&n < riskRegion.length;n++){
-                                if(riskRegion[n].id===risk.category){
-                                    riskRegion[n].lv=risk.level;
-                                    break;
+						if(riskRegion[n].id===risk.category){
+							riskRegion[n].lv=risk.level;
+                                    break
                                 }
-                            }     
-                        }
-                        item.riskRegion=riskRegion;
+					}     
+				}
+				item.riskRegion=riskRegion
                 }
-                console.log(this.listData)
-            },
-            changeindustry(ind){
-                this.param.industry=ind;
+			console.log(this.listData)
+		},
+		changeindustry(ind){
+			this.param.industry=ind
                 this.$store.dispatch('risk_getList',this.param).then(()=>{
-                    this.formatData();
+				this.formatData()
                 })
-            },
-            changelv(lv){
-                this.param.level=lv;
+		},
+		changelv(lv){
+			this.param.level=lv
                 this.$store.dispatch('risk_getList',this.param).then(()=>{
-                    this.formatData();
+				this.formatData()
                 })
-            },
-            changeWhere(where){
-                if(where.length==1){
-                    this.param.regionCode=where[0].slice(0,2);
+		},
+		changeWhere(where){
+			if(where.length==1){
+				this.param.regionCode=where[0].slice(0,2)
                 }else if(where.length==2){
-                    this.param.regionCode=where[1].slice(0,4);
+				this.param.regionCode=where[1].slice(0,4)
                 }else if(where.length==3){
-                    this.param.regionCode=where[2].slice(0,6);
+				this.param.regionCode=where[2].slice(0,6)
                 }else{
-                    this.param.regionCode='';
+				this.param.regionCode=''
                 }
-                this.$store.dispatch('risk_getList',this.param).then(()=>{
-                    this.formatData();
+			this.$store.dispatch('risk_getList',this.param).then(()=>{
+				this.formatData()
                 })
-            },
-            handleCurrentChange(page) {
-                this.param.pageNo=page;
+		},
+		handleCurrentChange(page) {
+			this.param.pageNo=page
                 this.$store.dispatch('risk_getList',this.param).then(()=>{
-                    this.formatData();
+				this.formatData()
                 })
-            },
-            handleSizeChange(size){
-                this.param.pageSize=size;
-                this.param.pageNo=1;
+		},
+		handleSizeChange(size){
+			this.param.pageSize=size
+                this.param.pageNo=1
                 this.$store.dispatch('risk_getList',this.param).then(()=>{
-                    this.formatData();
+				this.formatData()
                 })
-            },
-            search() {
-                this.param.keyword=this.keyword;
+		},
+		search() {
+			this.param.keyword=this.keyword
                 this.$store.dispatch('risk_getList',this.param).then(()=>{
-                    this.formatData();
+				this.formatData()
                 })
-            },
-            handle(item,path) {
-                sessionStorage.setItem('risk_projectInfo',JSON.stringify(item));
-                this.$store.commit('risk_projectInfo',item);
-                this.$router.push(path);
+		},
+		handle(item,path) {
+			sessionStorage.setItem('risk_projectInfo',JSON.stringify(item))
+                this.$store.commit('risk_projectInfo',item)
+                this.$router.push(path)
             }
-        }
-    }
+	}
+}
 
 </script>
 

@@ -14,20 +14,20 @@ import {employeeModule} from './employeeModule'
 Vue.use(Vuex)
 
 const modules={
-    risk:riskModule,
-    customer:customerModule,
-    enterprise:enterpriseModule,
-    login:loginModule,
-    system:systemModule,
-    money:moneyModule,
-    item:itemModule,
-    content:contentModule,
-    employee:employeeModule
-  }
+	risk:riskModule,
+	customer:customerModule,
+	enterprise:enterpriseModule,
+	login:loginModule,
+	system:systemModule,
+	money:moneyModule,
+	item:itemModule,
+	content:contentModule,
+	employee:employeeModule
+}
 
 export function createStore () {
-    return new Vuex.Store({
-      modules: modules
-    })
+	return new Vuex.Store({
+		modules: modules
+	})
 }
 

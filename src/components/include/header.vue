@@ -81,204 +81,204 @@
 <script>
 import imageCropper from '../common/ImageDialogCropper'
 export default {
-    name: 'header',
-    components: {
-      imageCropper  
+	name: 'header',
+	components: {
+		imageCropper  
+	},
+	beforeMount () {
+		//   this.$store.dispatch('cusHeadPortrait',{id:this.actor.id});
+		this.actorParams = {
+			receiver: this.actor.id,
+			msgType:3,
+			pageNo: 1,
+			pageSize: 10,
+        }
+      this.$store.dispatch('select_webMessageByActorid', this.actorParams)
     },
-    beforeMount () {
-    //   this.$store.dispatch('cusHeadPortrait',{id:this.actor.id});
-      this.actorParams = {
-            receiver: this.actor.id,
-            msgType:3,
-            pageNo: 1,
-            pageSize: 10,
-        };
-      this.$store.dispatch('select_webMessageByActorid', this.actorParams);
-    },
-    data() {
-        var validatePass = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请输入密码'));
+	data() {
+		var validatePass = (rule, value, callback) => {
+			if (value === '') {
+				callback(new Error('请输入密码'))
             } else {
-                if (this.password.newPassword !== '') {
-                    this.$refs.editPassword.validateField('password');
+				if (this.password.newPassword !== '') {
+					this.$refs.editPassword.validateField('password')
                 }
-                callback();
-            }
-        };
+				callback();
+			}
+        }
         var validatePass2 = (rule, value, callback) => {
-            if (value === '') {
-                callback(new Error('请再次输入密码'));
+			if (value === '') {
+				callback(new Error('请再次输入密码'))
             } else if (value !== this.password.newPassword) {
-                callback(new Error('两次输入密码不一致!'));
+				callback(new Error('两次输入密码不一致!'))
             } else {
-                callback();
-            }
-        };
+				callback();
+			}
+        }
         return {
-            editHeadImgChange:false,
-            password: {
-                newPassword: '',
-                password: ''
-            },
-            keyword: "",
-            dialogeditUserVisible: false,
-            editPasswordDialog: false,
-            actorRules: {
-                // mobileNumber: [
-                //     { required: true, message: '请输入手机号码', trigger: 'blur' },
-                //     { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
-                // ],
-                name: [
-                    { required: true, message: '请输入姓名', trigger: 'blur' },
-                    { pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文', trigger: 'blur' }
-                ],
-                identNumber: [
-                    { required: true, message: '请输入身份证号', trigger: 'blur' },
-                    { pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
-                ],
-            },
-            editPasswordRule: {
-                // newPassword: [
-                //     { required: true, message: '请输入新密码', trigger: 'blur' }
-                // ],
-                // password: [
-                //     { required: true, message: '请输入确认密码', trigger: 'blur' }
-                // ],
-                oldPassword: [
-                    { validator: validatePass, trigger: 'blur' }
-                ],
-                newPassword: [
-                    { validator: validatePass, trigger: 'blur' }
-                ],
-                password: [
-                    { validator: validatePass2, trigger: 'blur' }
-                ],
-            },
+			editHeadImgChange:false,
+			password: {
+				newPassword: '',
+				password: ''
+			},
+			keyword: '',
+			dialogeditUserVisible: false,
+			editPasswordDialog: false,
+			actorRules: {
+				// mobileNumber: [
+				//     { required: true, message: '请输入手机号码', trigger: 'blur' },
+				//     { pattern: /^1[34578]\d{9}$/, message: '手机号码格式不正确', trigger: 'blur' }
+				// ],
+				name: [
+					{ required: true, message: '请输入姓名', trigger: 'blur' },
+					{ pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文', trigger: 'blur' }
+				],
+				identNumber: [
+					{ required: true, message: '请输入身份证号', trigger: 'blur' },
+					{ pattern: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/, message: '身份证号格式不正确', trigger: 'blur' }
+				],
+			},
+			editPasswordRule: {
+				// newPassword: [
+				//     { required: true, message: '请输入新密码', trigger: 'blur' }
+				// ],
+				// password: [
+				//     { required: true, message: '请输入确认密码', trigger: 'blur' }
+				// ],
+				oldPassword: [
+					{ validator: validatePass, trigger: 'blur' }
+				],
+				newPassword: [
+					{ validator: validatePass, trigger: 'blur' }
+				],
+				password: [
+					{ validator: validatePass2, trigger: 'blur' }
+				],
+			},
 
+		}
+	},
+	computed: {
+		actor: function () {
+			return this.$store.state.login.actor
+        },
+		webMessageByActorid: function () {
+			return this.$store.state.content.webMessageByActorid||{}
+        },
+		updateActorStatus: function () {
+			return this.$store.state.system.updateActorStatus
+        },
+		resetLoginPasswordStatus: function () {
+			return this.$store.state.customer.resetLoginPasswordStatus
+        },
+		loginPasswordStatus: function () {
+			return this.$store.state.customer.loginPasswordStatus
+        },
+		headImage:function(){
+			return this.$store.state.employee.employee.headImageUrl||''
         }
-    },
-    computed: {
-        actor: function () {
-            return this.$store.state.login.actor;
+	},
+	methods: {
+		getUrl(data){
+			let param={
+				headImageUrl:data,
+				actorId:this.actor.id
+			}
+			this.$store.dispatch('updateEmployeeInfo',param)
+			this.editHeadImgChange=false
         },
-        webMessageByActorid: function () {
-            return this.$store.state.content.webMessageByActorid||{};
+		showMessage(){
+			this.$router.push('/msgWebDetail/'+this.actor.id)
+		},
+		editHeadImg(){
+			this.editHeadImgChange=true
         },
-        updateActorStatus: function () {
-            return this.$store.state.system.updateActorStatus;
+		updateMyself() {
+			this.dialogeditUserVisible = true
         },
-        resetLoginPasswordStatus: function () {
-            return this.$store.state.customer.resetLoginPasswordStatus;
-        },
-        loginPasswordStatus: function () {
-            return this.$store.state.customer.loginPasswordStatus;
-        },
-        headImage:function(){
-            return this.$store.state.employee.employee.headImageUrl||'';
-        }
-    },
-    methods: {
-        getUrl(data){
-            let param={
-                headImageUrl:data,
-                actorId:this.actor.id
-            }
-            this.$store.dispatch('updateEmployeeInfo',param)
-            this.editHeadImgChange=false;
-        },
-        showMessage(){
-            this.$router.push('/msgWebDetail/'+this.actor.id)
-        },
-        editHeadImg(){
-            this.editHeadImgChange=true;
-        },
-        updateMyself() {
-            this.dialogeditUserVisible = true;
-        },
-        onSubmit() {
-            this.$refs['editActor'].validate((valid) => {
-                if (valid) {
-                    this.$store.dispatch('updateActor', this.actor).then(() => {
-                        if (this.updateActorStatus.success) {
-                            this.$message({
-                                type: 'success',
-                                message: '修改成功'
-                            })
-                            this.cancel();
+		onSubmit() {
+			this.$refs['editActor'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('updateActor', this.actor).then(() => {
+						if (this.updateActorStatus.success) {
+							this.$message({
+								type: 'success',
+								message: '修改成功'
+							})
+							this.cancel()
                         } else {
-                            this.$message.error('修改失败')
-                            this.cancel();
+							this.$message.error('修改失败')
+							this.cancel()
                         }
-                    });
+					})
                 }
-            })
-        },
-        updateLoginPassword() {
-            this.$refs['editPassword'].validate((valid) => {
-                if (valid) {
-                    let passwordParam = {
-                        id: this.actor.id,
-                        password: this.password.newPassword,
-                        oldPassword:this.password.oldPassword
-                    }
-                    this.$store.dispatch('updateLoginPassword', passwordParam).then(() => {
-                        if (this.loginPasswordStatus.success) {
-                            this.$message({
-                                message: '修改成功！请重新登录',
-                                type: 'success'
-                            })
-                            this.exit();
-                            this.editPasswordDialog = false;
+			})
+		},
+		updateLoginPassword() {
+			this.$refs['editPassword'].validate((valid) => {
+				if (valid) {
+					let passwordParam = {
+						id: this.actor.id,
+						password: this.password.newPassword,
+						oldPassword:this.password.oldPassword
+					}
+					this.$store.dispatch('updateLoginPassword', passwordParam).then(() => {
+						if (this.loginPasswordStatus.success) {
+							this.$message({
+								message: '修改成功！请重新登录',
+								type: 'success'
+							})
+							this.exit()
+                            this.editPasswordDialog = false
                         } else {
-                            this.$message.error('修改失败');
+							this.$message.error('修改失败')
                         }
-                    })
-                } else {
-                    return false;
+					})
+				} else {
+					return false
                 }
-            });
+			})
         },
-        resetPassword() {
-            this.$confirm('此操作将重置登录口令, 是否继续?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
-            }).then(() => {
-                let resetParam = {
-                    id: this.actor.id
-                }
-                this.$store.dispatch('resetLoginPwById', resetParam).then(() => {
-                    if (this.resetLoginPasswordStatus.success) {
-                        this.$message({
-                            message: '重置口令成功！请重新登录',
-                            type: 'success'
-                        })
-                        this.exit();
+		resetPassword() {
+			this.$confirm('此操作将重置登录口令, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				let resetParam = {
+					id: this.actor.id
+				}
+				this.$store.dispatch('resetLoginPwById', resetParam).then(() => {
+					if (this.resetLoginPasswordStatus.success) {
+						this.$message({
+							message: '重置口令成功！请重新登录',
+							type: 'success'
+						})
+						this.exit()
                     } else {
-                        this.$message.error('重置口令失败');
+						this.$message.error('重置口令失败')
                     }
-                })
-            }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消重置'
-                });
-            });
+				})
+			}).catch(() => {
+				this.$message({
+					type: 'info',
+					message: '已取消重置'
+				});
+			})
         },
-        cancel() {
-            this.$refs['editActor'].resetFields();
-            this.dialogeditUserVisible = false;
+		cancel() {
+			this.$refs['editActor'].resetFields()
+            this.dialogeditUserVisible = false
         },
-        exit() {
-            setTimeout(()=>{
-                this.$store.dispatch('login_out', this);
-            },2000);
+		exit() {
+			setTimeout(()=>{
+				this.$store.dispatch('login_out', this)
+            },2000)
         },
-        handleIconClick() {
-            console.log(this.keyword);
+		handleIconClick() {
+			console.log(this.keyword)
         }
-    }
+	}
 }
 
 </script>

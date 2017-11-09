@@ -231,70 +231,70 @@
   </div>
 </template>
 <script>
-  export default {
-    name:'thirdAuth',
-    computed: {
-        enterpriseInfo: function () {
-           return this.$store.state.enterprise.enterpriseInfo || {};
+export default {
+	name:'thirdAuth',
+	computed: {
+		enterpriseInfo: function () {
+			return this.$store.state.enterprise.enterpriseInfo || {}
         },
-        thirdReport:function(){
-           return this.$store.state.item.thirdReport||{};
+		thirdReport:function(){
+			return this.$store.state.item.thirdReport||{}
         },
-        projectItem(){
-           return this.$store.state.item.itemManageDetail||{};
+		projectItem(){
+			return this.$store.state.item.itemManageDetail||{}
         },
-        itemManageDetail: function () {
-           return this.$store.state.item.itemManageDetail||{};
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail||{}
         },
-        credit:function(){
-            return this.$store.state.item.thirdReport||{};
+		credit:function(){
+			return this.$store.state.item.thirdReport||{}
         },
-        tcEnterpriseBasic(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
+		tcEnterpriseBasic(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
+		},
+		tcEnterpriseShareholder(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcShareholder
+		},
+		tcEnterprisePerson(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcPerson
+		},
+		tcEnterpriseAlter(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcAlter
+		},
+		tcEnterpriseEntinv(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcEntinv
+		},
+		tcEnterpriseFrposition(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrposition
+		},
+		tcEnterpriseFrinv(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrinv
+		},
+		tcTpcinfoTrademark(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoTrademark||{}
+		},
+		tcTpcinfoPatent(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoPatent
+		},
+		tcRepresentativeInfo(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcRepresentativeInfo
+		},
+		tcEnterpriseMemberInfo(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseMemberInfo
+		},
+		expertAdvice(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.expertAd||{}
         },
-        tcEnterpriseShareholder(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcShareholder
-        },
-        tcEnterprisePerson(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcPerson
-        },
-        tcEnterpriseAlter(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcAlter
-        },
-        tcEnterpriseEntinv(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcEntinv
-        },
-        tcEnterpriseFrposition(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrposition
-        },
-        tcEnterpriseFrinv(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrinv
-        },
-        tcTpcinfoTrademark(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoTrademark||{}
-        },
-        tcTpcinfoPatent(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoPatent
-        },
-        tcRepresentativeInfo(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcRepresentativeInfo
-        },
-        tcEnterpriseMemberInfo(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseMemberInfo
-        },
-        expertAdvice(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.expertAd||{};
-        },
-        leadInvestorIntention(){
-            return this.$store.state.item.thirdReport&&this.$store.state.item.leadAd||{};
+		leadInvestorIntention(){
+			return this.$store.state.item.thirdReport&&this.$store.state.item.leadAd||{}
         }
-    },
-    data() {
-      return {
+	},
+	data() {
+		return {
         
-      };
+      }
     }
-  };
+  }
 </script>
 <style > 
 #thirdAuth .businessTitle{

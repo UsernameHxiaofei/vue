@@ -101,143 +101,142 @@
 </template>
 
 <script>
-    import pagination from '../../components/common/pagination.vue'
-    import { regionData } from 'element-china-area-data'
-    import { Loading } from 'element-ui'
+import pagination from '../../components/common/pagination.vue'
+import { regionData } from 'element-china-area-data'
 
-    export default {
-        name: 'enterpriseManage',
-        components: {
-            'pagination': pagination
-        },
-        computed: {
-            enterpriseListData: function () {
-                return this.$store.state.enterprise.enterpriseManageList;
-            },
-            items: function () {
-                return this.$store.state.enterprise.items;
-            }
-        },
-        beforeMount() {
-            this.param = {
-                beginTime: '',
-                endTime: '',
-                addressCode: '',
-                keyword: this.keyword,
-                pageSize: 10,
-                pageNo: 1
-            }
-            this.$store.dispatch('enterprise_getManageList', this.param);
-        },
-        data() {
-            return {
-                fileloading:false,
-                exportlist: [],
-                dlbPosImport: false,
-                where: [],
-                startTime: '',
-                endTime: '',
-                options: regionData,
-                keyword: '',
-                range: [],
-                param: {},
-                dialogTableVisible: false,
-                titleName: ''
-            }
-        },
-        methods: {
-            uploadFile() {
-                this.$refs['fileInput'].click();
-                // this.exportlist
-            },
-            fileChange(event) {
-                if(event.target.files.length==0){
-                    return;
-                }
-                let file = event.target.files[0];
-                let formData = new FormData();
-                formData.append('file', file);
-                let xhr = new XMLHttpRequest();
-                xhr.open('post', '/ajax/fileupload');
-                let self = this;
-                this.fileloading=true;
-                xhr.onload = function () {
-                    self.fileloading=false;
-                    if (!xhr.response) {
-                        self.$message.warning(JSON.parse(xhr.response).information);
-                    } else if (xhr.status == 200) {
-                        self.$message.success('上传完成');
-                        let temp = {
-                            name:file.name,
-                            size:file.size+'byte',
-                            time:new Date().toLocaleString(),
-                            path:JSON.parse(JSON.parse(xhr.response).objectLiteral),
-                            isExported:false
-                        }
-                        self.exportlist.push(temp);
-                    }
-                };
-                xhr.send(formData);
-            },
-            exportFile(item) {
-                this.$store.dispatch('enterprise_savePOSData',{path:item.path}).then((data)=>{
-                    if(data.success){
-                        this.$message.success('导入成功');
-                        item.isExported=true;
-                    }else{
-                        this.$message.warning(data.information);
-                    }
-                })
-            },
-            findItems(item) {
-                this.$store.dispatch('enterprise_getItems', { enterpriseId: item.id });
-                this.titleName = item.name;
-                this.dialogTableVisible = true;
-            },
-            itemDetail(item) {
-                this.dialogTableVisible = false;
-                this.$router.push('/itemDetail/' + item.id);
-            },
-            handleSizeChange(size) {
-                this.param.pageSize = size;
-                this.param.pageNo = 1;
-                this.$store.dispatch('enterprise_getManageList', this.param);
-            },
-            handleCurrentChange(page) {
-                this.param.pageNo = page;
-                this.$store.dispatch('enterprise_getManageList', this.param);
-            },
-            changeWhere(where) {
-                if (where.length == 1) {
-                    this.param.addressCode = where[0].slice(0, 2);
-                } else if (where.length == 2) {
-                    this.param.addressCode = where[1].slice(0, 4);
-                } else if (where.length == 3) {
-                    this.param.addressCode = where[2].slice(0, 6);
-                } else {
-                    this.param.addressCode = '';
-                }
-                this.$store.dispatch('enterprise_getManageList', this.param);
-            },
-            startChange(v) {
-                this.param.beginTime = v || '';
-                this.$store.dispatch('enterprise_getManageList', this.param);
-            },
-            endChange(v) {
-                this.param.endTime = v || '';
-                this.$store.dispatch('enterprise_getManageList', this.param);
-            },
-            search() {
-                this.param.keyword = this.keyword;
-                this.param.pageNo = 1;
-                this.$store.dispatch('enterprise_getManageList', this.param);
-            },
-            detail(item) {
-                this.$store.commit('enterprise_setInfo', item);
-                this.$router.push('/enterpriseDetail/' + item.id);
-            }
-        }
-    }
+export default {
+	name: 'enterpriseManage',
+	components: {
+		'pagination': pagination
+	},
+	computed: {
+		enterpriseListData: function () {
+			return this.$store.state.enterprise.enterpriseManageList
+		},
+		items: function () {
+			return this.$store.state.enterprise.items
+		}
+	},
+	beforeMount() {
+		this.param = {
+			beginTime: '',
+			endTime: '',
+			addressCode: '',
+			keyword: this.keyword,
+			pageSize: 10,
+			pageNo: 1
+		}
+		this.$store.dispatch('enterprise_getManageList', this.param)
+	},
+	data() {
+		return {
+			fileloading:false,
+			exportlist: [],
+			dlbPosImport: false,
+			where: [],
+			startTime: '',
+			endTime: '',
+			options: regionData,
+			keyword: '',
+			range: [],
+			param: {},
+			dialogTableVisible: false,
+			titleName: ''
+		}
+	},
+	methods: {
+		uploadFile() {
+			this.$refs['fileInput'].click()
+			// this.exportlist
+		},
+		fileChange(event) {
+			if(event.target.files.length==0){
+				return
+			}
+			let file = event.target.files[0]
+			let formData = new FormData()
+			formData.append('file', file)
+			let xhr = new XMLHttpRequest()
+			xhr.open('post', '/ajax/fileupload')
+			let self = this
+			this.fileloading=true
+			xhr.onload = function () {
+				self.fileloading=false
+				if (!xhr.response) {
+					self.$message.warning(JSON.parse(xhr.response).information)
+				} else if (xhr.status == 200) {
+					self.$message.success('上传完成')
+					let temp = {
+						name:file.name,
+						size:file.size+'byte',
+						time:new Date().toLocaleString(),
+						path:JSON.parse(JSON.parse(xhr.response).objectLiteral),
+						isExported:false
+					}
+					self.exportlist.push(temp)
+				}
+			}
+			xhr.send(formData)
+		},
+		exportFile(item) {
+			this.$store.dispatch('enterprise_savePOSData',{path:item.path}).then((data)=>{
+				if(data.success){
+					this.$message.success('导入成功')
+					item.isExported=true
+				}else{
+					this.$message.warning(data.information)
+				}
+			})
+		},
+		findItems(item) {
+			this.$store.dispatch('enterprise_getItems', { enterpriseId: item.id })
+			this.titleName = item.name
+			this.dialogTableVisible = true
+		},
+		itemDetail(item) {
+			this.dialogTableVisible = false
+			this.$router.push('/itemDetail/' + item.id)
+		},
+		handleSizeChange(size) {
+			this.param.pageSize = size
+			this.param.pageNo = 1
+			this.$store.dispatch('enterprise_getManageList', this.param)
+		},
+		handleCurrentChange(page) {
+			this.param.pageNo = page
+			this.$store.dispatch('enterprise_getManageList', this.param)
+		},
+		changeWhere(where) {
+			if (where.length == 1) {
+				this.param.addressCode = where[0].slice(0, 2)
+			} else if (where.length == 2) {
+				this.param.addressCode = where[1].slice(0, 4)
+			} else if (where.length == 3) {
+				this.param.addressCode = where[2].slice(0, 6)
+			} else {
+				this.param.addressCode = ''
+			}
+			this.$store.dispatch('enterprise_getManageList', this.param)
+		},
+		startChange(v) {
+			this.param.beginTime = v || ''
+			this.$store.dispatch('enterprise_getManageList', this.param)
+		},
+		endChange(v) {
+			this.param.endTime = v || ''
+			this.$store.dispatch('enterprise_getManageList', this.param)
+		},
+		search() {
+			this.param.keyword = this.keyword
+			this.param.pageNo = 1
+			this.$store.dispatch('enterprise_getManageList', this.param)
+		},
+		detail(item) {
+			this.$store.commit('enterprise_setInfo', item)
+			this.$router.push('/enterpriseDetail/' + item.id)
+		}
+	}
+}
 </script>
 
 <style>

@@ -91,129 +91,129 @@ import pagination from '../../components/common/pagination'
 import pstatus from '../../constant/projectStatus.js'
 
 export default {
-    components: {
-        pagination
-    },
-    computed: {
-        marginApprovalGetList: function () {
-            return this.$store.state.money.marginApprovalGetList;
+	components: {
+		pagination
+	},
+	computed: {
+		marginApprovalGetList: function () {
+			return this.$store.state.money.marginApprovalGetList
         },
-        passOperate: function () {
-            return this.$store.state.money.passOperate;
+		passOperate: function () {
+			return this.$store.state.money.passOperate
         },
-        failOperate: function () {
-            return this.$store.state.money.failOperate;
+		failOperate: function () {
+			return this.$store.state.money.failOperate
         },
-        actor: function () {
-            return this.$store.state.login.actor;
+		actor: function () {
+			return this.$store.state.login.actor
         },
+	},
+	beforeMount() {
+		this.param = {
+			keyword: this.keyword,
+			status: this.projectStatu,
+			pageNo: 1,
+			pageSize: 10
+		}
+		this.$store.dispatch('margin_approvalGetList', this.param)
     },
-    beforeMount() {
-        this.param = {
-            keyword: this.keyword,
-            status: this.projectStatu,
-            pageNo: 1,
-            pageSize: 10
-        }
-        this.$store.dispatch('margin_approvalGetList', this.param);
-    },
-    data() {
-        return {
-            param: {},
-            projectStatu: '',
-            projectStatus: pstatus,
-            keyword: '',
-        }
-    },
-    methods: {
-        //通过
-        success(data) {
-            this.$confirm('您确定通过吗?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'info'
-            }).then(() => {
-                let agreeParam = {
-                    transactionId: data.initTransactionId,
-                    checkerId: this.actor.id
-                }
-                this.$store.dispatch("pass_operate", agreeParam).then(() => {
-                    if (this.passOperate.result == 'success') {
-                        this.$message({
-                            type: 'success',
-                            message: '已成功通过!'
-                        });
-                        this.$store.dispatch('margin_approvalGetList', this.param);
+	data() {
+		return {
+			param: {},
+			projectStatu: '',
+			projectStatus: pstatus,
+			keyword: '',
+		}
+	},
+	methods: {
+		//通过
+		success(data) {
+			this.$confirm('您确定通过吗?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let agreeParam = {
+					transactionId: data.initTransactionId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('pass_operate', agreeParam).then(() => {
+					if (this.passOperate.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '已成功通过!'
+						})
+                        this.$store.dispatch('margin_approvalGetList', this.param)
                     } else {
-                        this.$message({
-                            type: 'warning',
-                            message: '通过失败!'
-                        });
+						this.$message({
+							type: 'warning',
+							message: '通过失败!'
+						})
                     }
-                }, 300);
+				}, 300)
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            });
+				this.$message({
+					type: 'info',
+					message: '已取消'
+				});
+			})
         },
-        //拒绝
-        fail(data) {
-            this.$confirm('您确定拒绝吗?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'info'
-            }).then(() => {
-                let failParam = {
-                    transactionId: data.initTransactionId,
-                    checkerId: this.actor.id
-                }
-                this.$store.dispatch("fail_operate", failParam).then(() => {
-                    if (this.failOperate.result == 'success') {
-                        this.$message({
-                            type: 'success',
-                            message: '已拒绝!'
-                        });
-                        this.$store.dispatch('margin_approvalGetList', this.param);
+		//拒绝
+		fail(data) {
+			this.$confirm('您确定拒绝吗?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let failParam = {
+					transactionId: data.initTransactionId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('fail_operate', failParam).then(() => {
+					if (this.failOperate.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '已拒绝!'
+						})
+                        this.$store.dispatch('margin_approvalGetList', this.param)
                     } else {
-                        this.$message({
-                            type: 'warning',
-                            message: '拒绝失败!'
-                        });
+						this.$message({
+							type: 'warning',
+							message: '拒绝失败!'
+						})
                     }
-                }, 300);
+				}, 300)
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            });
+				this.$message({
+					type: 'info',
+					message: '已取消'
+				});
+			})
         },
-        // 搜索
-        handleIconClick() {
-            this.param.keyword = this.keyword;
-            this.param.pageNo = 1;
-            this.$store.dispatch('margin_approvalGetList', this.param);
+		// 搜索
+		handleIconClick() {
+			this.param.keyword = this.keyword
+            this.param.pageNo = 1
+            this.$store.dispatch('margin_approvalGetList', this.param)
         },
-        // 分页
-        handleSizeChange(size) {
-            this.param.pageSize = size;
-            this.param.pageNo = 1;
-            this.$store.dispatch('margin_approvalGetList', this.param);
+		// 分页
+		handleSizeChange(size) {
+			this.param.pageSize = size
+            this.param.pageNo = 1
+            this.$store.dispatch('margin_approvalGetList', this.param)
         },
-        handleCurrentChange(page) {
-            this.param.pageNo = page;
-            this.$store.dispatch('margin_approvalGetList', this.param);
+		handleCurrentChange(page) {
+			this.param.pageNo = page
+            this.$store.dispatch('margin_approvalGetList', this.param)
         },
-        openLook(index, row) {
-            this.dialogLookVisible = true;
+		openLook(index, row) {
+			this.dialogLookVisible = true
         },
-         // 选择项目状态
-        itemStatus(lv) {
-            this.param.status = lv;
-            this.$store.dispatch('margin_approvalGetList', this.param);
+		// 选择项目状态
+		itemStatus(lv) {
+			this.param.status = lv
+            this.$store.dispatch('margin_approvalGetList', this.param)
         },
-    }
+	}
 }
 </script>

@@ -15,28 +15,28 @@
 </template>
 
 <script>
- export default {
-    props:['total'],
-    methods: {
-      handleSizeChange(val) {
-        this.$emit('size-change',val)
-      },
-      handleCurrentChange(val) {
-        this.$emit('current-change',val)
+export default {
+	props:['total'],
+	methods: {
+		handleSizeChange(val) {
+			this.$emit('size-change',val)
+		},
+		handleCurrentChange(val) {
+			this.$emit('current-change',val)
+		}
+	},
+	watch: {
+		total:function(v){
+			this.totalCount=v
       }
-    },
-    watch: {
-      total:function(v){
-        this.totalCount=v;
+	},
+	data() {
+		return {
+			currentPage: 1,
+			totalCount:this.total||0
       }
-    },
-    data() {
-      return {
-        currentPage: 1,
-        totalCount:this.total||0
-      };
     }
-  }
+}
 </script>
 <style>
 .my-page .el-pagination__editor{width:60px;}

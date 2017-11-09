@@ -114,140 +114,140 @@
 import pagination from '../../components/common/pagination'
 import pStatus from '../../constant/projectStatus.js'
 export default {
-    components: {
-        pagination
-    },
-    computed: {
-        drawbackHeadInfo: function () {
-            return this.$store.state.money.drawbackHeadInfo;
+	components: {
+		pagination
+	},
+	computed: {
+		drawbackHeadInfo: function () {
+			return this.$store.state.money.drawbackHeadInfo
         },
-        drawbackGetList: function () {
-            if (!this.$store.state.money.drawbackGetList) {
-                return{
-                    userName:'',mobileNumber:'',oldTransactionAmount:'',applyRefundAmount:'',
-                    projectName:'',projectStatus:'',investTime:'',refundStatus:''
+		drawbackGetList: function () {
+			if (!this.$store.state.money.drawbackGetList) {
+				return{
+					userName:'',mobileNumber:'',oldTransactionAmount:'',applyRefundAmount:'',
+					projectName:'',projectStatus:'',investTime:'',refundStatus:''
 
-                }
-            }else{
-                return this.$store.state.money.drawbackGetList;
+				}
+			}else{
+				return this.$store.state.money.drawbackGetList
             }
+		},
+		passOperate: function () {
+			return this.$store.state.money.passOperate
         },
-        passOperate: function () {
-            return this.$store.state.money.passOperate;
+		failOperate: function () {
+			return this.$store.state.money.failOperate
         },
-        failOperate: function () {
-            return this.$store.state.money.failOperate;
+		actor: function () {
+			return this.$store.state.login.actor
         },
-        actor: function () {
-            return this.$store.state.login.actor;
-        },
-    },
-    beforeMount() {
-        this.$store.dispatch('drawback_headInfo');
+	},
+	beforeMount() {
+		this.$store.dispatch('drawback_headInfo')
         this.param = {
-            keyword: this.keyword,
-            status: this.projectStatu,
-            pageNo: 1,
-            pageSize: 10
-        }
-        this.$store.dispatch('drawback_getList', this.param);
+			keyword: this.keyword,
+			status: this.projectStatu,
+			pageNo: 1,
+			pageSize: 10
+		}
+		this.$store.dispatch('drawback_getList', this.param)
     },
-    data() {
-        return {
-            btnStatus: false,
-            param: {},
-            projectStatu: '',
-            projectStatus: pStatus,
-            keyword: '',
-        }
-    },
-    methods: {
-        //通过
-        success(data) {
-            this.$confirm('您确定通过吗?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'info'
-            }).then(() => {
-                let agreeParam = {
-                    transactionId: data.transactionId,
-                    checkerId: this.actor.id
-                }
-                this.$store.dispatch("pass_operate", agreeParam).then(() => {
-                    if (this.passOperate.result == 'success') {
-                        this.$message({
-                            type: 'success',
-                            message: '已成功通过!'
-                        });
-                        this.$store.dispatch('drawback_getList', this.param);
+	data() {
+		return {
+			btnStatus: false,
+			param: {},
+			projectStatu: '',
+			projectStatus: pStatus,
+			keyword: '',
+		}
+	},
+	methods: {
+		//通过
+		success(data) {
+			this.$confirm('您确定通过吗?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let agreeParam = {
+					transactionId: data.transactionId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('pass_operate', agreeParam).then(() => {
+					if (this.passOperate.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '已成功通过!'
+						})
+                        this.$store.dispatch('drawback_getList', this.param)
 
                     } else {
-                        this.$message({
-                            type: 'warning',
-                            message: '通过失败!'
-                        });
+						this.$message({
+							type: 'warning',
+							message: '通过失败!'
+						})
                     }
-                }, 300);
+				}, 300)
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            });
+				this.$message({
+					type: 'info',
+					message: '已取消'
+				});
+			})
         },
-        //拒绝
-        fail(data) {
-            this.$confirm('您确定拒绝吗?', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'info'
-            }).then(() => {
-                let failParam = {
-                    transactionId: data.transactionId,
-                    checkerId: this.actor.id
-                }
-                this.$store.dispatch("fail_operate", failParam).then(() => {
-                    if (this.failOperate.result == 'success') {
-                        this.$message({
-                            type: 'success',
-                            message: '已拒绝!'
-                        });
-                        this.$store.dispatch('drawback_getList', this.param);
+		//拒绝
+		fail(data) {
+			this.$confirm('您确定拒绝吗?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'info'
+			}).then(() => {
+				let failParam = {
+					transactionId: data.transactionId,
+					checkerId: this.actor.id
+				}
+				this.$store.dispatch('fail_operate', failParam).then(() => {
+					if (this.failOperate.result == 'success') {
+						this.$message({
+							type: 'success',
+							message: '已拒绝!'
+						})
+                        this.$store.dispatch('drawback_getList', this.param)
                     } else {
-                        this.$message({
-                            type: 'warning',
-                            message: '拒绝失败!'
-                        });
+						this.$message({
+							type: 'warning',
+							message: '拒绝失败!'
+						})
                     }
-                }, 300);
+				}, 300)
             }).catch(() => {
-                this.$message({
-                    type: 'info',
-                    message: '已取消'
-                });
-            });
+				this.$message({
+					type: 'info',
+					message: '已取消'
+				});
+			})
         },
-        // 搜索
-        handleIconClick() {
-            this.param.keyword = this.keyword;
-            this.param.pageNo = 1;
-            this.$store.dispatch('drawback_getList', this.param);
+		// 搜索
+		handleIconClick() {
+			this.param.keyword = this.keyword
+            this.param.pageNo = 1
+            this.$store.dispatch('drawback_getList', this.param)
         },
-        // 分页
-        handleSizeChange(size) {
-            this.param.pageSize = size;
-            this.param.pageNo = 1;
-            this.$store.dispatch('drawback_getList', this.param);
+		// 分页
+		handleSizeChange(size) {
+			this.param.pageSize = size
+            this.param.pageNo = 1
+            this.$store.dispatch('drawback_getList', this.param)
         },
-        handleCurrentChange(page) {
-            this.param.pageNo = page;
-            this.$store.dispatch('drawback_getList', this.param);
+		handleCurrentChange(page) {
+			this.param.pageNo = page
+            this.$store.dispatch('drawback_getList', this.param)
         },
-        // 选择项目状态
-        itemStatus(lv) {
-            this.param.status = lv;
-            this.$store.dispatch('drawback_getList', this.param);
+		// 选择项目状态
+		itemStatus(lv) {
+			this.param.status = lv
+            this.$store.dispatch('drawback_getList', this.param)
         },
-    }
+	}
 }
 </script>

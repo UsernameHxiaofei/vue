@@ -26,24 +26,24 @@
 </template>
 <script>
 export default {
-    name: 'investor',
-    computed: {
-        investUserInfo:function(){
-            return this.$store.state.item.invertUserInfo||[];
-        },
-        flag:function(){
-            return this.max>=(this.investUserInfo.length||0);
-        }
-    },
-    data () {
-        return {
-            max:10      
-        }
-    },
-    methods: {
-        more(){
-            this.max=this.investUserInfo.length;
-        }
-    }
+	name: 'investor',
+	computed: {
+		investUserInfo:function(){
+			return this.$store.state.item.invertUserInfo||[]
+		},
+		flag:function(){
+			return this.max>=(this.investUserInfo.length||0)
+		}
+	},
+	data () {
+		return {
+			max:10      
+		}
+	},
+	methods: {
+		more(){
+			this.max=this.investUserInfo.length
+		}
+	}
 }
 </script>

@@ -30,7 +30,6 @@ const msgTalk = () => import('../views/contentManage/msgTalk.vue')
 const msgTalkDetail = () => import('../views/contentManage/msgTalkDetail.vue')
 const msgWebsite = () => import('../views/contentManage/msgWebsite.vue')
 const msgWebDetail = () => import('../views/contentManage/msgWebDetail.vue')
-const msgProjectList = () => import('../views/contentManage/msgProjectList.vue')
 const log = () => import('../views/systemManage/log.vue')
 const permission = () => import('../views/systemManage/permission.vue')
 const roleMaintain = () => import('../views/systemManage/roleMaintain.vue')
@@ -88,7 +87,6 @@ const routes = [
   { path: '/msgShort', component: msgShort },
   { path: '/msgWebsite', component: msgWebsite },
   { path: '/msgWebDetail/:id', component: msgWebDetail },
-  { path: '/msgProjectList', component: msgProjectList },
   { path: '/log', component: log },
   { path: '/permission', component: permission },
   { path: '/roleMaintain', component: roleMaintain },

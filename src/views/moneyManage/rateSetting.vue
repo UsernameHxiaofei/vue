@@ -253,262 +253,262 @@ import pagination from '../../components/common/pagination'
 import projectStatus from '../../constant/projectStatus.js'
 
 export default {
-    components: {
-        pagination
-    },
-    computed: {
-        actor: function () {
-            return this.$store.state.login.actor;
+	components: {
+		pagination
+	},
+	computed: {
+		actor: function () {
+			return this.$store.state.login.actor
         },
-        idFundRule: function () {
-            if (!this.$store.state.money.idFundRule) {
-                return {
-                    createUserId: '',
-                    updateUserId: '',
-                    ruleId: '',
-                    serviceChargeRate: '',
-                    feeRate: '',
-                    expertSharePercent: '',
-                    carryPercent: '',
-                    leadInvestSharePercent: '',
-                    leadInvestPercent: '',
-                    financingEnsurePercent: '',
-                    quotaUnder: '',
-                    underEnsurePercent: '',
-                    quotaAbove: '',
-                    aboveEnsurePercent: '',
-                    investEnsurePercent: '',
-                    minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: '',
-                    simulatePercent:''
-                };
+		idFundRule: function () {
+			if (!this.$store.state.money.idFundRule) {
+				return {
+					createUserId: '',
+					updateUserId: '',
+					ruleId: '',
+					serviceChargeRate: '',
+					feeRate: '',
+					expertSharePercent: '',
+					carryPercent: '',
+					leadInvestSharePercent: '',
+					leadInvestPercent: '',
+					financingEnsurePercent: '',
+					quotaUnder: '',
+					underEnsurePercent: '',
+					quotaAbove: '',
+					aboveEnsurePercent: '',
+					investEnsurePercent: '',
+					minInvestPenaltyPercent: '',
+					maxInvestPenaltyPercent: '',
+					simulatePercent:''
+                }
             } else {
-                return this.$store.state.money.idFundRule;
+				return this.$store.state.money.idFundRule
             }
-        },
-        overallFundRule: function () {
-            if (!this.$store.state.money.overallFundRule) {
-                return {
-                    createUserId: '',
-                    updateUserId: '',
-                    ruleId: '',
-                    serviceChargeRate: '',
-                    feeRate: '',
-                    expertSharePercent: '',
-                    carryPercent: '',
-                    leadInvestSharePercent: '',
-                    leadInvestPercent: '',
-                    financingEnsurePercent: '',
-                    quotaUnder: '',
-                    underEnsurePercent: '',
-                    quotaAbove: '',
-                    aboveEnsurePercent: '',
-                    investEnsurePercent: '',
-                    minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: '',
-                    simulatePercent:''
-                };
+		},
+		overallFundRule: function () {
+			if (!this.$store.state.money.overallFundRule) {
+				return {
+					createUserId: '',
+					updateUserId: '',
+					ruleId: '',
+					serviceChargeRate: '',
+					feeRate: '',
+					expertSharePercent: '',
+					carryPercent: '',
+					leadInvestSharePercent: '',
+					leadInvestPercent: '',
+					financingEnsurePercent: '',
+					quotaUnder: '',
+					underEnsurePercent: '',
+					quotaAbove: '',
+					aboveEnsurePercent: '',
+					investEnsurePercent: '',
+					minInvestPenaltyPercent: '',
+					maxInvestPenaltyPercent: '',
+					simulatePercent:''
+                }
             } else {
-                return this.$store.state.money.overallFundRule;
+				return this.$store.state.money.overallFundRule
             }
+		},
+		modifyFundRule: function () {
+			return this.$store.state.money.modifyFundRule
         },
-        modifyFundRule: function () {
-            return this.$store.state.money.modifyFundRule;
-        },
-        rateGetList: function () {
-            return this.$store.state.money.rateGetList;
+		rateGetList: function () {
+			return this.$store.state.money.rateGetList
         }
+	},
+	beforeMount() {
+		this.param = {
+			projectName: this.keyword,
+			projectStatus: this.itemStatu,
+			page: 1,
+			number: 10
+		}
+		this.$store.dispatch('rate_getList', this.param)
     },
-    beforeMount() {
-        this.param = {
-            projectName: this.keyword,
-            projectStatus: this.itemStatu,
-            page: 1,
-            number: 10
-        }
-        this.$store.dispatch("rate_getList", this.param);
-    },
-    data() {
-        return {
-            param: {},
-            editProjectType:'A',
-            projectId: '',
-            dialogOverallVisible: false,
-            dialogRateVisible: false,
-            rateForm: {},
-            overallForm: {},
-            formLabelWidth: '120px',
-            overrule: {
-                serviceChargeRate: [
-                    { required: true, type: 'number', message: '请输入融资服务费率', trigger: 'blur' },
+	data() {
+		return {
+			param: {},
+			editProjectType:'A',
+			projectId: '',
+			dialogOverallVisible: false,
+			dialogRateVisible: false,
+			rateForm: {},
+			overallForm: {},
+			formLabelWidth: '120px',
+			overrule: {
+				serviceChargeRate: [
+					{ required: true, type: 'number', message: '请输入融资服务费率', trigger: 'blur' },
 
-                ],
-                feeRate: [
-                    { required: true, type: 'number', message: '请输入交易手续费率', trigger: 'blur' },
+				],
+				feeRate: [
+					{ required: true, type: 'number', message: '请输入交易手续费率', trigger: 'blur' },
 
-                ],
-                expertSharePercent: [
-                    { required: true, type: 'number', message: '请输入行家分成比例', trigger: 'blur' },
+				],
+				expertSharePercent: [
+					{ required: true, type: 'number', message: '请输入行家分成比例', trigger: 'blur' },
 
-                ],
-                carryPercent: [
-                    { required: true, type: 'number', message: '请输入项目投资Carry比例', trigger: 'blur' },
+				],
+				carryPercent: [
+					{ required: true, type: 'number', message: '请输入项目投资Carry比例', trigger: 'blur' },
 
-                ],
-                leadInvestSharePercent: [
-                    { required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
+				],
+				leadInvestSharePercent: [
+					{ required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
 
-                ],
-                leadInvestPercent: [
-                    { required: true, type: 'number', message: '请输入最低领投比例', trigger: 'blur' },
-                ],
-                financingEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
+				],
+				leadInvestPercent: [
+					{ required: true, type: 'number', message: '请输入最低领投比例', trigger: 'blur' },
+				],
+				financingEnsurePercent: [
+					{ required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
 
-                ],
-                quotaUnder: [
-                    { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
+				],
+				quotaUnder: [
+					{ required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
 
-                ],
-                investEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入投资人保证金比例', trigger: 'blur' },
+				],
+				investEnsurePercent: [
+					{ required: true, type: 'number', message: '请输入投资人保证金比例', trigger: 'blur' },
 
-                ],
-                minInvestPenaltyPercent: [
-                    { required: true, type: 'number', message: '请输入投资人违约金比例', trigger: 'blur' },
+				],
+				minInvestPenaltyPercent: [
+					{ required: true, type: 'number', message: '请输入投资人违约金比例', trigger: 'blur' },
 
-                ]
-            },
-            rules: {
-                serviceChargeRate: [
-                    { required: true, type: 'number', message: '请输入融资服务费率', trigger: 'blur' },
+				]
+			},
+			rules: {
+				serviceChargeRate: [
+					{ required: true, type: 'number', message: '请输入融资服务费率', trigger: 'blur' },
 
-                ],
-                feeRate: [
-                    { required: true, type: 'number', message: '请输入交易手续费率', trigger: 'blur' },
+				],
+				feeRate: [
+					{ required: true, type: 'number', message: '请输入交易手续费率', trigger: 'blur' },
 
-                ],
-                expertSharePercent: [
-                    { required: true, type: 'number', message: '请输入行家分成比例', trigger: 'blur' },
+				],
+				expertSharePercent: [
+					{ required: true, type: 'number', message: '请输入行家分成比例', trigger: 'blur' },
 
-                ],
-                carryPercent: [
-                    { required: true, type: 'number', message: '请输入项目投资Carry比例', trigger: 'blur' },
+				],
+				carryPercent: [
+					{ required: true, type: 'number', message: '请输入项目投资Carry比例', trigger: 'blur' },
 
-                ],
-                leadInvestSharePercent: [
-                    { required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
+				],
+				leadInvestSharePercent: [
+					{ required: true, type: 'number', message: '请输入领投分成比例', trigger: 'blur' },
 
-                ],
-                leadInvestPercent: [
-                    { required: true, type: 'number', message: '请输入最低领投比例', trigger: 'blur' },
-                ],
-                financingEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
-                ],
-                quotaUnder: [
-                    { required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
+				],
+				leadInvestPercent: [
+					{ required: true, type: 'number', message: '请输入最低领投比例', trigger: 'blur' },
+				],
+				financingEnsurePercent: [
+					{ required: true, type: 'number', message: '请输入项目方保证金比例', trigger: 'blur' },
+				],
+				quotaUnder: [
+					{ required: true, type: 'number', message: '请输入领投保证金', trigger: 'blur' },
 
-                ],
-                investEnsurePercent: [
-                    { required: true, type: 'number', message: '请输入投资人保证金比例', trigger: 'blur' },
+				],
+				investEnsurePercent: [
+					{ required: true, type: 'number', message: '请输入投资人保证金比例', trigger: 'blur' },
 
-                ],
-                minInvestPenaltyPercent: [
-                    { required: true, type: 'number', message: '请输入投资人最小违约金比例', trigger: 'blur' }
-                ]
-            },
-            keyword: '',
-            itemStatu: '',
-            itemStatus: projectStatus,
-        }
-    },
-    methods: {
-        //取消
-        cancel() {
-            this.$refs['rateForm'].resetFields();
+				],
+				minInvestPenaltyPercent: [
+					{ required: true, type: 'number', message: '请输入投资人最小违约金比例', trigger: 'blur' }
+				]
+			},
+			keyword: '',
+			itemStatu: '',
+			itemStatus: projectStatus,
+		}
+	},
+	methods: {
+		//取消
+		cancel() {
+			this.$refs['rateForm'].resetFields()
             this.rateForm={
-                    createUserId: '',
-                    updateUserId: '',
-                    ruleId: '',
-                    serviceChargeRate: '',
-                    feeRate: '',
-                    expertSharePercent: '',
-                    carryPercent: '',
-                    leadInvestSharePercent: '',
-                    leadInvestPercent: '',
-                    financingEnsurePercent: '',
-                    quotaUnder: '',
-                    underEnsurePercent: '',
-                    quotaAbove: '',
-                    aboveEnsurePercent: '',
-                    investEnsurePercent: '',
-                    minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: '',
-                    simulatePercent:''
-                };
-            this.dialogRateVisible = false;
-            this.$store.dispatch('rate_getList', this.param);
+				createUserId: '',
+				updateUserId: '',
+				ruleId: '',
+				serviceChargeRate: '',
+				feeRate: '',
+				expertSharePercent: '',
+				carryPercent: '',
+				leadInvestSharePercent: '',
+				leadInvestPercent: '',
+				financingEnsurePercent: '',
+				quotaUnder: '',
+				underEnsurePercent: '',
+				quotaAbove: '',
+				aboveEnsurePercent: '',
+				investEnsurePercent: '',
+				minInvestPenaltyPercent: '',
+				maxInvestPenaltyPercent: '',
+				simulatePercent:''
+                }
+            this.dialogRateVisible = false
+            this.$store.dispatch('rate_getList', this.param)
         },
-        //取消
-        quit() {
-            this.$refs['overallForm'].resetFields();
+		//取消
+		quit() {
+			this.$refs['overallForm'].resetFields()
             this.overallForm={
-                    createUserId: '',
-                    updateUserId: '',
-                    ruleId: '',
-                    serviceChargeRate: '',
-                    feeRate: '',
-                    expertSharePercent: '',
-                    carryPercent: '',
-                    leadInvestSharePercent: '',
-                    leadInvestPercent: '',
-                    financingEnsurePercent: '',
-                    quotaUnder: '',
-                    underEnsurePercent: '',
-                    quotaAbove: '',
-                    aboveEnsurePercent: '',
-                    investEnsurePercent: '',
-                    minInvestPenaltyPercent: '',
-                    maxInvestPenaltyPercent: '',
-                    simulatePercent:''
-                };
-            this.dialogOverallVisible = false;
-            this.$store.dispatch('rate_getList', this.param);
+				createUserId: '',
+				updateUserId: '',
+				ruleId: '',
+				serviceChargeRate: '',
+				feeRate: '',
+				expertSharePercent: '',
+				carryPercent: '',
+				leadInvestSharePercent: '',
+				leadInvestPercent: '',
+				financingEnsurePercent: '',
+				quotaUnder: '',
+				underEnsurePercent: '',
+				quotaAbove: '',
+				aboveEnsurePercent: '',
+				investEnsurePercent: '',
+				minInvestPenaltyPercent: '',
+				maxInvestPenaltyPercent: '',
+				simulatePercent:''
+                }
+            this.dialogOverallVisible = false
+            this.$store.dispatch('rate_getList', this.param)
         },
-        // 搜索
-        handleIconClick() {
-            this.param.projectName = this.keyword;
-            this.param.page = 1;
-            this.$store.dispatch('rate_getList', this.param);
+		// 搜索
+		handleIconClick() {
+			this.param.projectName = this.keyword
+            this.param.page = 1
+            this.$store.dispatch('rate_getList', this.param)
         },
-        //分页
-        handleSizeChange(val) {
-            this.param.number = val;
-            this.param.page = 1;
-            this.$store.dispatch('rate_getList', this.param);
+		//分页
+		handleSizeChange(val) {
+			this.param.number = val
+            this.param.page = 1
+            this.$store.dispatch('rate_getList', this.param)
         },
-        handleCurrentChange(val) {
-            this.param.page = val;
-            this.$store.dispatch('rate_getList', this.param);
+		handleCurrentChange(val) {
+			this.param.page = val
+            this.$store.dispatch('rate_getList', this.param)
         },
-        // 选择项目状态
-        changeItemStatus(lv) {
-            this.param.projectStatus = lv;
-            this.$store.dispatch('rate_getList', this.param);
+		// 选择项目状态
+		changeItemStatus(lv) {
+			this.param.projectStatus = lv
+            this.$store.dispatch('rate_getList', this.param)
         },
-        //点击设置参数规则
-        openRate(data) {
-            let idParam = {
-                ownId: data.projectId
-            }
-            this.editProjectType=data.type;
-            this.projectId = data.projectId;
+		//点击设置参数规则
+		openRate(data) {
+			let idParam = {
+				ownId: data.projectId
+			}
+			this.editProjectType=data.type
+            this.projectId = data.projectId
             this.$store.dispatch('id_fundRule2', idParam).then(() => {
-                 this.rateForm = {};
-                this.rateForm = this.idFundRule;
+				this.rateForm = {}
+                this.rateForm = this.idFundRule
                 this.dialogRateVisible = true;
-            });
+			})
             // if(data.projectPhase>7){
             // }else{
             //     this.$store.dispatch('id_fundRule', idParam).then(() => {
@@ -518,101 +518,101 @@ export default {
             //     });
             // }
         },
-        //保存已设置好或修改好的参数规则
-        setRate() {
-            this.rateForm.ownId = this.projectId;
-            this.editProjectType='A';
+		//保存已设置好或修改好的参数规则
+		setRate() {
+			this.rateForm.ownId = this.projectId
+            this.editProjectType='A'
             let formParam = {
-                ltFundsRule: this.rateForm
-            }
-            this.$refs['rateForm'].validate((valid) => {
-                if (valid) {
-                    if (this.rateForm.ruleId) {
-                        this.rateForm.updateUserId = this.actor.id;
+				ltFundsRule: this.rateForm
+			}
+			this.$refs['rateForm'].validate((valid) => {
+				if (valid) {
+					if (this.rateForm.ruleId) {
+						this.rateForm.updateUserId = this.actor.id
                         this.$store.dispatch('modify_fundRule', formParam).then(() => {
-                            if (this.modifyFundRule.success) {
-                                this.$message({
-                                    message: '修改规则参数成功！',
-                                    type: 'success'
-                                });
-                                this.$store.dispatch('rate_getList', this.param);
-                                this.dialogRateVisible = false;
+							if (this.modifyFundRule.success) {
+								this.$message({
+									message: '修改规则参数成功！',
+									type: 'success'
+								})
+                                this.$store.dispatch('rate_getList', this.param)
+                                this.dialogRateVisible = false
                             } else {
-                                this.$message('修改失败');
+								this.$message('修改失败')
                             }
-                        }, 300);
+						}, 300)
                     } else {
-                        this.rateForm.createUserId = this.actor.id;
+						this.rateForm.createUserId = this.actor.id
                         this.$store.dispatch('modify_fundRule', formParam).then(() => {
-                            if (this.modifyFundRule.success) {
-                                this.$message({
-                                    message: '规则参数设置成功！',
-                                    type: 'success'
-                                });
-                                this.$store.dispatch('rate_getList', this.param);
-                                this.dialogRateVisible = false;
+							if (this.modifyFundRule.success) {
+								this.$message({
+									message: '规则参数设置成功！',
+									type: 'success'
+								})
+                                this.$store.dispatch('rate_getList', this.param)
+                                this.dialogRateVisible = false
                             } else {
-                                this.$message('设置失败');
+								this.$message('设置失败')
                             }
-                        }, 300);
+						}, 300)
                     }
-                } else {
-                    alert('error submit!!');
-                    return false;
+				} else {
+					alert('error submit!!')
+                    return false
                 }
-            });
+			})
         },
-        //点击设置全局参数规则
-        openOverall() {
-            this.$store.dispatch('overall_fundRule').then(() => {
-                this.overallForm = this.overallFundRule;
+		//点击设置全局参数规则
+		openOverall() {
+			this.$store.dispatch('overall_fundRule').then(() => {
+				this.overallForm = this.overallFundRule
                 this.dialogOverallVisible = true;
-            });
+			})
         },
-        //保存已设置好或修改好的全局参数规则
-        setOverallRate() {
-            let formParam = {
-                ltFundsRule: this.overallForm
-            }
-            this.$refs['overallForm'].validate((valid) => {
-                if (valid) {
-                    if (this.overallForm.ruleId) {
-                        this.overallForm.updateUserId = this.actor.id;
+		//保存已设置好或修改好的全局参数规则
+		setOverallRate() {
+			let formParam = {
+				ltFundsRule: this.overallForm
+			}
+			this.$refs['overallForm'].validate((valid) => {
+				if (valid) {
+					if (this.overallForm.ruleId) {
+						this.overallForm.updateUserId = this.actor.id
                         this.$store.dispatch('modify_fundRule', formParam).then(() => {
-                            if (this.modifyFundRule.success) {
-                                this.$message({
-                                    message: '修改全局资金规则参数成功！',
-                                    type: 'success'
-                                });
-                                this.$store.dispatch('rate_getList', this.param);
-                                this.dialogOverallVisible = false;
+							if (this.modifyFundRule.success) {
+								this.$message({
+									message: '修改全局资金规则参数成功！',
+									type: 'success'
+								})
+                                this.$store.dispatch('rate_getList', this.param)
+                                this.dialogOverallVisible = false
                             } else {
-                                this.$message('修改失败');
+								this.$message('修改失败')
                             }
-                        }, 300);
+						}, 300)
                     } else {
-                        this.overallForm.createUserId = this.actor.id;
+						this.overallForm.createUserId = this.actor.id
                         this.$store.dispatch('modify_fundRule', formParam).then(() => {
-                            if (this.modifyFundRule.success) {
-                                this.$message({
-                                    message: '全局资金规则参数设置成功！',
-                                    type: 'success'
-                                });
-                                this.$store.dispatch('rate_getList', this.param);
-                                this.dialogOverallVisible = false;
+							if (this.modifyFundRule.success) {
+								this.$message({
+									message: '全局资金规则参数设置成功！',
+									type: 'success'
+								})
+                                this.$store.dispatch('rate_getList', this.param)
+                                this.dialogOverallVisible = false
                             } else {
-                                this.$message('设置失败');
+								this.$message('设置失败')
                             }
-                        }, 300);
-                    }
+						}, 300);
+					}
 
-                } else {
-                    alert('error submit!!');
-                    return false;
+				} else {
+					alert('error submit!!')
+                    return false
                 }
-            });
+			})
         },
 
-    }
+	}
 }
 </script>

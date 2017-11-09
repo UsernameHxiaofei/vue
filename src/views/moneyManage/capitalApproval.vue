@@ -70,46 +70,46 @@
 <script>
 import pagination from '../../components/common/pagination'
 export default {
-    components: {
-        pagination
-    },
-    computed: {
-        getCapitalInjectionList: function () {
-            return this.$store.state.money.getCapitalInjectionList;
+	components: {
+		pagination
+	},
+	computed: {
+		getCapitalInjectionList: function () {
+			return this.$store.state.money.getCapitalInjectionList
         },
+	},
+	beforeMount() {
+		this.param = {
+			projectName: this.keyword,
+			page: 1,
+			number: 10
+		}
+		this.$store.dispatch('get_capitalInjectionList', this.param)
     },
-    beforeMount() {
-        this.param = {
-            projectName: this.keyword,
-            page: 1,
-            number: 10
+	data() {
+		return {
+			keyword: '',
+		}
+	},
+	methods: {
+		handleIconClick() {
+			this.param.projectName = this.keyword
+            this.param.page = 1
+            this.$store.dispatch('get_capitalInjectionList', this.param)
+        },
+		handleSizeChange(size) {
+			this.param.number = size
+            this.param.page = 1
+            this.$store.dispatch('get_capitalInjectionList', this.param)
+        },
+		handleCurrentChange(page) {
+			this.param.page = page
+            this.$store.dispatch('get_capitalInjectionList', this.param)
+        },
+		approval(item) {
+			//stringify()用于从一个对象解析出字符串
+			sessionStorage.setItem('projectInfo', JSON.stringify(item))
         }
-        this.$store.dispatch("get_capitalInjectionList", this.param);
-    },
-    data() {
-        return {
-            keyword: '',
-        }
-    },
-    methods: {
-        handleIconClick() {
-            this.param.projectName = this.keyword;
-            this.param.page = 1;
-            this.$store.dispatch('get_capitalInjectionList', this.param);
-        },
-        handleSizeChange(size) {
-            this.param.number = size;
-            this.param.page = 1;
-            this.$store.dispatch('get_capitalInjectionList', this.param);
-        },
-        handleCurrentChange(page) {
-            this.param.page = page;
-            this.$store.dispatch('get_capitalInjectionList', this.param);
-        },
-        approval(item) {
-            //stringify()用于从一个对象解析出字符串
-            sessionStorage.setItem('projectInfo', JSON.stringify(item));
-        }
-    }
+	}
 }
 </script>

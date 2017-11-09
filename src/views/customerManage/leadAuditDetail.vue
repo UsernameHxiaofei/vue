@@ -117,81 +117,81 @@
 
 <script>
 export default {
-    computed: {
-        leadAuditAdoptData: function () {
-            return this.$store.state.customer.leadAuditAdoptData;
-        },
-        leadAuditRefuseData: function () {
-            return this.$store.state.customer.leadAuditRefuseData;
-        },
-        leadData: function () {
-            return this.$store.state.customer.leadData;
-        },
-    },
-    data() {
-        return {
-            refuseParam: {
-                actorId: this.$route.params.actorId,
-                rejection: '',
-            },
-            dialogClosureVisible: false,
-            rules: {
-                rejection: [
-                    { required: true, message: '请输入拒绝理由', trigger: 'blur' }
-                ],
+	computed: {
+		leadAuditAdoptData: function () {
+			return this.$store.state.customer.leadAuditAdoptData
+		},
+		leadAuditRefuseData: function () {
+			return this.$store.state.customer.leadAuditRefuseData
+		},
+		leadData: function () {
+			return this.$store.state.customer.leadData
+		},
+	},
+	data() {
+		return {
+			refuseParam: {
+				actorId: this.$route.params.actorId,
+				rejection: '',
+			},
+			dialogClosureVisible: false,
+			rules: {
+				rejection: [
+					{ required: true, message: '请输入拒绝理由', trigger: 'blur' }
+				],
 
-            },
-        }
-    },
-    beforeMount() {
-        let leadParam = {
-            id: this.$route.params.actorId
-        }
-        this.$store.dispatch('leadByActorId', leadParam)
-    },
-    methods: {
-        adopt() {
-            let adoptParam = {
-                id: this.$route.params.customerId
-            }
-            this.$store.dispatch('leadAudit_adopt', adoptParam).then(() => {
-                if (this.leadAuditAdoptData.success) {
-                    this.$message({
-                        message: '审核通过！',
-                        type: 'success'
-                    });
-                    this.$router.push({ path: '/leadAuditList' })
-                } else {
-                    this.$message.error('操作失败');
-                }
+			},
+		}
+	},
+	beforeMount() {
+		let leadParam = {
+			id: this.$route.params.actorId
+		}
+		this.$store.dispatch('leadByActorId', leadParam)
+	},
+	methods: {
+		adopt() {
+			let adoptParam = {
+				id: this.$route.params.customerId
+			}
+			this.$store.dispatch('leadAudit_adopt', adoptParam).then(() => {
+				if (this.leadAuditAdoptData.success) {
+					this.$message({
+						message: '审核通过！',
+						type: 'success'
+					})
+					this.$router.push({ path: '/leadAuditList' })
+				} else {
+					this.$message.error('操作失败')
+				}
 
-            });
-        },
-        refuse() {
-            this.$refs['refuseParam'].validate((valid) => {
-                if (valid) {
-                    this.$store.dispatch('leadAudit_refuse', this.refuseParam).then(() => {
-                        if (this.leadAuditRefuseData.success) {
-                            this.$message({
-                                message: '拒绝成功！',
-                                type: 'success'
-                            });
-                            this.dialogClosureVisible = false;
-                            this.$router.push({ path: '/leadAuditList' })
-                        } else {
-                            this.$message.error('操作失败');
+			})
+		},
+		refuse() {
+			this.$refs['refuseParam'].validate((valid) => {
+				if (valid) {
+					this.$store.dispatch('leadAudit_refuse', this.refuseParam).then(() => {
+						if (this.leadAuditRefuseData.success) {
+							this.$message({
+								message: '拒绝成功！',
+								type: 'success'
+							})
+							this.dialogClosureVisible = false
+							this.$router.push({ path: '/leadAuditList' })
+						} else {
+							this.$message.error('操作失败')
 
-                        }
+						}
 
-                    });
-                }
-            });
-        },
-        cancel() {
-            this.$refs['refuseParam'].resetFields();
-            this.dialogClosureVisible = false;
-        },
-    }
+					})
+				}
+			})
+		},
+		cancel() {
+			this.$refs['refuseParam'].resetFields()
+			this.dialogClosureVisible = false
+		},
+	}
 }
 </script>
 

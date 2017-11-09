@@ -34,17 +34,17 @@ margin-left: -10px;margin-top: 15px;display: inline-block;text-align: center;}
 </template>
 <script>
 export default {
-    name: 'downpage',
-    computed: {
-        materials:function(){
-            return this.$store.state.item.materials;
-        },
-        credit:function(){
-            return this.$store.state.item.credit;
-        }  
-    },
-    beforeMount () {
+	name: 'downpage',
+	computed: {
+		materials:function(){
+			return this.$store.state.item.materials
+		},
+		credit:function(){
+			return this.$store.state.item.credit
+		}  
+	},
+	beforeMount () {
         
-    }
+	}
 }
 </script>

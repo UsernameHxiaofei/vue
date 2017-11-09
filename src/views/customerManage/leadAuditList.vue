@@ -128,58 +128,58 @@
 import pagination from '../../components/common/pagination'
 
 export default {
-    name: 'leadAuditList',
-    components: {
-        pagination
-    },
-    computed: {
-        leadAuditList: function () {
-            return this.$store.state.customer.leadAuditList;
-        },
-        customerStatistics: function () {
-            return this.$store.state.customer.customerStatistics;
-        },
-    },
-    data() {
-        return {
-            active: 'border-orange',
-            dialogFormVisible: false,
-            formLabelWidth: '120px',
-            keyword: '',
-            param: {},
-        }
-    },
-    beforeMount() {
-        this.$store.dispatch('customer_statistics').then(() => {
-            if (this.customerStatistics) {
-                this.customerStatistics.allCount = this.customerStatistics.UnCertifiCount + this.customerStatistics.expertCount + this.customerStatistics.investorCount + this.customerStatistics.leadInvestorCount + this.customerStatistics.projectPartyCount;
-            }
-        });
-        this.param = {
-            keyword: this.keyword,
-            pageSize: 10,
-            pageNum: 1
-        }
-        this.$store.dispatch('leadAudit_getList', this.param);
-    },
-    methods: {
-        handleSizeChange(val) {
-            this.param.pageSize = val;
-            this.param.pageNum = 1;
-            this.$store.dispatch('leadAudit_getList', this.param);
-        },
-        handleCurrentChange(val) {
-            this.param.pageNum = val;
-            this.$store.dispatch('leadAudit_getList', this.param);
-        },
-        keywordChange() {
-            this.param.keyword = this.keyword;
-            this.param.pageNum = 1;
-            this.$store.dispatch('leadAudit_getList', this.param);
-        },
+	name: 'leadAuditList',
+	components: {
+		pagination
+	},
+	computed: {
+		leadAuditList: function () {
+			return this.$store.state.customer.leadAuditList
+		},
+		customerStatistics: function () {
+			return this.$store.state.customer.customerStatistics
+		},
+	},
+	data() {
+		return {
+			active: 'border-orange',
+			dialogFormVisible: false,
+			formLabelWidth: '120px',
+			keyword: '',
+			param: {},
+		}
+	},
+	beforeMount() {
+		this.$store.dispatch('customer_statistics').then(() => {
+			if (this.customerStatistics) {
+				this.customerStatistics.allCount = this.customerStatistics.UnCertifiCount + this.customerStatistics.expertCount + this.customerStatistics.investorCount + this.customerStatistics.leadInvestorCount + this.customerStatistics.projectPartyCount
+			}
+		})
+		this.param = {
+			keyword: this.keyword,
+			pageSize: 10,
+			pageNum: 1
+		}
+		this.$store.dispatch('leadAudit_getList', this.param)
+	},
+	methods: {
+		handleSizeChange(val) {
+			this.param.pageSize = val
+			this.param.pageNum = 1
+			this.$store.dispatch('leadAudit_getList', this.param)
+		},
+		handleCurrentChange(val) {
+			this.param.pageNum = val
+			this.$store.dispatch('leadAudit_getList', this.param)
+		},
+		keywordChange() {
+			this.param.keyword = this.keyword
+			this.param.pageNum = 1
+			this.$store.dispatch('leadAudit_getList', this.param)
+		},
 
 
-    }
+	}
 }
 
 </script>

@@ -133,95 +133,95 @@ em {
 <script>
 import pagination from '../../components/common/pagination'
 export default {
-  components: {
-    pagination
-  },
-  computed: {
-    subscriptionData: function () {
-      return this.$store.state.money.subscriptionData;
+	components: {
+		pagination
+	},
+	computed: {
+		subscriptionData: function () {
+			return this.$store.state.money.subscriptionData
     },
-    bailRefund: function () {
-      return this.$store.state.money.bailRefund;
+		bailRefund: function () {
+			return this.$store.state.money.bailRefund
     },
-    actor: function () {
-      return this.$store.state.login.actor;
+		actor: function () {
+			return this.$store.state.login.actor
     },
-  },
-  beforeMount() {
-    this.investparam = {
-      projectId: this.$route.params.projectId,
-      page: 1,
-      number: 10
-    }
-    this.$store.dispatch('getSubscription', this.investparam);
+	},
+	beforeMount() {
+		this.investparam = {
+			projectId: this.$route.params.projectId,
+			page: 1,
+			number: 10
+		}
+		this.$store.dispatch('getSubscription', this.investparam)
     //parse用于从一个字符串中解析出json对象
-    this.projectName = JSON.parse(sessionStorage.getItem('projectInfo')).projectName;
-    this.raisedAmount = JSON.parse(sessionStorage.getItem('projectInfo')).raisedAmount||0;
-    this.projecStatus = JSON.parse(sessionStorage.getItem('projectInfo')).projecStatus;
+    this.projectName = JSON.parse(sessionStorage.getItem('projectInfo')).projectName
+    this.raisedAmount = JSON.parse(sessionStorage.getItem('projectInfo')).raisedAmount||0
+    this.projecStatus = JSON.parse(sessionStorage.getItem('projectInfo')).projecStatus
   },
 
-  data() {
-    return {
-      investparam:{},
-      finished: false,
-      projectName: '',
-      raisedAmount: '',
-      projecStatus: ''
-    }
-  },
-  methods: {
-    refund(data) {
-      this.$confirm('此操作将进行退款申请, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        let drawParam = {
-          projectId: data.projectId,
-          operaterId: this.actor.id,
-          oldTransactionId: data.transactionId
-        }
-        this.$store.dispatch('bail_refund', drawParam).then(() => {
-          if (this.bailRefund) {
-            if (this.bailRefund.status == 5) {
-              this.$message({
-                type: 'warning',
-                message: '项目不在退款时期,不退款 ！'
-              });
+	data() {
+		return {
+			investparam:{},
+			finished: false,
+			projectName: '',
+			raisedAmount: '',
+			projecStatus: ''
+		}
+	},
+	methods: {
+		refund(data) {
+			this.$confirm('此操作将进行退款申请, 是否继续?', '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning'
+			}).then(() => {
+				let drawParam = {
+					projectId: data.projectId,
+					operaterId: this.actor.id,
+					oldTransactionId: data.transactionId
+				}
+				this.$store.dispatch('bail_refund', drawParam).then(() => {
+					if (this.bailRefund) {
+						if (this.bailRefund.status == 5) {
+							this.$message({
+								type: 'warning',
+								message: '项目不在退款时期,不退款 ！'
+							})
             } else {
-              this.$message({
-                type: 'success',
-                message: '退款申请成功!'
-              });
+							this.$message({
+								type: 'success',
+								message: '退款申请成功!'
+							})
               this.$store.dispatch('getSubscription', this.investparam);
-            }
+						}
 
-            // this.finished=true;
-          } else {
-            this.$message({
-              type: 'info',
-              message: '退款申请失败!'
-            });
+						// this.finished=true;
+					} else {
+						this.$message({
+							type: 'info',
+							message: '退款申请失败!'
+						})
           }
-        });
+				})
       }).catch(() => {
-        this.$message({
-          type: 'info',
-          message: '已取消退款申请'
-        });
-      });
+				this.$message({
+					type: 'info',
+					message: '已取消退款申请'
+				});
+			})
 
     },
-    handleSizeChange(size) {
-      this.investparam.number = size;
-      this.investparam.page = 1;
-      this.$store.dispatch('getSubscription', this.investparam);
+		handleSizeChange(size) {
+			this.investparam.number = size
+      this.investparam.page = 1
+      this.$store.dispatch('getSubscription', this.investparam)
     },
-    handleCurrentChange(val) {
-      this.investparam.page = val;
-      this.$store.dispatch('getSubscription', this.investparam);
+		handleCurrentChange(val) {
+			this.investparam.page = val
+      this.$store.dispatch('getSubscription', this.investparam)
     },
-  }
+	}
 }
 </script>
 

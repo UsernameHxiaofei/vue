@@ -84,58 +84,58 @@ import pagination from '../../components/common/pagination'
 import pstatus from '../../constant/projectStatus.js'
 
 export default {
-  components: {
-    pagination
+	components: {
+		pagination
+	},
+	computed: {
+		investmentFundData: function () {
+			return this.$store.state.money.investmentFundData
+    },
+		investGetHeadInfo: function () {
+			return this.$store.state.money.investGetHeadInfo
+    },
+	},
+	beforeMount() {
+		this.param = {
+			projectName: this.keyword,
+			projectStatus: this.itemStatus,
+			page: 1,
+			number: 10
+		}
+		this.$store.dispatch('investmentFund_getList', this.param)
+    this.$store.dispatch('invest_getHeadInfo')
   },
-  computed: {
-    investmentFundData: function () {
-      return this.$store.state.money.investmentFundData;
+	data() {
+		return {
+			keyword: '',
+			itemStatus: '',
+			itemSelectStatus: pstatus,
+		}
+	},
+	methods: {
+		search() {
+			this.param.projectName = this.keyword
+      this.param.page = 1
+      this.$store.dispatch('investmentFund_getList', this.param)
     },
-    investGetHeadInfo: function () {
-      return this.$store.state.money.investGetHeadInfo;
+		handleSizeChange(val) {
+			this.param.number = val
+      this.param.page = 1
+      this.$store.dispatch('investmentFund_getList', this.param)
     },
-  },
-  beforeMount() {
-    this.param = {
-      projectName: this.keyword,
-      projectStatus: this.itemStatus,
-      page: 1,
-      number: 10
-    }
-    this.$store.dispatch('investmentFund_getList', this.param);
-    this.$store.dispatch('invest_getHeadInfo');
-  },
-  data() {
-    return {
-      keyword: '',
-      itemStatus: '',
-      itemSelectStatus: pstatus,
-    }
-  },
-  methods: {
-    search() {
-      this.param.projectName = this.keyword;
-      this.param.page = 1;
-      this.$store.dispatch('investmentFund_getList', this.param);
+		handleCurrentChange(val) {
+			this.param.page = val
+      this.$store.dispatch('investmentFund_getList', this.param)
     },
-    handleSizeChange(val) {
-      this.param.number = val;
-      this.param.page = 1;
-      this.$store.dispatch('investmentFund_getList', this.param);
+		statusChange() {
+			this.param.page = 1
+      this.param.projectStatus = this.itemStatus
+      this.$store.dispatch('investmentFund_getList', this.param)
     },
-    handleCurrentChange(val) {
-      this.param.page = val;
-      this.$store.dispatch('investmentFund_getList', this.param);
+		investmentDetail(item) {
+			//stringify()用于从一个对象解析出字符串
+			sessionStorage.setItem('projectInfo',JSON.stringify(item))
     },
-    statusChange() {
-      this.param.page = 1;
-      this.param.projectStatus = this.itemStatus;
-      this.$store.dispatch('investmentFund_getList', this.param);
-    },
-    investmentDetail(item) {
-      //stringify()用于从一个对象解析出字符串
-      sessionStorage.setItem('projectInfo',JSON.stringify(item));
-    },
-  }
+	}
 }
 </script>
