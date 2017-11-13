@@ -37,11 +37,11 @@ export default {
 	computed: {
 		leadAd:function(){
 			return this.$store.state.item.leadAd||{}
-        },
+		},
 		itemManageDetail: function () {
 			return this.$store.state.item.itemManageDetail||{}
-        }
+		}
 	}
-  }
+}
 </script>
 

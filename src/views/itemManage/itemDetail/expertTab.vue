@@ -38,13 +38,13 @@ export default {
 	computed: {
 		expert:function(){
 			return this.$store.state.item.expertAd||{}
-        }
+		}
 	},
 	data() {
 		return {
 			star: 0,
 			content:''
-      }
-    }
-  }
+		}
+	}
+}
 </script>

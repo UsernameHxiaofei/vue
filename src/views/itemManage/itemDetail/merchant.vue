@@ -96,24 +96,24 @@ export default {
 	methods: {
 		edit(){
 			this.dialogFormVisible = true
-                    this.merchantForm=JSON.parse(JSON.stringify(this.merchant))
-                },
+			this.merchantForm=JSON.parse(JSON.stringify(this.merchant))
+		},
 		submitForm() {
 			this.$refs['merchantForm'].validate((valid) => {
 				if (valid) {
 					this.$store.dispatch('item_editMerchant',{param:this.merchantForm,vue:this})
-                            this.dialogFormVisible = false
-                            this.$refs['merchantForm'].resetFields()
-                        } else {
+					this.dialogFormVisible = false
+					this.$refs['merchantForm'].resetFields()
+				} else {
 					return false
-                        }
+				}
 			})
-                }
+		}
 	},
 	computed: {
 		merchant: function () {
 			return this.$store.state.item.merchant || {}
-                }
+		}
 	}
 }
     

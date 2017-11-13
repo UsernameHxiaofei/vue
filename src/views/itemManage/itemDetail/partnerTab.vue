@@ -100,7 +100,7 @@ export default {
 	beforeMount() {
 		this.$store.dispatch('item_getPartnerInfo', { id: this.$route.params.projectId }).then(()=>{
 			this.partnerForm=JSON.parse(JSON.stringify(this.partner))
-                if(this.partner.protocol&&this.partner.protocol.length>0){
+			if(this.partner.protocol&&this.partner.protocol.length>0){
 				this.protocols=[{name:'有限合伙人模板',response:{objectLiteral:this.partner.protocol},url:this.partner.protocol}]
 			}
 		})
@@ -137,48 +137,48 @@ export default {
 		protocol_remove(file,fileList){
 			if(fileList.length>0){
 				this.partnerForm.protocol=JSON.parse(fileList[0].response.objectLiteral)
-                }else{
+			}else{
 				this.partnerForm.protocol=''
-                }
+			}
 		},
 		protocolUpload(response,file,fileList){
 			this.partnerForm.protocol=JSON.parse(response.objectLiteral)
-            },
+		},
 		beforeUpload(file){
 			if(this.partnerForm.protocol.length>0){
 				this.$message.warning('有限合伙人协议模板只能存在一个!')
-                    return false
-                }
+				return false
+			}
 			if(file.size>=1024*1024*10){
 				this.$message.warning('不能上传大于10MB的文件！')
-                    return false
-                }
+				return false
+			}
 			if(file.type!='application/pdf'){
 				this.$message.warning('协议模板必须是pdf文件！')
-                    return false
-                }
+				return false
+			}
 			return true
-            },
+		},
 		submitForm() {
 			this.$refs['partnerForm'].validate((valid) => {
 				if (valid) {
 					let param=this.partnerForm
-                        param.id=this.$route.params.projectId
-                        this.$store.dispatch('item_updatePartnerInfo',{param,vue:this}).then(()=>{
+					param.id=this.$route.params.projectId
+					this.$store.dispatch('item_updatePartnerInfo',{param,vue:this}).then(()=>{
 						this.partnerForm=JSON.parse(JSON.stringify(this.partner))
-                             this.dialogFormVisible=false
-                        })
+						this.dialogFormVisible=false
+					})
 					this.$refs['partnerForm'].resetFields()
-                    } else {
+				} else {
 					return false
-                    }
+				}
 			})
-            }
+		}
 	},
 	computed: {
 		partner: function () {
 			return this.$store.state.item.partnerInfo || {}
-            }
+		}
 	}
 }
 

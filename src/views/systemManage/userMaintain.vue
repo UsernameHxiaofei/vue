@@ -162,22 +162,22 @@ export default {
 	computed: {
 		systemManageList: function () {
 			return this.$store.state.system.systemManageList
-        },
+		},
 		systemRole: function () {
 			return this.$store.state.system.systemRole
-        },
+		},
 		systemCreate: function () {
 			return this.$store.state.system.systemCreateUser
-        },
+		},
 		systemUpdate: function () {
 			return this.$store.state.system.systemUpdateUser
-        },
+		},
 		systemClosure: function () {
 			return this.$store.state.system.systemClosureUser
-        },
+		},
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 	},
 	beforeMount() {
 		this.param = {
@@ -186,48 +186,48 @@ export default {
 			pageSize: 10
 		}
 		this.$store.dispatch('system_getManageList', this.param)
-        this.$store.dispatch('system_roleInfo')
-    },
+		this.$store.dispatch('system_roleInfo')
+	},
 	data() {
 		let validatePass = (rule, value, callback) => {
 			if (!value||value === '') {
 				callback(new Error('请输入登录口令'))
-            } else {
+			} else {
 				if (this.addUser.psw1 !== '') {
 					this.$refs.addUser.validateField('psw1')
-                }
-				callback();
+				}
+				callback()
 			}
-        }
-        let validatePass2 = (rule, value, callback) => {
+		}
+		let validatePass2 = (rule, value, callback) => {
 			if (!value||value === '') {
 				callback(new Error('请再次输入登录口令'))
-            } else if (value !== this.addUser.loginPassword) {
+			} else if (value !== this.addUser.loginPassword) {
 				callback(new Error('两次输入的登录口令不一致!'))
-            } else {
-				callback();
+			} else {
+				callback()
 			}
-        }
-        let validatePass3 = (rule, value, callback) => {
+		}
+		let validatePass3 = (rule, value, callback) => {
 			if (!value||value === '') {
 				callback(new Error('请输入登录口令'))
-            } else {
+			} else {
 				if (this.editUser.psw1 !== '') {
 					this.$refs.editUser.validateField('psw1')
-                }
-				callback();
+				}
+				callback()
 			}
-        }
-        let validatePass4 = (rule, value, callback) => {
+		}
+		let validatePass4 = (rule, value, callback) => {
 			if (!value||value === '') {
 				callback(new Error('请再次输入登录口令'))
-            } else if (value !== this.editUser.loginPassword) {
+			} else if (value !== this.editUser.loginPassword) {
 				callback(new Error('两次输入的登录口令不一致!'))
-            } else {
-				callback();
+			} else {
+				callback()
 			}
-        }
-        return {
+		}
+		return {
 			command: false,
 			checked: false,
 			roles: [],
@@ -309,56 +309,56 @@ export default {
 		//新增的取消
 		cancel() {
 			this.$refs['addUser'].resetFields()
-            this.addUser = {
+			this.addUser = {
 				mobileNumber: '',
 				name: '',
 				email: '',
 				loginPassword: '',
 				roles: []
-            }
-            this.$store.dispatch('system_getManageList', this.param)
-            this.dialogUserVisible = false
-        },
+			}
+			this.$store.dispatch('system_getManageList', this.param)
+			this.dialogUserVisible = false
+		},
 		//编辑的取消
 		quit() {
 			this.dialogeditUserVisible = false
-            this.$refs['editUser'].resetFields()
-            this.editUser = {
+			this.$refs['editUser'].resetFields()
+			this.editUser = {
 				mobileNumber: '',
 				name: '',
 				email: '',
 				loginPassword: '',
 				roles: []
-            }
-            this.$store.dispatch('system_getManageList', this.param)
-        },
+			}
+			this.$store.dispatch('system_getManageList', this.param)
+		},
 		//封禁的取消
 		cancelBtn() {
 			this.$refs['closureUser'].resetFields()
-            this.closureUser = {
+			this.closureUser = {
 				rejection: '',
 				status: '',
 				actorId: '',
-            }
-            this.$store.dispatch('system_getManageList', this.param)
-            this.dialogClosureVisible = false
-        },
+			}
+			this.$store.dispatch('system_getManageList', this.param)
+			this.dialogClosureVisible = false
+		},
 		// 搜索
 		handleIconClick() {
 			this.param.name = this.search_value
-            this.param.pageNo = 1
-            this.$store.dispatch('system_getManageList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('system_getManageList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.pageSize = size
-            this.param.pageNo = 1
-            this.$store.dispatch('system_getManageList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('system_getManageList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.pageNo = page
-            this.$store.dispatch('system_getManageList', this.param)
-        },
+			this.$store.dispatch('system_getManageList', this.param)
+		},
 		// 保存添加用户
 		client() {
 			this.$refs['addUser'].validate((valid) => {
@@ -369,48 +369,47 @@ export default {
 								message: '添加账号成功！',
 								type: 'success'
 							})
-                            this.$store.dispatch('system_getManageList', this.param)
-                            this.dialogUserVisible = false
-                        } else {
+							this.$store.dispatch('system_getManageList', this.param)
+							this.dialogUserVisible = false
+						} else {
 							this.$message('添加失败')
-                        }
+						}
 					})
-                } else {
-					console.log('error submit!!')
-                    return false
-                }
+				} else {
+					return false
+				}
 			})
-        },
+		},
 		// 点击编辑用户查询信息
 		getData(data) {
 			this.editUser = JSON.parse(JSON.stringify(data))
-            this.editUser.email = data.email&&data.email.address
-            this.roles = []
-            this.checked = false
-            this.editUser.loginPassword = ''
-            this.editUser.psw1 = ''
-            for (let i = 0; i < this.editUser.roles.length; i++) {
+			this.editUser.email = data.email&&data.email.address
+			this.roles = []
+			this.checked = false
+			this.editUser.loginPassword = ''
+			this.editUser.psw1 = ''
+			for (let i = 0; i < this.editUser.roles.length; i++) {
 				this.roles[i] = this.editUser.roles[i].id
-            }
+			}
 			this.editUser.roles = this.roles
-            this.dialogeditUserVisible = true
-            this.changeCommand()
-        },
+			this.dialogeditUserVisible = true
+			this.changeCommand()
+		},
 		//变更口令
 		changeCommand() {
 			if (this.checked == true) {
 				this.command = true
-            } else {
+			} else {
 				this.command = false
-            }
+			}
 		},
 		//保存编辑用户
 		editClient() {
 			if (this.editUser.loginPassword == '') {
 				this.editUser.type = 0
-            } else {
+			} else {
 				this.editUser.type = 1
-            }
+			}
 			this.$refs['editUser'].validate((valid) => {
 				if (valid) {
 					if (this.editUser.id) {
@@ -420,43 +419,42 @@ export default {
 									message: '编辑用户成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('system_getManageList', this.param)
-                                this.dialogeditUserVisible = false
-                            } else {
+								this.$store.dispatch('system_getManageList', this.param)
+								this.dialogeditUserVisible = false
+							} else {
 								if(this.systemUpdate.information==''){
 									this.$message.warning(this.systemUpdate.information)
-                                }else{
+								}else{
 									this.$message.warning('操作失败')
-                                }
+								}
 							}
 						})
-                    }
+					}
 				} else {
-					console.log('error submit!!')
-                    return false
-                }
+					return false
+				}
 			})
-        },
+		},
 		//点击封禁
 		openClosure(row) {
 			this.closureUser.actorId = row.id
-            if (row.status == 1) {
+			if (row.status == 1) {
 				this.closureUser.status = 2
-                this.dialogClosureVisible = true
-            } else {
+				this.dialogClosureVisible = true
+			} else {
 				this.closureUser.status = 1
-                this.$store.dispatch('system_closureUser', this.closureUser).then(() => {
+				this.$store.dispatch('system_closureUser', this.closureUser).then(() => {
 					if (this.systemClosure.success) {
 						this.$message({
 							message: '激活成功！',
 							type: 'success'
 						})
-                        this.$store.dispatch('system_getManageList', this.param)
-                    } else {
+						this.$store.dispatch('system_getManageList', this.param)
+					} else {
 						this.$message('激活失败')
-                    }
+					}
 				})
-            }
+			}
 
 
 		},
@@ -470,18 +468,17 @@ export default {
 								message: '您已成功提交封禁理由！',
 								type: 'success'
 							})
-                            this.$store.dispatch('system_getManageList', this.param)
-                            this.dialogClosureVisible = false
-                        } else {
+							this.$store.dispatch('system_getManageList', this.param)
+							this.dialogClosureVisible = false
+						} else {
 							this.$message('封禁失败')
-                        }
+						}
 					})
-                } else {
-					console.log('error submit!!')
-                    return false
-                }
+				} else {
+					return false
+				}
 			})
-        },
+		},
 		delBtn(data) {
 			this.$confirm('此操作将永久删除账户, 是否继续?', '提示', {
 				confirmButtonText: '确定',
@@ -500,24 +497,24 @@ export default {
 								message: '删除成功！',
 								type: 'success'
 							})
-                            this.$store.dispatch('system_getManageList', this.param)
-                        } else {
+							this.$store.dispatch('system_getManageList', this.param)
+						} else {
 							this.$message('删除失败')
-                        }
+						}
 					})
-                } else {
+				} else {
 					this.$message({
 						type: 'info',
 						message: '不能删除自己的账户！'
 					})
-                }
+				}
 			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消删除'
-				});
+				})
 			})
-        }
+		}
 	},
 }
 </script>

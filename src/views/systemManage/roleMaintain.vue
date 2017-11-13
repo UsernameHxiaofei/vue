@@ -113,19 +113,19 @@ export default {
 	computed: {
 		systemRoleList: function () {
 			return this.$store.state.system.systemRoleList
-        },
+		},
 		systemAuthRoleList: function () {
 			return this.$store.state.system.systemAuthRoleList
-        },
+		},
 		systemAddRoleInfo: function () {
 			return this.$store.state.system.systemAddRoleInfo
-        },
+		},
 		systemForbidden: function () {
 			return this.$store.state.system.systemForbidden
-        },
+		},
 		systemUpdateRole: function () {
 			return this.$store.state.system.systemUpdateRole
-        },
+		},
 	},
 	beforeMount() {
 		this.param = {
@@ -134,8 +134,8 @@ export default {
 			pageSize: 10
 		}
 		this.$store.dispatch('system_roleList', this.param)
-        this.$store.dispatch('system_authRoleList')
-    },
+		this.$store.dispatch('system_authRoleList')
+	},
 	data() {
 		return {
 			search_value: '',
@@ -182,49 +182,49 @@ export default {
 		//新增的取消
 		cancel() {
 			this.$refs['addRole'].resetFields()
-            this.addRole = {
+			this.addRole = {
 				name: '',
 				generalRoleId: '',
-            }
-            this.$store.dispatch('system_roleList', this.param)
-            this.dialogUserVisible = false
-        },
+			}
+			this.$store.dispatch('system_roleList', this.param)
+			this.dialogUserVisible = false
+		},
 		//编辑的取消
 		quit() {
 			this.$refs['editRole'].resetFields()
-            this.editRole = {
+			this.editRole = {
 				name: '',
 				generalRoleId: '',
-            }
-            this.$store.dispatch('system_roleList', this.param)
-            this.dialogEditRole = false
-        },
+			}
+			this.$store.dispatch('system_roleList', this.param)
+			this.dialogEditRole = false
+		},
 		//封禁的取消
 		cancelBtn() {
 			this.$refs['closureUser'].resetFields()
-            this.closureUser = {
+			this.closureUser = {
 				rejection: '',
 				id: '',
-            }
-            this.$store.dispatch('system_roleList', this.param)
-            this.dialogClosureVisible = false
-        },
+			}
+			this.$store.dispatch('system_roleList', this.param)
+			this.dialogClosureVisible = false
+		},
 		// 搜索
 		handleIconClick() {
 			this.param.name = this.search_value
-            this.param.pageNo = 1
-            this.$store.dispatch('system_roleList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('system_roleList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.pageSize = size
-            this.param.pageNo = 1
-            this.$store.dispatch('system_roleList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('system_roleList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.pageNo = page
-            this.$store.dispatch('system_roleList', this.param)
-        },
+			this.$store.dispatch('system_roleList', this.param)
+		},
 		// 添加角色
 		client() {
 			this.$refs['addRole'].validate((valid) => {
@@ -235,28 +235,28 @@ export default {
 								message: '添加角色成功！',
 								type: 'success'
 							})
-                            this.$store.dispatch('system_roleList', this.param)
-                            this.dialogUserVisible = false
-                        } else {
+							this.$store.dispatch('system_roleList', this.param)
+							this.dialogUserVisible = false
+						} else {
 							this.$message('添加失败,已存在此角色！')
-                        }
+						}
 					})
-                } else {
+				} else {
 					return false
-                }
+				}
 			})
-        },
+		},
 		// 点击编辑角色
 		getData(data) {
 			if (data.generalRole) {
 				this.editRole.generalRoleId = data.generalRole.id
-            } else {
+			} else {
 				this.editRole.generalRoleId = ''
-            }
+			}
 			this.editRole.name = data.name
-            this.editRole.id = data.id
-            this.dialogEditRole = true
-        },
+			this.editRole.id = data.id
+			this.dialogEditRole = true
+		},
 		// 保存编辑角色
 		editReserve() {
 			this.$refs['editRole'].validate((valid) => {
@@ -268,37 +268,37 @@ export default {
 									message: '编辑角色成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('system_roleList', this.param)
-                                this.dialogEditRole = false
-                            } else {
+								this.$store.dispatch('system_roleList', this.param)
+								this.dialogEditRole = false
+							} else {
 								this.$message('编辑失败')
-                            }
+							}
 						})
-                    }
+					}
 				} else {
 					return false
-                }
+				}
 			})
-        },
+		},
 		// 激活/禁用角色
 		openClosure(row) {
 			this.closureUser.id = row.id
-            if (row.status == 1) {
+			if (row.status == 1) {
 				this.closureUser.status = 2
-                this.dialogClosureVisible = true
-            } else {
+				this.dialogClosureVisible = true
+			} else {
 				this.closureUser.status = 1
-                this.$store.dispatch('system_forbidden', this.closureUser).then(() => {
+				this.$store.dispatch('system_forbidden', this.closureUser).then(() => {
 					if (this.systemForbidden) {
 						this.$message({
 							message: '激活成功！',
 							type: 'success'
 						})
-                        this.$store.dispatch('system_roleList', this.param)
-                    } else {
+						this.$store.dispatch('system_roleList', this.param)
+					} else {
 						this.$message('激活失败')
-                    }
-				});
+					}
+				})
 			}
 
 		},
@@ -311,18 +311,17 @@ export default {
 								message: '您已成功提交封禁理由！',
 								type: 'success'
 							})
-                            this.$store.dispatch('system_roleList', this.param)
-                            this.dialogClosureVisible = false
-                        } else {
+							this.$store.dispatch('system_roleList', this.param)
+							this.dialogClosureVisible = false
+						} else {
 							this.$message('封禁失败')
-                        }
+						}
 					})
-                } else {
-					console.log('error submit!!')
-                    return false
-                }
+				} else {
+					return false
+				}
 			})
-        },
+		},
 
 	},
 }

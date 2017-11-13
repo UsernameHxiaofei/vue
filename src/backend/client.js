@@ -51,8 +51,7 @@ class StuffClient {
 				response = assembler.read()
 				oper(response)
 			} catch (ex) {
-				console.log(ex)
-				console.log('服务器故障！')
+				console.log('服务器故障！',ex)
 				response = Stuff.instanceFault('服务器故障！')
 				oper(response)
 			}

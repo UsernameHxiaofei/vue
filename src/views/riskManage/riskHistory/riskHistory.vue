@@ -34,72 +34,72 @@
 </template>
 
 <script>
-    import pagination from '../../../components/common/pagination.vue'
-    import riskColumn from '../riskInfo/riskColumn'
+import pagination from '../../../components/common/pagination.vue'
+import riskColumn from '../riskInfo/riskColumn'
 
-    export default {
-        name: 'riskHistory',
-        components: {
-            'pagination':pagination,
-            'risk-info':riskColumn  
-        },
-        computed: {
-           listData:function(){
-               return this.$store.state.risk.historyList;
-           }  
-        },
-        beforeMount () {
-           this.param={
-               pageSize:10,
-               pageNo:1,
-               projectId:this.$store.state.risk.projectInfo.projectId||this.$route.params.id
-           }
-           this.$store.dispatch('risk_getHistoryList',this.param);  
-        },
-        data() {
-            return {
-                status:{
-                   0:'待处理',
-                   1:'人工缓释',
-                   2:'无法缓释',
-                   3:'处理中',
-                   4:'自动缓释'
-                },
-                level:{
-                    3:'高',
-                    2:'中',
-                    1:'低'
-                },
-                param:{}
-            }
-        },
-        methods: {
-            stateDes(row){
-                return this.status[row.status];
-            },
-            levelDes(row){
-                return this.level[row.riskLevel];
-            },
-            back(){
-                this.$router.go(-1);
-            },
-            handleSizeChange(size){
-                this.param.pageSize=size;
-                this.param.pageNo=1;
-                this.$store.dispatch('risk_getHistoryList',this.param);
-            },
-            handleCurrentChange(page){
-                this.param.pageNo=page;
-                this.$store.dispatch('risk_getHistoryList',this.param);
-            },
-            detail(item){
-                this.$store.commit('risk_riskIndex',item);
-                this.$store.dispatch('risk_historyDetail',{riskProjectId:item.id}).then(()=>{
-                    this.$router.push('/riskHistoryDetail/'+item.id);
-                });
-            }
-        }
-    }
+export default {
+	name: 'riskHistory',
+	components: {
+		'pagination':pagination,
+		'risk-info':riskColumn  
+	},
+	computed: {
+		listData:function(){
+			return this.$store.state.risk.historyList
+		}  
+	},
+	beforeMount () {
+		this.param={
+			pageSize:10,
+			pageNo:1,
+			projectId:this.$store.state.risk.projectInfo.projectId||this.$route.params.id
+		}
+		this.$store.dispatch('risk_getHistoryList',this.param)  
+	},
+	data() {
+		return {
+			status:{
+				0:'待处理',
+				1:'人工缓释',
+				2:'无法缓释',
+				3:'处理中',
+				4:'自动缓释'
+			},
+			level:{
+				3:'高',
+				2:'中',
+				1:'低'
+			},
+			param:{}
+		}
+	},
+	methods: {
+		stateDes(row){
+			return this.status[row.status]
+		},
+		levelDes(row){
+			return this.level[row.riskLevel]
+		},
+		back(){
+			this.$router.go(-1)
+		},
+		handleSizeChange(size){
+			this.param.pageSize=size
+			this.param.pageNo=1
+			this.$store.dispatch('risk_getHistoryList',this.param)
+		},
+		handleCurrentChange(page){
+			this.param.pageNo=page
+			this.$store.dispatch('risk_getHistoryList',this.param)
+		},
+		detail(item){
+			this.$store.commit('risk_riskIndex',item)
+			this.$store.dispatch('risk_historyDetail',{riskProjectId:item.id}).then(()=>{
+				this.$router.push('/riskHistoryDetail/'+item.id)
+			})
+		}
+	}
+}
 
 </script>
 

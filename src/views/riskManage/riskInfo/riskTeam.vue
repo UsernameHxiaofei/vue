@@ -44,51 +44,51 @@
 import pagination from '../../../components/common/pagination.vue'
 
 export default {
-    name: 'riskTeam',
-    props: ['enterprise'],
-    data () {
-        return {
-            param:{},
-        }
-    },
-    components: {
-        'pagination': pagination
-    },
-    beforeMount () {
-        this.$store.dispatch('enterprise_getMemberInfo',{id:this.enterpriseInfo.id||(this.enterprise&&this.enterprise.id)});
-        this.param={
-            projectId:this.itemManageDetail.id,
-            pageNo:1,
-            pageSize:10
-        }
+	name: 'riskTeam',
+	props: ['enterprise'],
+	data () {
+		return {
+			param:{},
+		}
+	},
+	components: {
+		'pagination': pagination
+	},
+	beforeMount () {
+		this.$store.dispatch('enterprise_getMemberInfo',{id:this.enterpriseInfo.id||(this.enterprise&&this.enterprise.id)})
+		this.param={
+			projectId:this.itemManageDetail.id,
+			pageNo:1,
+			pageSize:10
+		}
         
-        this.$store.dispatch('selectPageRiskMemberChange',this.param);
-    },
-    methods: {
-        handleSizeChange(size) {
-                this.param.pageSize = size;
-                this.param.pageNo = 1;
-                this.$store.dispatch('selectPageRiskMemberChange', this.param);
-        },
-        handleCurrentChange(page) {
-                this.param.pageNo = page;
-                this.$store.dispatch('selectPageRiskMemberChange', this.param);
-        },  
-    },
-    computed: {
-        itemManageDetail: function () {
-              return this.$store.state.item.itemManageDetail||{};
-        },
-        datalist:function(){
-            return this.$store.state.enterprise.enterpriseMember||{};
-        },
-        enterpriseInfo:function(){
-            return this.$store.state.enterprise.enterpriseInfo||{};
-        },
-        pageRiskMemberChange:function(){
-            return this.$store.state.risk.pageRiskMemberChange||{};
-        }
-    }
+		this.$store.dispatch('selectPageRiskMemberChange',this.param)
+	},
+	methods: {
+		handleSizeChange(size) {
+			this.param.pageSize = size
+			this.param.pageNo = 1
+			this.$store.dispatch('selectPageRiskMemberChange', this.param)
+		},
+		handleCurrentChange(page) {
+			this.param.pageNo = page
+			this.$store.dispatch('selectPageRiskMemberChange', this.param)
+		},  
+	},
+	computed: {
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail||{}
+		},
+		datalist:function(){
+			return this.$store.state.enterprise.enterpriseMember||{}
+		},
+		enterpriseInfo:function(){
+			return this.$store.state.enterprise.enterpriseInfo||{}
+		},
+		pageRiskMemberChange:function(){
+			return this.$store.state.risk.pageRiskMemberChange||{}
+		}
+	}
 }
 </script>
 

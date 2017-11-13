@@ -32,77 +32,77 @@
 </template>
 
 <script>
-    import riskColumn from '../riskInfo/riskColumn'
-    import pagination from '../../../components/common/pagination.vue'
+import riskColumn from '../riskInfo/riskColumn'
+import pagination from '../../../components/common/pagination.vue'
 
-    export default {
-        name: 'riskIndex',
-        components: {
-            'pagination':pagination,
-            'risk-info':riskColumn  
-        },
-        computed: {
-            listData:function(){
-                return this.$store.state.risk.riskIndexList;
-            },
-            projectInfo:function(){
-                return this.$store.state.risk.projectInfo;
-            }
-        },
-        beforeMount () {
-            this.param={
-                pageNo:1,
-                pageSize:10,
-                projectId:this.$store.state.risk.projectInfo.projectId||this.$route.params.id
-            }
+export default {
+	name: 'riskIndex',
+	components: {
+		'pagination':pagination,
+		'risk-info':riskColumn  
+	},
+	computed: {
+		listData:function(){
+			return this.$store.state.risk.riskIndexList
+		},
+		projectInfo:function(){
+			return this.$store.state.risk.projectInfo
+		}
+	},
+	beforeMount () {
+		this.param={
+			pageNo:1,
+			pageSize:10,
+			projectId:this.$store.state.risk.projectInfo.projectId||this.$route.params.id
+		}
             
-            this.$store.dispatch('risk_getRiskIndexList',this.param);
-        },
-        data() {
-            return {
-               param:{},
-               status:{
-                   0:'待处理',
-                   1:'人工缓释',
-                   2:'无法缓释',
-                   3:'处理中',
-                   4:'自动缓释'
-               },
-               level:{
-                   3:'高',
-                   2:'中',
-                   1:'低'
-               }
-            }
-        },
-        methods: {
-            stateDes(row){
-                return this.status[row.status];
-            },
-            levelDes(row){
-                return this.level[row.riskLevel];
-            },
-            back(){
-                this.$router.go(-1);
-            },
-            detail(item){
-                this.$store.commit('risk_riskIndex',item);
-                if(item.status==3){
-                    this.$store.dispatch('risk_historyDetail',{riskProjectId:item.id})
-                }
-                this.$router.push('/riskHandle/'+item.id);
-            },
-            handleSizeChange(size){
-                this.param.pageSize=size;
-                this.param.pageNo=1;
-                this.$store.dispatch('risk_getRiskIndexList',this.param);
-            },
-            handleCurrentChange(page){
-                this.param.pageNo=page;
-                this.$store.dispatch('risk_getRiskIndexList',this.param);
-            }
-        }
-    }
+		this.$store.dispatch('risk_getRiskIndexList',this.param)
+	},
+	data() {
+		return {
+			param:{},
+			status:{
+				0:'待处理',
+				1:'人工缓释',
+				2:'无法缓释',
+				3:'处理中',
+				4:'自动缓释'
+			},
+			level:{
+				3:'高',
+				2:'中',
+				1:'低'
+			}
+		}
+	},
+	methods: {
+		stateDes(row){
+			return this.status[row.status]
+		},
+		levelDes(row){
+			return this.level[row.riskLevel]
+		},
+		back(){
+			this.$router.go(-1)
+		},
+		detail(item){
+			this.$store.commit('risk_riskIndex',item)
+			if(item.status==3){
+				this.$store.dispatch('risk_historyDetail',{riskProjectId:item.id})
+			}
+			this.$router.push('/riskHandle/'+item.id)
+		},
+		handleSizeChange(size){
+			this.param.pageSize=size
+			this.param.pageNo=1
+			this.$store.dispatch('risk_getRiskIndexList',this.param)
+		},
+		handleCurrentChange(page){
+			this.param.pageNo=page
+			this.$store.dispatch('risk_getRiskIndexList',this.param)
+		}
+	}
+}
 
 </script>
 

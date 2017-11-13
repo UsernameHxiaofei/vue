@@ -109,19 +109,19 @@ export default {
 	computed: {
 		systemGetPermissionList: function () {
 			return this.$store.state.system.systemGetPermissionList
-    },
+		},
 		systemInquiryList: function () {
 			return this.$store.state.system.systemInquiryList
-    },
+		},
 		systemUpdatePermissionList: function () {
 			return this.$store.state.system.systemUpdatePermissionList
-    },
+		},
 	},
 	beforeMount() {
 		this.$store.dispatch('system_getPermissionList').then(()=>{
       
 		})
-  },
+	},
 	data() {
 		return {
 			str: '',
@@ -133,39 +133,39 @@ export default {
 				label: 'name',
 				children: 'roles'
 			}
-    }
-  },
+		}
+	},
 
 	methods: {
 		handleNodeClick(data, node) {
 			this.roleId = data.id
-      if (node.level === 2) {//  1是一级  泛角色 ， 2是2级 角色 
+			if (node.level === 2) {//  1是一级  泛角色 ， 2是2级 角色 
 				this.str = data.name
-        let inquiryParams = {
+				let inquiryParams = {
 					roleId: data.id
 				}
 				this.$store.dispatch('system_inquiryList', inquiryParams).then(()=>{
 					let templist=[],oldTemplist=[]
-          if(this.systemInquiryList.havePrivilegeList){
-						Object.keys(this.systemInquiryList.havePrivilegeList).forEach((item,index)=>{
+					if(this.systemInquiryList.havePrivilegeList){
+						Object.keys(this.systemInquiryList.havePrivilegeList).forEach((item)=>{
 							let elements=this.systemInquiryList.havePrivilegeList[item]
-              elements.forEach((element,j)=>{
+							elements.forEach((element)=>{
 								oldTemplist.push(element.id)
-                element.name=element.grouping+'-'+element.name
-                templist.push(element)
-              })
+								element.name=element.grouping+'-'+element.name
+								templist.push(element)
+							})
 						})
 					}
-					Object.keys(this.systemInquiryList.noHavePrivilegeList).forEach((item,index)=>{
+					Object.keys(this.systemInquiryList.noHavePrivilegeList).forEach((item)=>{
 						let elements=this.systemInquiryList.noHavePrivilegeList[item]
-            elements.forEach((element,j)=>{
+						elements.forEach((element)=>{
 							element.name=element.grouping+'-'+element.name
-                templist.push(element)
-            })
+							templist.push(element)
+						})
 					})
 					this.allList=templist
-          this.oldList = oldTemplist
-          this.havePrivilegeList=oldTemplist;
+					this.oldList = oldTemplist
+					this.havePrivilegeList=oldTemplist
 					// if(this.systemInquiryList.havePrivilegeList){
 					//  this.havePrivilegeList = [];
 					//   for (let i = 0; i < this.systemInquiryList.havePrivilegeList.length; i++) {
@@ -176,11 +176,11 @@ export default {
 					//   this.oldList = [];
 					// }
 				})
-      }
+			}
 		},
 		filterMethod(query, item){
 			return item.name.match(query)
-    },
+		},
 		preserve() {
 			let updateParams = {
 				roleId: this.roleId,
@@ -193,13 +193,13 @@ export default {
 						message: '保存成功',
 						type: 'success'
 					})
-        } else {
+				} else {
 					this.$message('保存失败')
-        }
+				}
 			})
-    }
+		}
 	},
 
 
-};
+}
 </script>

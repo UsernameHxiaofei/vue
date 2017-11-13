@@ -260,15 +260,15 @@ export default {
 	computed: {
 		authInfoList: function () {
 			return this.$store.state.item.authInfo || {}
-            },
+		},
 		itemManageDetail: function () {
 			return this.$store.state.item.itemManageDetail||{}
-            }
+		}
 	},
 	beforeMount() {
 		this.$store.dispatch('item_getAuthInfo', { id: this.itemManageDetail.enterpriseId }).then(()=>{
 			this.formatData()
-            })
+		})
 	},
 	data() {
 		return {
@@ -360,36 +360,36 @@ export default {
 					{trigger: 'blur',validator:(rule, value, callback) => {
 						if (this.limitform1.queryAuthorization==1&&value == '') {
 							callback(new Error('请输入网银客户号/企业客户号'))
-                            } else {
+						} else {
 							callback()
-                            }
+						}
 					}}
 				],
 				userLoginName:[
 					{trigger: 'blur',validator:(rule, value, callback) => {
 						if (this.limitform1.queryAuthorization==1&&value == '') {
 							callback(new Error('请输入用户名'))
-                            } else {
+						} else {
 							callback()
-                            }
+						}
 					}}
 				],
 				activationCode:[
 					{trigger: 'blur',validator:(rule, value, callback) => {
 						if (this.limitform1.queryAuthorization==2&&value == '') {
 							callback(new Error('请输入激活码'))
-                            } else {
+						} else {
 							callback()
-                            }
+						}
 					}}
 				],
 				pinCode:[
 					{trigger: 'blur',validator:(rule, value, callback) => {
 						if (this.limitform1.queryAuthorization==2&&value == '') {
 							callback(new Error('请输入pin码'))
-                            } else {
+						} else {
 							callback()
-                            }
+						}
 					}}
 				]
 			},
@@ -418,9 +418,9 @@ export default {
 							callback(new Error('请确认查询口令'))
 						}else if (value==this.limitform2.queryPassword) {
 							callback(new Error('两次输入口令不一致'))
-                            } else {
+						} else {
 							callback()
-                            }
+						}
 					}}
 				],
 				userLoginName:[
@@ -434,26 +434,26 @@ export default {
 			this.$refs['limitformTarget1'].validate((valid) => {
 				if (valid) {
 					let param=this.limitform2
-                        param.id=this.personAccount.id
-                        param.enterpriseId= this.itemManageDetail.enterpriseId
-                        this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
+					param.id=this.personAccount.id
+					param.enterpriseId= this.itemManageDetail.enterpriseId
+					this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
 						this.dialogFormVisible1=false
-                            this.formatData()
+						this.formatData()
 					})
 				} else {
 					return false
-                    }
+				}
 			})
-            },
+		},
 		formatData(){
 			let auth=JSON.parse(JSON.stringify(this.authInfoList))
-                for (let i = 0; i < auth.length; i++) {
+			for (let i = 0; i < auth.length; i++) {
 				let item = auth[i]
-                    if(item.type==0){
+				if(item.type==0){
 					this.enterpriseAccount=item
-                    }else if(item.type==1){
+				}else if(item.type==1){
 					this.personAccount=item
-                    }
+				}
 			}
 			if(this.enterpriseAccount.businessLicenseURL&&this.enterpriseAccount.businessLicenseURL.length>0){
 				this.businessLicenseURLs.push({url:this.enterpriseAccount.businessLicenseURL,name:'营业执照影印件'})
@@ -462,57 +462,57 @@ export default {
 				this.accountLicenceURLs.push({url:this.enterpriseAccount.accountLicenceURL,name:'客户许可证影印件'})
 			}
 			if(this.enterpriseAccount.id)this.limitform1=this.enterpriseAccount
-                if(this.personAccount.id)this.limitform2=this.personAccount
-            },
+			if(this.personAccount.id)this.limitform2=this.personAccount
+		},
 		accountLicenceURL_remove(){
 			this.limitform1.accountLicenceURL=''
-            },
+		},
 		businessLicenseURL_remove(){
 			this.limitform1.businessLicenseURL=''
-            },
+		},
 		beforeUploadb(file){
 			if(this.limitform1.businessLicenseURL&&this.limitform1.businessLicenseURL.length>0){
 				this.$message.warning('只能上传一份营业执照影印件')
-                    return false
-                }
+				return false
+			}
 			if(file.size>=1024*1024*10){
 				this.$message.warning('不能上传大于10MB的文件！')
-                    return false
-                }
+				return false
+			}
 			return true
-            },
+		},
 		beforeUploada(file){
 			if(this.limitform1.accountLicenceURL&&this.limitform1.accountLicenceURL.length>0){
 				this.$message.warning('只能上传一份客户许可证影印件')
-                    return false
-                }
+				return false
+			}
 			if(file.size>=1024*1024*10){
 				this.$message.warning('不能上传大于10MB的文件！')
-                    return false
-                }
+				return false
+			}
 			return true
-            },
+		},
 		successUpload1(response,file,fileList){
 			this.limitform1.businessLicenseURL=JSON.parse(response.objectLiteral)
-            },
+		},
 		successUpload2(response,file,fileList){
 			this.limitform1.accountLicenceURL=JSON.parse(response.objectLiteral)
-            },
+		},
 		submitForm(){
 			this.$refs['limitformTarget'].validate((valid) => {
 				if (valid) {
 					let param=this.limitform1
-                        param.id=this.enterpriseAccount.id
-                        param.enterpriseId= this.itemManageDetail.enterpriseId
-                        this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
+					param.id=this.enterpriseAccount.id
+					param.enterpriseId= this.itemManageDetail.enterpriseId
+					this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
 						this.dialogFormVisible=false
-                            this.formatData()
+						this.formatData()
 					})
 				} else {
 					return false
-                    }
+				}
 			})
-            }
+		}
             
 	}
 }

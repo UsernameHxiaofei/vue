@@ -109,16 +109,16 @@ export default {
 	computed: {
 		systemPanRoleList: function () {
 			return this.$store.state.system.systemPanRoleList
-        },
+		},
 		systemAddPanRole: function () {
 			return this.$store.state.system.systemAddPanRole
-        },
+		},
 		systemBan: function () {
 			return this.$store.state.system.systemBan
-        },
+		},
 		systemUpdatePanRole: function () {
 			return this.$store.state.system.systemUpdatePanRole
-        },
+		},
 	},
 	beforeMount() {
 		this.param = {
@@ -127,7 +127,7 @@ export default {
 			pageSize: 10
 		}
 		this.$store.dispatch('system_panRoleList', this.param)
-    },
+	},
 	data() {
 		return {
 			search_value: '',
@@ -168,39 +168,39 @@ export default {
 		//新增的取消
 		cancel() {
 			this.$refs['addUser'].resetFields()
-            this.addUser = {
+			this.addUser = {
 				name: '',
 				category: ''
-            }
-            this.$store.dispatch('system_panRoleList', this.param)
-            this.dialogUserVisible = false
-        },
+			}
+			this.$store.dispatch('system_panRoleList', this.param)
+			this.dialogUserVisible = false
+		},
 		//编辑的取消
 		quit() {
 			this.$refs['editPanRole'].resetFields()
-            this.editPanRole = {
+			this.editPanRole = {
 				name: '',
 				category: ''
-            }
-            this.$store.dispatch('system_panRoleList', this.param)
-            this.dialogEditPanRole = false
-        },
+			}
+			this.$store.dispatch('system_panRoleList', this.param)
+			this.dialogEditPanRole = false
+		},
 		// 搜索
 		handleIconClick() {
 			this.param.name = this.search_value
-            this.param.pageNo = 1
-            this.$store.dispatch('system_panRoleList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('system_panRoleList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.pageSize = size
-            this.param.pageNo = 1
-            this.$store.dispatch('system_panRoleList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('system_panRoleList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.pageNo = page
-            this.$store.dispatch('system_panRoleList', this.param)
-        },
+			this.$store.dispatch('system_panRoleList', this.param)
+		},
 		// 添加泛角色
 		client() {
 			this.$refs['addUser'].validate((valid) => {
@@ -211,61 +211,61 @@ export default {
 								message: '添加泛角色成功！',
 								type: 'success'
 							})
-                            this.$store.dispatch('system_panRoleList', this.param)
-                            this.dialogUserVisible = false
-                        } else {
+							this.$store.dispatch('system_panRoleList', this.param)
+							this.dialogUserVisible = false
+						} else {
 							this.$message('添加失败,已存在此泛角色！')
-                        }
+						}
 					})
-                } else {
+				} else {
 					return false
-                }
+				}
 			})
-        },
+		},
 		// 禁用/激活
 		openClosure(row) {
 			if (row.status == 1) {
 				row.status = 2
-                let params = {
+				let params = {
 					status: row.status,
 					id: row.id
-                }
-                this.$store.dispatch('system_ban', params).then(() => {
+				}
+				this.$store.dispatch('system_ban', params).then(() => {
 					if (this.systemBan.success) {
 						this.$message({
 							message: '禁用成功！',
 							type: 'success'
 						})
-                        this.$store.dispatch('system_panRoleList', this.param)
-                    } else {
+						this.$store.dispatch('system_panRoleList', this.param)
+					} else {
 						this.$message('禁用失败')
-                    }
+					}
 				})
-            } else {
+			} else {
 				row.status = 1
-                let params = {
+				let params = {
 					status: row.status,
 					id: row.id
-                }
-                this.$store.dispatch('system_ban', params).then(() => {
+				}
+				this.$store.dispatch('system_ban', params).then(() => {
 					if (this.systemBan.success) {
 						this.$message({
 							message: '激活成功！',
 							type: 'success'
 						})
-                        this.$store.dispatch('system_panRoleList', this.param)
-                    } else {
+						this.$store.dispatch('system_panRoleList', this.param)
+					} else {
 						this.$message('激活失败')
-                    }
+					}
 				})
-            }
+			}
 		},
 		// 点击编辑泛角色
 		getData(data) {
 			this.editPanRole = data
-            this.editPanRole.category = data.category
-            this.dialogEditPanRole = true
-        },
+			this.editPanRole.category = data.category
+			this.dialogEditPanRole = true
+		},
 		// 保存编辑泛角色
 		reservePanRole() {
 			this.$refs['editPanRole'].validate((valid) => {
@@ -277,18 +277,18 @@ export default {
 									message: '编辑泛角色成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('system_panRoleList', this.param)
-                                this.dialogEditPanRole = false
-                            } else {
+								this.$store.dispatch('system_panRoleList', this.param)
+								this.dialogEditPanRole = false
+							} else {
 								this.$message('编辑泛角色失败')
-                            }
+							}
 						})
-                    }
+					}
 				} else {
 					return false
-                }
+				}
 			})
-        }
+		}
 	}
 }
 </script>

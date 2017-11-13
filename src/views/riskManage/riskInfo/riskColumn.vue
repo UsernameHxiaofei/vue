@@ -43,53 +43,53 @@
 </template>
 
 <script>
-import riskRegion from '../../../constant/riskRegion.js';
+import riskRegion from '../../../constant/riskRegion.js'
 
 export default {
-    name: 'riskColumn',
-    data () {
-        return {
-            mainData:{},
-            riskRegion:riskRegion,
-            lvColor:{
-                4:'rgb(255, 135, 97)',
-                3:'rgb(251, 201, 55)',
-                2:'#f3c6d9',
-                1:'#08cc06'
-            }
-        }
-    },
-    beforeMount() {
-        this.formatData();
-    },
-    computed: {
-        result:function(){
-            return this.$store.state.risk.projectInfo;
-        },
-        riskIndexInfo:function(){
-            return this.$store.state.risk.riskIndex;
-        }
-    },
-    methods: {
-        formatData() {
-            if(!this.result.projectName){
-                this.mainData = JSON.parse(sessionStorage.getItem('risk_projectInfo'));
-            }else{
-                this.mainData = this.result;
-            }
-            let riskRegion = JSON.parse(JSON.stringify(this.riskRegion));
-            for (let i = 0; this.mainData.riskProjectList && i < this.mainData.riskProjectList.length; i++) {
-                let risk = this.mainData.riskProjectList[i];
-                for (let n = 0; n < riskRegion.length; n++) {
-                    if (riskRegion[n].id === risk.category) {
-                        riskRegion[n].lv = risk.level;
-                        break;
-                    }
-                }
-            }
-            this.mainData.riskRegion = riskRegion;
-        }
-    }
+	name: 'riskColumn',
+	data () {
+		return {
+			mainData:{},
+			riskRegion:riskRegion,
+			lvColor:{
+				4:'rgb(255, 135, 97)',
+				3:'rgb(251, 201, 55)',
+				2:'#f3c6d9',
+				1:'#08cc06'
+			}
+		}
+	},
+	beforeMount() {
+		this.formatData()
+	},
+	computed: {
+		result:function(){
+			return this.$store.state.risk.projectInfo
+		},
+		riskIndexInfo:function(){
+			return this.$store.state.risk.riskIndex
+		}
+	},
+	methods: {
+		formatData() {
+			if(!this.result.projectName){
+				this.mainData = JSON.parse(sessionStorage.getItem('risk_projectInfo'))
+			}else{
+				this.mainData = this.result
+			}
+			let riskRegion = JSON.parse(JSON.stringify(this.riskRegion))
+			for (let i = 0; this.mainData.riskProjectList && i < this.mainData.riskProjectList.length; i++) {
+				let risk = this.mainData.riskProjectList[i]
+				for (let n = 0; n < riskRegion.length; n++) {
+					if (riskRegion[n].id === risk.category) {
+						riskRegion[n].lv = risk.level
+						break
+					}
+				}
+			}
+			this.mainData.riskRegion = riskRegion
+		}
+	}
 }
 </script>
 

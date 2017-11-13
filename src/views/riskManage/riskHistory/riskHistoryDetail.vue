@@ -103,104 +103,104 @@
 </template>
 
 <script>
-    import riskColumn from '../riskInfo/riskColumn'
+import riskColumn from '../riskInfo/riskColumn'
     
-    export default {
-        name: 'riskHistoryDetail',
-        components: {
-          'risk-info':riskColumn
-        },
-        beforeMount() {
-                this.$store.dispatch('risk_selectRiskWarningById',{ id: this.$route.params.id}).then(()=>{
-                    if(this.riskIndex.riskRuleInfo){
-                        for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {
-                            let element = this.riskIndex.riskRuleInfo[i];
-                            this.riskIndexRule.push(element.factorName+element.relationName+element.value+element.unit)
-                        }
-                    }
-                    this.$store.dispatch('risk_historyDetail',{riskProjectId:this.$route.params.id}).then(()=>{
-                        this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(() => {
-                            this.form.situationExplan = this.historyDetail.situationExplan;
-                            this.form.status = this.historyDetail.status;
-                            this.form.followSituation = this.historyDetail.followSituation;
-                            this.form.finalSuggestion = this.historyDetail.finalSuggestion;
-                            let messageList = this.historyDetail.riskOperateMessages;
-                            let follows = [];
-                            if (messageList && messageList.length > 0) {
-                                this.form.sendContent = messageList[0].sendContent;
-                                for (let i = 0; i < messageList.length; i++) {
-                                    let item = messageList[i];
-                                    if (item.receiveType === 1) {
-                                        this.form.expert = true;
-                                    } else if (item.receiveType === 2) {
-                                        this.form.lead = true;
-                                    } else {
-                                        for (let m = 0; m < this.persons.resp2.length; m++) {
-                                            let element = this.persons.resp2[m];
-                                            if (item.receiveId == element.id) {
-                                                follows.push({ id: item.receiveId, mobileNumber: element.mobileNumber, name: element.name })
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            this.form.follows = follows;
-                        })
-                    })
-            })
-            },
-        computed: {
-            persons:function(){
-                return this.$store.state.risk.projectPerson;
-            },
-            riskIndex:function(){
-                return this.$store.state.risk.riskIndex||{};
-            },
-            historyDetail:function(){
-                return this.$store.state.risk.historyDetail[0];
-            }
-        },
-        data() {
-            return {
-                level:{
-                   3:'高',
-                   2:'中',
-                   1:'低'
-                },
-                status:{
-                   0:'待处理',
-                   1:'人工缓释',
-                   2:'无法缓释',
-                   3:'处理中',
-                   4:'自动缓释'
-                },
-                riskflag:false,
-                riskIndexRule:[],
-                form:{  
-                    situationExplan:'',
-                    status:1,
-                    followSituation:'',
-                    finalSuggestion:1,
-                    follows:[],
-                    expert:false,
-                    lead:false,
-                    sendContent:''
-                }
-            }
-        },
-        methods: {
-            submitForm(){
-                this.riskflag=false;
-            },
-            back(){
-                this.$router.go(-1);
-            },
-            addrisk(){
-                this.riskflag=true;
-            }
+export default {
+	name: 'riskHistoryDetail',
+	components: {
+		'risk-info':riskColumn
+	},
+	beforeMount() {
+		this.$store.dispatch('risk_selectRiskWarningById',{ id: this.$route.params.id}).then(()=>{
+			if(this.riskIndex.riskRuleInfo){
+				for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {
+					let element = this.riskIndex.riskRuleInfo[i]
+					this.riskIndexRule.push(element.factorName+element.relationName+element.value+element.unit)
+				}
+			}
+			this.$store.dispatch('risk_historyDetail',{riskProjectId:this.$route.params.id}).then(()=>{
+				this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(() => {
+					this.form.situationExplan = this.historyDetail.situationExplan
+					this.form.status = this.historyDetail.status
+					this.form.followSituation = this.historyDetail.followSituation
+					this.form.finalSuggestion = this.historyDetail.finalSuggestion
+					let messageList = this.historyDetail.riskOperateMessages
+					let follows = []
+					if (messageList && messageList.length > 0) {
+						this.form.sendContent = messageList[0].sendContent
+						for (let i = 0; i < messageList.length; i++) {
+							let item = messageList[i]
+							if (item.receiveType === 1) {
+								this.form.expert = true
+							} else if (item.receiveType === 2) {
+								this.form.lead = true
+							} else {
+								for (let m = 0; m < this.persons.resp2.length; m++) {
+									let element = this.persons.resp2[m]
+									if (item.receiveId == element.id) {
+										follows.push({ id: item.receiveId, mobileNumber: element.mobileNumber, name: element.name })
+									}
+								}
+							}
+						}
+					}
+					this.form.follows = follows
+				})
+			})
+		})
+	},
+	computed: {
+		persons:function(){
+			return this.$store.state.risk.projectPerson
+		},
+		riskIndex:function(){
+			return this.$store.state.risk.riskIndex||{}
+		},
+		historyDetail:function(){
+			return this.$store.state.risk.historyDetail[0]
+		}
+	},
+	data() {
+		return {
+			level:{
+				3:'高',
+				2:'中',
+				1:'低'
+			},
+			status:{
+				0:'待处理',
+				1:'人工缓释',
+				2:'无法缓释',
+				3:'处理中',
+				4:'自动缓释'
+			},
+			riskflag:false,
+			riskIndexRule:[],
+			form:{  
+				situationExplan:'',
+				status:1,
+				followSituation:'',
+				finalSuggestion:1,
+				follows:[],
+				expert:false,
+				lead:false,
+				sendContent:''
+			}
+		}
+	},
+	methods: {
+		submitForm(){
+			this.riskflag=false
+		},
+		back(){
+			this.$router.go(-1)
+		},
+		addrisk(){
+			this.riskflag=true
+		}
             
-        }
-    }
+	}
+}
 
 </script>
 

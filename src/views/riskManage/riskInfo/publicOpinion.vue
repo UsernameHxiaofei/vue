@@ -28,8 +28,9 @@
         line-height: 30px;
         text-indent: 5px;
     }
-    #publicOpinion .itemText{
-        width:100px;
+
+    #publicOpinion .itemText {
+        width: 100px;
         text-align: center;
     }
 </style>
@@ -97,19 +98,19 @@
                 </table>
             </el-col>
         </div>
-       
+
 
     </div>
 </template>
 
 <script>
-    export default {
-        name: 'publicOpinion',
-        data() {
-            return {
+export default {
+	name: 'publicOpinion',
+	data() {
+		return {
 
-            }
-        }
+		}
+	}
 
-    }
+}
 </script>

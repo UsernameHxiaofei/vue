@@ -236,19 +236,19 @@ export default {
 	computed: {
 		enterpriseInfo: function () {
 			return this.$store.state.enterprise.enterpriseInfo || {}
-        },
+		},
 		thirdReport:function(){
 			return this.$store.state.item.thirdReport||{}
-        },
+		},
 		projectItem(){
 			return this.$store.state.item.itemManageDetail||{}
-        },
+		},
 		itemManageDetail: function () {
 			return this.$store.state.item.itemManageDetail||{}
-        },
+		},
 		credit:function(){
 			return this.$store.state.item.thirdReport||{}
-        },
+		},
 		tcEnterpriseBasic(){
 			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
 		},
@@ -284,17 +284,17 @@ export default {
 		},
 		expertAdvice(){
 			return this.$store.state.item.thirdReport&&this.$store.state.item.expertAd||{}
-        },
+		},
 		leadInvestorIntention(){
 			return this.$store.state.item.thirdReport&&this.$store.state.item.leadAd||{}
-        }
+		}
 	},
 	data() {
 		return {
         
-      }
-    }
-  }
+		}
+	}
+}
 </script>
 <style > 
 #thirdAuth .businessTitle{

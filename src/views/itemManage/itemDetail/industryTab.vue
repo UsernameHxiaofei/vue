@@ -223,10 +223,10 @@ export default {
 	computed: {
 		thirdReport:function(){
 			return this.$store.state.item.thirdReport
-      },
+		},
 		itemManageDetail: function () {
 			return this.$store.state.item.itemManageDetail || {}
-      }
+		}
 	},
 	beforeMount () {
       
@@ -240,7 +240,7 @@ export default {
 			businessInfo:{}
 		}
 	}
-  }
+}
 </script>
 <style>
   #industryTab .tableInfo{

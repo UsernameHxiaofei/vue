@@ -48,31 +48,37 @@
         padding-left: 5px;
         color: #797272;
     }
-    #riskHandle .handleInfoDiv{
+
+    #riskHandle .handleInfoDiv {
         display: flex;
         flex-flow: row nowrap;
         align-items: stretch;
     }
-    #riskHandle .riskIndexInfo{
+
+    #riskHandle .riskIndexInfo {
         width: 60%;
     }
-    #riskHandle .indexDetailInfo{
+
+    #riskHandle .indexDetailInfo {
         width: 40%;
     }
-    #riskHandle .info-item{
+
+    #riskHandle .info-item {
         width: 100%;
-        height:24px;
+        height: 24px;
         vertical-align: middle;
     }
-    #riskHandle .detail-mark{
+
+    #riskHandle .detail-mark {
         color: #06ccb7;
-        cursor:pointer;
+        cursor: pointer;
     }
-    
-    #riskHandle .info-item label{
-        width:60px;
-        text-align:justify;                
-      text-justify:distribute-all-lines;/*ie6-8*/
+
+    #riskHandle .info-item label {
+        width: 60px;
+        text-align: justify;
+        text-justify: distribute-all-lines;
+        /*ie6-8*/
     }
 </style>
 <template>
@@ -111,13 +117,16 @@
                     <div class="indexDetailInfo">
                         <label>触发异常</label>
                         <div class="info-item" v-for="i in riskIndexRule">
-                            <span  >{{i}}</span>
+                            <span>{{i}}</span>
                         </div>
-                        <div class="info-item detail-mark"  v-for="i in riskIndex.memberChangeList">
-                            {{i.changeTask}}:<br>{{i.oldContent}}<br>变为<br>{{i.newContent}}
+                        <div class="info-item detail-mark" v-for="i in riskIndex.memberChangeList">
+                            {{i.changeTask}}:
+                            <br>{{i.oldContent}}
+                            <br>变为
+                            <br>{{i.newContent}}
                         </div>
                     </div>
-                    
+
                 </el-row>
                 <el-form style="padding:30px 80px;border:1px solid #dedede;margin-top:20px;background:#fafafa" ref="form" :model="form" label-width="80px">
                     <el-form-item required label="情况说明" prop="situationExplan">
@@ -184,174 +193,174 @@
 </template>
 
 <script>
-    import riskColumn from '../riskInfo/riskColumn'
+import riskColumn from '../riskInfo/riskColumn'
 
-    export default {
-        name: 'riskHandle',
-        components: {
-            'risk-info': riskColumn
-        },
-        beforeMount() {
-            this.$store.dispatch('risk_selectRiskWarningById', { id: this.$route.params.id }).then(() => {
-                if (this.riskIndex.riskRuleInfo) {
-                    for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {
-                        let element = this.riskIndex.riskRuleInfo[i];
-                        this.riskIndexRule.push(element.factorName + element.relationName + element.value + element.unit)
-                    }
-                }
-                this.$store.dispatch('risk_historyDetail', { riskProjectId: this.$route.params.id }).then(() => {
-                    this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(() => {
-                        if (this.historyDetail && this.riskIndex.status === 3) {
-                            this.form.situationExplan = this.historyDetail.situationExplan;
-                            this.form.status = this.historyDetail.status;
-                            let messageList = this.historyDetail.riskOperateMessages;
-                            let follows = [];
-                            if (messageList && messageList.length > 0) {
-                                this.form.sendContent = messageList[0].sendContent;
-                                for (let i = 0; i < messageList.length; i++) {
-                                    let item = messageList[i];
-                                    if (item.receiveType === 1) {
-                                        this.form.expert = true;
-                                    } else if (item.receiveType === 2) {
-                                        this.form.lead = true;
-                                    } else {
-                                        for (let m = 0; m < this.persons.resp2.length; m++) {
-                                            let element = this.persons.resp2[m];
-                                            if (item.receiveId == element.id) {
-                                                follows.push({ id: item.receiveId, mobileNumber: element.mobileNumber, name: element.name })
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            this.form.follows = follows;
-                            this.handling = true;
-                            this.finalHandle = true;
-                        }
-                    })
-                })
-            })
-        },
-        computed: {
-            persons: function () {
-                return this.$store.state.risk.projectPerson;
-            },
-            riskIndex: function () {
-                return this.$store.state.risk.riskIndex || {};
-            },
-            historyDetail: function () {
-                return this.$store.state.risk.historyDetail[0];
-            },
-            riskOperateId: function () {
-                return this.$store.state.risk.riskOperateId;
-            }
-        },
-        data() {
-            return {
-                level: {
-                    3: '高',
-                    2: '中',
-                    1: '低'
-                },
-                status: {
-                    0: '待处理',
-                    1: '人工缓释',
-                    2: '无法缓释',
-                    3: '处理中',
-                    4: '自动缓释'
-                },
-                handling: false,
-                riskflag: false,
-                finalHandle: false,
-                riskIndexRule: [],
-                form: {
-                    situationExplan: '',//情况说明
-                    status: 1,//处理意见
-                    followSituation: '',
-                    finalSuggestion: 0,
-                    follows: [],
-                    expert: false,
-                    lead: false,
-                    all: false,
-                    sendContent: ''
-                }
-            }
-        },
-        methods: {
-            finnalSubmit() {
-                let param = {
-                    id: this.historyDetail && this.historyDetail.id ? this.historyDetail.id : this.riskOperateId,
-                    followSituation: this.form.followSituation,
-                    finalSuggestion: this.form.finalSuggestion,
-                    operateId: this.$store.state.login.actor.id
-                }
-                this.$store.dispatch('risk_saveFinalHandle', { param, vue: this });
-            },
-            submitForm() {
-                if (this.riskIndex.status === 3) {
-                    this.riskflag = false;
-                    return;
-                }
-                let sendPerson = [];
-                if (this.form.status != 1) {
-                    if (this.all) {
-                        sendPerson.push({ receiveId: this.persons.resp1.expertInfo.id, receiveType: 1, mobile: this.persons.resp1.expertInfo.mobileNumber })
-                        sendPerson.push({ receiveId: this.persons.resp1.leadInfo.id, receiveType: 2, mobile: this.persons.resp1.leadInfo.mobileNumber })
-                        for (let i = 0; this.persons.resp2 && i < this.persons.resp2.length; i++) {
-                            let item = this.persons.resp2[i];
-                            sendPerson.push({ receiveId: item.id, receiveType: 3, mobile: item.mobileNumber })
-                        }
-                    } else {
-                        if (this.form.expert) {
-                            sendPerson.push({ receiveId: this.persons.resp1.expertInfo.id, receiveType: 1, mobile: this.persons.resp1.expertInfo.mobileNumber })
-                        }
-                        if (this.form.lead) {
-                            sendPerson.push({ receiveId: this.persons.resp1.leadInfo.id, receiveType: 2, mobile: this.persons.resp1.leadInfo.mobileNumber })
-                        }
-                        for (let i = 0; this.form.follows && i < this.form.follows.length; i++) {
-                            let item = this.form.follows[i];
-                            sendPerson.push({ receiveId: item.id, receiveType: 3, mobile: item.mobileNumber })
-                        }
-                    }
-                }
-                let param = {
-                    riskId: this.riskIndex.id,
-                    operateId: this.$store.state.login.actor.id,
-                    situationExplan: this.form.situationExplan,
-                    status: this.form.status,
-                    sendContent: this.form.sendContent,
-                    sendPerson: sendPerson
-                }
-                if (param.situationExplan.length == 0) {
-                    this.$message.warning('请填写情况说明');
-                    return;
-                }
-                this.$store.dispatch('risk_saveHandle', { param, vue: this }).then(() => {
-                    if (this.$store.state.risk.riskOperateId && this.$store.state.risk.riskOperateId.length != 0) {
-                        this.handling = true;
-                        this.riskflag = false;
-                        if (param.status != 1) {
-                            this.finalHandle = true;
-                        }
-                    }
-                })
-            },
-            back() {
-                this.$router.go(-1);
-            },
-            addrisk() {
-                this.riskflag = true;
-            },
-            selectAllPerson(s) {
-                if (this.form.all) {
-                    this.form.expert = this.form.lead = true;
-                    this.follows = this.persons.resp2;
-                } else {
-                    this.form.expert = this.form.lead = false;
-                    this.follows = [];
-                }
-            }
-        }
-    }
+export default {
+	name: 'riskHandle',
+	components: {
+		'risk-info': riskColumn
+	},
+	beforeMount() {
+		this.$store.dispatch('risk_selectRiskWarningById', { id: this.$route.params.id }).then(() => {
+			if (this.riskIndex.riskRuleInfo) {
+				for (let i = 0; i < this.riskIndex.riskRuleInfo.length; i++) {
+					let element = this.riskIndex.riskRuleInfo[i]
+					this.riskIndexRule.push(element.factorName + element.relationName + element.value + element.unit)
+				}
+			}
+			this.$store.dispatch('risk_historyDetail', { riskProjectId: this.$route.params.id }).then(() => {
+				this.$store.dispatch('risk_getPerson', { projectId: this.$store.state.risk.projectInfo.projectId }).then(() => {
+					if (this.historyDetail && this.riskIndex.status === 3) {
+						this.form.situationExplan = this.historyDetail.situationExplan
+						this.form.status = this.historyDetail.status
+						let messageList = this.historyDetail.riskOperateMessages
+						let follows = []
+						if (messageList && messageList.length > 0) {
+							this.form.sendContent = messageList[0].sendContent
+							for (let i = 0; i < messageList.length; i++) {
+								let item = messageList[i]
+								if (item.receiveType === 1) {
+									this.form.expert = true
+								} else if (item.receiveType === 2) {
+									this.form.lead = true
+								} else {
+									for (let m = 0; m < this.persons.resp2.length; m++) {
+										let element = this.persons.resp2[m]
+										if (item.receiveId == element.id) {
+											follows.push({ id: item.receiveId, mobileNumber: element.mobileNumber, name: element.name })
+										}
+									}
+								}
+							}
+						}
+						this.form.follows = follows
+						this.handling = true
+						this.finalHandle = true
+					}
+				})
+			})
+		})
+	},
+	computed: {
+		persons: function () {
+			return this.$store.state.risk.projectPerson
+		},
+		riskIndex: function () {
+			return this.$store.state.risk.riskIndex || {}
+		},
+		historyDetail: function () {
+			return this.$store.state.risk.historyDetail[0]
+		},
+		riskOperateId: function () {
+			return this.$store.state.risk.riskOperateId
+		}
+	},
+	data() {
+		return {
+			level: {
+				3: '高',
+				2: '中',
+				1: '低'
+			},
+			status: {
+				0: '待处理',
+				1: '人工缓释',
+				2: '无法缓释',
+				3: '处理中',
+				4: '自动缓释'
+			},
+			handling: false,
+			riskflag: false,
+			finalHandle: false,
+			riskIndexRule: [],
+			form: {
+				situationExplan: '',//情况说明
+				status: 1,//处理意见
+				followSituation: '',
+				finalSuggestion: 0,
+				follows: [],
+				expert: false,
+				lead: false,
+				all: false,
+				sendContent: ''
+			}
+		}
+	},
+	methods: {
+		finnalSubmit() {
+			let param = {
+				id: this.historyDetail && this.historyDetail.id ? this.historyDetail.id : this.riskOperateId,
+				followSituation: this.form.followSituation,
+				finalSuggestion: this.form.finalSuggestion,
+				operateId: this.$store.state.login.actor.id
+			}
+			this.$store.dispatch('risk_saveFinalHandle', { param, vue: this })
+		},
+		submitForm() {
+			if (this.riskIndex.status === 3) {
+				this.riskflag = false
+				return
+			}
+			let sendPerson = []
+			if (this.form.status != 1) {
+				if (this.all) {
+					sendPerson.push({ receiveId: this.persons.resp1.expertInfo.id, receiveType: 1, mobile: this.persons.resp1.expertInfo.mobileNumber })
+					sendPerson.push({ receiveId: this.persons.resp1.leadInfo.id, receiveType: 2, mobile: this.persons.resp1.leadInfo.mobileNumber })
+					for (let i = 0; this.persons.resp2 && i < this.persons.resp2.length; i++) {
+						let item = this.persons.resp2[i]
+						sendPerson.push({ receiveId: item.id, receiveType: 3, mobile: item.mobileNumber })
+					}
+				} else {
+					if (this.form.expert) {
+						sendPerson.push({ receiveId: this.persons.resp1.expertInfo.id, receiveType: 1, mobile: this.persons.resp1.expertInfo.mobileNumber })
+					}
+					if (this.form.lead) {
+						sendPerson.push({ receiveId: this.persons.resp1.leadInfo.id, receiveType: 2, mobile: this.persons.resp1.leadInfo.mobileNumber })
+					}
+					for (let i = 0; this.form.follows && i < this.form.follows.length; i++) {
+						let item = this.form.follows[i]
+						sendPerson.push({ receiveId: item.id, receiveType: 3, mobile: item.mobileNumber })
+					}
+				}
+			}
+			let param = {
+				riskId: this.riskIndex.id,
+				operateId: this.$store.state.login.actor.id,
+				situationExplan: this.form.situationExplan,
+				status: this.form.status,
+				sendContent: this.form.sendContent,
+				sendPerson: sendPerson
+			}
+			if (param.situationExplan.length == 0) {
+				this.$message.warning('请填写情况说明')
+				return
+			}
+			this.$store.dispatch('risk_saveHandle', { param, vue: this }).then(() => {
+				if (this.$store.state.risk.riskOperateId && this.$store.state.risk.riskOperateId.length != 0) {
+					this.handling = true
+					this.riskflag = false
+					if (param.status != 1) {
+						this.finalHandle = true
+					}
+				}
+			})
+		},
+		back() {
+			this.$router.go(-1)
+		},
+		addrisk() {
+			this.riskflag = true
+		},
+		selectAllPerson() {
+			if (this.form.all) {
+				this.form.expert = this.form.lead = true
+				this.follows = this.persons.resp2
+			} else {
+				this.form.expert = this.form.lead = false
+				this.follows = []
+			}
+		}
+	}
+}
 
 </script>

@@ -10,30 +10,38 @@
         width: 100%;
         height: 300px;
     }
-    .charactor{
-        height:50px;
+
+    .charactor {
+        height: 50px;
     }
+
     .charactor img {
-        position:relative;
-        left:0;top:0;
+        position: relative;
+        left: 0;
+        top: 0;
         width: 47px;
         height: 47px;
         border-radius: 50%;
     }
 
     .charactor p {
-        position:relative;
-        left:47px;top:-47px;
-        word-break:keep-all;/* 不换行 */
-        white-space:nowrap;/* 不换行 */
-        overflow:hidden;/* 内容超出宽度时隐藏超出部分的内容 */
-        text-overflow:ellipsis;
+        position: relative;
+        left: 47px;
+        top: -47px;
+        word-break: keep-all;
+        /* 不换行 */
+        white-space: nowrap;
+        /* 不换行 */
+        overflow: hidden;
+        /* 内容超出宽度时隐藏超出部分的内容 */
+        text-overflow: ellipsis;
     }
 
     .charactor span {
-        position:relative;
+        position: relative;
         color: #c0c0c0;
-        left:47px;top:-70px;
+        left: 47px;
+        top: -70px;
     }
 
     .cur-box {
@@ -47,10 +55,12 @@
     .pro-intro {
         margin-top: 20px;
     }
-    .pro-mon{
+
+    .pro-mon {
         color: #c0c0c0;
-        margin-top:70px;
+        margin-top: 70px;
     }
+
     .pro-mon span {
         margin-right: 15px;
     }
@@ -84,6 +94,7 @@
         margin: 29px 0 0 21px;
         color: white;
     }
+
     /*tab*/
 
     .my-tab .el-tabs__header {
@@ -133,29 +144,36 @@
             <el-row :gutter="20">
                 <el-col :span="10" class="left-img">
                     <img class="img-left" :src="itemManageDetail.imageURL" :alt="itemManageDetail.name" />
-                    <div class="flag"><span>{{show.status|projectStatus}}</span></div>
+                    <div class="flag">
+                        <span>{{show.status|projectStatus}}</span>
+                    </div>
                 </el-col>
                 <el-col :span="14">
                     <h3 style="font-weight: bold;margin-bottom: 20px;font-size: 20px;">{{show.name}}</h3>
                     <p class="pro-intro">{{show.summary}}</p>
                     <el-row class="cur-box">
                         <el-col :span="6" class="curlocal">
-                            <p><img src="../../assets/images/local.png" /> {{show.regionCode|address}}</p>
-                            <p><img src="../../assets/images/tag.png" /> {{show.industry|industry}}</p>
+                            <p>
+                                <img src="../../assets/images/local.png" /> {{show.regionCode|address}}</p>
+                            <p>
+                                <img src="../../assets/images/tag.png" /> {{show.industry|industry}}</p>
                         </el-col>
                         <el-col :span="6" class="charactor">
                             <img :src="show.initiatorImg" :alt="show.initiatorName" />
-                            <p>{{show.initiatorName}}</p><br>
+                            <p>{{show.initiatorName}}</p>
+                            <br>
                             <span>发起</span>
                         </el-col>
                         <el-col :span="6" class="charactor">
                             <img :src="show.leadInvestorImg" :alt="show.leadInvestorName" />
-                            <p>{{show.leadInvestorName}}</p><br>
+                            <p>{{show.leadInvestorName}}</p>
+                            <br>
                             <span>领投</span>
                         </el-col>
                         <el-col :span="6" class="charactor">
                             <img :src="show.expertImg" :alt="show.expertName" />
-                            <p>{{show.expertName}}</p><br>
+                            <p>{{show.expertName}}</p>
+                            <br>
                             <span>行家</span>
                         </el-col>
                     </el-row>
@@ -234,116 +252,99 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <!-- <el-tab-pane :label="'讨论('+subjectCount+')'" :name="'7'">
-                    <el-row :gutter="30">
-                        <el-col :span="17" class="tab-left">
-                            <discussTab @countDiscussNum="countDiscussNum"></discussTab>
-                        </el-col>
-                        <el-col :span="6" class="tab-right">
-                            <rightTab></rightTab>
-                        </el-col>
-                    </el-row>
-                </el-tab-pane> -->
             </el-tabs>
         </div>
     </div>
 </template>
 
 <script>
-import expertTab from './itemDetail/expertTab'
-import collarTab from './itemDetail/collarTab'
-import investorTab from './displayItem/investorTab'
-import planTab from './displayItem/planTab'
-import discussTab from './displayItem/discussTab'
-import rightTab from './displayItem/rightTab'
-import detailIntroduction from './displayItem/detailIntroduction'
+    import expertTab from './itemDetail/expertTab'
+    import collarTab from './itemDetail/collarTab'
+    import investorTab from './displayItem/investorTab'
+    import planTab from './displayItem/planTab'
+    import rightTab from './displayItem/rightTab'
+    import detailIntroduction from './displayItem/detailIntroduction'
+    import enterpriseTeam from '../enterpriseManage/enterpriseInfo/enterpriseTeam'
 
-import enterpriseTeam from '../enterpriseManage/enterpriseInfo/enterpriseTeam'
-
-export default {
-	beforeMount () {
-		this.$store.dispatch('item_getManageDetail', { id: this.$route.params.projectId }).then(() => {
-			if(this.itemManageDetail.leadInvestorIntentionId){
-				this.$store.dispatch('item_getLeadAd',{id:this.itemManageDetail.leadInvestorIntentionId})
+    export default {
+        beforeMount() {
+            this.$store.dispatch('item_getManageDetail', { id: this.$route.params.projectId }).then(() => {
+                if (this.itemManageDetail.leadInvestorIntentionId) {
+                    this.$store.dispatch('item_getLeadAd', { id: this.itemManageDetail.leadInvestorIntentionId })
                 }
-			if(this.itemManageDetail.enterpriseId ){
-				this.$store.dispatch('enterprise_getInfo', { id: this.itemManageDetail.enterpriseId })
+                if (this.itemManageDetail.enterpriseId) {
+                    this.$store.dispatch('enterprise_getInfo', { id: this.itemManageDetail.enterpriseId })
                 }
-			if(this.itemManageDetail.detailedIntroductionId ){
-				this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId })
-			}
-			if(this.itemManageDetail.financingPlanId){
-				return this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId })
-			}else{
-				return false
+                if (this.itemManageDetail.detailedIntroductionId) {
+                    this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId })
                 }
-		}).then(()=>{
-			if(this.financingPlanData.id){
-				this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id })
+                if (this.itemManageDetail.financingPlanId) {
+                    return this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId })
+                } else {
+                    return false
                 }
-			if(this.financingPlanData.salesQuotaId){
-				this.$store.dispatch('item_getSalesQuota',{id:this.financingPlanData.salesQuotaId})
+            }).then(() => {
+                if (this.financingPlanData.id) {
+                    this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id })
                 }
-			if(this.$route.params.projectId){
-				this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.projectId })
+                if (this.financingPlanData.salesQuotaId) {
+                    this.$store.dispatch('item_getSalesQuota', { id: this.financingPlanData.salesQuotaId })
                 }
-			if(this.financingPlanData.rewardPlanId){
-				this.$store.dispatch('item_getRewardPlan',{ id: this.financingPlanData.rewardPlanId})
+                if (this.$route.params.projectId) {
+                    this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.projectId })
                 }
-		})
-		this.$store.dispatch('item_getInvestUserInfo',{id:this.$route.params.projectId}).then(()=>{
-			this.invertUserNum=this.$store.state.item.invertUserInfo&&this.$store.state.item.invertUserInfo.length||0
+                if (this.financingPlanData.rewardPlanId) {
+                    this.$store.dispatch('item_getRewardPlan', { id: this.financingPlanData.rewardPlanId })
+                }
             })
-		this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
-		this.$store.dispatch('item_getCreditAntiFraud',{id:this.$route.params.projectId})
-            this.$store.dispatch('item_getExpertAd',{id:this.$route.params.projectId})
-            this.$store.dispatch('item_selectMaterialByProjectId',{id:this.$route.params.projectId})
+            this.$store.dispatch('item_getInvestUserInfo', { id: this.$route.params.projectId }).then(() => {
+                this.invertUserNum = this.$store.state.item.invertUserInfo && this.$store.state.item.invertUserInfo.length || 0
+            })
+            this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
+            this.$store.dispatch('item_getCreditAntiFraud', { id: this.$route.params.projectId })
+            this.$store.dispatch('item_getExpertAd', { id: this.$route.params.projectId })
+            this.$store.dispatch('item_selectMaterialByProjectId', { id: this.$route.params.projectId })
         },
-	components: {
-		expertTab,
-		collarTab,
-		enterpriseTeam,
-		investorTab,
-		planTab,
-		discussTab,
-		rightTab,
-		detailIntroduction
-	},
-	computed: {
-		show: function () {
-			return this.$store.state.item.show
+        components: {
+            expertTab,
+            collarTab,
+            enterpriseTeam,
+            investorTab,
+            planTab,
+            rightTab,
+            detailIntroduction
+        },
+        computed: {
+            show: function () {
+                return this.$store.state.item.show
             },
-		itemManageDetail: function () {
-			return this.$store.state.item.itemManageDetail || {}
+            itemManageDetail: function () {
+                return this.$store.state.item.itemManageDetail || {}
             },
-		financingPlanData: function () {
-			return this.$store.state.item.financingPlanData || {}
+            financingPlanData: function () {
+                return this.$store.state.item.financingPlanData || {}
             },
-		enterpriseInfo: function () {
-			return this.$store.state.enterprise.enterpriseInfo || {}
+            enterpriseInfo: function () {
+                return this.$store.state.enterprise.enterpriseInfo || {}
             },
-		projectItem:function(){
-			return this.$store.state.item.show
+            projectItem: function () {
+                return this.$store.state.item.show
             },
-		leadAd:function(){
-			return this.$store.state.item.leadAd||{}
-            }  
-	},
-	data() {
-		return {
-			activeName: '1',
-			invertUserNum:0,
-			subjectCount:0,
+            leadAd: function () {
+                return this.$store.state.item.leadAd || {}
             }
         },
-	methods: {
-		countDiscussNum(count){
-			this.subjectCount=count
-            },
-		back() {
-			this.$router.go(-1)
+        data() {
+            return {
+                activeName: '1',
+                invertUserNum: 0
             }
-	}
+        },
+        methods: {
+            back() {
+                this.$router.go(-1)
+            }
+        }
     }
 
 </script>

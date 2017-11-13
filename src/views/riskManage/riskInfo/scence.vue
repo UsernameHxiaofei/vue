@@ -1,5 +1,5 @@
 <style scoped>
-    #scence{
+    #scence {
         text-align: center;
     }
 </style>
@@ -13,13 +13,8 @@
 </template>
 
 <script>
-    export default {
-        name: 'scence',
-        data() {
-            return {
+export default {
+	name: 'scence'
 
-            }
-        }
-
-    }
+}
 </script>
