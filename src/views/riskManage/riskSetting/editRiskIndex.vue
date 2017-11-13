@@ -33,7 +33,7 @@
                                     <el-table-column prop="relationName" label="关系" align="center"> </el-table-column>
                                     <el-table-column prop="value" label="取值" align="center"> </el-table-column>
                                     <el-table-column prop="unit" label="单位" align="center"> </el-table-column>
-                                    <el-table-column prop="" align="center" >
+                                    <el-table-column prop="" width="180" align="center" >
                                         <template slot-scope="scope">
                                             <el-button v-show="!scope.row.flag" size="small" @click="edit(scope.row)">编辑</el-button>
                                             <el-button v-show="!scope.row.flag" size="small"  @click="del(scope.row)">删除</el-button>

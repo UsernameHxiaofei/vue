@@ -136,6 +136,7 @@ export default {
 			endTime: now.getFullYear()
 		}
 		this.select(4)
+		this.search()
 	},
 	methods: {
 		search() {
@@ -284,8 +285,10 @@ export default {
 				this.search()
 				break
 			default:
+				
 				break
 			}
+			
 		},
 		select(n) {
 			let now = new Date()
@@ -385,6 +388,7 @@ export default {
 				this.formatData()
 				this.buildAll()
 			}
+			
 		},
 		build10(xAxis, listData) {
 			let myChart = echarts.init(document.getElementById('flow'), 'customed')

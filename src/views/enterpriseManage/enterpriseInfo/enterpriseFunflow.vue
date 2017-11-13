@@ -151,8 +151,8 @@
 					<el-date-picker :clearable="false" v-model="endTime" align="right" :editable="false" type="date" @change="endChange" placeholder="选择结束日期"></el-date-picker>
 				</span>
 				<div class="actionbar">
-					<button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="showChart=true"> 图表 </button>
-					<button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="showChart=false"> 明细 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="changeChart(1)"> 图表 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="changeChart(0)"> 明细 </button>
 				</div>
 			</el-col>
 		</el-row>
@@ -241,6 +241,7 @@ import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
 import pagination from '../../../components/common/pagination.vue'
 import moment from 'moment'
 import theme from '../../../assets/js/echarts.theme.js'
+import {formateDate} from '../../../util/index'
 theme(echarts)
 
 export default {
@@ -261,6 +262,18 @@ export default {
 		'pagination': pagination
 	},
 	methods: {
+		changeChart(a){
+                if(a){
+                    this.showChart=true;
+                }else{
+                    this.showChart=false;
+                }
+                this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
+					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.getTotalData()
+					this.getImageData()
+				})
+        },
 		uploadMS(item) {
 			// if(!item.id){
 			//     this.$message.warning('银行账号未设置！');
@@ -493,8 +506,8 @@ export default {
 		this.startTime = start
 		this.endTime = end
 		this.param = {
-			beginTime: start,
-			endTime: end,
+			beginTime: formateDate(start,'yyyy-MM-dd HH:mm:ss'),
+			endTime: formateDate(end,'yyyy-MM-dd HH:mm:ss'),
 			id: this.enterprise.id,
 			pageSize: 10,
 			pageNo: 1,

@@ -108,6 +108,16 @@ export const enterpriseModule = {
 		enterprise_clear(state){
 			state.enterpriseMember=[]
 			state.enterpriseInfo={}
+			state.enterpriseAccountDetail=[]
+			state.enterpriseAccountDetailDBL=[]
+			state.profit=[]
+			state.cash=[]
+			state.debt=[]
+			state.coreFinance=[]
+			state.sf=[]
+			state.statementBrief=[]
+			state.listDayAmount=[]
+			state.items=[]
 		},
 		enterprise_setAccountDetailDLB(state,data){
 			state.enterpriseAccountDetailDBL=data

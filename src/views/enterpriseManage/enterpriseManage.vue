@@ -16,16 +16,16 @@
                 <el-table border :data="enterpriseListData.list" stripe style="width: 100%">
                     <el-table-column width="30" prop="" label="" align="center"> </el-table-column>
                     <el-table-column type="index" label="序号" width="70px"></el-table-column>
-                    <el-table-column prop="creditCode" label="统一社会信用代码" width="220" align="center"> </el-table-column>
-                    <el-table-column prop="name" label="企业名称" align="center"> </el-table-column>
-                    <el-table-column label="所在地" width="200" align="center">
+                    <el-table-column prop="creditCode" label="统一社会信用代码" width="250" align="center"> </el-table-column>
+                    <el-table-column prop="name" label="企业名称"  width="270" align="center"> </el-table-column>
+                    <el-table-column label="所在地" width="180" align="center">
                         <template slot-scope="scope">
                             {{scope.row.addressCode|address}}
                         </template>
                     </el-table-column>
-                    <el-table-column width="120" prop="representativeName" label="法定代表人" align="center"> </el-table-column>
-                    <el-table-column width="240" prop="createTime" label="入库时间" align="center"> </el-table-column>
-                    <el-table-column label="" width="300" align="center">
+                    <el-table-column width="150"  prop="representativeName" label="法定代表人" align="center"> </el-table-column>
+                    <el-table-column width="270" prop="createTime" label="入库时间" align="center"> </el-table-column>
+                    <el-table-column label="" align="center">
                         <template slot-scope="scope">
                             <el-button class="btn-style" size="small" @click="detail(scope.row)">详情</el-button>
                             <el-button class="btn-style" size="small" @click="findItems(scope.row)">查看融资项目</el-button>

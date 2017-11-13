@@ -13,7 +13,7 @@ import funFlowTypes from '../constant/funFlowType'
 import riskTypeData from '../constant/riskType'
 
 export function riskLv(value){
-	return value===1?'中':value===2?'高':'未知'
+	return value===2?'中':value===3?'高':'未知'
 }
 export function riskType(value){
 	let name=''

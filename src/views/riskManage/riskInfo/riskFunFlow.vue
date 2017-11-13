@@ -14,8 +14,8 @@
         justify-content: flex-start;
         border: 1px solid #b1b1b1;
         padding: 20px;
-        float:left;
-        margin:20px;
+        float: left;
+        margin: 20px;
     }
 
     #riskFunflow .info .info-item {
@@ -133,19 +133,19 @@
                         <el-date-picker :clearable="false" v-model="endTime" align="right" :editable="false" type="date" @change="endChange" placeholder="选择结束日期"></el-date-picker>
                     </span>
                     <div class="actionbar">
-                        <button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="showChart=true"> 图表 </button>
-                        <button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="showChart=false"> 明细 </button>
+                        <button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="changeChart(1)"> 图表 </button>
+                        <button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="changeChart(0)"> 明细 </button>
                     </div>
                 </el-col>
             </el-row>
             <el-row v-show="showChart">
                 <el-col :span="10" style="margin-top:45px">
-                    <div id="funflowIn" style="height:400px">
+                    <div id="funflowIn" style="height:500px">
 
                     </div>
                 </el-col>
                 <el-col :span="10" :offset="2" style="margin-top:45px">
-                    <div id="funflowOut" style="height:400px">
+                    <div id="funflowOut" style="height:500px">
 
                     </div>
                 </el-col>
@@ -193,6 +193,8 @@
     import moment from 'moment'
     import theme from '../../../assets/js/echarts.theme.js'
     import riskRegion from '../../../constant/riskRegion.js'
+    import {formateDate} from '../../../util/index'
+
     theme(echarts);
 
     export default {
@@ -221,6 +223,18 @@
             'pagination': pagination
         },
         methods: {
+            changeChart(a){
+                if(a){
+                    this.showChart=true;
+                }else{
+                    this.showChart=false;
+                }
+                this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
+                    this.listData = JSON.parse(JSON.stringify(this.dataList));
+                    this.getTotalData()
+                    this.getImageData()
+                });
+            },
             back() {
                 this.$router.go(-1);
             },
@@ -229,24 +243,24 @@
                 let param = {
                     type: 0,
                     enterpriseId: this.enterprise.id,
-                    beginTime: this.param.beginTime.toLocaleString(),
-                    endTime: this.param.endTime.toLocaleString()
+                    beginTime: this.param.beginTime,
+                    endTime: this.param.endTime
                 }
                 this.$store.dispatch('enterprise_selectListDayAmount', param).then(() => {
-                    Object.keys(this.listDayAmount).forEach((key)=>{
-                        let creditAmount=0,debitAmount=0;
-                        this.listDayAmount[key].forEach((item)=>{
-                            creditAmount+=item.creditAmount||0;
-                            debitAmount+=item.debitAmount||0;
+                    Object.keys(this.listDayAmount).forEach((key) => {
+                        let creditAmount = 0, debitAmount = 0;
+                        this.listDayAmount[key].forEach((item) => {
+                            creditAmount += item.creditAmount || 0;
+                            debitAmount += item.debitAmount || 0;
                         })
                         leanOut.push([new Date(key).getTime(), creditAmount || 0]);
-                        bIn.push([new Date(key).getTime(),debitAmount || 0]);
+                        bIn.push([new Date(key).getTime(), debitAmount || 0]);
                     })
                     this.imageData = { leanOut, bIn };
                     this.buildEcharts();
                     this.buildEchartsOut();
                 });
-                
+
             },
             getTotalData() {
                 let totalLean = 0, totalb = 0, totalLeanNum = 0, totalbNum = 0;
@@ -265,7 +279,7 @@
                 this.totalData = { totalLean, totalb, totalLeanNum: totalLeanNum.toFixed(2), totalbNum: totalbNum.toFixed(2) };
             },
             startChange(v) {
-                if(!this.ready){
+                if (!this.ready) {
                     return;
                 }
                 this.param.beginTime = v;
@@ -276,7 +290,7 @@
                 });
             },
             endChange(v) {
-                if(!this.ready){
+                if (!this.ready) {
                     return;
                 }
                 this.param.endTime = v;
@@ -309,8 +323,26 @@
                     legend: { data: ['流入'], right: 50, orient: 'vertical' },
                     xAxis: { type: 'time' },
                     yAxis: {
-                        name: '金额(元)', type: 'value', nameLocation: 'end', max: function (value) {
-                            return value.max < this.riskLine.FLOWS_INTO_MEDIUM ? this.riskLine.FLOWS_INTO_MEDIUM : value.max;
+                        name: '金额(元)',
+                        nameRotate:90,
+                        nameLocation: 'middle'
+                    },
+                    visualMap: {
+                        top: 0,
+                        left: 20,
+                        pieces: [{
+                            gte: 0,
+                            lte: this.riskLine.FLOWS_INTO__HIGH,
+                            color: 'rgb(255, 135, 97)',
+                            label: '高风险'
+                        }, {
+                            gt: this.riskLine.FLOWS_INTO__HIGH,
+                            lte: this.riskLine.FLOWS_INTO_MEDIUM,
+                            color: 'rgb(251, 201, 55)',
+                            label: '中风险'
+                        }],
+                        outOfRange: {
+                            color: '#2c5775'
                         }
                     },
                     series: [{
@@ -326,8 +358,8 @@
                                 }
                             },
                             data: [
-                                { yAxis: this.riskLine.FLOWS_INTO__HIGH, lineStyle: { normal: { color: 'rgb(255, 135, 97)' } }, label: { normal: { position: 'end', formatter: '高风险' } } },
-                                { yAxis: this.riskLine.FLOWS_INTO_MEDIUM, lineStyle: { normal: { color: 'rgb(251, 201, 55)' } }, label: { normal: { position: 'end', formatter: '中风险' } } }
+                                { yAxis: this.riskLine.FLOWS_INTO__HIGH, lineStyle: { normal: { color: 'rgb(255, 135, 97)' } }, label: { normal: { position: 'end' }} },
+                                { yAxis: this.riskLine.FLOWS_INTO_MEDIUM, lineStyle: { normal: { color: 'rgb(251, 201, 55)' } }, label: { normal: { position: 'end'} } }
                             ]
                         },
                         lineStyle: { normal: { width: 3 } }
@@ -350,12 +382,29 @@
                 let option = {
                     title: { text: '银账资金账户流出', x: 'center' }, tooltip: { trigger: 'axis' },
                     legend: { data: ['流出'], right: 50, orient: 'vertical' },
-                    xAxis: { type: 'time' },
+                    xAxis: {
+                        type: 'time'
+                    },
                     yAxis: {
-                        name: '金额(元)', nameLocation: 'end', min: function (value) {
-                            return value.min < this.riskLine.FLOWS_OUT_MEDIUM ? value.min : this.riskLine.FLOWS_OUT_MEDIUM;
-                        }, max: function (value) {
-                            return value.max > this.riskLine.FLOWS_OUT_HIGH ? value.max : this.riskLine.FLOWS_OUT_HIGH;
+                        name: '金额(元)',
+                        nameRotate:90, 
+                        nameLocation: 'middle'
+                    },
+                    visualMap: {
+                        top: 0,
+                        left: 20,
+                        pieces: [{
+                            gt: this.riskLine.FLOWS_OUT_MEDIUM,
+                            lte: this.riskLine.FLOWS_OUT_HIGH,
+                            color: 'rgb(251, 201, 55)',
+                            label: '中风险'
+                        }, {
+                            gt: this.riskLine.FLOWS_OUT_HIGH,
+                            color: 'rgb(255, 135, 97)',
+                            label: '高风险'
+                        }],
+                        outOfRange: {
+                            color: '#2c5775'
                         }
                     },
                     series: [{
@@ -365,9 +414,10 @@
                                     type: 'dashed'
                                 }
                             },
+                            silent: true,
                             data: [
-                                { yAxis: this.riskLine.FLOWS_OUT_HIGH, lineStyle: { normal: { color: 'rgb(255, 135, 97)' } }, label: { normal: { position: 'end', formatter: '高风险' } } },
-                                { yAxis: this.riskLine.FLOWS_OUT_MEDIUM, lineStyle: { normal: { color: 'rgb(251, 201, 55)' } }, label: { normal: { position: 'end', formatter: '中风险' } } }
+                                { yAxis: this.riskLine.FLOWS_OUT_HIGH, lineStyle: { normal: { color: 'rgb(255, 135, 97)' } }, label: { normal: { position: 'end' } } },
+                                { yAxis: this.riskLine.FLOWS_OUT_MEDIUM, lineStyle: { normal: { color: 'rgb(251, 201, 55)' } }, label: { normal: { position: 'end' } } }
                             ]
                         },
                         sampling: 'max',
@@ -429,11 +479,13 @@
             const end = new Date();
             const start = new Date();
             start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-            this.startTime = start;
+            
+            this.startTime =start;
             this.endTime = end;
+
             this.param = {
-                beginTime: start,
-                endTime: end,
+                beginTime: formateDate(start,'yyyy-MM-dd HH:mm:ss'),
+                endTime: formateDate(end,'yyyy-MM-dd HH:mm:ss'),
                 id: this.itemManageDetail.enterpriseId,
                 pageSize: 10,
                 pageNo: 1
@@ -448,13 +500,13 @@
                     this.getImageData();
                 })
             });
-            
+
         },
         data() {
             return {
                 startTime: '',
                 endTime: '',
-                lastBalance:0,
+                lastBalance: 0,
                 showChart: true,
                 ready: false,
                 listData: {},

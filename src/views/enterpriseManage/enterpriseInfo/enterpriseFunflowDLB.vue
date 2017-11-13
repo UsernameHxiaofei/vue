@@ -69,6 +69,7 @@ import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
 import pagination from '../../../components/common/pagination.vue'
 import moment from 'moment'
 import theme from '../../../assets/js/echarts.theme.js'
+import {formateDate} from '../../../util/index'
 theme(echarts)
 
 export default {
@@ -178,12 +179,12 @@ export default {
 	beforeMount() {
 		const end = new Date()
 		const start = new Date()
-		start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+		start.setTime(start.getTime() - 3600 * 1000 * 24 * 30*3)
 		this.startTime = start
 		this.endTime = end
 		this.param = {
-			beginTime: start,
-			endTime: end,
+			beginTime: formateDate(start,'yyyy-MM-dd HH:mm:ss'),
+			endTime: formateDate(end,'yyyy-MM-dd HH:mm:ss'),
 			id: this.enterprise.id,
 			pageSize: 10,
 			pageNo: 1
