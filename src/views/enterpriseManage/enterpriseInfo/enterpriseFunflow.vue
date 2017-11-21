@@ -263,17 +263,17 @@ export default {
 	},
 	methods: {
 		changeChart(a){
-                if(a){
-                    this.showChart=true;
-                }else{
-                    this.showChart=false;
-                }
-                this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
-					this.listData = JSON.parse(JSON.stringify(this.dataList))
-					this.getTotalData()
-					this.getImageData()
-				})
-        },
+			if(a){
+				this.showChart=true
+			}else{
+				this.showChart=false
+			}
+			this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
+				this.listData = JSON.parse(JSON.stringify(this.dataList))
+				this.getTotalData()
+				this.getImageData()
+			})
+		},
 		uploadMS(item) {
 			// if(!item.id){
 			//     this.$message.warning('银行账号未设置！');
@@ -407,7 +407,17 @@ export default {
 			let balance = echarts.init(document.getElementById('balance'), 'customed')
 			// 指定图表的配置项和数据
 			let funflowOption = {
-				title: { text: '银账资金账户流水', x: 'center' }, tooltip: { trigger: 'axis' },
+				title: { text: '银账资金账户流水', x: 'center' }, 
+				tooltip: {
+					trigger: 'axis', formatter: function (params) {
+						let content=[]
+						for (let i = 0; i < params.length; i++) {
+							const item = params[i]
+							content.push('<span style="background:'+item.color+';" class="echart-dot"></span>'+item.seriesName+'：'+Number(item.value[1].toFixed(2)) + '元')
+						}
+						return content.join('</br>')
+					}
+				},
 				legend: { data: ['流入', '流出'], right: 200, orient: 'vertical' },
 				grid: [{
 					height: '35%'

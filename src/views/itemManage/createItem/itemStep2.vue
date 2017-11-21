@@ -314,8 +314,11 @@ export default {
 			return this.$store.state.item.materials || {}
 		}
 	},
-	beforeMount() {
+	mounted () {
 		this.editorRender = true
+	},
+	beforeMount() {
+		
 		this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(() => {
 			if (this.itemManageDetail.enterpriseId || this.itemManageDetail.detailedIntroductionId) {
 				this.editFlag = true

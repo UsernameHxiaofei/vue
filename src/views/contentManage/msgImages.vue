@@ -14,7 +14,7 @@
 								</dt>
 								<dd>
 									<p>{{value.upload_time}}
-										<span class="file-size fr">{{value.image_size}}KB</span>
+										<span class="file-size fr">{{Number(value.image_size/1024/1024).toFixed(2)}}Mb</span>
 									</p>
 									<p>上传人：{{value.upload_user_name}}
 										<span class="file-size fr">显示顺序：{{value.show_sequence}}</span>

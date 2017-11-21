@@ -317,7 +317,17 @@ export default {
 			let myChart = echarts.init(document.getElementById('funflowIn'), 'customed')
 			// 指定图表的配置项和数据
 			let option = {
-				title: { text: '银账资金账户流入', x: 'center' }, tooltip: { trigger: 'axis' },
+				title: { text: '银账资金账户流入', x: 'center' },
+				tooltip: {
+					trigger: 'axis', formatter: function (params) {
+						let content = []
+						for (let i = 0; i < params.length; i++) {
+							const item = params[i]
+							content.push('<span style="background:' + item.color + ';" class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1].toFixed(2)) + '元')
+						}
+						return content.join('</br>')
+					}
+				},
 				legend: { data: ['流入'], right: 50, orient: 'vertical' },
 				xAxis: { type: 'time' },
 				yAxis: {
@@ -378,7 +388,17 @@ export default {
 			let myChart = echarts.init(document.getElementById('funflowOut'), 'customed')
 			// 指定图表的配置项和数据
 			let option = {
-				title: { text: '银账资金账户流出', x: 'center' }, tooltip: { trigger: 'axis' },
+				title: { text: '银账资金账户流出', x: 'center' },
+				tooltip: {
+					trigger: 'axis', formatter: function (params) {
+						let content = []
+						for (let i = 0; i < params.length; i++) {
+							const item = params[i]
+							content.push('<span style="background:' + item.color + ';" class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1].toFixed(2)) + '元')
+						}
+						return content.join('</br>')
+					}
+				},
 				legend: { data: ['流出'], right: 50, orient: 'vertical' },
 				xAxis: {
 					type: 'time'
@@ -446,9 +466,8 @@ export default {
 						this.riskLine.FLOWS_INTO__HIGH = parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value)
 						break
 					case 'CASH_FLOWS_INTO_MEDIUM':
-						let riskRuleInfo1 = item.riskRuleGroup[0].riskRuleInfo
-						for (let i = 0; i < riskRuleInfo1.length; i++) {
-							let it = riskRuleInfo1[i]
+						for (let i = 0; i < item.riskRuleGroup[0].riskRuleInfo.length; i++) {
+							let it = item.riskRuleGroup[0].riskRuleInfo[i]
 							if (it.relationName == '<=') {
 								this.riskLine.FLOWS_INTO_MEDIUM = parseInt(it.value)
 							}
@@ -458,9 +477,8 @@ export default {
 						this.riskLine.FLOWS_OUT_HIGH = parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value)
 						break
 					case 'CASH_FLOWS_OUT_MEDIUM':
-						let riskRuleInfo2 = item.riskRuleGroup[0].riskRuleInfo
-						for (let i = 0; i < riskRuleInfo2.length; i++) {
-							let it = riskRuleInfo2[i]
+						for (let i = 0; i < item.riskRuleGroup[0].riskRuleInfo.length; i++) {
+							let it = item.riskRuleGroup[0].riskRuleInfo[i]
 							if (it.relationName == '>=') {
 								this.riskLine.FLOWS_OUT_MEDIUM = parseInt(it.value)
 							}

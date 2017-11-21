@@ -297,51 +297,51 @@ export default {
 		},
 		itemManageDetail: function () {
 			return this.$store.state.item.itemManageDetail||{}
-        },
+		},
 		enterpriseInfo: function () {
 			return this.$store.state.enterprise.enterpriseInfo || {}
-        },
+		},
 		detailedIntroduction:function(){
 			return this.$store.state.item.detailedIntroduction||{}
-        },
+		},
 		materials:function(){
 			return this.$store.state.item.materials||{}
-        }
+		}
 	},
 	beforeMount () {
 		this.editorRender=true
-        this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(()=>{
+		this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(()=>{
 			if(this.itemManageDetail.enterpriseId||this.itemManageDetail.detailedIntroductionId){
 				this.editFlag=true
-            }else{
-                return
-            }
+			}else{
+				return
+			}
 			this.projectImg=this.itemManageDetail.imageURL
-            this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
+			this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
 				this.form.existProjectNum=this.enterpriseInfo.existProjectNum
-                this.form.name=this.enterpriseInfo.name
-                this.form.creditCode=this.enterpriseInfo.creditCode
-                this.form.industry=parseInt(this.enterpriseInfo.industry)
-            })
+				this.form.name=this.enterpriseInfo.name
+				this.form.creditCode=this.enterpriseInfo.creditCode
+				this.form.industry=parseInt(this.enterpriseInfo.industry)
+			})
 			if(this.itemManageDetail.detailedIntroductionId){
 				this.$store.dispatch('item_getDetailedIntroduction',{id: this.itemManageDetail.detailedIntroductionId}).then(()=>{
 					this.content=this.detailedIntroduction.content
-                })
+				})
 			}
 			this.$store.dispatch('item_selectMaterialByProjectId',{id:this.$route.params.id}).then(()=>{
 				for (var i = 0; i < this.materials.length; i++) {
 					var item = this.materials[i]
-                    if(item.name.indexOf('商业计划书')!=-1){
+					if(item.name.indexOf('商业计划书')!=-1){
 						this.planFile=item.materialURL
-                        this.plan_materials=[{name:item.name,response:{objectLiteral:item.materialURL},url:item.materialURL}]
-                    }else{
+						this.plan_materials=[{name:item.name,response:{objectLiteral:item.materialURL},url:item.materialURL}]
+					}else{
 						this.others_materials.push({name:item.name,url:item.materialURL,response:{objectLiteral:item.materialURL}})
-                    }
+					}
                     
 				}
 			})
 			return this.$store.dispatch('enterprise_getMemberInfo',{id:this.itemManageDetail.enterpriseId})
-        })
+		})
 	},
 	data() {
 		return {
@@ -385,22 +385,22 @@ export default {
 					{required: true,trigger: 'blur',validator:(rule, value, callback) => {
 						if (value =='') {
 							callback(new Error('请输入手机号码'))
-                            }else if(!/^1[34578]\d{9}$/.test(this.teamform.mobileNumber)){
+						}else if(!/^1[34578]\d{9}$/.test(this.teamform.mobileNumber)){
 							callback(new Error('手机号输入格式有误'))
-                            }else{
+						}else{
 							callback()
-                            }
+						}
 					}}
 				],
 				identNumber: [
 					{required: true,trigger: 'blur',validator:(rule, value, callback) => {
 						if (value =='') {
 							callback(new Error('请输入身份证信息'))
-                            }else if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.teamform.identNumber)){
+						}else if(!/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(this.teamform.identNumber)){
 							callback(new Error('身份证输入格式有误'))
-                            }else{
+						}else{
 							callback()
-                            }
+						}
 					}} 
 				],
 				education: [
@@ -430,44 +430,44 @@ export default {
 			if(file.size>=10*1024*1024){
 				this.$message.warning('上传文件大小不能超过10mb')
 				return false
-            }
+			}
 		},
 		uploadBeforeForProjectImage(file){
 			if(file.size>=2*1024*1024){
 				this.$message.warning('上传文件大小不能超过2mb')
 				return false
-            }
+			}
 			this.projectImgLoading=true
-        },
+		},
 		uploadBeforeForImage(file){
 			if(file.size>=2*1024*1024){
 				this.$message.warning('上传文件大小不能超过2mb')
 				return false
-            }
+			}
 		},
-		successUpload_projectURL(response,file,fileList){
+		successUpload_projectURL(response){
 			this.projectImgLoading=false
-            this.projectImg=JSON.parse(response.objectLiteral)
-        },
+			this.projectImg=JSON.parse(response.objectLiteral)
+		},
 		successUpload_memberimageURL(data){
 			this.teamform.imageURL=data
-            this.editHeadImgChange=false
-        },
-		successUpload_planFile(response,file,fileList){
+			this.editHeadImgChange=false
+		},
+		successUpload_planFile(response){
 			this.planFile=JSON.parse(response.objectLiteral)
-        },
+		},
 		successUpload_otherFiles(response,file,fileList){
 			this.otherFiles=fileList
-        },
-		handlePlanFileRemove(file, fileList) {
+		},
+		handlePlanFileRemove() {
 			this.planFile=''
-        },
+		},
 		handleOtherFileRemove(file, fileList){
 			this.otherFiles=fileList
-        },
-		handleprojectURLRemove(file, fileList) {
+		},
+		handleprojectURLRemove() {
 			this.projectImg=''
-        },
+		},
 		uploadMaterial(){
 			this.$store.dispatch('item_deleteMaterialByFinId',{param:{id:this.$route.params.id},vue:this}).then(()=>{
 				if(this.planFile&&this.planFile.length>0){
@@ -477,65 +477,65 @@ export default {
 						projectId:this.$route.params.id
 					}
 					this.$store.dispatch('item_createMaterial',{param:planFileParam,vue:this})
-                }
+				}
 				for (let i = 0; i < this.otherFiles.length; i++) {
 					let item = this.otherFiles[i]
-                    if(item.name.indexOf('商业计划书')!=-1){
+					if(item.name.indexOf('商业计划书')!=-1){
 						this.$message.warning('请在商业计划书上传中上传商业计划书')
-                        break
-                    }
+						break
+					}
 					let param={
 						materialURL:JSON.parse(item.response.objectLiteral),
 						name:item.name,
 						projectId:this.$route.params.id
 					}
 					this.$store.dispatch('item_createMaterial',{param,vue:this})
-                }
+				}
 			})
 		},
 		onSubmit() {
 			if (this.projectImg.length == 0) {
 				this.$message.warning('请上传项目展示图！')
-                    return false
-                }
+				return false
+			}
 			if(this.content.length == 0){
 				this.$message.warning('请完成项目介绍!')
-                    return false
-                }
+				return false
+			}
 			if(this.enterpriseInfo.representativeId&&this.enterpriseInfo.representativeId.length==0){
 				this.$message.warning('请在团队成员中勾选一个法定代表人')
-                    return
-                }
+				return
+			}
 			if (!this.itemManageDetail.enterpriseId&&this.$store.state.item.enterpriseId.length == 0) {
 				this.$refs['form'].validate((valid) => {
 					if (valid) {
 						let enterpriseParam=JSON.parse(JSON.stringify(this.form))
-                            enterpriseParam.addressCode=this.itemManageDetail.regionCode
-                            this.$store.dispatch('item_createEnterprise', { param: enterpriseParam, vue: this }).then(()=>{
+						enterpriseParam.addressCode=this.itemManageDetail.regionCode
+						this.$store.dispatch('item_createEnterprise', { param: enterpriseParam, vue: this }).then(()=>{
 							if(this.$store.state.item.enterpriseId.length == 0){
 								this.$message.warning('创建融资企业失败')
-                                    return
-                                }
+								return
+							}
 							this.uploadMaterial()
-                                this.saveStep2()
-                            })
+							this.saveStep2()
+						})
 					} else {
 						return false
-                        }
+					}
 				})
-                }else{
+			}else{
 				this.$refs['form'].validate((valid) => {
 					if (valid) {
 						let param=this.form
-                            param.enterpriseId=this.itemManageDetail.enterpriseId
+						param.enterpriseId=this.itemManageDetail.enterpriseId
 						this.$store.dispatch('item_updateEnterprise', { param: param, vue: this })
 					} else {
 						return false
-                        }
+					}
 				})
-                    this.uploadMaterial()
-                    this.saveStep2()
-                }
+				this.uploadMaterial()
+				this.saveStep2()
+			}
                 
 		},
 		saveStep2(){
@@ -555,7 +555,7 @@ export default {
 				this.$store.dispatch('item_createDetailedIntroduction', { param: { content: this.content }, vue: this }).then(() => {
 					if (this.$store.state.item.detailedIntroductionId && this.$store.state.item.detailedIntroductionId.length > 0) {
 						projectParam.detailedIntroductionId = this.$store.state.item.detailedIntroductionId
-                        this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(()=>{
+						this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(()=>{
 							this.$store.commit('item_setClearCreateItemData')
 							this.$store.dispatch('item_contentConfirm',{param:{id:this.$route.params.id},vue:this})
 							this.$router.push('/itemDetail/' + this.$route.params.id)
@@ -566,7 +566,7 @@ export default {
 		},
 		addEnterpriseMember(){//点击添加团队成员
 			this.isRepresent=false
-            this.teamform= {
+			this.teamform= {
 				id:'',
 				imageURL:'',
 				name: '',
@@ -588,8 +588,8 @@ export default {
 								}
 								this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(()=>{
 									this.dialogTeamVisible = true
-                                    this.$refs['teamform'].resetFields()
-                                })
+									this.$refs['teamform'].resetFields()
+								})
 							}else{
 								this.$message.warning('创建企业失败')
 							}
@@ -597,11 +597,11 @@ export default {
 					} else {
 						this.$message.warning('请完善企业信息')
 						return false
-                    }
+					}
 				})
-            }else{
+			}else{
 				this.dialogTeamVisible = true
-            }
+			}
 		},
 		editEnterpriseMember(item){
 			this.teamform= {
@@ -616,14 +616,14 @@ export default {
 				profile: ''
 			}
 			this.teamform=item
-            if(this.enterpriseInfo.representativeId==item.id){
+			if(this.enterpriseInfo.representativeId==item.id){
 				this.isRepresent=true
-            }else{
+			}else{
 				this.isRepresent=false
-            }
+			}
 			this.editMember=item.id
-            this.dialogTeamVisible = true
-        },
+			this.dialogTeamVisible = true
+		},
 		deleteEnterpriseMember(item){
 			this.$confirm(`确认删除这个团队成员${item.name}？`, '确认操作', {
 				confirmButtonText: '确定',
@@ -639,35 +639,35 @@ export default {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		team() {
 			this.$refs['teamform'].validate((valid) => {
 				if (valid) {
 					let param=this.teamform
-                    param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId
-                    if(this.editMember.length>0){
+					param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId
+					if(this.editMember.length>0){
 						param.id=this.editMember
-                        this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
+						this.$store.dispatch('item_updateEnterpriseMember',{param,vue:this}).then(()=>{
 							if(this.isRepresent&&this.enterpriseInfo.representativeId!=this.editMember){
 								param.id=this.itemManageDetail.enterpriseId
-                                param.representativeId=this.editMember
-                                this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this })
-                            }
+								param.representativeId=this.editMember
+								this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this })
+							}
 							if(!this.isRepresent&&this.enterpriseInfo.representativeId==this.editMember){
 								this.$message.warning('请勾选其他团队成员的法定代表人复选款来变更法定代表人，只能变更不能取消')
 							}
 							this.editMember=''
-                        })
+						})
 					}else{
 						this.$store.dispatch('item_createEnterpriseMember',{param,vue:this}).then(()=>{
 							if(this.isRepresent&&this.$store.state.item.enterpriseMemberId.length>0){
 								let param={}
-                                param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId
-                                param.representativeId=JSON.parse(this.$store.state.item.enterpriseMemberId)
-                                this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this })
-                            }
+								param.enterpriseId=this.itemManageDetail.enterpriseId||this.$store.state.item.enterpriseId
+								param.representativeId=JSON.parse(this.$store.state.item.enterpriseMemberId)
+								this.$store.dispatch('item_updateEnterpriseRepresentative', { param: param, vue: this })
+							}
 						})
 					}
 					this.teamform= {
@@ -682,11 +682,11 @@ export default {
 						profile: ''
 					}
 					this.dialogTeamVisible = false
-                } else {
+				} else {
 					return false
-                }
+				}
 			})
-        },
+		},
 		cancel() {
 			this.teamform= {
 				id:'',
@@ -700,11 +700,11 @@ export default {
 				profile: ''
 			}
 			this.dialogTeamVisible = false
-        },
+		},
 		back(){
 			this.$store.commit('item_setClearCreateItemData')
-            this.$router.go(-1)
-        }
+			this.$router.go(-1)
+		}
 	}
 }    
 </script>

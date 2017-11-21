@@ -139,13 +139,13 @@ export default {
 	computed: {
 		subscriptionData: function () {
 			return this.$store.state.money.subscriptionData
-    },
+		},
 		bailRefund: function () {
 			return this.$store.state.money.bailRefund
-    },
+		},
 		actor: function () {
 			return this.$store.state.login.actor
-    },
+		},
 	},
 	beforeMount() {
 		this.investparam = {
@@ -154,11 +154,12 @@ export default {
 			number: 10
 		}
 		this.$store.dispatch('getSubscription', this.investparam)
-    //parse用于从一个字符串中解析出json对象
-    this.projectName = JSON.parse(sessionStorage.getItem('projectInfo')).projectName
-    this.raisedAmount = JSON.parse(sessionStorage.getItem('projectInfo')).raisedAmount||0
-    this.projecStatus = JSON.parse(sessionStorage.getItem('projectInfo')).projecStatus
-  },
+		//parse用于从一个字符串中解析出json对象
+		let projectInfo=JSON.parse(sessionStorage.getItem('projectInfo'))
+		this.projectName = projectInfo.projectName
+		this.raisedAmount = projectInfo.raisedAmount||0
+		this.projecStatus = projectInfo.projecStatus
+	},
 
 	data() {
 		return {
@@ -188,12 +189,12 @@ export default {
 								type: 'warning',
 								message: '项目不在退款时期,不退款 ！'
 							})
-            } else {
+						} else {
 							this.$message({
 								type: 'success',
 								message: '退款申请成功!'
 							})
-              this.$store.dispatch('getSubscription', this.investparam);
+							this.$store.dispatch('getSubscription', this.investparam)
 						}
 
 						// this.finished=true;
@@ -202,25 +203,25 @@ export default {
 							type: 'info',
 							message: '退款申请失败!'
 						})
-          }
+					}
 				})
-      }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消退款申请'
-				});
+				})
 			})
 
-    },
+		},
 		handleSizeChange(size) {
 			this.investparam.number = size
-      this.investparam.page = 1
-      this.$store.dispatch('getSubscription', this.investparam)
-    },
+			this.investparam.page = 1
+			this.$store.dispatch('getSubscription', this.investparam)
+		},
 		handleCurrentChange(val) {
 			this.investparam.page = val
-      this.$store.dispatch('getSubscription', this.investparam)
-    },
+			this.$store.dispatch('getSubscription', this.investparam)
+		},
 	}
 }
 </script>

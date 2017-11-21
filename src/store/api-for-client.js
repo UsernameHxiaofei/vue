@@ -4,13 +4,18 @@ import { Loading,Message } from 'element-ui';
 
 Vue.use(Resource);
 Vue.http.options.root = '/ajax';
+Vue.http.options['load'] = true;
 Vue.http.options.emulateJSON = true;
 Vue.http.interceptors.push(function (request, next) {
-	let loadingInstance =Loading.service({ 
-		fullscreen: true,
-		text:'loading',
-		customClass:'loading-window' 
-	});
+	console.log(request);
+	let loadingInstance=null;
+	if(request.load){
+		loadingInstance =Loading.service({ 
+			fullscreen: true,
+			text:'loading',
+			customClass:'loading-window' 
+		});
+	}
 	// continue to next interceptor
 	next( (response)=>{
 		if(response.body.assignUniqueSecretMessage){
@@ -26,7 +31,9 @@ Vue.http.interceptors.push(function (request, next) {
 				statusText:response.body.assignUniqueSecretMessage
 			});
 		}
-		loadingInstance.close();
+		if(request.load){
+			loadingInstance.close();
+		}
 	});
   
 });

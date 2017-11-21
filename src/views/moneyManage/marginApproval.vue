@@ -1,90 +1,90 @@
 <style scoped>
-.top-box {
-    width: 100%;
-    padding: 20px 0 20px 30px;
-    background-color: #fcfcfc;
-}
+	.top-box {
+		width: 100%;
+		padding: 20px 0 20px 30px;
+		background-color: #fcfcfc;
+	}
 
-.my-grid .el-row {
-    background-color: #fff !important;
-}
+	.my-grid .el-row {
+		background-color: #fff !important;
+	}
 </style>
 <template>
-    <div id="wrap">
-        <div class="top-box">
-            <el-button-group>
-                <router-link :to="{path: '/refundApproval'}">
-                    <el-button>退款审批</el-button>
-                </router-link>
-                <router-link :to="{path: '/marginApproval'}">
-                    <el-button type="primary">保证金审批</el-button>
-                </router-link>
-                <router-link :to="{path: '/capitalApproval'}">
-                    <el-button>注资审批</el-button>
-                </router-link>
-            </el-button-group>
-        </div>
-        <!--搜索-->
-        <div class="search-box">
-            <div class="output">
-                <el-input placeholder="项目名称" icon="search" v-model.trim="keyword" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
-                </el-input>
-            </div>
-            <div class="date-box">
-                <el-select v-model="projectStatu" clearable placeholder="项目状态" @change="itemStatus">
-                    <el-option v-for="item in projectStatus" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                </el-select>
-            </div>
-        </div>
-        <!--表格-->
-        <div class="my-table">
-            <el-table :data="marginApprovalGetList.records" stripe border style="width: 100%">
-                <el-table-column prop="kong" width="30">
-                </el-table-column>
-                <el-table-column type='index' prop="th1" width="60" label="序号">
-                </el-table-column>
-                <el-table-column prop="initiatorName" label="投资人姓名">
-                </el-table-column>
-                <el-table-column prop="projectName" label="项目方名称">
-                </el-table-column>
-                <el-table-column prop="statusName" label="项目状态">
-                </el-table-column>
-                <el-table-column prop="overallInvestment" label="总投资额(元)">
-                </el-table-column>
-                <el-table-column prop="commitmentAmount" label="承诺出资额(元)">
-                </el-table-column>
-                <el-table-column prop="proDepositRate" label="保证金比例">
-                </el-table-column>
-                <el-table-column prop="proDepositAmount" label="保证金(元)">
-                </el-table-column>
-                <el-table-column prop="refundStatus" label="退款状态">
-                    <template slot-scope="scope">
-                        <span v-if="scope.row.refundStatus==0">审核中</span>
-                        <span v-if="scope.row.refundStatus==2">拒绝退款</span>                        
-                        <span v-if="scope.row.refundStatus==3">退款中</span>
-                        <span v-if="scope.row.refundStatus==4">成功</span>
-                        <span v-if="scope.row.refundStatus==5">失败</span>                                              
-                    </template>
-                </el-table-column>
-                <el-table-column width="160">
-                    <template slot-scope="scope">
-                        <el-button class="btn-style btn-margin" @click="success(scope.row)" :disabled="scope.row.refundStatus!=0">通过</el-button>
-                        <el-button class="btn-style" @click="fail(scope.row)" :disabled="scope.row.refundStatus!=0">拒绝</el-button>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="kong" width="30">
-                </el-table-column>
-            </el-table>
-        </div>
-        <!--分页-->
-        <div class="page-box fr clearfix">
-            <div class="page-wrap">
-                <pagination :total="marginApprovalGetList.count" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
-            </div>
-        </div>
-    
-    </div>
+	<div id="wrap">
+		<div class="top-box">
+			<el-button-group>
+				<router-link :to="{path: '/refundApproval'}">
+					<el-button>退款审批</el-button>
+				</router-link>
+				<router-link :to="{path: '/marginApproval'}">
+					<el-button type="primary">保证金审批</el-button>
+				</router-link>
+				<router-link :to="{path: '/capitalApproval'}">
+					<el-button>注资审批</el-button>
+				</router-link>
+			</el-button-group>
+		</div>
+		<!--搜索-->
+		<div class="search-box">
+			<div class="output">
+				<el-input placeholder="项目名称" icon="search" v-model.trim="keyword" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
+				</el-input>
+			</div>
+			<div class="date-box">
+				<el-select v-model="projectStatu" clearable placeholder="项目状态" @change="itemStatus">
+					<el-option v-for="item in projectStatus" :key="item.value" :label="item.label" :value="item.value">
+					</el-option>
+				</el-select>
+			</div>
+		</div>
+		<!--表格-->
+		<div class="my-table">
+			<el-table :data="marginApprovalGetList.records" stripe border style="width: 100%">
+				<el-table-column prop="kong" width="30">
+				</el-table-column>
+				<el-table-column type='index' prop="th1" width="60" label="序号">
+				</el-table-column>
+				<el-table-column prop="initiatorName" label="投资人姓名">
+				</el-table-column>
+				<el-table-column prop="projectName" label="项目方名称">
+				</el-table-column>
+				<el-table-column prop="statusName" label="项目状态">
+				</el-table-column>
+				<el-table-column prop="overallInvestment" label="总投资额(元)">
+				</el-table-column>
+				<el-table-column prop="commitmentAmount" label="承诺出资额(元)">
+				</el-table-column>
+				<el-table-column prop="proDepositRate" label="保证金比例">
+				</el-table-column>
+				<el-table-column prop="proDepositAmount" label="保证金(元)">
+				</el-table-column>
+				<el-table-column prop="refundStatus" label="退款状态">
+					<template slot-scope="scope">
+						<span v-if="scope.row.refundStatus==0">审核中</span>
+						<span v-if="scope.row.refundStatus==2">拒绝退款</span>
+						<span v-if="scope.row.refundStatus==3">退款中</span>
+						<span v-if="scope.row.refundStatus==4">成功</span>
+						<span v-if="scope.row.refundStatus==5">失败</span>
+					</template>
+				</el-table-column>
+				<el-table-column width="160">
+					<template slot-scope="scope">
+						<el-button class="btn-style btn-margin" @click="success(scope.row)" :disabled="scope.row.refundStatus!=0">通过</el-button>
+						<el-button class="btn-style" @click="fail(scope.row)" :disabled="scope.row.refundStatus!=0">拒绝</el-button>
+					</template>
+				</el-table-column>
+				<el-table-column prop="kong" width="30">
+				</el-table-column>
+			</el-table>
+		</div>
+		<!--分页-->
+		<div class="page-box fr clearfix">
+			<div class="page-wrap">
+				<pagination :total="marginApprovalGetList.count" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
+			</div>
+		</div>
+
+	</div>
 </template>
 <script>
 import pagination from '../../components/common/pagination'
@@ -97,16 +97,16 @@ export default {
 	computed: {
 		marginApprovalGetList: function () {
 			return this.$store.state.money.marginApprovalGetList
-        },
+		},
 		passOperate: function () {
 			return this.$store.state.money.passOperate
-        },
+		},
 		failOperate: function () {
 			return this.$store.state.money.failOperate
-        },
+		},
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 	},
 	beforeMount() {
 		this.param = {
@@ -116,7 +116,7 @@ export default {
 			pageSize: 10
 		}
 		this.$store.dispatch('margin_approvalGetList', this.param)
-    },
+	},
 	data() {
 		return {
 			param: {},
@@ -143,21 +143,21 @@ export default {
 							type: 'success',
 							message: '已成功通过!'
 						})
-                        this.$store.dispatch('margin_approvalGetList', this.param)
-                    } else {
+						this.$store.dispatch('margin_approvalGetList', this.param)
+					} else {
 						this.$message({
 							type: 'warning',
 							message: '通过失败!'
 						})
-                    }
+					}
 				}, 300)
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		//拒绝
 		fail(data) {
 			this.$confirm('您确定拒绝吗?', '提示', {
@@ -175,45 +175,45 @@ export default {
 							type: 'success',
 							message: '已拒绝!'
 						})
-                        this.$store.dispatch('margin_approvalGetList', this.param)
-                    } else {
+						this.$store.dispatch('margin_approvalGetList', this.param)
+					} else {
 						this.$message({
 							type: 'warning',
 							message: '拒绝失败!'
 						})
-                    }
+					}
 				}, 300)
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		// 搜索
 		handleIconClick() {
 			this.param.keyword = this.keyword
-            this.param.pageNo = 1
-            this.$store.dispatch('margin_approvalGetList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('margin_approvalGetList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.pageSize = size
-            this.param.pageNo = 1
-            this.$store.dispatch('margin_approvalGetList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('margin_approvalGetList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.pageNo = page
-            this.$store.dispatch('margin_approvalGetList', this.param)
-        },
-		openLook(index, row) {
+			this.$store.dispatch('margin_approvalGetList', this.param)
+		},
+		openLook() {
 			this.dialogLookVisible = true
-        },
+		},
 		// 选择项目状态
 		itemStatus(lv) {
 			this.param.status = lv
-            this.$store.dispatch('margin_approvalGetList', this.param)
-        },
+			this.$store.dispatch('margin_approvalGetList', this.param)
+		},
 	}
 }
 </script>

@@ -492,10 +492,10 @@ export default {
 			}
 			return true
 		},
-		successUpload1(response,file,fileList){
+		successUpload1(response){
 			this.limitform1.businessLicenseURL=JSON.parse(response.objectLiteral)
 		},
-		successUpload2(response,file,fileList){
+		successUpload2(response){
 			this.limitform1.accountLicenceURL=JSON.parse(response.objectLiteral)
 		},
 		submitForm(){

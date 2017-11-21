@@ -572,3 +572,10 @@ output {
     color:#06ccb7;
     background-color: #fff;
 }
+.echart-dot{
+    width:8px;
+    height:8px;
+    border-radius:8px;
+    display: inline-block;
+    margin:auto 5px;
+}

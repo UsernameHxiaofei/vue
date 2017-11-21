@@ -40,12 +40,16 @@ module.exports=function client(router,sc,passport){
 	// });
 	//上传banner图2
 	router.all('/banner_uploadByFile',multer().single('file'),function (req, res) {
+		console.log('new Time00',new Date().toLocaleTimeString())
 		let param=req.body
 		const stuff = sc.instanceRequest('BannerManage', 'bannerUpload', 'contentManage')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [param.bannerName,param.bannerType,param.uploadUseId,param.bannerSize,param.targetSrc,parseInt(param.show_sequence)]
 		stuff.essences=[sc.instanceEssence(null,req.file.buffer)]
-		sc.send(stuff).then((resp) =>{res.json(resp.head)})
+		sc.send(stuff).then((resp) =>{
+			console.log('new Time00',new Date().toLocaleTimeString())
+			res.json(resp.head)}
+		)
 	})
 	//消息模板管理列表
 	router.all('/msgModel_getList', function (req, res) {

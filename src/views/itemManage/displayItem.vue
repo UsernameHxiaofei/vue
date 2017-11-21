@@ -258,93 +258,93 @@
 </template>
 
 <script>
-    import expertTab from './itemDetail/expertTab'
-    import collarTab from './itemDetail/collarTab'
-    import investorTab from './displayItem/investorTab'
-    import planTab from './displayItem/planTab'
-    import rightTab from './displayItem/rightTab'
-    import detailIntroduction from './displayItem/detailIntroduction'
-    import enterpriseTeam from '../enterpriseManage/enterpriseInfo/enterpriseTeam'
+import expertTab from './itemDetail/expertTab'
+import collarTab from './itemDetail/collarTab'
+import investorTab from './displayItem/investorTab'
+import planTab from './displayItem/planTab'
+import rightTab from './displayItem/rightTab'
+import detailIntroduction from './displayItem/detailIntroduction'
+import enterpriseTeam from '../enterpriseManage/enterpriseInfo/enterpriseTeam'
 
-    export default {
-        beforeMount() {
-            this.$store.dispatch('item_getManageDetail', { id: this.$route.params.projectId }).then(() => {
-                if (this.itemManageDetail.leadInvestorIntentionId) {
-                    this.$store.dispatch('item_getLeadAd', { id: this.itemManageDetail.leadInvestorIntentionId })
-                }
-                if (this.itemManageDetail.enterpriseId) {
-                    this.$store.dispatch('enterprise_getInfo', { id: this.itemManageDetail.enterpriseId })
-                }
-                if (this.itemManageDetail.detailedIntroductionId) {
-                    this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId })
-                }
-                if (this.itemManageDetail.financingPlanId) {
-                    return this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId })
-                } else {
-                    return false
-                }
-            }).then(() => {
-                if (this.financingPlanData.id) {
-                    this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id })
-                }
-                if (this.financingPlanData.salesQuotaId) {
-                    this.$store.dispatch('item_getSalesQuota', { id: this.financingPlanData.salesQuotaId })
-                }
-                if (this.$route.params.projectId) {
-                    this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.projectId })
-                }
-                if (this.financingPlanData.rewardPlanId) {
-                    this.$store.dispatch('item_getRewardPlan', { id: this.financingPlanData.rewardPlanId })
-                }
-            })
-            this.$store.dispatch('item_getInvestUserInfo', { id: this.$route.params.projectId }).then(() => {
-                this.invertUserNum = this.$store.state.item.invertUserInfo && this.$store.state.item.invertUserInfo.length || 0
-            })
-            this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
-            this.$store.dispatch('item_getCreditAntiFraud', { id: this.$route.params.projectId })
-            this.$store.dispatch('item_getExpertAd', { id: this.$route.params.projectId })
-            this.$store.dispatch('item_selectMaterialByProjectId', { id: this.$route.params.projectId })
-        },
-        components: {
-            expertTab,
-            collarTab,
-            enterpriseTeam,
-            investorTab,
-            planTab,
-            rightTab,
-            detailIntroduction
-        },
-        computed: {
-            show: function () {
-                return this.$store.state.item.show
-            },
-            itemManageDetail: function () {
-                return this.$store.state.item.itemManageDetail || {}
-            },
-            financingPlanData: function () {
-                return this.$store.state.item.financingPlanData || {}
-            },
-            enterpriseInfo: function () {
-                return this.$store.state.enterprise.enterpriseInfo || {}
-            },
-            projectItem: function () {
-                return this.$store.state.item.show
-            },
-            leadAd: function () {
-                return this.$store.state.item.leadAd || {}
-            }
-        },
-        data() {
-            return {
-                activeName: '1',
-                invertUserNum: 0
-            }
-        },
-        methods: {
-            back() {
-                this.$router.go(-1)
-            }
-        }
-    }
+export default {
+	beforeMount() {
+		this.$store.dispatch('item_getManageDetail', { id: this.$route.params.projectId }).then(() => {
+			if (this.itemManageDetail.leadInvestorIntentionId) {
+				this.$store.dispatch('item_getLeadAd', { id: this.itemManageDetail.leadInvestorIntentionId })
+			}
+			if (this.itemManageDetail.enterpriseId) {
+				this.$store.dispatch('enterprise_getInfo', { id: this.itemManageDetail.enterpriseId })
+			}
+			if (this.itemManageDetail.detailedIntroductionId) {
+				this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId })
+			}
+			if (this.itemManageDetail.financingPlanId) {
+				return this.$store.dispatch('item_getFinancingPlan', { id: this.itemManageDetail.financingPlanId })
+			} else {
+				return false
+			}
+		}).then(() => {
+			if (this.financingPlanData.id) {
+				this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id })
+			}
+			if (this.financingPlanData.salesQuotaId) {
+				this.$store.dispatch('item_getSalesQuota', { id: this.financingPlanData.salesQuotaId })
+			}
+			if (this.$route.params.projectId) {
+				this.$store.dispatch('item_selectInvestorConditionByFinId', { id: this.$route.params.projectId })
+			}
+			if (this.financingPlanData.rewardPlanId) {
+				this.$store.dispatch('item_getRewardPlan', { id: this.financingPlanData.rewardPlanId })
+			}
+		})
+		this.$store.dispatch('item_getInvestUserInfo', { id: this.$route.params.projectId }).then(() => {
+			this.invertUserNum = this.$store.state.item.invertUserInfo && this.$store.state.item.invertUserInfo.length || 0
+		})
+		this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
+		this.$store.dispatch('item_getCreditAntiFraud', { id: this.$route.params.projectId })
+		this.$store.dispatch('item_getExpertAd', { id: this.$route.params.projectId })
+		this.$store.dispatch('item_selectMaterialByProjectId', { id: this.$route.params.projectId })
+	},
+	components: {
+		expertTab,
+		collarTab,
+		enterpriseTeam,
+		investorTab,
+		planTab,
+		rightTab,
+		detailIntroduction
+	},
+	computed: {
+		show: function () {
+			return this.$store.state.item.show
+		},
+		itemManageDetail: function () {
+			return this.$store.state.item.itemManageDetail || {}
+		},
+		financingPlanData: function () {
+			return this.$store.state.item.financingPlanData || {}
+		},
+		enterpriseInfo: function () {
+			return this.$store.state.enterprise.enterpriseInfo || {}
+		},
+		projectItem: function () {
+			return this.$store.state.item.show
+		},
+		leadAd: function () {
+			return this.$store.state.item.leadAd || {}
+		}
+	},
+	data() {
+		return {
+			activeName: '1',
+			invertUserNum: 0
+		}
+	},
+	methods: {
+		back() {
+			this.$router.go(-1)
+		}
+	}
+}
 
 </script>

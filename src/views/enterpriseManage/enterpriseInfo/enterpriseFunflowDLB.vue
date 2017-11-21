@@ -151,7 +151,17 @@ export default {
 			let myChart = echarts.init(document.getElementById('enterpriseDLBchart'), 'customed')
 			// 指定图表的配置项和数据
 			let option = {
-				title: { text: '店铺订单收入', left: '300' }, tooltip: { trigger: 'axis' },
+				title: { text: '店铺订单收入', left: '300' }, 
+				tooltip: {
+					trigger: 'axis', formatter: function (params) {
+						let content=[]
+						for (let i = 0; i < params.length; i++) {
+							const item = params[i]
+							content.push('<span style="background:'+item.color+';" class="echart-dot"></span>'+item.seriesName+'：'+Number(item.value[1].toFixed(2)) + '元')
+						}
+						return content.join('</br>')
+					}
+				},
 				legend: { data: ['收入'], right: 100, orient: 'vertical' },
 				xAxis: {
 					type: 'time', position: 'bottom', axisPointer: {

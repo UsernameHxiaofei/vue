@@ -120,7 +120,7 @@ export default {
 	computed: {
 		drawbackHeadInfo: function () {
 			return this.$store.state.money.drawbackHeadInfo
-        },
+		},
 		drawbackGetList: function () {
 			if (!this.$store.state.money.drawbackGetList) {
 				return{
@@ -130,28 +130,28 @@ export default {
 				}
 			}else{
 				return this.$store.state.money.drawbackGetList
-            }
+			}
 		},
 		passOperate: function () {
 			return this.$store.state.money.passOperate
-        },
+		},
 		failOperate: function () {
 			return this.$store.state.money.failOperate
-        },
+		},
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 	},
 	beforeMount() {
 		this.$store.dispatch('drawback_headInfo')
-        this.param = {
+		this.param = {
 			keyword: this.keyword,
 			status: this.projectStatu,
 			pageNo: 1,
 			pageSize: 10
 		}
 		this.$store.dispatch('drawback_getList', this.param)
-    },
+	},
 	data() {
 		return {
 			btnStatus: false,
@@ -179,22 +179,22 @@ export default {
 							type: 'success',
 							message: '已成功通过!'
 						})
-                        this.$store.dispatch('drawback_getList', this.param)
+						this.$store.dispatch('drawback_getList', this.param)
 
-                    } else {
+					} else {
 						this.$message({
 							type: 'warning',
 							message: '通过失败!'
 						})
-                    }
+					}
 				}, 300)
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		//拒绝
 		fail(data) {
 			this.$confirm('您确定拒绝吗?', '提示', {
@@ -212,42 +212,42 @@ export default {
 							type: 'success',
 							message: '已拒绝!'
 						})
-                        this.$store.dispatch('drawback_getList', this.param)
-                    } else {
+						this.$store.dispatch('drawback_getList', this.param)
+					} else {
 						this.$message({
 							type: 'warning',
 							message: '拒绝失败!'
 						})
-                    }
+					}
 				}, 300)
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		// 搜索
 		handleIconClick() {
 			this.param.keyword = this.keyword
-            this.param.pageNo = 1
-            this.$store.dispatch('drawback_getList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('drawback_getList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.pageSize = size
-            this.param.pageNo = 1
-            this.$store.dispatch('drawback_getList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('drawback_getList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.pageNo = page
-            this.$store.dispatch('drawback_getList', this.param)
-        },
+			this.$store.dispatch('drawback_getList', this.param)
+		},
 		// 选择项目状态
 		itemStatus(lv) {
 			this.param.status = lv
-            this.$store.dispatch('drawback_getList', this.param)
-        },
+			this.$store.dispatch('drawback_getList', this.param)
+		},
 	}
 }
 </script>

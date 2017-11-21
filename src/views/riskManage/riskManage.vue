@@ -254,11 +254,10 @@ export default {
 			this.riskfun=false
 		},
 		handleRisk(item,rv){
-			console.log(item,rv)
 			this.tempItem=item
 			if(rv.id==1){//资金风险
 				this.riskfun=true
-                    return
+				return
 			}
 			if(rv.id==2){
 				this.$store.dispatch('item_getManageDetail',  {id: item.projectId}).then(()=>{
@@ -283,13 +282,12 @@ export default {
 					for (let n = 0;riskRegion&&n < riskRegion.length;n++){
 						if(riskRegion[n].id===risk.category){
 							riskRegion[n].lv=risk.level
-                                    break
+							break
 						}
 					}     
 				}
 				item.riskRegion=riskRegion
 			}
-			console.log(this.listData)
 		},
 		changeindustry(ind){
 			this.param.industry=ind

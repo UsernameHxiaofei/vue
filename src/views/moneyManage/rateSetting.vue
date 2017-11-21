@@ -259,7 +259,7 @@ export default {
 	computed: {
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 		idFundRule: function () {
 			if (!this.$store.state.money.idFundRule) {
 				return {
@@ -281,10 +281,10 @@ export default {
 					minInvestPenaltyPercent: '',
 					maxInvestPenaltyPercent: '',
 					simulatePercent:''
-                }
-            } else {
+				}
+			} else {
 				return this.$store.state.money.idFundRule
-            }
+			}
 		},
 		overallFundRule: function () {
 			if (!this.$store.state.money.overallFundRule) {
@@ -307,17 +307,17 @@ export default {
 					minInvestPenaltyPercent: '',
 					maxInvestPenaltyPercent: '',
 					simulatePercent:''
-                }
-            } else {
+				}
+			} else {
 				return this.$store.state.money.overallFundRule
-            }
+			}
 		},
 		modifyFundRule: function () {
 			return this.$store.state.money.modifyFundRule
-        },
+		},
 		rateGetList: function () {
 			return this.$store.state.money.rateGetList
-        }
+		}
 	},
 	beforeMount() {
 		this.param = {
@@ -327,7 +327,7 @@ export default {
 			number: 10
 		}
 		this.$store.dispatch('rate_getList', this.param)
-    },
+	},
 	data() {
 		return {
 			param: {},
@@ -427,7 +427,7 @@ export default {
 		//取消
 		cancel() {
 			this.$refs['rateForm'].resetFields()
-            this.rateForm={
+			this.rateForm={
 				createUserId: '',
 				updateUserId: '',
 				ruleId: '',
@@ -446,14 +446,14 @@ export default {
 				minInvestPenaltyPercent: '',
 				maxInvestPenaltyPercent: '',
 				simulatePercent:''
-                }
-            this.dialogRateVisible = false
-            this.$store.dispatch('rate_getList', this.param)
-        },
+			}
+			this.dialogRateVisible = false
+			this.$store.dispatch('rate_getList', this.param)
+		},
 		//取消
 		quit() {
 			this.$refs['overallForm'].resetFields()
-            this.overallForm={
+			this.overallForm={
 				createUserId: '',
 				updateUserId: '',
 				ruleId: '',
@@ -472,103 +472,103 @@ export default {
 				minInvestPenaltyPercent: '',
 				maxInvestPenaltyPercent: '',
 				simulatePercent:''
-                }
-            this.dialogOverallVisible = false
-            this.$store.dispatch('rate_getList', this.param)
-        },
+			}
+			this.dialogOverallVisible = false
+			this.$store.dispatch('rate_getList', this.param)
+		},
 		// 搜索
 		handleIconClick() {
 			this.param.projectName = this.keyword
-            this.param.page = 1
-            this.$store.dispatch('rate_getList', this.param)
-        },
+			this.param.page = 1
+			this.$store.dispatch('rate_getList', this.param)
+		},
 		//分页
 		handleSizeChange(val) {
 			this.param.number = val
-            this.param.page = 1
-            this.$store.dispatch('rate_getList', this.param)
-        },
+			this.param.page = 1
+			this.$store.dispatch('rate_getList', this.param)
+		},
 		handleCurrentChange(val) {
 			this.param.page = val
-            this.$store.dispatch('rate_getList', this.param)
-        },
+			this.$store.dispatch('rate_getList', this.param)
+		},
 		// 选择项目状态
 		changeItemStatus(lv) {
 			this.param.projectStatus = lv
-            this.$store.dispatch('rate_getList', this.param)
-        },
+			this.$store.dispatch('rate_getList', this.param)
+		},
 		//点击设置参数规则
 		openRate(data) {
 			let idParam = {
 				ownId: data.projectId
 			}
 			this.editProjectType=data.type
-            this.projectId = data.projectId
-            this.$store.dispatch('id_fundRule2', idParam).then(() => {
+			this.projectId = data.projectId
+			this.$store.dispatch('id_fundRule2', idParam).then(() => {
 				this.rateForm = {}
-                this.rateForm = this.idFundRule
-                this.dialogRateVisible = true;
+				this.rateForm = this.idFundRule
+				this.dialogRateVisible = true
 			})
-            // if(data.projectPhase>7){
-            // }else{
-            //     this.$store.dispatch('id_fundRule', idParam).then(() => {
-            //         this.rateForm = {};
-            //         this.rateForm = this.idFundRule;
-            //         this.dialogRateVisible = true;
-            //     });
-            // }
-        },
+			// if(data.projectPhase>7){
+			// }else{
+			//     this.$store.dispatch('id_fundRule', idParam).then(() => {
+			//         this.rateForm = {};
+			//         this.rateForm = this.idFundRule;
+			//         this.dialogRateVisible = true;
+			//     });
+			// }
+		},
 		//保存已设置好或修改好的参数规则
 		setRate() {
 			this.rateForm.ownId = this.projectId
-            this.editProjectType='A'
-            let formParam = {
+			this.editProjectType='A'
+			let formParam = {
 				ltFundsRule: this.rateForm
 			}
 			this.$refs['rateForm'].validate((valid) => {
 				if (valid) {
 					if (this.rateForm.ruleId) {
 						this.rateForm.updateUserId = this.actor.id
-                        this.$store.dispatch('modify_fundRule', formParam).then(() => {
+						this.$store.dispatch('modify_fundRule', formParam).then(() => {
 							if (this.modifyFundRule.success) {
 								this.$message({
 									message: '修改规则参数成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('rate_getList', this.param)
-                                this.dialogRateVisible = false
-                            } else {
+								this.$store.dispatch('rate_getList', this.param)
+								this.dialogRateVisible = false
+							} else {
 								this.$message('修改失败')
-                            }
+							}
 						}, 300)
-                    } else {
+					} else {
 						this.rateForm.createUserId = this.actor.id
-                        this.$store.dispatch('modify_fundRule', formParam).then(() => {
+						this.$store.dispatch('modify_fundRule', formParam).then(() => {
 							if (this.modifyFundRule.success) {
 								this.$message({
 									message: '规则参数设置成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('rate_getList', this.param)
-                                this.dialogRateVisible = false
-                            } else {
+								this.$store.dispatch('rate_getList', this.param)
+								this.dialogRateVisible = false
+							} else {
 								this.$message('设置失败')
-                            }
+							}
 						}, 300)
-                    }
+					}
 				} else {
 					alert('error submit!!')
-                    return false
-                }
+					return false
+				}
 			})
-        },
+		},
 		//点击设置全局参数规则
 		openOverall() {
 			this.$store.dispatch('overall_fundRule').then(() => {
 				this.overallForm = this.overallFundRule
-                this.dialogOverallVisible = true;
+				this.dialogOverallVisible = true
 			})
-        },
+		},
 		//保存已设置好或修改好的全局参数规则
 		setOverallRate() {
 			let formParam = {
@@ -578,40 +578,40 @@ export default {
 				if (valid) {
 					if (this.overallForm.ruleId) {
 						this.overallForm.updateUserId = this.actor.id
-                        this.$store.dispatch('modify_fundRule', formParam).then(() => {
+						this.$store.dispatch('modify_fundRule', formParam).then(() => {
 							if (this.modifyFundRule.success) {
 								this.$message({
 									message: '修改全局资金规则参数成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('rate_getList', this.param)
-                                this.dialogOverallVisible = false
-                            } else {
+								this.$store.dispatch('rate_getList', this.param)
+								this.dialogOverallVisible = false
+							} else {
 								this.$message('修改失败')
-                            }
+							}
 						}, 300)
-                    } else {
+					} else {
 						this.overallForm.createUserId = this.actor.id
-                        this.$store.dispatch('modify_fundRule', formParam).then(() => {
+						this.$store.dispatch('modify_fundRule', formParam).then(() => {
 							if (this.modifyFundRule.success) {
 								this.$message({
 									message: '全局资金规则参数设置成功！',
 									type: 'success'
 								})
-                                this.$store.dispatch('rate_getList', this.param)
-                                this.dialogOverallVisible = false
-                            } else {
+								this.$store.dispatch('rate_getList', this.param)
+								this.dialogOverallVisible = false
+							} else {
 								this.$message('设置失败')
-                            }
-						}, 300);
+							}
+						}, 300)
 					}
 
 				} else {
 					alert('error submit!!')
-                    return false
-                }
+					return false
+				}
 			})
-        },
+		},
 
 	}
 }

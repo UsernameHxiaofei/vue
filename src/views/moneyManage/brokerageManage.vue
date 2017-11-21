@@ -276,28 +276,28 @@ export default {
 	computed: {
 		moneySelectData: function () {
 			return this.$store.state.money.moneySelectData
-        },
+		},
 		headBrokerageFeeData: function () {
 			if(this.$store.state.money.headBrokerageFeeData)return this.$store.state.money.headBrokerageFeeData
-            else return {}
+			else return {}
 		},
 		brokerageFeeList: function () {
 			return this.$store.state.money.brokerageFeeList
-        },
+		},
 		isCollection: function () {
 			return this.$store.state.money.isCollection
-        },
+		},
 		shareProfit: function () {
 			return this.$store.state.money.shareProfit
-        },
+		},
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 	},
 	beforeMount() {
 		this.$store.dispatch('getHeadBrokerageFee')
-        this.$store.dispatch('moneySelect_getData')
-        this.param = {
+		this.$store.dispatch('moneySelect_getData')
+		this.param = {
 			projectName: this.search_value,
 			transactionStatus: this.moneySelectOption,
 			projectStatus: this.itemStatusOption,
@@ -305,30 +305,30 @@ export default {
 			number: 10,
 		}
 		this.$store.dispatch('getBrokerageFeeList', this.param)
-    },
+	},
 	methods: {
 		// 搜索
 		handleIconClick() {
 			this.param.projectName = this.search_value
-            this.param.page = 1
-            this.$store.dispatch('getBrokerageFeeList', this.param)
-        },
+			this.param.page = 1
+			this.$store.dispatch('getBrokerageFeeList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.number = size
-            this.param.page = 1
-            this.$store.dispatch('getBrokerageFeeList', this.param)
-        },
+			this.param.page = 1
+			this.$store.dispatch('getBrokerageFeeList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.page = page
-            this.$store.dispatch('getBrokerageFeeList', this.param)
-        },
+			this.$store.dispatch('getBrokerageFeeList', this.param)
+		},
 		// 点击分成
 		openLook(data) {
 			this.form = data
-            this.projectId=data.projectId
-            this.dialogLookVisible = true
-        },
+			this.projectId=data.projectId
+			this.dialogLookVisible = true
+		},
 		bonus(){
 			let shareParam = {
 				projectId: this.projectId,
@@ -340,26 +340,26 @@ export default {
 						type: 'success',
 						message: '分红成功!'
 					})
-                        this.dialogLookVisible = false
-                        this.$store.dispatch('getBrokerageFeeList', this.param)
-                    } else {
+					this.dialogLookVisible = false
+					this.$store.dispatch('getBrokerageFeeList', this.param)
+				} else {
 					this.$message({
 						type: 'info',
 						message: this.shareProfit.message
 					})
-                    }
+				}
 			}, 300)
-        },
+		},
 		// 选择收费状态
 		feeStatus(ind) {
 			this.param.transactionStatus = ind
-            this.$store.dispatch('getBrokerageFeeList', this.param)
-        },
+			this.$store.dispatch('getBrokerageFeeList', this.param)
+		},
 		// 选择项目状态
 		itemStatus(lv) {
 			this.param.projectStatus = lv
-            this.$store.dispatch('getBrokerageFeeList', this.param)
-        },
+			this.$store.dispatch('getBrokerageFeeList', this.param)
+		},
 		//点击催收按钮
 		collection(data) {
 			this.$confirm('此操作将进行催收操作, 是否继续?', '提示', {
@@ -376,20 +376,20 @@ export default {
 							type: 'success',
 							message: '催收成功!'
 						})
-                    } else {
+					} else {
 						this.$message({
 							type: 'info',
 							message: this.isCollection.message
 						})
-                    }
+					}
 				}, 300)
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消催收'
-				});
+				})
 			})
-        }
+		}
 	}
 }
 </script>

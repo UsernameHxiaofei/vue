@@ -2,7 +2,7 @@ const { StuffClient } = require('./client')
 const express = require('express')
 const router = express.Router()
 
-let sc = new StuffClient('127.0.0.1', 8882)
+let sc = new StuffClient('127.0.0.1', 8883)
 if (process.env.NODE_ENV === 'production') {
 	if (process.env.server === 'test') {
 		sc = new StuffClient('10.240.240.147', 9880)
@@ -44,6 +44,7 @@ router.all('/fileupload', multer().single('file'), function(req, res) { //上传
 })
 //上传头像截图信息
 router.all('/fileuploadBlob', multer().single('file'), function(req, res) { //上传组件必须有data{fileType:1}
+	console.log('time 123456'+new Date().getTime());
 	let param = req.body
 	const stuff = sc.instanceRequest('FileManage', 'fileUpload', 'fileManage')
 	stuff.items = [param.name, 2, 'N'] // fileType：1文件，2图片
@@ -51,6 +52,7 @@ router.all('/fileuploadBlob', multer().single('file'), function(req, res) { //�
 		[passport]: req.session.passport }
 	stuff.essences = [sc.instanceEssence(null, req.file.buffer)]
 	sc.send(stuff).then((resp) => {
+		console.log('time 1234567'+new Date().getTime());
 		res.json(resp)
 	})
 })

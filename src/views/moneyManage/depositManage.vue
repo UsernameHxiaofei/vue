@@ -247,22 +247,22 @@ export default {
 	computed: {
 		moneyPromiseList: function () {
 			return this.$store.state.money.moneyPromiseList
-        },
+		},
 		moneyGetHeadInfo: function () {
 			return this.$store.state.money.moneyGetHeadInfo
-        },
+		},
 		bailRefund: function () {
 			return this.$store.state.money.bailRefund
-        },
+		},
 		leaderCollect: function () {
 			return this.$store.state.money.leaderCollect
-        },
+		},
 		itemCollect: function () {
 			return this.$store.state.money.itemCollect
-        },
+		},
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 	},
 	beforeMount() {
 		this.param = {
@@ -272,8 +272,8 @@ export default {
 			pageSize: 10
 		}
 		this.$store.dispatch('money_promiseList', this.param)
-        this.$store.dispatch('money_getHeadInfo')
-    },
+		this.$store.dispatch('money_getHeadInfo')
+	},
 	data() {
 		return {
 			finished: false,
@@ -304,31 +304,31 @@ export default {
 		// 搜索
 		handleIconClick() {
 			this.param.keyword = this.keyword
-            this.param.pageNo = 1
-            this.$store.dispatch('money_promiseList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('money_promiseList', this.param)
+		},
 		// 分页
 		handleSizeChange(size) {
 			this.param.pageSize = size
-            this.param.pageNo = 1
-            this.$store.dispatch('money_promiseList', this.param)
-        },
+			this.param.pageNo = 1
+			this.$store.dispatch('money_promiseList', this.param)
+		},
 		handleCurrentChange(page) {
 			this.param.pageNo = page
-            this.$store.dispatch('money_promiseList', this.param)
-        },
+			this.$store.dispatch('money_promiseList', this.param)
+		},
 		// 选择项目状态
 		itemStatus(lv) {
 			this.param.status = lv
-            this.$store.dispatch('money_promiseList', this.param)
-        },
+			this.$store.dispatch('money_promiseList', this.param)
+		},
 		openLook(data) {
 			this.lookForm = data
-            this.projectId = data.projectId
-            this.leadTransactionId = data.leadTransactionId
-            this.initTransactionId = data.initTransactionId
-            this.dialogLookVisible = true
-        },
+			this.projectId = data.projectId
+			this.leadTransactionId = data.leadTransactionId
+			this.initTransactionId = data.initTransactionId
+			this.dialogLookVisible = true
+		},
 		//领投的退款
 		drawback() {
 			this.$confirm('您确定申请退款吗?', '提示', {
@@ -348,28 +348,28 @@ export default {
 								type: 'warning',
 								message: '退款失败！'+this.bailRefund.mesg
 							})
-                        } else {
+						} else {
 							this.$message({
 								type: 'success',
 								message: '退款申请成功!'
 							})
-                        }
+						}
 						this.dialogLookVisible = false
-                        this.$store.dispatch('money_promiseList', this.param)
-                    } else {
+						this.$store.dispatch('money_promiseList', this.param)
+					} else {
 						this.$message({
 							type: 'info',
 							message: '退款失败!'
 						})
-                    }
+					}
 				})
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		//项目方的退款
 		initDrawback() {
 			this.$confirm('您确定申请退款吗?', '提示', {
@@ -389,28 +389,28 @@ export default {
 								type: 'warning',
 								message: '退款失败！'+this.bailRefund.mesg
 							})
-                        } else {
+						} else {
 							this.$message({
 								type: 'success',
 								message: '退款申请成功!'
 							})
-                        }
+						}
 						this.dialogLookVisible = false
-                        this.$store.dispatch('money_promiseList', this.param)
-                    } else {
+						this.$store.dispatch('money_promiseList', this.param)
+					} else {
 						this.$message({
 							type: 'info',
 							message: '退款失败!'
 						})
-                    }
+					}
 				})
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		//领投的催收
 		leadCollect() {
 			this.$confirm('您确定催收吗?', '提示', {
@@ -427,22 +427,22 @@ export default {
 							type: 'success',
 							message: '催收成功!'
 						})
-                        this.dialogLookVisible = false
-                        this.$store.dispatch('money_promiseList', this.param)
-                    } else {
+						this.dialogLookVisible = false
+						this.$store.dispatch('money_promiseList', this.param)
+					} else {
 						this.$message({
 							type: 'info',
 							message: this.leaderCollect.message
 						})
-                    }
+					}
 				})
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        },
+		},
 		//项目方的催收
 		initCollect() {
 			this.$confirm('您确定催收吗?', '提示', {
@@ -459,22 +459,22 @@ export default {
 							type: 'success',
 							message: '催收成功!'
 						})
-                        this.dialogLookVisible = false
-                        this.$store.dispatch('money_promiseList', this.param)
-                    } else {
+						this.dialogLookVisible = false
+						this.$store.dispatch('money_promiseList', this.param)
+					} else {
 						this.$message({
 							type: 'info',
 							message: this.itemCollect.message
 						})
-                    }
+					}
 				})
-            }).catch(() => {
+			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消'
-				});
+				})
 			})
-        }
+		}
 	}
 }
 </script>

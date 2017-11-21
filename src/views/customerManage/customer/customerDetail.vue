@@ -186,19 +186,19 @@ export default {
 	},
 	computed: {
 		customerInfoByCustomerId: function () {
-			return this.$store.state.customer.customerInfoByCustomerId;
+			return this.$store.state.customer.customerInfoByCustomerId
 		},
 		customerInfoByActorId: function () {
-			return this.$store.state.customer.customerInfoByActorId;
+			return this.$store.state.customer.customerInfoByActorId
 		},
 		systemClosureUser: function () {
-			return this.$store.state.system.systemClosureUser;
+			return this.$store.state.system.systemClosureUser
 		},
 		resetLoginPasswordStatus: function () {
-			return this.$store.state.customer.resetLoginPasswordStatus;
+			return this.$store.state.customer.resetLoginPasswordStatus
 		},
 		updateMobileAndEmailByIdStatus: function () {
-			return this.$store.state.customer.updateMobileAndEmailByIdStatus;
+			return this.$store.state.customer.updateMobileAndEmailByIdStatus
 		},
 
 	},
@@ -208,7 +208,7 @@ export default {
 			dialogFormVisible: false,
 			dialogClosureVisible: false,
 			resetPasswordVisible:false,
-			title: "编辑账号",
+			title: '编辑账号',
 			formLabelWidth: '120px',
 			actor: {
 				status: '',
@@ -234,7 +234,7 @@ export default {
 		}
 	},
 	beforeMount() {
-		this.customerInit();
+		this.customerInit()
 	},
 	methods: {
 		customerInit() {
@@ -243,15 +243,15 @@ export default {
 			}
 			this.$store.dispatch('customerInfoByActorId', actorParams).then(()=>{
 				if(this.customerInfoByActorId.email){
-                    this.customerInfoByActorId.email=this.customerInfoByActorId.email.address;
-                }else{
-                    this.customerInfoByActorId.email='';
-                }
+					this.customerInfoByActorId.email=this.customerInfoByActorId.email.address
+				}else{
+					this.customerInfoByActorId.email=''
+				}
 			})
 			let customerParams = {
 				id: this.$route.params.customerId
 			}
-			this.$store.dispatch('customerInfoByCustomerId', customerParams);
+			this.$store.dispatch('customerInfoByCustomerId', customerParams)
 		},
 		editAccount() {
 			this.$refs['customer'].validate((valid) => {
@@ -264,33 +264,33 @@ export default {
 								type: 'success'
 							})
 							
-							this.customerInit();
-							this.dialogFormVisible = false;
+							this.customerInit()
+							this.dialogFormVisible = false
 							
 						} else {
-							this.customerInit();
-							this.$message.error('修改失败');
+							this.customerInit()
+							this.$message.error('修改失败')
 						}
-					});
+					})
 				}
-			});
+			})
 		},
 		accountOperation() {
 			if (this.customerInfoByActorId.status == 1) {
-				this.dialogClosureVisible = true;
+				this.dialogClosureVisible = true
 			} else {
-				this.actor.status = 1;
-				this.actor.actorId = this.customerInfoByActorId.id;
+				this.actor.status = 1
+				this.actor.actorId = this.customerInfoByActorId.id
 				this.$store.dispatch('system_closureUser', this.actor).then(() => {
 					if (this.systemClosureUser.success) {
 						this.$message({
 							message: '激活成功！',
 							type: 'success'
 						})
-						this.customerInit();
-						this.dialogFormVisible = false;
+						this.customerInit()
+						this.dialogFormVisible = false
 					} else {
-						this.$message.error('激活失败');
+						this.$message.error('激活失败')
 					}
 				})
 			}
@@ -298,23 +298,23 @@ export default {
 		closure() {
 			this.$refs['actor'].validate((valid) => {
 				if (valid) {
-					this.actor.status = 2;
-					this.actor.actorId = this.customerInfoByActorId.id;
+					this.actor.status = 2
+					this.actor.actorId = this.customerInfoByActorId.id
 					this.$store.dispatch('system_closureUser', this.actor).then(() => {
 						if (this.systemClosureUser.success) {
 							this.$message({
 								message: '封禁成功！',
 								type: 'success'
 							})
-							this.customerInit();
-							this.cancel('actor');
-							this.dialogClosureVisible = false;
+							this.customerInit()
+							this.cancel('actor')
+							this.dialogClosureVisible = false
 						} else {
-							this.$message.error('封禁失败');
+							this.$message.error('封禁失败')
 						}
 					})
 				}
-			});
+			})
 		},
 		reset() {
 			this.$confirm('此操作将重置客户登录口令, 是否继续?', '提示', {
@@ -331,23 +331,23 @@ export default {
 							message: '重置口令成功！',
 							type: 'success'
 						})
-						this.resetPassword=JSON.parse(this.resetLoginPasswordStatus.objectLiteral);
-						this.resetPasswordVisible = true;
-						this.customerInit();
+						this.resetPassword=JSON.parse(this.resetLoginPasswordStatus.objectLiteral)
+						this.resetPasswordVisible = true
+						this.customerInit()
 					} else {
-						this.$message.error('重置口令失败');
+						this.$message.error('重置口令失败')
 					}
 				})
 			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消重置'
-				});
-			});
+				})
+			})
 		},
 		cancel(formName) {
-			this.$refs[formName].resetFields();
-			this.dialogClosureVisible = false;
+			this.$refs[formName].resetFields()
+			this.dialogClosureVisible = false
 			// this.dialogFormVisible = false;
 		}
 	}

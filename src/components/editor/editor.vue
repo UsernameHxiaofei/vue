@@ -78,6 +78,7 @@ import { Loading } from 'element-ui'
 				target: document.getElementsByClassName('quill-editor')[0],
 				text: '正在上传'
 			})
+		
         xhr.onload = function () {
 				if (!xhr.response) {
 					self.$message.warning(JSON.parse(xhr.response).information)

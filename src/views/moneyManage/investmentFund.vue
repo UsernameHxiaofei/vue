@@ -90,10 +90,10 @@ export default {
 	computed: {
 		investmentFundData: function () {
 			return this.$store.state.money.investmentFundData
-    },
+		},
 		investGetHeadInfo: function () {
 			return this.$store.state.money.investGetHeadInfo
-    },
+		},
 	},
 	beforeMount() {
 		this.param = {
@@ -103,8 +103,8 @@ export default {
 			number: 10
 		}
 		this.$store.dispatch('investmentFund_getList', this.param)
-    this.$store.dispatch('invest_getHeadInfo')
-  },
+		this.$store.dispatch('invest_getHeadInfo')
+	},
 	data() {
 		return {
 			keyword: '',
@@ -115,27 +115,27 @@ export default {
 	methods: {
 		search() {
 			this.param.projectName = this.keyword
-      this.param.page = 1
-      this.$store.dispatch('investmentFund_getList', this.param)
-    },
+			this.param.page = 1
+			this.$store.dispatch('investmentFund_getList', this.param)
+		},
 		handleSizeChange(val) {
 			this.param.number = val
-      this.param.page = 1
-      this.$store.dispatch('investmentFund_getList', this.param)
-    },
+			this.param.page = 1
+			this.$store.dispatch('investmentFund_getList', this.param)
+		},
 		handleCurrentChange(val) {
 			this.param.page = val
-      this.$store.dispatch('investmentFund_getList', this.param)
-    },
+			this.$store.dispatch('investmentFund_getList', this.param)
+		},
 		statusChange() {
 			this.param.page = 1
-      this.param.projectStatus = this.itemStatus
-      this.$store.dispatch('investmentFund_getList', this.param)
-    },
+			this.param.projectStatus = this.itemStatus
+			this.$store.dispatch('investmentFund_getList', this.param)
+		},
 		investmentDetail(item) {
 			//stringify()用于从一个对象解析出字符串
 			sessionStorage.setItem('projectInfo',JSON.stringify(item))
-    },
+		},
 	}
 }
 </script>

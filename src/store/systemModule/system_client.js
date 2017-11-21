@@ -109,6 +109,16 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
+		showServiceIp: () => {
+			return Vue.http.get('showServiceIp').then(response => {
+				return response.body
+			})
+		},
+		showServiceInfoByIp: (param) => {
+			return Vue.http.post('showServiceInfoByIp',param).then(response => {
+				return response.body
+			})
+		},
 	} 
 }
 

@@ -118,35 +118,25 @@
                 </div>
                 <div class="money">
                     <el-form-item label="总投资额" prop="overallInvestment">
-                        <el-col :span="21">
                             <el-input v-model.number="planform.overallInvestment" placeholder="总投资额=目标融资额+已投入额+承诺出资">
                                 <template slot="append">万元</template>
                             </el-input>
-                        </el-col>
                     </el-form-item>
                     <el-form-item label="目标融资额" prop="financingAmount">
-                        <el-col :span="21">
                             <el-input v-model.number="planform.financingAmount" placeholder="请输入目标融资额">
                                 <template slot="append">万元</template>
                             </el-input>
-                            <!-- <el-input v-model.number="planform.financingAmount" placeholder="目标融资额<=总投资额*50%">
-                                <template slot="append">万元</template>
-                            </el-input> -->
-                        </el-col>
+                           
                     </el-form-item>
                     <el-form-item label="融资时间" required prop="financingDays">
-                        <el-col :span="21">
                             <el-input v-model.number="planform.financingDays" placeholder="请输入融资时间">
                                 <template slot="append">天以内</template>
                             </el-input>
-                        </el-col>
                     </el-form-item>
                     <el-form-item label="出让股份" required prop="transferringSharesRatio">
-                        <el-col :span="21">
-                            <el-input v-model.number="planform.transferringSharesRatio" :maxlength="2" placeholder="请输入出让股份比例">
+                            <el-input v-model.number="planform.transferringSharesRatio"  placeholder="请输入出让股份比例">
                                 <template slot="append">%</template>
                             </el-input>
-                        </el-col>
                     </el-form-item>
                     <el-form-item label="前期资金投入">
                         <el-form-item prop="isInvested">
@@ -154,11 +144,9 @@
                         </el-form-item>
                         <transition name="el-zoom-in-top">
                             <el-form-item prop="investedAmount" v-if="planform.isInvested">
-                                <el-col :span="21">
                                     <el-input v-model.number="planform.investedAmount" placeholder="项目前期已经投入经营的金额">
                                         <template slot="append">万元</template>
                                     </el-input>
-                                </el-col>
                             </el-form-item>
                         </transition>
                         <transition name="el-zoom-in-top">
@@ -297,7 +285,7 @@ export default {
 				],
 				summary: [
 					{ required: true, message: '请输入项目描述', trigger: 'blur' },
-					{ min: 2, max: 100, message: '长度在 2 到 80 个字符', trigger: 'blur' }
+					{ min: 2, max: 80, message: '长度在 2 到 80 个字符', trigger: 'blur' }
 				],
 				industry: [
 					{ required: true, type: 'number', message: '请选择行业分类', trigger: 'change' }
@@ -347,7 +335,7 @@ export default {
 				commitmentAmount: [
 					{ required: true, min: 0, type: 'number', message: '请输入数字', trigger: 'change' },
 					{
-						trigger: 'change,blur', validator: (rule, value, callback) => {
+						trigger: 'change,blur', validator: (rule, value, callback) => {	
 							let total = 0
 							if (this.planform.isInvested) {
 								total = this.planform.commitmentAmount + this.planform.investedAmount + this.planform.financingAmount

@@ -118,9 +118,7 @@ export default {
 		},
 	},
 	beforeMount() {
-		this.$store.dispatch('system_getPermissionList').then(()=>{
-      
-		})
+		this.$store.dispatch('system_getPermissionList')
 	},
 	data() {
 		return {

@@ -211,9 +211,8 @@ export default {
 						this.riskLine.DLB_IN_HIGH = parseInt(item.riskRuleGroup[0].riskRuleInfo[0].value)
 						break
 					case 'DLB_IN_MIDDLE':
-						let riskRuleInfo1 = item.riskRuleGroup[0].riskRuleInfo
-						for (let i = 0; i < riskRuleInfo1.length; i++) {
-							let it = riskRuleInfo1[i]
+						for (let i = 0; i < item.riskRuleGroup[0].riskRuleInfo.length; i++) {
+							let it = item.riskRuleGroup[0].riskRuleInfo[i]
 							if (it.relationName == '<=') {
 								this.riskLine.DLB_IN_MIDDLE = parseInt(it.value)
 							}

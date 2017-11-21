@@ -216,5 +216,21 @@ module.exports=function client(router,sc,passport){
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.head)})
 	})
-
+	router.all('/showServiceIp*', function (req, res) {
+		const stuff = sc.instanceRequest('LtSystemInfoTask', 'showServiceIp', 'ltSystemManagement')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = []
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
+	router.all('/showServiceInfoByIp*', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('LtSystemInfoTask', 'showServiceInfoByIp', 'ltSystemManagement')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.ipAddr,
+			param.startTime,
+			param.endTime
+		]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
 }

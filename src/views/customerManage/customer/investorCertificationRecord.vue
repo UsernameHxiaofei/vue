@@ -57,52 +57,52 @@
 <script>
 import assessment from './assessment.vue'
 export default {
-    components: {
-        assessment,
-    },
-    computed: {
-        investorData: function () {
-            if (!this.$store.state.customer.investorData) {
-                return {
-                    tel: '',
-                    realName: '',
-                    industryLevel: '',
-                    usualPlace: '',
-                    regionCode: '',
-                    organization: '',
-                    position: '',
-                    industry: '',
-                    identNumber: '',
-                }
-            } else {
-                return this.$store.state.customer.investorData;
+	components: {
+		assessment,
+	},
+	computed: {
+		investorData: function () {
+			if (!this.$store.state.customer.investorData) {
+				return {
+					tel: '',
+					realName: '',
+					industryLevel: '',
+					usualPlace: '',
+					regionCode: '',
+					organization: '',
+					position: '',
+					industry: '',
+					identNumber: '',
+				}
+			} else {
+				return this.$store.state.customer.investorData
 
-            }
-        },
-    },
-    data() {
-        return {
-            look: false
-        }
-    },
-    beforeMount() {
-        this.investorInit();
-    },
-    methods: {
-        investorInit() {
-            let param = {
-                id: this.$route.params.actorId,
-            }
-            this.$store.dispatch('investorByActorId', param)
-        },
-        lookAssessment() {
-            this.look = !this.look;
-        }
+			}
+		},
+	},
+	data() {
+		return {
+			look: false
+		}
+	},
+	beforeMount() {
+		this.investorInit()
+	},
+	methods: {
+		investorInit() {
+			let param = {
+				id: this.$route.params.actorId,
+			}
+			this.$store.dispatch('investorByActorId', param)
+		},
+		lookAssessment() {
+			this.look = !this.look
+		}
 
-    },
-    // this.$on('id-selected', function (id) {
-    //     // ...
-    // })
+	},
+	// this.$on('id-selected', function (id) {
+	//     // ...
+	// })
 }
 </script>
 <style scoped>

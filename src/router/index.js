@@ -51,6 +51,7 @@ const itemEdit = () => import('../views/itemManage/editItem/editItem.vue')
 const editRiskIndex =()=>import('../views/riskManage/riskSetting/editRiskIndex.vue')
 const riskIndexDetail=()=>import('../views/riskManage/riskSetting/riskIndexDetail.vue')
 const riskRegionContainer=()=>import('../views/riskManage/riskInfo/riskRegionContainer.vue')
+const monitor=()=>import('../views/systemManage/monitor.vue')
 
 const routes = [
   { path: '/main', component: MainView },
@@ -100,6 +101,7 @@ const routes = [
   { path: '/displayItem/:projectId', component: displayItem },
   { path: '/enterpriseDetail/:id', component: enterpriseDetail },
   { path: '/riskRegionContainer/:category/:projectId',component:riskRegionContainer },
+  { path: '/monitor',component:monitor },
   { path: '/', redirect: '/main' }
 ];
 

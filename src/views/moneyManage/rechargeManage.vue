@@ -113,26 +113,26 @@ export default {
 					text: '最近一周',
 					onClick(picker) {
 						const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
-                        picker.$emit('pick', [start, end])
-                    }
+						const start = new Date()
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 7)
+						picker.$emit('pick', [start, end])
+					}
 				}, {
 					text: '最近一个月',
 					onClick(picker) {
 						const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
-                        picker.$emit('pick', [start, end])
-                    }
+						const start = new Date()
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 30)
+						picker.$emit('pick', [start, end])
+					}
 				}, {
 					text: '最近三个月',
 					onClick(picker) {
 						const end = new Date()
-                        const start = new Date()
-                        start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
-                        picker.$emit('pick', [start, end])
-                    }
+						const start = new Date()
+						start.setTime(start.getTime() - 3600 * 1000 * 24 * 90)
+						picker.$emit('pick', [start, end])
+					}
 				}],
 			}
 		}
@@ -146,56 +146,55 @@ export default {
 			page: 1,
 			number: 10
 		}
-		console.log(this.rechargeParam)
-        //条件查询充值记录
-        this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        //获取交易状态的所有状态信息
-        this.$store.dispatch('getAll_transactionStatus')
-        //获取充值记录的统计结果
-        this.$store.dispatch('get_topupStatResult',this.rechargeParam)
-    },
+		//条件查询充值记录
+		this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		//获取交易状态的所有状态信息
+		this.$store.dispatch('getAll_transactionStatus')
+		//获取充值记录的统计结果
+		this.$store.dispatch('get_topupStatResult',this.rechargeParam)
+	},
 	computed: {
 		topupByConditions: function () {
 			return this.$store.state.money.topupByCondition
-        },
+		},
 		transactionStatuses: function () {
 			return this.$store.state.money.transactionStatus
-        },
+		},
 		topupStatResults: function () {
 			return this.$store.state.money.topupStatResult
-        }
+		}
 	},
 	methods: {
 		handleIconClick() {
 			this.rechargeParam.fuzzy = this.keyword
-            this.rechargeParam.page = 1
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        },
+			this.rechargeParam.page = 1
+			this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		},
 		handleSizeChange(val) {
 			//console.log(`每页 ${val} 条`);
 			this.rechargeParam.number = val
-            this.rechargeParam.page = 1
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        },
+			this.rechargeParam.page = 1
+			this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		},
 		handleCurrentChange(val) {
 			this.rechargeParam.page = val
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        },
+			this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		},
 		startChange(v){
 			this.rechargeParam.startDate = v?v:null
-            this.$store.dispatch('get_topupStatResult',this.rechargeParam)
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        },
+			this.$store.dispatch('get_topupStatResult',this.rechargeParam)
+			this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		},
 		endChange(v){
 			this.rechargeParam.endDate =v?v:null
-            this.$store.dispatch('get_topupStatResult',this.rechargeParam)
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        },
+			this.$store.dispatch('get_topupStatResult',this.rechargeParam)
+			this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		},
 		statusChange() {
 			this.rechargeParam.pageNum = 1
-            this.rechargeParam.statusCode = this.statusCode
-            this.$store.dispatch('find_topupByCondition', this.rechargeParam)
-        },
+			this.rechargeParam.statusCode = this.statusCode
+			this.$store.dispatch('find_topupByCondition', this.rechargeParam)
+		},
 	}
 }
 </script>
