@@ -26,7 +26,7 @@ require('./server_routers/enterprise_router')(router, sc, passport)
 require('./server_routers/system_router')(router, sc, passport)
 require('./server_routers/money_router')(router, sc, passport)
 require('./server_routers/item_router')(router, sc, passport)
-require('./server_routers/contont_router')(router, sc, passport)
+require('./server_routers/content_router')(router, sc, passport)
 require('./server_routers/employee_router')(router,sc, passport)
 
 //上传下载 通用
@@ -44,7 +44,6 @@ router.all('/fileupload', multer().single('file'), function(req, res) { //上传
 })
 //上传头像截图信息
 router.all('/fileuploadBlob', multer().single('file'), function(req, res) { //上传组件必须有data{fileType:1}
-	console.log('time 123456'+new Date().getTime());
 	let param = req.body
 	const stuff = sc.instanceRequest('FileManage', 'fileUpload', 'fileManage')
 	stuff.items = [param.name, 2, 'N'] // fileType：1文件，2图片
@@ -52,7 +51,6 @@ router.all('/fileuploadBlob', multer().single('file'), function(req, res) { //�
 		[passport]: req.session.passport }
 	stuff.essences = [sc.instanceEssence(null, req.file.buffer)]
 	sc.send(stuff).then((resp) => {
-		console.log('time 1234567'+new Date().getTime());
 		res.json(resp)
 	})
 })

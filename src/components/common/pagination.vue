@@ -28,14 +28,14 @@ export default {
 	watch: {
 		total:function(v){
 			this.totalCount=v
-      }
+		}
 	},
 	data() {
 		return {
 			currentPage: 1,
 			totalCount:this.total||0
-      }
-    }
+		}
+	}
 }
 </script>
 <style>

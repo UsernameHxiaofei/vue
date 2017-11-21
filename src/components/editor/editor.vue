@@ -13,9 +13,10 @@
 </template>
 
 <script>
+/* eslint-disable no-undef, no-unused-vars */
 import { Loading } from 'element-ui'
 
-  export default {
+export default {
 	name: 'quill-editor',
 	data() {
 		return {
@@ -53,7 +54,7 @@ import { Loading } from 'element-ui'
 			}
 		}
 	},
-	beforeMount() {
+	mounted (){
 		this.initialize()
 	},
 	beforeDestroy() {
@@ -62,34 +63,34 @@ import { Loading } from 'element-ui'
 	methods: {
 		handleImage(flag) {
 			this.addImgRange = this.quill.getSelection()
-        if (flag) {
+			if (flag) {
 				let fileInput = document.getElementById('quill')
-          fileInput.click()
-        }
+				fileInput.click()
+			}
 		},
-		uploadImage(form) {
+		uploadImage() {
 			let fileInput = document.getElementById('quill')
-        let formData = new FormData()
-        formData.append('file', fileInput.files[0])
-        let xhr = new XMLHttpRequest()
-        xhr.open('post', '/ajax/fileupload')
-        let self = this
-        const loading = Loading.service({
+			let formData = new FormData()
+			formData.append('file', fileInput.files[0])
+			let xhr = new XMLHttpRequest()
+			xhr.open('post', '/ajax/fileupload')
+			let self = this
+			const loading = Loading.service({
 				target: document.getElementsByClassName('quill-editor')[0],
 				text: '正在上传'
 			})
 		
-        xhr.onload = function () {
+			xhr.onload = function () {
 				if (!xhr.response) {
 					self.$message.warning(JSON.parse(xhr.response).information)
-          } else if (xhr.status == 200) {
+				} else if (xhr.status == 200) {
 					self.quill.insertEmbed(self.addImgRange.index || 0, 'image', JSON.parse(JSON.parse(xhr.response).objectLiteral))
-          }
+				}
 				fileInput.value = ''
-          loading.close();
-        }
-        xhr.send(formData)
-      },
+				loading.close()
+			}
+			xhr.send(formData)
+		},
 		initialize() {
 			if (this.$el) {
 

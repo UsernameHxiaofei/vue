@@ -92,30 +92,30 @@ export default {
 			msgType:3,
 			pageNo: 1,
 			pageSize: 10,
-        }
-      this.$store.dispatch('select_webMessageByActorid', this.actorParams)
-    },
+		}
+		this.$store.dispatch('select_webMessageByActorid', this.actorParams)
+	},
 	data() {
 		var validatePass = (rule, value, callback) => {
 			if (value === '') {
 				callback(new Error('请输入密码'))
-            } else {
+			} else {
 				if (this.password.newPassword !== '') {
 					this.$refs.editPassword.validateField('password')
-                }
-				callback();
+				}
+				callback()
 			}
-        }
-        var validatePass2 = (rule, value, callback) => {
+		}
+		var validatePass2 = (rule, value, callback) => {
 			if (value === '') {
 				callback(new Error('请再次输入密码'))
-            } else if (value !== this.password.newPassword) {
+			} else if (value !== this.password.newPassword) {
 				callback(new Error('两次输入密码不一致!'))
-            } else {
-				callback();
+			} else {
+				callback()
 			}
-        }
-        return {
+		}
+		return {
 			editHeadImgChange:false,
 			password: {
 				newPassword: '',
@@ -161,22 +161,22 @@ export default {
 	computed: {
 		actor: function () {
 			return this.$store.state.login.actor
-        },
+		},
 		webMessageByActorid: function () {
 			return this.$store.state.content.webMessageByActorid||{}
-        },
+		},
 		updateActorStatus: function () {
 			return this.$store.state.system.updateActorStatus
-        },
+		},
 		resetLoginPasswordStatus: function () {
 			return this.$store.state.customer.resetLoginPasswordStatus
-        },
+		},
 		loginPasswordStatus: function () {
 			return this.$store.state.customer.loginPasswordStatus
-        },
+		},
 		headImage:function(){
 			return this.$store.state.employee.employee.headImageUrl||''
-        }
+		}
 	},
 	methods: {
 		getUrl(data){
@@ -186,16 +186,16 @@ export default {
 			}
 			this.$store.dispatch('updateEmployeeInfo',param)
 			this.editHeadImgChange=false
-        },
+		},
 		showMessage(){
 			this.$router.push('/msgWebDetail/'+this.actor.id)
 		},
 		editHeadImg(){
 			this.editHeadImgChange=true
-        },
+		},
 		updateMyself() {
 			this.dialogeditUserVisible = true
-        },
+		},
 		onSubmit() {
 			this.$refs['editActor'].validate((valid) => {
 				if (valid) {
@@ -206,12 +206,12 @@ export default {
 								message: '修改成功'
 							})
 							this.cancel()
-                        } else {
+						} else {
 							this.$message.error('修改失败')
 							this.cancel()
-                        }
+						}
 					})
-                }
+				}
 			})
 		},
 		updateLoginPassword() {
@@ -229,16 +229,16 @@ export default {
 								type: 'success'
 							})
 							this.exit()
-                            this.editPasswordDialog = false
-                        } else {
+							this.editPasswordDialog = false
+						} else {
 							this.$message.error('修改失败')
-                        }
+						}
 					})
 				} else {
 					return false
-                }
+				}
 			})
-        },
+		},
 		resetPassword() {
 			this.$confirm('此操作将重置登录口令, 是否继续?', '提示', {
 				confirmButtonText: '确定',
@@ -255,29 +255,26 @@ export default {
 							type: 'success'
 						})
 						this.exit()
-                    } else {
+					} else {
 						this.$message.error('重置口令失败')
-                    }
+					}
 				})
 			}).catch(() => {
 				this.$message({
 					type: 'info',
 					message: '已取消重置'
-				});
+				})
 			})
-        },
+		},
 		cancel() {
 			this.$refs['editActor'].resetFields()
-            this.dialogeditUserVisible = false
-        },
+			this.dialogeditUserVisible = false
+		},
 		exit() {
 			setTimeout(()=>{
 				this.$store.dispatch('login_out', this)
-            },2000)
-        },
-		handleIconClick() {
-			console.log(this.keyword)
-        }
+			},2000)
+		}
 	}
 }
 

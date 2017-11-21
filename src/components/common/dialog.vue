@@ -22,8 +22,8 @@ export default {
 	data() {
 		return {
         
-      }
-    },
+		}
+	},
 	methods:{
 		handleClose() {
 			this.$emit('dialog-cancel-callback') 
@@ -40,7 +40,7 @@ export default {
 	computed: {
 
 	}
-};
+}
 </script>
 
 <style scoped>

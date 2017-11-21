@@ -7,7 +7,6 @@ Vue.http.options.root = '/ajax';
 Vue.http.options['load'] = true;
 Vue.http.options.emulateJSON = true;
 Vue.http.interceptors.push(function (request, next) {
-	console.log(request);
 	let loadingInstance=null;
 	if(request.load){
 		loadingInstance =Loading.service({ 

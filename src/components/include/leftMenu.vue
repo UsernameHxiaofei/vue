@@ -67,59 +67,59 @@
 </template>
 
 <script>
-    export default {
-        name: 'leftMenu',
-        data() {
-            return {
-                index: '1',
-                menus: [
-                    { value: '/investmentFund', index: '4-1' },
-                    { value: '/depositManage', index: '4-2' },
-                    { value: '/brokerageManage', index: '4-3' },
-                    { value: '/rechargeManage', index: '4-4' },
-                    { value: '/rateSetting', index: '4-5' },
-                    { value: '/refundApproval', index: '4-6' },
-                    { value: '/enterprise', index: '5' },
-                    { value: '/risk', index: '6-1' },
-                    { value: '/riskSetting', index: '6-2' },
-                    { value: '/userMaintain', index: '8-1' },
-                    { value: '/permission', index: '8-2' },
-                    { value: '/roleMaintain', index: '8-3' },
-                    { value: '/universalRole', index: '8-4' },
-                    { value: '/log', index: '8-5' },
-                    { value: '/msgTalk', index: '3-5' },
-                    { value: '/monitor', index: '8-6' },
+export default {
+	name: 'leftMenu',
+	data() {
+		return {
+			index: '1',
+			menus: [
+				{ value: '/investmentFund', index: '4-1' },
+				{ value: '/depositManage', index: '4-2' },
+				{ value: '/brokerageManage', index: '4-3' },
+				{ value: '/rechargeManage', index: '4-4' },
+				{ value: '/rateSetting', index: '4-5' },
+				{ value: '/refundApproval', index: '4-6' },
+				{ value: '/enterprise', index: '5' },
+				{ value: '/risk', index: '6-1' },
+				{ value: '/riskSetting', index: '6-2' },
+				{ value: '/userMaintain', index: '8-1' },
+				{ value: '/permission', index: '8-2' },
+				{ value: '/roleMaintain', index: '8-3' },
+				{ value: '/universalRole', index: '8-4' },
+				{ value: '/log', index: '8-5' },
+				{ value: '/msgTalk', index: '3-5' },
+				{ value: '/monitor', index: '8-6' },
                     
-                ]
-            }
-        },
-        methods: {
-            go(path, index) {
-                sessionStorage.setItem('menu_index', JSON.stringify({ path, index }))
-                this.$store.commit('risk_projectInfo', {})
-                this.$store.commit('enterprise_clear')
-                this.$store.commit('item_clear')
-                sessionStorage.setItem('risk_projectInfo', '{}')
-                this.$router.push(path)
-            }
-        },
-        beforeMount() {
-            let remeber = JSON.parse(sessionStorage.getItem('menu_index')) || {}
-            this.index = remeber.index || '1'
-            let pushFlag = false
-            for (let i = 0; i < this.menus.length; i++) {
-                let item = this.menus[i]
-                if (item.value == this.$route.path) {
-                    pushFlag = true;
-                    break
-                }
-            }
-            if (pushFlag) {
-                this.$router.push(remeber && remeber.path || '/main');
-            }
+			]
+		}
+	},
+	methods: {
+		go(path, index) {
+			sessionStorage.setItem('menu_index', JSON.stringify({ path, index }))
+			this.$store.commit('risk_projectInfo', {})
+			this.$store.commit('enterprise_clear')
+			this.$store.commit('item_clear')
+			sessionStorage.setItem('risk_projectInfo', '{}')
+			this.$router.push(path)
+		}
+	},
+	beforeMount() {
+		let remeber = JSON.parse(sessionStorage.getItem('menu_index')) || {}
+		this.index = remeber.index || '1'
+		let pushFlag = false
+		for (let i = 0; i < this.menus.length; i++) {
+			let item = this.menus[i]
+			if (item.value == this.$route.path) {
+				pushFlag = true
+				break
+			}
+		}
+		if (pushFlag) {
+			this.$router.push(remeber && remeber.path || '/main')
+		}
 
-        }
-    }
+	}
+}
 
 </script>
 

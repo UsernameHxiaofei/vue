@@ -26,10 +26,10 @@
 				</el-option>
 			</el-select>
 			<span style="margin-left:50px;">
-				<el-date-picker :clearable="true" v-model="startTime" align="right" :editable="false" type="datetime" @change="startChange"
+				<el-date-picker  v-model="startTime" align="right" :editable="false" type="datetime" @change="startChange"
 				 placeholder="选择开始日期"></el-date-picker>
 				至
-				<el-date-picker :clearable="true" v-model="endTime" align="right" :editable="false" type="datetime" @change="endChange" placeholder="选择结束日期"></el-date-picker>
+				<el-date-picker  v-model="endTime" align="right" :editable="false" type="datetime" @change="endChange" placeholder="选择结束日期"></el-date-picker>
 			</span>
 		</div>
 		<div class="content-box">
@@ -66,7 +66,6 @@ export default {
 			this.ready = true
 			this.getInfo()
 		})
-
 	},
 	data() {
 		return {
@@ -77,7 +76,6 @@ export default {
 			ipAddr: '',
 			param: {},
 			imageData: {}
-
 		}
 	},
 	methods: {

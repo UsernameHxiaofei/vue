@@ -314,11 +314,8 @@ export default {
 			return this.$store.state.item.materials || {}
 		}
 	},
-	mounted () {
+	mounted() {
 		this.editorRender = true
-	},
-	beforeMount() {
-		
 		this.$store.dispatch('item_getManageDetail', { id: this.$route.params.id }).then(() => {
 			if (this.itemManageDetail.enterpriseId || this.itemManageDetail.detailedIntroductionId) {
 				this.editFlag = true
@@ -339,6 +336,7 @@ export default {
 			if (this.itemManageDetail.detailedIntroductionId) {
 				this.$store.dispatch('item_getDetailedIntroduction', { id: this.itemManageDetail.detailedIntroductionId }).then(() => {
 					this.content = this.detailedIntroduction.content
+
 				})
 			}
 			this.$store.dispatch('item_selectMaterialByProjectId', { id: this.$route.params.id }).then(() => {
@@ -418,7 +416,7 @@ export default {
 							} else {
 								callback()
 							}
-						}						
+						}
 					}
 				],
 				education: [
@@ -656,7 +654,7 @@ export default {
 						id: item.id,
 						enterpriseId: this.itemManageDetail.enterpriseId || this.$store.state.item.enterpriseId,
 						status: 0
-					}, vue: this					
+					}, vue: this
 				})
 			}).catch(() => {
 				this.$message({

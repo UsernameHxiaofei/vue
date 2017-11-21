@@ -531,8 +531,8 @@ export default {
 							this.planform.financingDays = (this.financingPlanData.financingDays) || ''
 							this.planform.transferringSharesRatio = (this.financingPlanData.transferringSharesRatio * 100) || 0
 							this.planform.isInvested = (this.financingPlanData.investedAmount && this.financingPlanData.investedAmount > 0) ? true : false
-							this.planform.investedAmount = (this.financingPlanData.investedAmount / 10000) || ''
-							this.planform.commitmentAmount = (this.financingPlanData.commitmentAmount / 10000) || ''
+							this.planform.investedAmount = (this.financingPlanData.investedAmount / 10000) ||''
+							this.planform.commitmentAmount = (this.financingPlanData.commitmentAmount / 10000) || this.financingPlanData.commitmentAmount==0?0:''
 							this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id }).then(() => {
 								for (let i = 0; i < this.investedEvidence.length; i++) {
 									let item = this.investedEvidence[i]

@@ -1,9 +1,6 @@
 const { Stuff, Assembler, Essence } = require('./stuff')
 const net = require('net')
-
-
-
-
+/* eslint-disable no-console */
 class StuffClient {
 
 	constructor(host, port) {
@@ -62,8 +59,6 @@ class StuffClient {
 			oper(response)
 		})
 	}
-
 }
-
 
 module.exports = { StuffClient }
