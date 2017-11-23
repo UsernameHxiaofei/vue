@@ -59,6 +59,7 @@
                         <el-menu-item index="8-4" @click="go('/universalRole','8-4')">&emsp;泛角色维护</el-menu-item>
                         <el-menu-item index="8-5" @click="go('/log','8-5')">&emsp;日志</el-menu-item>
                         <el-menu-item index="8-6" @click="go('/monitor','8-6')">&emsp;系统监控</el-menu-item>
+                        <el-menu-item index="8-7" @click="go('/costMonitor','8-7')">&emsp;运营监控</el-menu-item>
                     </el-submenu>
                 </el-menu>
             </div>
@@ -73,6 +74,15 @@ export default {
 		return {
 			index: '1',
 			menus: [
+				{ value: '/main',index:'1'},
+				{ value: '/customerInforMaintain',index:'2-1'},
+				{ value: '/expertAuditList',index:'2-2'},
+				{ value: '/leadAuditList',index:'2-3'},
+				{ value: '/msgImages',index:'3-1'},
+				{ value: '/msgModel',index:'3-2'},
+				{ value: '/msgShort',index:'3-3'},
+				{ value: '/msgWebsite',index:'3-4'},
+				{ value: '/msgTalk',index:'3-5'},
 				{ value: '/investmentFund', index: '4-1' },
 				{ value: '/depositManage', index: '4-2' },
 				{ value: '/brokerageManage', index: '4-3' },
@@ -87,9 +97,8 @@ export default {
 				{ value: '/roleMaintain', index: '8-3' },
 				{ value: '/universalRole', index: '8-4' },
 				{ value: '/log', index: '8-5' },
-				{ value: '/msgTalk', index: '3-5' },
 				{ value: '/monitor', index: '8-6' },
-                    
+				{ value: '/costMonitor', index: '8-7' },
 			]
 		}
 	},
@@ -106,18 +115,13 @@ export default {
 	beforeMount() {
 		let remeber = JSON.parse(sessionStorage.getItem('menu_index')) || {}
 		this.index = remeber.index || '1'
-		let pushFlag = false
 		for (let i = 0; i < this.menus.length; i++) {
 			let item = this.menus[i]
 			if (item.value == this.$route.path) {
-				pushFlag = true
+				this.$router.push(remeber && remeber.path || '/main')
 				break
 			}
 		}
-		if (pushFlag) {
-			this.$router.push(remeber && remeber.path || '/main')
-		}
-
 	}
 }
 
@@ -167,7 +171,7 @@ export default {
     .logo img {
         width: 60%;
     }
-
+    
 
     #leftMenu {
         position: fixed;

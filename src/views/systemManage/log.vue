@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column label="操作人姓名" prop="operateName">
         </el-table-column>
-        <el-table-column label="操作人IP地址" prop="ip">
+        <el-table-column label="操作人IP地址" prop="ip" width="150">
         </el-table-column>
         <el-table-column label="部件码" prop="componentCode">
         </el-table-column>

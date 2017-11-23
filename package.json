@@ -9,7 +9,7 @@
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
     "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
-    "format": "eslint ./src/backend/**/*.js ./src/**/*.vue --fix "
+    "format": "eslint ./src/backend/**.js ./src/directive/**.js ./src/util/**.js ./src/backend/**.js ./src/router/**.js ./src/filters/**.js ./src/store/**.js ./src/**.vue --fix "
   },
   "engines": {
     "node": ">=7.0",
@@ -41,9 +41,9 @@
     "vuex-router-sync": "^4.3.2"
   },
   "devDependencies": {
-    "glob": "7.1.2",
     "autoprefixer": "^7.1.4",
     "babel-core": "^6.24.1",
+    "babel-eslint": "^8.0.2",
     "babel-loader": "^7.1.1",
     "babel-plugin-syntax-dynamic-import": "^6.18.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -55,7 +55,9 @@
     "babel-register": "^6.24.1",
     "chokidar": "^1.7.0",
     "css-loader": "^0.28.4",
-    "eslint": "^4.10.0",
+    "eslint": "^4.11.0",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-vuefix": "^0.2.1",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.1",

@@ -10,11 +10,20 @@ module.exports = {
         wx: true
       },
     "extends": "eslint:recommended",
+    "parser": "babel-eslint",
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": "module",
+        "allowImportExportEverywhere": false,
+        "codeFrame": false,
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+          "experimentalObjectRestSpread": true
+        }
     },
     plugins: [
-        'vuefix'
+        "vuefix",
+        "babel",
+        "prefer-object-spread"
     ],
     "rules": {
         "indent": [
@@ -32,6 +41,8 @@ module.exports = {
         "semi": [
             "error",
             "never"
-        ]
+        ],
+        "strict": 0,
+        "prefer-object-spread/prefer-object-spread": 2
     }
 }

@@ -25,11 +25,13 @@
 				<el-option v-for="(item,index) in ipList" :key="index" :label="item" :value="item">
 				</el-option>
 			</el-select>
-			<span style="margin-left:50px;">
-				<el-date-picker  v-model="startTime" align="right" :editable="false" type="datetime" @change="startChange"
+			<label style="margin-left:50px;" for="">时间范围:&emsp;</label>
+			<span >
+				<el-date-picker :clearable="false" v-model="startTime" align="right" :editable="false" type="datetime" @change="startChange"
 				 placeholder="选择开始日期"></el-date-picker>
 				至
-				<el-date-picker  v-model="endTime" align="right" :editable="false" type="datetime" @change="endChange" placeholder="选择结束日期"></el-date-picker>
+				<el-date-picker :clearable="false" v-model="endTime" align="right" :editable="false" type="datetime" @change="endChange"
+				 placeholder="选择结束日期"></el-date-picker>
 			</span>
 		</div>
 		<div class="content-box">

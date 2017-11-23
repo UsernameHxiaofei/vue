@@ -119,6 +119,16 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
+		showCostInfo: (param) => {
+			return Vue.http.post('showCostInfo',param).then(response => {
+				return response.body
+			})
+		},
+		showExtraCostInfo: (param) => {
+			return Vue.http.post('showExtraCostInfo',param).then(response => {
+				return response.body
+			})
+		},
 	} 
 }
 

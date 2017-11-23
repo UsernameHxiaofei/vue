@@ -142,11 +142,17 @@ export const systemModule = {
 				}
 			})
 		},
-		showServiceIp({ commit, dispatch }, param) {
+		showServiceIp(undefined, param) {
 			return api.showServiceIp(param)
 		},
-		showServiceInfoByIp({ commit, dispatch }, param) {
+		showServiceInfoByIp(undefined, param) {
 			return api.showServiceInfoByIp(param)
+		},
+		showCostInfo(undefined, param) {
+			return api.showCostInfo(param)
+		},
+		showExtraCostInfo(undefined, param) {
+			return api.showExtraCostInfo(param)
 		},
 	},
 	mutations: {

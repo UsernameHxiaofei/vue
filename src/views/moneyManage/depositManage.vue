@@ -139,7 +139,7 @@
                 </el-table-column>
                 <el-table-column prop="overallInvestment" label="总投资额(元)">
                 </el-table-column>
-                <el-table-column prop="financingAmount" label="目标融资额(元)">
+                <el-table-column prop="financingAmount" width="120" label="目标融资额(元)">
                 </el-table-column>
                 <el-table-column prop="proDepositRate" label="保证金比例">
                 </el-table-column>

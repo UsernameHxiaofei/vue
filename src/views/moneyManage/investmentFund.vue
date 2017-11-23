@@ -57,9 +57,9 @@
         </el-table-column>
         <el-table-column prop="raisedAmount" width="180" label="已融金额(元)">
         </el-table-column>
-        <el-table-column prop="crowdFundingBegin" label="开始时间">
+        <el-table-column prop="crowdFundingBegin" width="150" label="开始时间">
         </el-table-column>
-        <el-table-column prop="crowdFundingEnd" label="结束时间">
+        <el-table-column prop="crowdFundingEnd" width="150" label="结束时间">
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">

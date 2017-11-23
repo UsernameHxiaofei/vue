@@ -66,15 +66,15 @@
             <el-table :data="drawbackGetList.records" stripe border style="width: 100%">
                 <el-table-column prop="kong" width="30">
                 </el-table-column>
-                <el-table-column type='index' prop="th1" width="60" label="序号">
+                <el-table-column type='index' width="60" label="序号">
                 </el-table-column>
-                <el-table-column prop="userName" label="投资人姓名">
+                <el-table-column prop="userName"  width="100" label="投资人姓名">
                 </el-table-column>
                 <el-table-column prop="mobileNumber" label="手机号">
                 </el-table-column>
-                <el-table-column prop="oldTransactionAmount" label="投资金额(元)">
+                <el-table-column prop="oldTransactionAmount" width="100" label="投资金额(元)">
                 </el-table-column>
-                <el-table-column prop="applyRefundAmount" label="退款金额(元)">
+                <el-table-column prop="applyRefundAmount" width="100" label="退款金额(元)">
                 </el-table-column>
                 <el-table-column prop="projectName" label="所投项目">
                 </el-table-column>

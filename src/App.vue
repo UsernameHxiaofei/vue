@@ -4,7 +4,10 @@
         <left-menu></left-menu>
         <transition>
             <router-view class="content"></router-view>
-        </transition>
+		</transition>
+		<div id="menu_scroller">
+			<i class="el-icon-arrow-down"></i> 
+		</div>
     </div>
 </template>
 
@@ -27,7 +30,18 @@ export default {
 }
 
 </script>
-
 <style>
-
+    #menu_scroller{
+        position: absolute;
+        top:49px;
+        left: 0;
+        width: 230px;
+        height:20px;
+        background: #06ccb7;
+        color: white;
+        text-align: center;
+        border-bottom: 3px solid black;
+        cursor: pointer;
+        z-index: 2;
+    }
 </style>

@@ -233,4 +233,24 @@ module.exports=function client(router,sc,passport){
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
+	router.all('/showCostInfo', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('LtSystemInfoTask', 'OperationInfoForShow', 'ltSystemManagement')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.startTime,
+			param.endTime
+		]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
+	router.all('/showExtraCostInfo', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('ExternalCostTask', 'selectExternalCost', 'securityCenter')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.startTime,
+			param.endTime
+		]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
 }

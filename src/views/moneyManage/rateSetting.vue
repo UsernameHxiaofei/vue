@@ -35,13 +35,13 @@
             <el-table :data="rateGetList.records" stripe border style="width: 100%">
                 <el-table-column prop="kong" width="30">
                 </el-table-column>
-                <el-table-column type='index' width="60" label="序号">
+                <el-table-column type='index' width="55" label="序号">
                 </el-table-column>
                 <el-table-column prop="projectName" label="项目名称">
                 </el-table-column>
                 <el-table-column prop="enterpriseName" label="发起方">
                 </el-table-column>
-                <el-table-column prop="carryPercent" label="投资Carry比例">
+                <el-table-column prop="carryPercent" width="120" label="投资Carry比例">
                 </el-table-column>
                 <el-table-column prop="projectStatus" label="状态">
                     <template slot-scope="scope">
@@ -50,11 +50,11 @@
                 </el-table-column>
                 <el-table-column prop="allAmount" label="总投资额(元)">
                 </el-table-column>
-                <el-table-column prop="financingAmount" label="目标融资额(元)">
+                <el-table-column prop="financingAmount"  width="120" label="目标融资额(元)">
                 </el-table-column>
                 <el-table-column prop="serviceChargeRate" label="融资服务费率">
                 </el-table-column>
-                <el-table-column>
+                <el-table-column width="120">
                     <template slot-scope="scope">
                         <el-button class="btn-style" @click="openRate(scope.row)">设置规则参数</el-button>
                     </template>
