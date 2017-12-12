@@ -289,7 +289,7 @@
 				<el-tab-pane label="工商信息" name="3" v-if="itemManageDetail.phase>=5">
 					<industryTab v-if="activeName=='3'"></industryTab>
 				</el-tab-pane>
-				<el-tab-pane label="风险疑似信息" name="4" v-if="itemManageDetail.phase>=5">
+				<el-tab-pane label="司法涉诉" name="4" v-if="itemManageDetail.phase>=5">
 					<riskTab v-if="activeName=='4'"></riskTab>
 				</el-tab-pane>
 				<el-tab-pane label="企业关系图谱" name="5" v-if="itemManageDetail.phase>=5">

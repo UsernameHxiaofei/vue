@@ -90,19 +90,19 @@
         </div>
         <div class="step1">
             <el-form ref="form" :model="form" :rules="rules" label-width="100px">
-                <el-form-item label="项目标题" required prop="name">
+                <el-form-item label="项目标题"  prop="name">
                     <el-input v-model="form.name" placeholder="输入项目标题，最好控制在20字以内"></el-input>
                 </el-form-item>
-                <el-form-item class="summary" required label="项目概述" prop="summary">
+                <el-form-item class="summary"  label="项目概述" prop="summary">
                     <el-input v-model="form.summary" type="textarea" placeholder="请输入项目的一句话简介"></el-input>
                 </el-form-item>
-                <el-form-item label="行业分类" required prop="industry">
+                <el-form-item label="行业分类"  prop="industry">
                     <el-radio-group v-model="form.industry">
                         <el-radio v-for="(item,index) in industryData" :key="item.value" :label="item.value">{{item.label}}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <div class="choose-area">
-                    <el-form-item label="所属地区" required prop="selectedOptions">
+                    <el-form-item label="所属地区"  prop="selectedOptions">
                         <el-cascader expand-trigger="hover" clearable change-on-select :options="options" v-model="form.selectedOptions" @change="handleRegionCodeChange">
                         </el-cascader>
                     </el-form-item>
@@ -128,12 +128,12 @@
                             </el-input>
                            
                     </el-form-item>
-                    <el-form-item label="融资时间" required prop="financingDays">
+                    <el-form-item label="融资时间" prop="financingDays">
                             <el-input v-model.number="planform.financingDays" placeholder="请输入融资时间">
                                 <template slot="append">天以内</template>
                             </el-input>
                     </el-form-item>
-                    <el-form-item label="出让股份" required prop="transferringSharesRatio">
+                    <el-form-item label="出让股份" prop="transferringSharesRatio">
                             <el-input v-model.number="planform.transferringSharesRatio"  placeholder="请输入出让股份比例">
                                 <template slot="append">%</template>
                             </el-input>
@@ -159,7 +159,7 @@
                             </el-form-item>
                         </transition>
                     </el-form-item>
-                    <el-form-item label="承诺出资" required prop="commitmentAmount">
+                    <el-form-item label="承诺出资" prop="commitmentAmount">
                         <el-col :span="21">
                             <el-input v-model.number="planform.commitmentAmount" placeholder="融资成功时应当与其他投资人一并注入的资金">
                                 <template slot="append">万元</template>
@@ -532,7 +532,7 @@ export default {
 							this.planform.transferringSharesRatio = (this.financingPlanData.transferringSharesRatio * 100) || 0
 							this.planform.isInvested = (this.financingPlanData.investedAmount && this.financingPlanData.investedAmount > 0) ? true : false
 							this.planform.investedAmount = (this.financingPlanData.investedAmount / 10000) ||''
-							this.planform.commitmentAmount = (this.financingPlanData.commitmentAmount / 10000) || this.financingPlanData.commitmentAmount==0?0:''
+							this.planform.commitmentAmount = this.financingPlanData.commitmentAmount / 10000 || (this.financingPlanData.commitmentAmount==0?0:'')
 							this.$store.dispatch('item_getInvestedEvidence', { id: this.financingPlanData.id }).then(() => {
 								for (let i = 0; i < this.investedEvidence.length; i++) {
 									let item = this.investedEvidence[i]

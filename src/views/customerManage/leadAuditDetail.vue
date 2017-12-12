@@ -226,6 +226,7 @@ body {
 }
 .hangjiashenhe ul {
     margin-left: 100px;
+    list-style: none;
 }
 
 .hangjiashenhe li {

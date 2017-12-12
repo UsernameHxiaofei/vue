@@ -22,7 +22,8 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components')
-    }
+    },
+    modules: ["node_modules"]
   },
   module: {
     noParse: /es6-promise\.js$/, // avoid webpack shimming process

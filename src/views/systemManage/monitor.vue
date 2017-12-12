@@ -45,7 +45,7 @@
 <script>
 import echarts from '../../../node_modules/echarts/dist/echarts.min.js'
 import theme from '../../assets/js/echarts.theme.js'
-import { formateDate } from '../../util/index'
+import { formatDate } from '../../util/index'
 theme(echarts)
 
 
@@ -62,8 +62,8 @@ export default {
 			this.ipAddr = data[0] || ''
 			this.param = {
 				ipAddr: this.ipAddr,
-				startTime: formateDate(start, 'yyyy-MM-dd HH:mm:ss'),
-				endTime: formateDate(end, 'yyyy-MM-dd HH:mm:ss')
+				startTime: formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
+				endTime: formatDate(end, 'yyyy-MM-dd HH:mm:ss')
 			}
 			this.ready = true
 			this.getInfo()
@@ -127,7 +127,7 @@ export default {
 						type: 'time', position: 'bottom', axisPointer: {
 							label: {
 								formatter: function (params) {
-									return formateDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
+									return formatDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
 								}
 							}
 						}
@@ -194,7 +194,7 @@ export default {
 						type: 'time', position: 'bottom', axisPointer: {
 							label: {
 								formatter: function (params) {
-									return formateDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
+									return formatDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
 								}
 							}
 						}
@@ -266,7 +266,7 @@ export default {
 						type: 'time', position: 'bottom', axisPointer: {
 							label: {
 								formatter: function (params) {
-									return formateDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
+									return formatDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
 								}
 							}
 						}
@@ -319,7 +319,7 @@ export default {
 						type: 'time', position: 'bottom', axisPointer: {
 							label: {
 								formatter: function (params) {
-									return formateDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
+									return formatDate(new Date(params.value), 'yyyy-MM-dd HH:mm:ss')
 								}
 							}
 						}

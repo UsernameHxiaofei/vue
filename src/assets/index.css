@@ -2828,15 +2828,15 @@
     top: 0;
     width: 100%;
     height: 100%;
-    opacity: .5;
-    background: #000
+    opacity: .1;
+    background: rgb(0, 0, 0)
 }
 
 .el-message-box {
     text-align: left;
     display: inline-block;
     vertical-align: middle;
-    background-color: #fff;
+    background-color: rgb(250, 250, 250);
     width: 420px;
     border-radius: 3px;
     font-size: 16px;

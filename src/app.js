@@ -7,7 +7,6 @@ import * as filters from './filters'
 import directive from './directive/index'
 import ElementUI from 'element-ui'
 import './assets/index.css'
-import './assets/css/reset.css'
 import './assets/css/common.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
@@ -50,7 +49,3 @@ export function createApp () {
 	// different depending on whether we are in a browser or on the server.
 	return { app, router, store}
 }
-
-
-
-

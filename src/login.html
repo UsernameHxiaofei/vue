@@ -7,13 +7,38 @@
     <meta name="renderer" content="webkit">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <title>实业项目投融资服务综合管理云平台</title>
-    <link rel="stylesheet" href="/assets/css/reset.css" />
-    <style>
+    <style scoped>
         * {
             box-sizing: border-box;
             -moz-user-select: none;
             -ms-user-select: none;
             user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            width: 100%;
+            height: 100%;
+            font-size: 62.5%;
+        }
+
+        body {
+            font-family: "微软雅黑";
+            font-size: 1.4rem;
+            line-height: 1.428571429;
+            color: #666;
+        }
+
+        ul,
+        ol {
+            list-style: none;
+        }
+
+        a {
+            text-decoration: none;
+            display: inline-block;
+            color: #999;
         }
 
         body {
@@ -132,11 +157,13 @@
             left: 60%;
             width: 30%;
         }
+
         .form-item {
             height: 6vh;
             width: 100%;
             text-align: center;
         }
+
         .form-item input[type="text"],
         .form-item input[type="password"] {
             height: 5vh;
@@ -153,24 +180,29 @@
             outline: currentColor;
             text-indent: 10px;
         }
+
         :-moz-placeholder {
             /* Mozilla Firefox 4 to 18 */
             color: #000;
             background-color: rgb(255, 255, 255);
         }
+
         ::-moz-placeholder {
             /* Mozilla Firefox 19+ */
             color: #000;
             background-color: rgb(255, 255, 255);
         }
+
         .form-control:focus,
         .input-group:focus:active,
         .input-group:focus:visited {
             color: #000;
         }
+
         #userName::-webkit-input-placeholder {
             letter-spacing: 7px;
         }
+
         label {
             color: rgb(255, 255, 255);
             font-size: 12px;
@@ -181,6 +213,7 @@
             flex-flow: row nowrap;
             align-items: center;
         }
+
         input[type="checkbox"] {
             border-width: 1px;
             border-color: rgb(15, 103, 141);
@@ -190,12 +223,15 @@
             height: 15px;
             position: relative;
         }
+
         input:-ms-input-placeholder {
             color: #000;
         }
+
         input::-webkit-input-placeholder {
             color: #000;
         }
+
         button {
             border-radius: 3px;
             background-color: rgb(42, 138, 188);
@@ -210,6 +246,7 @@
             color: white;
             cursor: pointer;
         }
+
         footer {
             position: absolute;
             color: #2b5b77;
@@ -219,6 +256,7 @@
             text-indent: 35%;
             text-align: center;
         }
+
         .item-div {
             height: 5vh;
             max-height: 34px;
@@ -228,11 +266,12 @@
             display: flex;
             justify-content: space-between;
         }
+
         #msg {
             position: absolute;
             left: 50%;
             top: 50%;
-            transform: translate(-50%,-50%) ;
+            transform: translate(-50%, -50%);
             background: rgba(245, 245, 245, 0.1);
             padding: 10px 20px;
             border-radius: 5px;
@@ -242,6 +281,7 @@
         }
     </style>
 </head>
+
 <body onload="load()">
     <div class="logo-block">
         <img class="logo-bg" src="/public/login/logo-bg.png" alt="">

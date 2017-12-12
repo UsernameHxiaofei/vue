@@ -14,7 +14,10 @@ export const getSelectArray = function (addressCode) {
 	array.push(addressCode.slice(0, 6))
 	return array
 }
-
+/**
+ * 根据行业数组，累加出行业代码。
+ * @param {*行业数组} array 
+ */
 export const getIndustryByArray = function (array) {
 	let industryCode = 0
 	let i = 0
@@ -30,6 +33,10 @@ export const getIndustryByArray = function (array) {
 	return industryCode
 }
 
+/**
+ * 根据行业累加代码，输出行业组合名称
+ * @param {*行业数组} array 
+ */
 export const getIndustryArrayByCode = function (industry) {
 	let result = []
 	if (!parseInt(industry)) {
@@ -50,7 +57,7 @@ export const getIndustryArrayByCode = function (industry) {
 	return result
 }
 
-export const formateDate = function (obj,fmt) {
+export const formatDate = function (obj,fmt) {
 	if(!obj){
 		return ''
 	}

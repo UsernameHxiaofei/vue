@@ -13,6 +13,7 @@
         margin: 0 40px 0 0;
         float: left;
         width: 100%;
+        list-style: none;
     }
 
     .partner-time li {

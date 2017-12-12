@@ -26,6 +26,7 @@
 	.hangjiashenhe ul {
 		margin-left: 100px;
 		padding-top: 16px;
+		list-style: none;
 	}
 
 	.hangjiashenhe li {
@@ -142,7 +143,7 @@
 	</div>
 </template>
 <script>
-import imageCropper from '../../../components/common/ImageDialogCropper.vue'
+import imageCropper from '../../../components/common/cropper.vue'
 import { regionData } from 'element-china-area-data'
 import { getSelectArray } from '../../../util/index.js'
 export default {

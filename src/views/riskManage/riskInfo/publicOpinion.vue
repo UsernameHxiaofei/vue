@@ -98,11 +98,8 @@
                 </table>
             </el-col>
         </div>
-
-
     </div>
 </template>
-
 <script>
 export default {
 	name: 'publicOpinion',

@@ -134,6 +134,7 @@ body {
 .hangjiashenhe ul {
     margin-left: 100px;
     padding-top: 16px;
+    list-style: none;
 }
 
 .hangjiashenhe li {

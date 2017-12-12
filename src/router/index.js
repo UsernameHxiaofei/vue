@@ -48,22 +48,22 @@ const riskHistoryDetail = () => import('../views/riskManage/riskHistory/riskHist
 const riskSetting = () => import('../views/riskManage/riskSetting/riskSetting.vue')
 const addRiskIndex = () => import('../views/riskManage/riskSetting/addRiskIndex.vue')
 const itemEdit = () => import('../views/itemManage/editItem/editItem.vue')
-const editRiskIndex =()=>import('../views/riskManage/riskSetting/editRiskIndex.vue')
-const riskIndexDetail=()=>import('../views/riskManage/riskSetting/riskIndexDetail.vue')
-const riskRegionContainer=()=>import('../views/riskManage/riskInfo/riskRegionContainer.vue')
-const monitor=()=>import('../views/systemManage/monitor.vue')
-const costMonitor=()=>import('../views/systemManage/costMonitor.vue')
+const editRiskIndex = () => import('../views/riskManage/riskSetting/editRiskIndex.vue')
+const riskIndexDetail = () => import('../views/riskManage/riskSetting/riskIndexDetail.vue')
+const riskRegionContainer = () => import('../views/riskManage/riskInfo/riskRegionContainer.vue')
+const monitor = () => import('../views/systemManage/monitor.vue')
+const costMonitor = () => import('../views/systemManage/costMonitor.vue')
 
 const routes = [
-	{ path: '/main', component: MainView },
+	{ path: '/main', component: MainView ,meta: { scrollToTop: true } },
 	{ path: '/risk', component: riskView },
 	{ path: '/riskHandle/:id', component: riskHandle },
 	{ path: '/riskHistory/:id', component: riskHistory },
 	{ path: '/riskIndex/:id', component: riskIndex },
-	{ path: '/riskSetting/:id?',component: riskSetting },
-	{ path: '/addRiskIndex/:id?',component: addRiskIndex },
-	{ path: '/riskIndexDetail/:id',component: riskIndexDetail },
-	{ path: '/editRiskIndex/:id',component: editRiskIndex },
+	{ path: '/riskSetting/:id?', component: riskSetting },
+	{ path: '/addRiskIndex/:id?', component: addRiskIndex },
+	{ path: '/riskIndexDetail/:id', component: riskIndexDetail },
+	{ path: '/editRiskIndex/:id', component: editRiskIndex },
 	{ path: '/riskHistoryDetail/:id', component: riskHistoryDetail },
 	{ path: '/customerInforMaintain', component: customerInforMaintain },
 	{ path: '/customerDetail/:customerId/:actorId', component: customerDetail },
@@ -95,15 +95,15 @@ const routes = [
 	{ path: '/universalRole', component: universalRole },
 	{ path: '/userMaintain', component: userMaintain },
 	{ path: '/itemDetail/:projectId', component: itemDetail },
-	{ path: '/itemStep1/:id', component: itemStep1 },
-	{ path: '/itemStep2/:id', component: itemStep2 },
-	{ path: '/itemStep3/:id', component: itemStep3 },
-	{ path: '/itemEdit/:id', component: itemEdit},
-	{ path: '/displayItem/:projectId', component: displayItem },
+	{ path: '/itemStep1/:id', component: itemStep1 ,meta: { scrollToTop: true } },
+	{ path: '/itemStep2/:id', component: itemStep2,meta: { scrollToTop: true } },
+	{ path: '/itemStep3/:id', component: itemStep3 ,meta: { scrollToTop: true } },
+	{ path: '/itemEdit/:id', component: itemEdit ,meta: { scrollToTop: true } },
+	{ path: '/displayItem/:projectId', component: displayItem,meta: { scrollToTop: true }  },
 	{ path: '/enterpriseDetail/:id', component: enterpriseDetail },
-	{ path: '/riskRegionContainer/:category/:projectId',component:riskRegionContainer },
-	{ path: '/monitor',component:monitor },
-	{ path: '/costMonitor',component:costMonitor },
+	{ path: '/riskRegionContainer/:category/:projectId', component: riskRegionContainer ,meta: { scrollToTop: true } },
+	{ path: '/monitor', component: monitor },
+	{ path: '/costMonitor', component: costMonitor },
 	{ path: '/', redirect: '/main' }
 ]
 
@@ -112,6 +112,24 @@ const routes = [
 export function createRouter() {
 	return new Router({
 		mode: 'history',
-		routes: routes
+		routes: routes,
+		scrollBehavior: (to, from, savedPosition) => {
+			if (savedPosition) {
+				// savedPosition is only available for popstate navigations.
+				return savedPosition
+			} else {
+				const position = {}
+				//if any matched route config has meta thafrom scrolling to to
+				if (to.matched.some(m => m.meta.scrollToTop)) {
+					// cords will be used if no selector is provided,
+					// or if the selector didn't match any element.
+					position.x = 0
+					position.y = 0
+				}
+				// if the returned position is falsy or an empty object,
+				// will retain current scroll position.
+				return position
+			}
+		}
 	})
 }

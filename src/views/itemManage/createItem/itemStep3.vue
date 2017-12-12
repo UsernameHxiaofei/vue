@@ -63,6 +63,7 @@
 	}
 
 	.choose-list .grid-content img {
+		float: left;
 		width: 120px;
 		height: 120px;
 		border-radius: 50%;
@@ -79,8 +80,8 @@
 
 	.choose-list .grid-content .info-content p {
 		color: #999;
-		margin-top: 10px;
-		text-indent: 20px;
+		margin-top: 5px;
+		text-indent: 0px;
 		overflow: none;
 		text-overflow: ellipsis;
 	}
@@ -115,12 +116,12 @@
 					</el-select>
 				</div>
 				<div class="choose-list">
-					<el-row :gutter="20" style="height:710px">
+					<el-row :gutter="20" >
 						<el-col :span="12" v-for="(item,index) in expertList.list||expertList1.list" :key="index">
 							<div class="grid-content" :class="{'choosed':experter==item.actorId}" :title="item.profile" @click="chooseExport(item)">
 								<img :src="item.headFigureURL" />
 								<div class="info-content">
-									<h4>{{item.name}}&emsp;{{item.industry|industry}}</h4>
+									<label>{{item.name}}&emsp;{{item.industry|industry}}</label>
 									<p>{{item.profile}}</p>
 								</div>
 							</div>
@@ -149,12 +150,12 @@
 					</el-select>
 				</div>
 				<div class="choose-list">
-					<el-row :gutter="20" style="height:710px">
+					<el-row :gutter="20" >
 						<el-col :span="12" v-for="(item,index) in leadList.list||leadList1.list" :key="index">
-							<div class="grid-content" :class="{'choosed':leader==item.actorId}" @click="chooseLead(item)">
+							<div class="grid-content" :class="{'choosed':leader==item.actorId}" :title="item.profile" @click="chooseLead(item)">
 								<img :src="item.imgUrl" />
 								<div class="info-content">
-									<h4>{{item.type==2||isSimulation?item.tname:item.name}}&emsp;{{item.industry|industry}}</h4>
+									<label>{{item.type==2||isSimulation?item.tname:item.name}}&emsp;{{item.industry|industry}}</label>
 									<p>{{item.profile}}</p>
 								</div>
 							</div>

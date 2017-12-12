@@ -44,7 +44,7 @@ export default {
 	}
 
 	.progress-number {
-		height: 5px;
+		height: 3px;
 		color: white;
 		background: #06ccb7;
 		opacity: 0.9;

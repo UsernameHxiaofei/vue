@@ -70,7 +70,7 @@
 import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
 import pagination from '../../../components/common/pagination.vue'
 import theme from '../../../assets/js/echarts.theme.js'
-import {formateDate} from '../../../util/index'
+import {formatDate} from '../../../util/index'
 theme(echarts)
 
 export default {
@@ -232,8 +232,8 @@ export default {
 		this.startTime = start
 		this.endTime = end
 		this.param = {
-			beginTime: formateDate(start, 'yyyy-MM-dd HH:mm:ss'),
-			endTime: formateDate(end, 'yyyy-MM-dd HH:mm:ss'),
+			beginTime: formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
+			endTime: formatDate(end, 'yyyy-MM-dd HH:mm:ss'),
 			id: this.itemManageDetail.enterpriseId,
 			pageSize: 10,
 			pageNo: 1

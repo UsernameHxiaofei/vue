@@ -10,12 +10,12 @@ const { createBundleRenderer } = require('vue-server-renderer');
 
 const isProd = process.env.NODE_ENV === 'production';
 const serverInfo =
-  `express/${require('express/package.json').version} ` +
-  `vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
+	`express/${require('express/package.json').version} ` +
+	`vue-server-renderer/${require('vue-server-renderer/package.json').version}`;
 
 const app = express();
 
-function createRenderer (bundle, options) {
+function createRenderer(bundle, options) {
 	return createBundleRenderer(bundle, Object.assign(options, {
 		// for component caching
 		cache: LRU({
@@ -75,23 +75,24 @@ app.use(session({
 		checkperiod: 10 * 60 //Defined how long MemoryStore will check for expired. In second.
 	})
 }));
-app.use(bodyParser.json({limit:'20000kb'}));
-app.use(bodyParser.urlencoded({ extended: true,limit:'20000kb'}));
+app.use(bodyParser.json({ limit: '20000kb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '20000kb' }));
 app.use(compression({ threshold: 0 }));
-app.use('/favicon.ico',serve('./public/favico.png', true));
+app.use('/favicon.ico', serve('./public/favico.png', true));
 app.use('/dist', serve('./dist', true));
 app.use('/public', serve('./public', true));
-app.use('/assets',serve('./src/assets',true));
+app.use('/assets', serve('./src/assets', true));
 app.use('/manifest.json', serve('./manifest.json', true));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
 const { router } = require('./src/backend/process');
 app.use('/ajax', router);
-app.use('/login',  serve('./src/login.html'));
-app.use('/forgotPassword',  serve('./src/forgotPassword.html'));
+app.use('/login', serve('./src/login.html'));
+app.use('/factory', serve('./src/factory.html'));
+app.use('/forgotPassword', serve('./src/forgotPassword.html'));
 
-app.use('*',function (req, res, next) {
+app.use('*', function (req, res, next) {
 	var url = req.originalUrl;
-	if (url != '/login' && !req.session.passport) {
+	if (url != '/login' && !req.session.passport && url != '/factory') {
 		return res.redirect('/login');
 	}
 	next();

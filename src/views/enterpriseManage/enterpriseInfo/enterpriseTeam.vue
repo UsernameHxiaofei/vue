@@ -111,9 +111,9 @@
     <div id='enterpriseTeam'>
         <el-row>
             <el-col>
-                <div class="edit-button-block">
+                <div class="edit-button-block" v-if="!showDisplay">
                     <el-button style="float:left" v-show="!editFlag" @click="addEnterpriseMember" type="text">添加团队成员</el-button>
-                    <el-button style="float:right" @click="editFlag=!editFlag" type="text">{{editFlag?'编辑':'完成编辑'}}</el-button>
+                    <el-button style="float:right" @click="editFlag=!editFlag" type="text">{{editFlag?'进入编辑模式':'退出编辑'}}</el-button>
                 </div>
                 <div v-for="item in datalist" class="enterprisePerson" :key="item.id" v-show="editFlag">
                     <img :src="item.imageURL" alt="">
@@ -211,13 +211,13 @@
 </template>
 
 <script>
-import imageCropper from '../../../components/common/ImageDialogCropper'
+import imageCropper from '../../../components/common/cropper'
 import dialogComponent from '../../../components/common/dialog.vue'
 import educationsData from '../../../constant/education.js'
 import marriageData from '../../../constant/marriage.js'
 export default {
 	name: 'enterpriseTeam',
-	props: ['enterprise'],
+	props: ['enterprise','showDisplay'],
 	components: {
 		dialogComponent,
 		imageCropper

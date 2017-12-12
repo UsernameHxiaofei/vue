@@ -143,7 +143,7 @@
     </div>
 </template>
 <script>
-import { formateDate } from '../../util/index'
+import { formatDate } from '../../util/index'
 export default {
 	beforeMount() {
 		const end = new Date('2017-11-16 00:00:00')
@@ -152,8 +152,8 @@ export default {
 		this.startTime = start
 		this.endTime = end
 		this.param = {
-			startTime: formateDate(start, 'yyyy-MM-dd HH:mm:ss'),
-			endTime: formateDate(end, 'yyyy-MM-dd HH:mm:ss')
+			startTime: formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
+			endTime: formatDate(end, 'yyyy-MM-dd HH:mm:ss')
 		}
 		this.ready = true
 		this.getInfo()

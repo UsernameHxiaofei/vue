@@ -210,7 +210,7 @@
                 <el-tab-pane label="团队介绍" :name="'2'">
                     <el-row :gutter="30">
                         <el-col :span="17" class="tab-left">
-                            <enterpriseTeam v-if="activeName=='2'"></enterpriseTeam>
+                            <enterpriseTeam :showDisplay="true" style="margin:10px auto" v-if="activeName=='2'"></enterpriseTeam>
                         </el-col>
                         <el-col :span="6" class="tab-right">
                             <rightTab></rightTab>

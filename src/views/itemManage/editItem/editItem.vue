@@ -291,7 +291,7 @@ import dialogComponent from '../../../components/common/dialog'
 import editor from '../../../components/editor/editor.vue'
 import educations from '../../../constant/education.js'
 import industryData from '../../../constant/industry.js'
-import imageCropper from '../../../components/common/ImageDialogCropper'
+import imageCropper from '../../../components/common/cropper'
 export default {
 	name: 'itemStep2',
 	components: {

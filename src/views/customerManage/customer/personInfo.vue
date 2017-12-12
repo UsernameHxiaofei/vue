@@ -133,7 +133,7 @@
 import { regionData } from 'element-china-area-data'
 import { getSelectArray, getIndustryArrayByCode, getIndustryByArray } from '../../../util/index.js'
 import industryList from '../../../constant/industry.js'
-import imageCropper from '../../../components/common/ImageDialogCropper'
+import imageCropper from '../../../components/common/cropper'
 import _ from 'lodash'
 
 export default {
@@ -273,6 +273,7 @@ Date.prototype.Format = function (fmt) { //author: meizz
 	.hangjiashenhe ul {
 		margin: 10px auto;
 		padding-top: 16px;
+		list-style: none;
 	}
 
 	.hangjiashenhe li {

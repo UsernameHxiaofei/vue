@@ -44,31 +44,30 @@
         </el-table-column>
         <el-table-column type="index" width="60" label="序号">
         </el-table-column>
-        <el-table-column prop="projectName"  width="290" label="项目名称">
+        <el-table-column prop="projectName"   label="项目名称">
         </el-table-column>
-        <el-table-column prop="projecStatus" width="100" label="状态">
+        <el-table-column prop="projecStatus" label="状态">
           <template slot-scope="scope">
             {{scope.row.projecStatus|projectStatus}}
           </template>
         </el-table-column>
-        <el-table-column prop="financingAmount" width="180" label="目标融资额(元)">
+        <el-table-column prop="financingAmount"  label="目标融资额(元)">
         </el-table-column>
-        <el-table-column prop="percent" width="120" label="已融比例">
+        <el-table-column prop="percent"  label="已融比例">
         </el-table-column>
-        <el-table-column prop="raisedAmount" width="180" label="已融金额(元)">
+        <el-table-column prop="raisedAmount"  label="已融金额(元)">
         </el-table-column>
-        <el-table-column prop="crowdFundingBegin" width="150" label="开始时间">
+        <el-table-column prop="crowdFundingBegin"  label="开始时间">
         </el-table-column>
-        <el-table-column prop="crowdFundingEnd" width="150" label="结束时间">
+        <el-table-column prop="crowdFundingEnd"  label="结束时间">
         </el-table-column>
-        <el-table-column>
+        <el-table-column >
           <template slot-scope="scope">
             <router-link :to="{path: '/investmentDetail/'+scope.row.projectId}">
               <el-button class="btn-style" @click="investmentDetail(scope.row)">明细</el-button>
             </router-link>
           </template>
         </el-table-column>
-
       </el-table>
     </div>
     <!--分页-->

@@ -508,11 +508,10 @@ output {
 /*搜索下拉*/
 .search-box{overflow: hidden;margin: 30px;}
 .search-box .output{width: 260px;float: left;}
-.date-box{float: right;}
-.date-box .el-select{margin-left: 10px;width: 150px;}
+.search-box .date-box{float: right;}
+.search-box .date-box .el-select{margin-left: 10px;width: 150px;}
 .my-calender{display: inline-block;}
-.date-box .el-date-editor.el-input{width: 345px;}
-.word{margin: 0 10px;}
+.search-box .date-box .el-date-editor.el-input{width: 345px;}
 
 /*激活编辑封禁*/
 .normalize,.edits,.closure{margin: 0 8px;cursor: pointer;}
@@ -538,6 +537,7 @@ output {
   bottom:0;
   min-width: 1020px;
   padding-bottom:10px;
+  overflow: auto;
 }
 /*返回按钮*/
 .back-button{

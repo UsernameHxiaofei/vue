@@ -132,7 +132,7 @@
 				</el-button>
 			</div>
 		</div>
-		<el-dialog title="选择创建项目的发起人" size="large" :visible.sync="chooseItemCustomer" :close-on-click-modal="false">
+		<el-dialog title="选择融资人" size="large" :visible.sync="chooseItemCustomer" :close-on-click-modal="false">
 			<div v-if="itemType=='A'" class="search-box" style="margin:10px 10px 30px 10px;float:right">
 				<div class="output">
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange"

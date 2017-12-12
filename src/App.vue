@@ -5,9 +5,9 @@
         <transition>
             <router-view class="content"></router-view>
 		</transition>
-		<div id="menu_scroller">
+		<!-- <div id="menu_scroller">
 			<i class="el-icon-arrow-down"></i> 
-		</div>
+		</div> -->
     </div>
 </template>
 

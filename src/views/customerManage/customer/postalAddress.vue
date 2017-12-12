@@ -1,6 +1,5 @@
-//通讯地址
 <template>
-	<div style="width:100%;height: 100%;background: #fff;margin: auto;padding:20px" class="Clear">
+	<div style="width:100%;height: 100%;background: #fff;margin: auto;padding:20px;float: left" class="Clear">
 		<div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;" v-for="item in postalAddressList">
 			<div style="height: 30px;line-height: 30px;">
 				<span>{{item.receiver}}</span>

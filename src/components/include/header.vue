@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import imageCropper from '../common/ImageDialogCropper'
+import imageCropper from '../common/cropper'
 export default {
 	name: 'header',
 	components: {

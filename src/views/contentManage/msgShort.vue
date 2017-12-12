@@ -7,7 +7,6 @@
 			</div>
 			<div class="date-box">
 				<div class="my-calender">
-					<!--span class="word">日期</span-->
 					<el-date-picker v-model="range" type="datetimerange" clearable align="right" placeholder="选择日期范围" :picker-options="pickerOptions"
 					 @change="rangechange">
 					</el-date-picker>
