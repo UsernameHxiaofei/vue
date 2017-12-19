@@ -190,7 +190,7 @@
                     </el-row>
                     <div class="progress-box">
                         <el-progress :percentage="((show.raisedAmount/show.financingAmount+leadAd.investmentRatio)*100||0)"></el-progress>
-                        <p>剩余{{show.lastDay}}天</p>
+                        <p>剩余{{show.remainingdays}}天</p>
                     </div>
                 </el-col>
             </el-row>

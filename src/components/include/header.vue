@@ -81,7 +81,7 @@
 <script>
 import imageCropper from '../common/cropper'
 export default {
-	name: 'header',
+	name: 'topHeader',
 	components: {
 		imageCropper  
 	},

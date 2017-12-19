@@ -12,7 +12,6 @@ import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
 import 'quill/dist/quill.core.css'
 
-// console.log=()=>{}
 // register global utility directive.
 Object.keys(directive).forEach(key=>{
 	Vue.directive(key,directive[key])

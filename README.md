@@ -1,6 +1,6 @@
-# linktou-alpha
+# linktou-bata
 
-linktou-alpha clone built with Vue 2.0 + vue-router + vuex, with server-side rendering.
+linktou-bata clone built with Vue 2.0 + vue-router + vuex, with server-side rendering.
 
 - Server Side Rendering
   - Vue + vue-router + vuex working together
@@ -25,6 +25,9 @@ npm run dev
 
 # build for production
 npm run build
+
+# eslint main project file
+npm run format
 
 # serve in production mode
 npm start

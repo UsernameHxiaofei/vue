@@ -187,7 +187,7 @@ export default {
 							message: '通过失败!'
 						})
 					}
-				}, 300)
+				})
 			}).catch(() => {
 				this.$message({
 					type: 'info',
