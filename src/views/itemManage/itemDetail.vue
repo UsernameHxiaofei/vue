@@ -36,13 +36,14 @@
 	.item-con {
 		float: left;
 		width: 70%;
-		align-self: center
+		align-self:flex-start;
 	}
 
 	.item-title {
 		font-weight: bold;
 		font-size: 20px;
 		line-height: 40px;
+		margin:0;
 	}
 
 	.item-list-info .grid-content {
@@ -51,8 +52,7 @@
 	}
 
 	.btn-team {
-		overflow: hidden;
-		margin-top: 10px;
+		margin-top: 20px;
 	}
 
 	#btnt-l {
