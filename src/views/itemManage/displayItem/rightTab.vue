@@ -3,7 +3,7 @@
 .credit-title{color: white;background: #06ccb7;width: 130px;height: 35px;line-height: 35px;
 margin-left: -10px;margin-top: 15px;display: inline-block;text-align: center;}
 .down{overflow: hidden;padding: 15px;margin-bottom: 0px;}
-.downpage a{padding-bottom: 3px;margin-bottom: 8px;display: inline-block;cursor: pointer;}
+.downpage a{padding-bottom: 3px;display: inline-block;cursor: pointer;}
 .downpage a:hover{border-color: #65d7c7;color: #65d7c7;}
 .downpage a:active{border-color: #65d7c7;color: #65d7c7;}
 .credit-bottom{height:10px;background: #f2efe9}

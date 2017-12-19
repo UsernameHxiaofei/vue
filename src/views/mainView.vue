@@ -107,10 +107,14 @@
 						{{scope.row.status|projectStatus}}
 					</template>
 				</el-table-column>
-				<el-table-column width="180">
-					<template slot-scope="scope">
+				<el-table-column width="220">
+					<template slot-scope="scope" style="text-align:center">
 						<router-link :to="{path: '/itemDetail/'+scope.row.id}">
 							<el-button class="btn-style">详情</el-button>
+						</router-link>
+						&nbsp;
+						<router-link v-if="operator.category!=2" :to="{path: '/itemEditForAll/'+scope.row.id}">
+							<el-button class="btn-style">修改内容</el-button>
 						</router-link>
 						&nbsp;
 						<router-link v-if="operator.category==2" :to="{path: '/itemStep1/'+scope.row.id}">

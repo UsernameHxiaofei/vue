@@ -250,7 +250,7 @@ export default {
 			return this.$store.state.item.thirdReport||{}
 		},
 		tcEnterpriseBasic(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
+			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&(this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic.length>0)&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
 		},
 		tcEnterpriseShareholder(){
 			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcShareholder

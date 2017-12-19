@@ -48,6 +48,7 @@ const riskHistoryDetail = () => import('../views/riskManage/riskHistory/riskHist
 const riskSetting = () => import('../views/riskManage/riskSetting/riskSetting.vue')
 const addRiskIndex = () => import('../views/riskManage/riskSetting/addRiskIndex.vue')
 const itemEdit = () => import('../views/itemManage/editItem/editItem.vue')
+const itemEditForAll = () => import('../views/itemManage/editItem/editItemForAll.vue')
 const editRiskIndex = () => import('../views/riskManage/riskSetting/editRiskIndex.vue')
 const riskIndexDetail = () => import('../views/riskManage/riskSetting/riskIndexDetail.vue')
 const riskRegionContainer = () => import('../views/riskManage/riskInfo/riskRegionContainer.vue')
@@ -99,6 +100,7 @@ const routes = [
 	{ path: '/itemStep2/:id', component: itemStep2,meta: { scrollToTop: true } },
 	{ path: '/itemStep3/:id', component: itemStep3 ,meta: { scrollToTop: true } },
 	{ path: '/itemEdit/:id', component: itemEdit ,meta: { scrollToTop: true } },
+	{ path: '/itemEditForAll/:id', component: itemEditForAll ,meta: { scrollToTop: true } },
 	{ path: '/displayItem/:projectId', component: displayItem,meta: { scrollToTop: true }  },
 	{ path: '/enterpriseDetail/:id', component: enterpriseDetail },
 	{ path: '/riskRegionContainer/:category/:projectId', component: riskRegionContainer ,meta: { scrollToTop: true } },

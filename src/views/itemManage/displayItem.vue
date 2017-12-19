@@ -58,7 +58,6 @@
 
     .pro-mon {
         color: #c0c0c0;
-        margin-top: 70px;
     }
 
     .pro-mon span {
