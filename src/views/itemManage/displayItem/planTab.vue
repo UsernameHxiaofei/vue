@@ -18,16 +18,16 @@
                 <div class="basic-list">
                     <el-row>
                         <el-col :span="5">
-                            <span class="span-label">总投资额</span><br/><span class="span-con">{{financingPlanData.overallInvestment/10000||0}}万</span>
+                            <span class="span-label">总投资额</span><br/><span class="span-con">{{financingPlanData.overallInvestment|moneyFormat}}万</span>
                         </el-col>
                         <el-col :span="5">
-                            <span class="span-label">目标融资额</span><br/><span class="span-con">{{financingPlanData.financingAmount/10000||0}}万</span>
+                            <span class="span-label">目标融资额</span><br/><span class="span-con">{{financingPlanData.financingAmount|moneyFormat}}万</span>
                         </el-col>
                         <el-col :span="5">
-                            <span class="span-label">已投入额</span><br/><span class="span-con">{{financingPlanData.investedAmount/10000||0}}万</span>
+                            <span class="span-label">已投入额</span><br/><span class="span-con">{{financingPlanData.investedAmount|moneyFormat}}万</span>
                         </el-col>
                         <el-col :span="5">
-                            <span class="span-label">承诺出资</span><br/><span class="span-con">{{financingPlanData.commitmentAmount/10000||0}}万</span>
+                            <span class="span-label">承诺出资</span><br/><span class="span-con">{{financingPlanData.commitmentAmount|moneyFormat}}万</span>
                         </el-col>
                         <el-col :span="4">
                             <span class="span-label">出让股权</span><br/><span class="span-con">{{financingPlanData.transferringSharesRatio*100}}%</span>
@@ -62,19 +62,19 @@
             <div class="borders">
                 <el-row>
                     <el-col :span="5">
-                        <span class="span-label">目标融资额</span><br/><span class="span-con">{{financingPlanData.financingAmount/10000||0}}万</span>
+                        <span class="span-label">目标融资额</span><br/><span class="span-con">{{financingPlanData.financingAmount|moneyFormat}}万</span>
                     </el-col>
                     <el-col :span="5">
-                        <span class="span-label">领投额</span><br/><span class="span-con">{{leadAd.investmentAmount?((leadAd.investmentAmount||0)/10000).toFixed(6)+'万':'确定中'}}</span>
+                        <span class="span-label">领投额</span><br/><span class="span-con">{{leadAd.investmentAmount?moneyF(leadAd.investmentAmount)+'万':'确定中'}}</span>
                     </el-col>
                     <el-col :span="5">
-                        <span class="span-label">待上线融资额</span><br/><span class="span-con">{{salesQuota.salesAmount?salesQuota.salesAmount/10000+'万':'未设置'}}</span>
+                        <span class="span-label">待上线融资额</span><br/><span class="span-con">{{salesQuota.salesAmount?moneyF(salesQuota.salesAmount)+'万':'未设置'}}</span>
                     </el-col>
                     <el-col :span="5">
                         <span class="span-label">拆为</span><br/><span class="span-con">{{salesQuota.quantity?salesQuota.quantity+'份':'未设置'}}</span>
                     </el-col>
                     <el-col :span="4">
-                        <span class="span-label">每份购买价</span><br/><span class="span-con">{{salesQuota.unitPrice?salesQuota.unitPrice+'元':'未设置'}}</span>
+                        <span class="span-label">每份购买价</span><br/><span class="span-con">{{salesQuota.unitPrice?moneyF(salesQuota.unitPrice)+'万':'未设置'}}</span>
                     </el-col>
                 </el-row>
             </div>
@@ -102,6 +102,8 @@
   </div>
 </template>
 <script>
+    import {moneyFormat} from '../../../filters/index.js'
+
 export default {
 	name: 'displayPlan',
 	computed: {
@@ -123,7 +125,12 @@ export default {
 		leadAd:function(){
 			return this.$store.state.item.leadAd||{}
 		}
-	},
+    },
+    data () {
+        return {
+            moneyF:moneyFormat
+        }
+    },
 	beforeMount () {
             
 	}

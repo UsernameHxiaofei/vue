@@ -475,6 +475,26 @@ export const itemModule = {
 				dispatch('item_getMerchant',{id:param.projectId})
 			})
 		},
+		item_editMerchant({dispatch},{param,vue}){
+			return api.item_editMerchant(param).then((data)=>{
+				if(!data.success){
+					vue.$message.warning(data.information)
+				}else{
+					vue.$message.success(data.information)
+				}
+				dispatch('item_getMerchant',{id:param.projectId})
+			})
+		},
+		item_deleteMerchant({dispatch},{param,vue}){
+			return api.item_deleteMerchant(param).then((data)=>{
+				if(!data.success){
+					vue.$message.warning(data.information)
+				}else{
+					vue.$message.success(data.information)
+				}
+				dispatch('item_getMerchant',{id:param.projectId})
+			})
+		},
 		item_deleteItem(undefined,{param,vue}){
 			return api.item_deleteItem(param).then((data)=>{
 				if(!data.success){

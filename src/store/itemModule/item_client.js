@@ -300,6 +300,11 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
+		item_deleteMerchant:(param)=>{
+			return Vue.http.post('item_deleteMerchant',param).then(response=>{
+				return response.body
+			})
+		},
 		item_deleteItem:(param)=>{
 			return Vue.http.post('item_deleteItem',param).then(response=>{
 				return response.body

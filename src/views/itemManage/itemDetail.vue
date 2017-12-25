@@ -198,7 +198,7 @@
 							<div class="grid-content">发&nbsp;起&nbsp;人：{{itemManageDetail.initiatorName}}</div>
 						</el-col>
 						<el-col :span="6">
-							<div class="grid-content">目标融资额：{{(((itemManageDetail.financingAmount||0)/10000).toFixed(6))}}万</div>
+							<div class="grid-content">目标融资额：{{itemManageDetail.financingAmount|moneyFormat}}万</div>
 						</el-col>
 						<el-col :span="6">
 							<div class="grid-content">融资时间：{{itemManageDetail.financingDays}}天</div>
@@ -226,7 +226,7 @@
 							<div class="grid-content">所属地区：{{itemManageDetail.regionCode|address}}</div>
 						</el-col>
 						<el-col :span="6">
-							<div class="grid-content">已投入额：{{((itemManageDetail.investedAmount||0)/10000).toFixed(6)}}万</div>
+							<div class="grid-content">已投入额：{{itemManageDetail.investedAmount|moneyFormat}}万</div>
 						</el-col>
 						<el-col :span="6">
 							<div class="grid-content">发起次数：{{itemManageDetail.ordinal}}</div>
@@ -237,10 +237,10 @@
 					</el-row>
 					<el-row>
 						<el-col :span="6">
-							<div class="grid-content">总投资额：{{((itemManageDetail.overallInvestment||0)/10000).toFixed(6)}}万</div>
+							<div class="grid-content">总投资额：{{itemManageDetail.overallInvestment|moneyFormat}}万</div>
 						</el-col>
 						<el-col :span="6">
-							<div class="grid-content">承诺出资：{{((itemManageDetail.commitmentAmount||0)/10000).toFixed(6)}}万</div>
+							<div class="grid-content">承诺出资：{{itemManageDetail.commitmentAmount|moneyFormat}}万</div>
 						</el-col>
 						<el-col :span="6">
 							<div class="grid-content">阶&emsp;&emsp;段：
@@ -260,7 +260,7 @@
 						<el-button @click="setTimeInfo" :disabled="isSetTime" v-if="itemManageDetail.phase==7">{{isSetTime?'已设置上线时间':'设置上线时间'}}</el-button>
 						<el-button @click="dialogPartnerVisible = true" :disabled="isPartner" v-if="itemManageDetail.phase==10">{{isPartner?'已关联有限合伙':'关联有限合伙'}}</el-button>
 						<el-button @click="dialogAuthVisible = true" :disabled="isAuth" v-if="itemManageDetail.phase==10">银账信息审核</el-button>
-						<el-button @click="dialogMerchantVisible = true" :disabled="!!merchant.id" v-if="itemManageDetail.phase==10">{{(!!merchant.id)?'已关联聚合支付商户信息':'关联聚合支付商户信息'}}</el-button>
+						<el-button @click="dialogMerchantVisible = true"  v-if="itemManageDetail.phase==10">{{'关联聚合支付商户信息'}}</el-button>
 						<el-button @click="fangkuan" :disabled="isFun" v-if="itemManageDetail.phase==11">{{isFun?'放款申请中':'放款申请'}}</el-button>
 						<el-button @click="continueEdit" v-if="itemManageDetail.phase==1">继续申请</el-button>
 						<el-button @click="deleteItem" v-if="itemManageDetail.phase==1">删除项目</el-button>
@@ -310,7 +310,7 @@
 				<el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="10">
 					<resisAuthTab v-if="activeName=='10'"></resisAuthTab>
 				</el-tab-pane>
-				<el-tab-pane label="聚合支付商户信息" v-if="!!merchant.id" name="11">
+				<el-tab-pane label="聚合支付商户信息" v-if="itemManageDetail.phase>=10" name="11">
 					<merchant v-if="activeName=='11'"></merchant>
 				</el-tab-pane>
 			</el-tabs>

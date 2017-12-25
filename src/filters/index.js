@@ -30,6 +30,29 @@ export function riskType(value){
 	return name
     
 }
+
+//最多保留6位的算万元过滤器
+export function moneyFormat(num) {
+    try {
+        if (!parseFloat(num)) {
+            return 0;
+        }
+    } catch (error) {
+        return 0;
+    }
+    let temp = parseFloat(num / 10000);
+    if (temp.toString().indexOf('.') == -1) {
+        return temp;
+    } else {
+        if(temp.toString().split('.')[1]&&temp.toString().split('.')[1].length<=6){
+            return Number(temp);
+        }
+        return Number(temp.toFixed(6));
+	}
+	
+}
+
+
 export function marriage(value){
 	let name=''
 	for (let i = 0; i < marriageData.length; i++) {

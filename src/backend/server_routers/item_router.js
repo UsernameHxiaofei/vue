@@ -52,7 +52,7 @@ module.exports = function client(router, sc, passport) {
 	//项目展示
 	router.all('/item_getProjectShow', function(req, res) {
 		let param = req.body
-		const stuff = sc.instanceRequest('FinancingProjectShowTask', 'selectFinancingProjectShowForAdmin', 'projectManage')
+		const stuff = sc.instanceRequest('FinancingProjectShowTask', 'selectFinancingProjectShow', 'projectManage')
 		stuff.auxiliary = {
 			[passport]: req.session.passport
 		}
@@ -1055,6 +1055,20 @@ module.exports = function client(router, sc, passport) {
 		}
 		stuff.items = [
 			param
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.head)
+		})
+	})
+	//更改聚合支付商户信息
+	router.all('/item_deleteMerchant', function(req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('EnterpriseAccountDLBTask', 'deleteDLBAccount', 'enterpriseManger')
+		stuff.auxiliary = {
+			[passport]: req.session.passport
+		}
+		stuff.items = [
+			param.id
 		]
 		sc.send(stuff).then((resp) => {
 			res.json(resp.head)

@@ -9,21 +9,21 @@
         overflow: hidden;
     }
 
-    .partner-time {
+    .partner-box .partner-time {
         margin: 0 40px 0 0;
         float: left;
         width: 100%;
         list-style: none;
     }
 
-    .partner-time li {
+    .partner-box .partner-time li {
         color: #333333;
         margin-top: 5px;
         font-size: 14px;
         line-height: 30px;
     }
 
-    .partner-time li span {
+    .partner-box .partner-time li span {
         display: inline-block;
         width: 125px;
         font-weight: bold;
@@ -32,7 +32,7 @@
         text-align: right;
     }
 
-    .bianji {
+    .partner-box .bianji {
         float: right;
         margin-right: 45%;
     }

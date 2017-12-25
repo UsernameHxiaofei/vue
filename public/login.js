@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
 }, false)
 function load(){
   var name=localStorage.getItem('rea');
-  if(name.length>0){
+  if(name&&name.length>0){
     document.getElementById('remeber').checked=true;
     document.getElementById('userName').value=localStorage.getItem('rea')
     document.getElementById('password').value=localStorage.getItem('rep')
