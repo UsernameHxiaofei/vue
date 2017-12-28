@@ -3,7 +3,7 @@
 
 	#step-bar {
 		background: #fcfcfc;
-		padding: 30px;
+		padding: 15px 30px;
 	}
 
 	#step-bar .el-step__icon {

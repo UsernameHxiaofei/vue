@@ -12,7 +12,7 @@
 			<el-button class="operationButton" type="primary" @click="selectImage">选择图片</el-button>
 		</div>
 		<form action="#" method="post">
-			<input style="display: none" ref="cropperFileInput" type="file" name="file" accept="image/jpg,image/jpeg,image/png,image/gif"
+			<input style="display: none" ref="cropperFileInput" type="file" name="file" accept="image/*"
 			 @change="uploadImage" />
 		</form>
 	</div>

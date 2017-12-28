@@ -83,9 +83,9 @@
 				<el-table-column prop="" width="40"></el-table-column>
 				<el-table-column type="index" width="60" label="序号"> </el-table-column>
 				<el-table-column prop="code" width="120" label="项目编号"> </el-table-column>
-				<el-table-column prop="name" label="项目名称"> </el-table-column>
-				<el-table-column prop="initiatorName" width="120" label="发起人"> </el-table-column>
-				<el-table-column prop="industry" width="120" label="所属行业">
+				<el-table-column prop="name"  width="220" label="项目名称"> </el-table-column>
+				<el-table-column prop="initiatorName" width="140" label="发起人"> </el-table-column>
+				<el-table-column prop="industry" width="110" label="所属行业">
 					<template slot-scope="scope">
 						{{scope.row.industry|industry}}
 					</template>
