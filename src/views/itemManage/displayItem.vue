@@ -240,7 +240,7 @@
                         <div class="progress-text">
                             <span>&emsp;已预约
                                 <b>{{caculateRate(show.reserveRatio)}}</b>%&emsp;
-                               <span v-if="show.remainingdays">
+                               <span v-if="show.remainingdays&&show.remainingdays>0&&show.phase==8">
                                 剩<b>{{show.remainingdays}}</b>天
                                </span> 
                             </span>
@@ -255,7 +255,12 @@
                             </div>
                         </div>
                         <div class="progress-text">
-                            <span>&emsp;已筹<b>{{caculateRate(show.raisedRatio)}}</b>%&emsp;<span v-if="show.projectEndDys&&show.phase<10">剩<b>{{show.projectEndDys}}</b>天</span></span>
+                            <span>&emsp;已筹<b>{{caculateRate(show.raisedRatio)}}</b>%&emsp;
+                                <span v-if="show.projectEndDys&&show.projectEndDys>0&&show.phase==8">剩
+                                    <b>{{item.projectEndDys}}</b>天</span>
+                                <span v-if="show.remainingdays&&show.remainingdays>0&&show.phase>8&&show.phase<10">剩
+                                    <b>{{item.remainingdays}}</b>天</span>
+                            </span>
                         </div>
                     </div>
                     <div class="progress-box">
