@@ -1,8 +1,10 @@
 const { StuffClient } = require('./client')
 const express = require('express')
 const router = express.Router()
+const multer = require('multer')
+const passport = 'linktou.base.task.data.Passport' //放置通行证对象的字段名
 
-let sc = new StuffClient('127.0.0.1', 8883)
+let sc = new StuffClient('127.0.0.1', 8882)
 if (process.env.NODE_ENV === 'production') {
 	if (process.env.server === 'test') {
 		sc = new StuffClient('10.240.240.147', 9880)
@@ -14,8 +16,7 @@ if (process.env.NODE_ENV === 'production') {
 		sc = new StuffClient('10.240.240.152', 9880)
 	}
 }
-const multer = require('multer')
-const passport = 'linktou.base.task.data.Passport' //放置通行证对象的字段名
+
 
 //这里调用的router方法，来拦截vue请求给node服务器
 require('./server_routers/login_router')(router, sc, passport)

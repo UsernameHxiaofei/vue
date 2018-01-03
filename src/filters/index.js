@@ -11,6 +11,16 @@ import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
 import funFlowTypes from '../constant/funFlowType'
 import riskTypeData from '../constant/riskType'
+import tradeTypes from '../constant/tradeType'
+
+export function tradeType(value){
+	for (let i = 0; i < tradeTypes.length; i++) {
+		const item = tradeTypes[i]
+		if(item.value==value){
+			return item.name
+		}
+	}
+}
 
 export function riskLv(value){
 	return value===2?'中':value===3?'高':'未知'

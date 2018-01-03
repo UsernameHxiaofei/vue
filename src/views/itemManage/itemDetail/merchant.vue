@@ -16,14 +16,14 @@
     .merchantlist th{
         font-size: 14px;
         line-height: 40px;
-        text-indent: 14px;
+        padding:0 10px;
         border: 1px solid #e2e6ef;
     }
     .merchantlist td{
         border: 1px solid #e2e6ef;
         font-size: 14px;
         line-height: 40px;
-        text-indent: 14px;
+        padding:0 10px;
     }
 </style>
 <template>
@@ -38,6 +38,7 @@
                     <th>店铺编号</th>
                     <th>店铺名称</th>
                     <th>机具号</th>
+                    <th>交易类型</th>
                     <th>操作</th>
                 </tr>
                 <tr v-for="item in merchant">
@@ -46,6 +47,7 @@
                     <td>{{item.shop_num}}</td>
                     <td>{{item.shop_name}}</td>
                     <td>{{item.machine_num}}</td>
+                    <td>{{item.tradeType|tradeType}}</td>
                     <td class="bianji">
                         <el-button  size="small" @click="edit(item)">编辑</el-button>
                         <el-button  size="small" @click="deleteItem(item)">删除</el-button>
@@ -70,6 +72,10 @@
                 <el-form-item prop="shop_name" label="机具号">
                     <el-input v-model="merchantForm.machine_num" auto-complete="off"></el-input>
                 </el-form-item>
+                <el-form-item prop="tradeType" label="交易类型">
+                    <el-radio  v-model="merchantForm.tradeType" :label="1">聚合支付</el-radio>
+                      <el-radio v-model="merchantForm.tradeType" :label="2">POS刷卡</el-radio>
+                </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
                 <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -92,7 +98,8 @@
                     short_name: '',
                     shop_num: '',
                     shop_name: '',
-                    machine_num: ''
+                    machine_num: '',
+                    tradeType:1
                 },
                 merchantFormRules: {
                     customer_num: [{ required: true, message: '请输入商户编号', trigger: 'blur' }]
@@ -108,7 +115,8 @@
                     short_name: '',
                     shop_num: '',
                     shop_name: '',
-                    machine_num: ''
+                    machine_num: '',
+                    tradeType:1
                 }
                 this.addFlag=true;
             },

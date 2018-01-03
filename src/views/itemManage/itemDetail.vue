@@ -384,6 +384,10 @@
 					<el-form-item prop="shop_name" label="机具号">
 						<el-input v-model="merchantForm.machine_num" auto-complete="off"></el-input>
 					</el-form-item>
+					<el-form-item prop="tradeType" label="交易类型">
+						<el-radio v-model="merchantForm.tradeType" label="1">聚合支付</el-radio>
+  						<el-radio v-model="merchantForm.tradeType" label="2">POS刷卡</el-radio>
+					</el-form-item>
 				</el-form>
 			</dialogComponent>
 		</div>
@@ -557,7 +561,8 @@ export default {
 				short_name: '',
 				shop_num: '',
 				shop_name: '',
-				machine_num: ''
+				machine_num: '',
+				tradeType:1
 			},
 			merchantFormRules: {
 				customer_num: [{ required: true, message: '请输入商户编号', trigger: 'blur' }]
