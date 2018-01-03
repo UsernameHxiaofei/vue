@@ -52,16 +52,16 @@
 				<el-form-item label="轮播图链接地址" prop="targetSrc" :rules="[{required: true, message: '请设置轮播图链接地址', trigger: 'blur,change' }]">
 					<el-input v-model="fileParam.targetSrc" :maxlength="255"></el-input>
 				</el-form-item>
-				<el-form-item label="按钮显示文本" prop="btnText" v-if="fileParam.picType==1" :rules="[{required: true, message: '请设置按钮显示文本', trigger: 'blur,change' }]">
+				<el-form-item label="按钮显示文本" prop="btnText" v-if="fileParam.picType==1" :rules="[{message: '请设置按钮显示文本', trigger: 'blur,change' }]">
 					<el-input v-model="fileParam.btnText" :maxlength="64"></el-input>
 				</el-form-item>
-				<el-form-item label="按钮链接地址" prop="btnUrl" v-if="fileParam.picType==1" :rules="[{required: true,message: '请设置按钮链接地址', trigger: 'blur,change' }]">
+				<el-form-item label="按钮链接地址" prop="btnUrl" v-if="fileParam.picType==1" :rules="[{message: '请设置按钮链接地址', trigger: 'blur,change' }]">
 					<el-input v-model="fileParam.btnUrl" :maxlength="255"></el-input>
 				</el-form-item>
-				<el-form-item label="按钮顶部外边距" prop="btnTop" v-if="fileParam.picType==1" :rules="[{required: true,type:'number',message: '请设置按钮顶部外边距', trigger: 'blur,change' }]">
+				<el-form-item label="按钮顶部外边距" prop="btnTop" v-if="fileParam.picType==1" :rules="[{type:'number',message: '请设置按钮顶部外边距', trigger: 'blur,change' }]">
 					<el-input-number v-model.number="fileParam.btnTop" :min="0"></el-input-number>
 				</el-form-item>
-				<el-form-item label="按钮左外边距" prop="btnLeft" v-if="fileParam.picType==1" :rules="[{required: true,type:'number',message: '请设置按钮左外边距', trigger: 'blur,change' }]">
+				<el-form-item label="按钮左外边距" prop="btnLeft" v-if="fileParam.picType==1" :rules="[{type:'number',message: '请设置按钮左外边距', trigger: 'blur,change' }]">
 					<el-input-number v-model.number="fileParam.btnLeft" :min="0"></el-input-number>
 				</el-form-item>
 				<el-form-item label="轮播顺序" prop="show_sequence" :rules="[{required: true,type:'number', message: '请设置轮播顺序', trigger: 'blur' }]">
@@ -117,7 +117,6 @@
 				fileParam: {
 					show_sequence: 1,
 					targetSrc: '',
-					targetSrc1: '',
 					imageUrl: '',
 					picType: 1,
 				},

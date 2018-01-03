@@ -207,10 +207,6 @@ export default {
 		//编辑消息模板
 		selectMsgModel(data) {
 			this.title = '编辑消息'
-			// if(!data.templatType){
-			//   data.templatType='1';
-			// }
-			//this.ruleForm=data;
 			this.msgModelById = {
 				templatId: data
 			}
@@ -254,7 +250,6 @@ export default {
 							})
 						}
 					})
-
 				} else {
 					return false
 				}
