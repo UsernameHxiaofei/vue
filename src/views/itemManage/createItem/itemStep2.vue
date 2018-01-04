@@ -347,10 +347,10 @@
 							this.planFile = item.materialURL
 							this.plan_materials = [{ name: item.name, response: { objectLiteral: item.materialURL }, url: item.materialURL }]
 						} else {
-							this.others_materials.push({ name: item.name, url: item.materialURL, response: { objectLiteral: item.materialURL } })
+							this.otherFiles.push({ name: item.name, url: item.materialURL, response: { objectLiteral:JSON.stringify(item.materialURL)} })
+							this.others_materials.push({ name: item.name, url: item.materialURL, response: { objectLiteral:JSON.stringify(item.materialURL) }})
 						}
 					}
-
 				})
 				return this.$store.dispatch('enterprise_getMemberInfo', { id: this.itemManageDetail.enterpriseId })
 			})

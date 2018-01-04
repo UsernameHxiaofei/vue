@@ -7,7 +7,7 @@
 module.exports = function client(router, sc, passport) {
 	router.all('/login_auth', function (req, res) {//登录接口
 		const stuff = sc.instanceRequest('LoginTask', 'login', 'securityCenter')//从左到右分别是接口名，方法标志，部件码
-		stuff.items = [req.body.username, req.body.password]//请求参数以数组形式传递 按照接口规定顺序传递，只需要按照规定顺序传入就好。不用传字段名。
+		stuff.items = [req.body.username, req.body.password,5]//请求参数以数组形式传递 按照接口规定顺序传递，只需要按照规定顺序传入就好。不用传字段名。
 		sc.send(stuff).then((resp) => {
 			if (resp.head.success) {
 				req.session.passport = resp.object

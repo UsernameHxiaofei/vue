@@ -385,8 +385,8 @@
 						<el-input v-model="merchantForm.machine_num" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="tradeType" label="交易类型">
-						<el-radio v-model="merchantForm.tradeType" label="1">聚合支付</el-radio>
-  						<el-radio v-model="merchantForm.tradeType" label="2">POS刷卡</el-radio>
+						<el-radio v-model="merchantForm.tradeType" :label="1">聚合支付</el-radio>
+  						<el-radio v-model="merchantForm.tradeType" :label="2">POS刷卡</el-radio>
 					</el-form-item>
 				</el-form>
 			</dialogComponent>

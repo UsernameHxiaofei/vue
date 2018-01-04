@@ -29,11 +29,9 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('ActorTask', 'addActorForAdmin', 'securityCenter')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
-			param.mobileNumber,
-			param.name,
+			param,
 			param.email,
-			param.roles,
-			param.loginPassword,
+			param.roles
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.head)})
 	})
