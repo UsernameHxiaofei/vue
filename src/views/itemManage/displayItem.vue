@@ -10,7 +10,17 @@
         width: 100%;
         height: 350px;
     }
+    .item-channel {
+		float: right;
+		font-weight: bold;
+		line-height: 40px;
+		font-size: 16px;
+	}
 
+	.item-channelMark {
+		float: right;
+		height: 40px;
+	}
     .charactor {
         height: 50px;
     }
@@ -88,7 +98,7 @@
     }
 
     .progress-box .progress-number {
-        
+
         position: relative;
         top: -4px;
         border-radius: 10px;
@@ -200,7 +210,9 @@
                     </div>
                 </el-col>
                 <el-col :span="14">
-                    <h3 style="font-weight: bold;margin-bottom: 10px;font-size: 20px;color: rgb(51, 51, 51);">{{show.name}}</h3>
+                    <span style="font-weight: bold;margin-bottom: 10px;font-size: 20px;color: rgb(51, 51, 51);">{{show.name}}</span>
+                    <img class="item-channelMark" v-if="projectChannel.channelMark" :src="projectChannel.channelMark" :title="projectChannel.channelDesc" :alt="projectChannel.channelDesc">
+				    <span class="item-channel">引入渠道：{{projectChannel.channelDesc}}</span>
                     <p class="pro-intro">{{show.summary}}</p>
                     <el-row>
                         <div :span="6" class="curlocal">
@@ -240,9 +252,10 @@
                         <div class="progress-text">
                             <span>&emsp;已预约
                                 <b>{{caculateRate(show.reserveRatio)}}</b>%&emsp;
-                               <span v-if="show.remainingdays&&show.remainingdays>0&&show.phase==8">
-                                剩<b>{{show.remainingdays}}</b>天
-                               </span> 
+                                <span v-if="show.remainingdays&&show.remainingdays>0&&show.phase==8">
+                                    剩
+                                    <b>{{show.remainingdays|getProjectEndTime}}</b>天
+                                </span>
                             </span>
                         </div>
                     </div>
@@ -255,27 +268,37 @@
                             </div>
                         </div>
                         <div class="progress-text">
-                            <span>&emsp;已筹<b>{{caculateRate(show.raisedRatio)}}</b>%&emsp;
+                            <span>&emsp;已筹
+                                <b>{{caculateRate(show.raisedRatio)}}</b>%&emsp;
                                 <span v-if="show.projectEndDys&&show.projectEndDys>0&&show.phase==8">剩
-                                    <b>{{item.projectEndDys}}</b>天</span>
+                                    <b>{{show.projectEndDys|getProjectEndTime}}</b>
+                                </span>
                                 <span v-if="show.remainingdays&&show.remainingdays>0&&show.phase>8&&show.phase<10">剩
-                                    <b>{{item.remainingdays}}</b>天</span>
+                                    <b>{{show.remainingdays|getProjectEndTime}}</b>
+                                </span>
                             </span>
                         </div>
                     </div>
                     <div class="progress-box">
                         <div>
                             <span style="font-size:12px;" class="init">&emsp;</span>
-                            &nbsp;项目方出资&nbsp;<b>{{moneyF(show.commitmentAmount)+moneyF(show.investedAmount)}}</b>万元&emsp;
+                            &nbsp;项目方出资&nbsp;
+                            <b>{{moneyF(show.commitmentAmount)+moneyF(show.investedAmount)}}</b>万元&emsp;
                             <span style="font-size:12px;" class="lead">&emsp;</span>
-                            &nbsp;领投额&nbsp;<b>{{show.investmentAmount|moneyFormat}}</b>万元&emsp;
+                            &nbsp;领投额&nbsp;
+                            <b>{{show.investmentAmount|moneyFormat}}</b>万元&emsp;
                             <span style="font-size:12px;" class="invest">&emsp;</span>
-                            &nbsp;已募&nbsp;<b>{{show.raisedAmount|moneyFormat}}</b>万元&emsp;
+                            &nbsp;已募&nbsp;
+                            <b>{{show.raisedAmount|moneyFormat}}</b>万元&emsp;
                         </div>
                     </div>
                     <div>
-                        <span>总投资额(万元)<b>{{show.overallInvestment|moneyFormat}}</b></span>&emsp;&emsp;
-                        <span>起投额(元)<b>{{show.unitPrice||0}}</b></span>
+                        <span>总投资额(万元)
+                            <b>{{show.overallInvestment|moneyFormat}}</b>
+                        </span>&emsp;&emsp;
+                        <span>起投额(元)
+                            <b>{{show.unitPrice||0}}</b>
+                        </span>
                     </div>
                 </el-col>
             </el-row>
@@ -386,6 +409,7 @@
             this.$store.dispatch('item_getInvestUserInfo', { id: this.$route.params.projectId }).then(() => {
                 this.invertUserNum = this.$store.state.item.invertUserInfo && this.$store.state.item.invertUserInfo.length || 0
             })
+            this.$store.dispatch('item_getProjectChannel',{ id: this.$route.params.projectId })
             this.$store.dispatch('item_getProjectShow', { id: this.$route.params.projectId })
             this.$store.dispatch('item_getCreditAntiFraud', { id: this.$route.params.projectId })
             this.$store.dispatch('item_getExpertAd', { id: this.$route.params.projectId })
@@ -418,13 +442,16 @@
             },
             leadAd: function () {
                 return this.$store.state.item.leadAd || {}
+            },
+            projectChannel: function () {
+                return this.$store.state.item.projectChannel || {}
             }
         },
         data() {
             return {
                 activeName: '1',
                 invertUserNum: 0,
-                moneyF:moneyFormat
+                moneyF: moneyFormat
             }
         },
         methods: {
@@ -436,7 +463,7 @@
                 } catch (error) {
                     return 0;
                 }
-                let temp = parseFloat(num *100);
+                let temp = parseFloat(num * 100);
                 if (temp.toString().indexOf('.') == -1) {
                     return temp;
                 } else {

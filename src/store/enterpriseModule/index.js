@@ -1,7 +1,7 @@
 import { api } from 'api'
 
 
-export const enterpriseModule = {
+export default {
 	state: {
 		enterpriseManageList: [], //融资企业管理列表
 		enterpriseInfo:{}, //融资企业详情

@@ -8,14 +8,22 @@
                 <el-menu unique-opened :default-active="index" class="el-menu-vertical-demo">
                     <el-menu-item index="1" @click="go('/main','1')">
                         <i class="iconfont icon-xingyuanxiangmu"></i>&emsp;项目管理</el-menu-item>
+                        <el-menu-item index="9" @click="go('/investedItemList','9')">
+                            <i class="iconfont icon-zijindongtai"></i>
+                            <span style="display: inline-block;text-indent: 11px;">投后项目管理</span>
+                        </el-menu-item>
                     <el-submenu index="2">
                         <template slot="title">
-                            <i class="iconfont icon-kehudongtai"></i>&emsp;客户管理
+                            <i class="iconfont icon-kehudongtai"></i>&emsp;会员管理
                         </template>
-                        <el-menu-item index="2-1" @click="go('/customerInforMaintain','2-1')">&emsp;客户信息维护</el-menu-item>
+                        <el-menu-item index="2-1" @click="go('/personMember','2-1')">&emsp;个人会员维护</el-menu-item>
+                        <el-menu-item index="2-4" @click="go('/enterpriseMember','2-4')">&emsp;企业会员维护</el-menu-item>
+                        <el-menu-item index="2-5" @click="go('/enterpriseChangeAuditList','2-5')">&emsp;企业会员变更审核</el-menu-item>
                         <el-menu-item index="2-2" @click="go('/expertAuditList','2-2')">&emsp;行家审核列表</el-menu-item>
-                        <el-menu-item index="2-3" @click="go('/leadAuditList','2-3')">&emsp;领投审核列表</el-menu-item>
+                        <el-menu-item index="2-3" @click="go('/personLeadAuditList','2-3')">&emsp;个人领投审核列表</el-menu-item>
+                        <el-menu-item index="2-6" @click="go('/enterpriseLeadAuditList','2-6')">&emsp;企业领投审核列表</el-menu-item>
                     </el-submenu>
+                    
                     <el-submenu index="3">
                         <template slot="title">
                             <i class="iconfont icon-neirong"></i>&emsp;内容管理
@@ -37,6 +45,7 @@
                         <el-menu-item index="4-5" @click="go('/rateSetting','4-5')">&emsp;资金规则参数设置</el-menu-item>
                         <el-menu-item index="4-6" @click="go('/refundApproval','4-6')">&emsp;资金划拨审批</el-menu-item>
                     </el-submenu>
+                    
                     <el-menu-item index="5" @click="go('/enterprise','5')">
                         <i class="iconfont icon-zijindongtai"></i>
                         <span style="display: inline-block;text-indent: 11px;">融资企业管理</span>
@@ -75,9 +84,12 @@ export default {
 			index: '1',
 			menus: [
 				{ value: '/main',index:'1'},
-				{ value: '/customerInforMaintain',index:'2-1'},
+				{ value: '/personMember',index:'2-1'},
 				{ value: '/expertAuditList',index:'2-2'},
-				{ value: '/leadAuditList',index:'2-3'},
+				{ value: '/personLeadAuditList',index:'2-3'},
+				{ value: '/enterpriseMember',index:'2-4'},
+				{ value: '/enterpriseChangeAuditList',index:'2-5'},
+				{ value: '/enterpriseLeadAuditList',index:'2-6'},
 				{ value: '/msgImages',index:'3-1'},
 				{ value: '/msgModel',index:'3-2'},
 				{ value: '/msgShort',index:'3-3'},
@@ -99,6 +111,7 @@ export default {
 				{ value: '/log', index: '8-5' },
 				{ value: '/monitor', index: '8-6' },
 				{ value: '/costMonitor', index: '8-7' },
+				{ value: '/investedItemList', index: '9' },
 			]
 		}
 	},

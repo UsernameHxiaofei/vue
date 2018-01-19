@@ -83,7 +83,7 @@
 				<el-table-column prop="" width="40"></el-table-column>
 				<el-table-column type="index" width="60" label="序号"> </el-table-column>
 				<el-table-column prop="code" width="120" label="项目编号"> </el-table-column>
-				<el-table-column prop="name"  width="220" label="项目名称"> </el-table-column>
+				<el-table-column prop="name" width="220" label="项目名称"> </el-table-column>
 				<el-table-column prop="initiatorName" width="140" label="发起人"> </el-table-column>
 				<el-table-column prop="industry" width="110" label="所属行业">
 					<template slot-scope="scope">
@@ -136,19 +136,46 @@
 				</el-button>
 			</div>
 		</div>
-		<el-dialog title="选择融资人" size="large" :visible.sync="chooseItemCustomer" :close-on-click-modal="false">
-			<div v-if="itemType=='A'" class="search-box" style="margin:10px 10px 30px 10px;float:right">
+		<el-dialog title="创建项目" :visible.sync="chooseItemCustomer" :close-on-click-modal="false" top='5%'>
+			<el-form label-width="100px">
+				<el-form-item label="项目渠道">
+					<template>
+						<el-radio v-model.number="projectChannel.channelType" :label="1">平台自有</el-radio>
+						<el-radio v-model.number="projectChannel.channelType" :label="2">外部引入</el-radio>
+					</template>
+				</el-form-item>
+				<el-form-item v-show="projectChannel.channelType==2">
+					<img :src="projectChannel.channelMark" v-if="!!projectChannel.channelMark">
+					<br>
+					<el-button size="small" @click="uploadChannelMark">上传渠道标志</el-button>
+					<br>
+					<el-input v-model="projectChannel.channelDesc" placeholder="渠道概述" :maxlength="255"></el-input>
+				</el-form-item>
+				<el-form-item label="项目分类">
+					<div class="itemType" :class="{'itemTypehover':itemType=='A'}" :style="" @click="chooseType('A')">
+						普通项目
+					</div>
+					<div class="itemType" :class="{'itemTypehover':itemType=='B'}" @click="chooseType('B')">
+						模拟投资项目
+					</div>
+				</el-form-item>
+				<el-form-item label="模拟投资最大购买份数" required v-if="itemType=='B'">
+					<el-input-number v-model.number="copies" :min="1"></el-input-number>
+				</el-form-item>
+				<el-form-item label="融资人类型" v-show="itemType=='A'">
+					<el-radio-group v-model.number="actorCategory" @change="actorCategoryChange">
+						<el-radio :label="5">个人</el-radio>
+						<el-radio :label="4">企业</el-radio>
+					</el-radio-group>
+				</el-form-item>
+			</el-form>
+			<div v-if="itemType=='A'" class="search-box" style="margin:0px 1px 30px 10px;float:left">
 				<div class="output">
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange"
 					 :on-icon-click="customerKeywordChange">
 					</el-input>
 				</div>
 			</div>
-			<el-form>
-				<el-form-item label="模拟投资最大购买份数" required v-if="itemType=='B'">
-					<el-input-number v-model.number="copies" :min="1"></el-input-number>
-				</el-form-item>
-			</el-form>
 			<div class="my-table">
 				<el-table :data="customerList.list||customerInfoForSimulationList.list" stripe border style="width: 100%">
 					<el-table-column prop="" width="5">
@@ -171,7 +198,7 @@
 					<el-table-column prop="audit" label="认证" width="140px">
 						<template slot-scope="scope">
 							<span class="btn-small" :class="scope.row.projectParty==1 ? active : ''">项</span>
-							<span class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>
+							<span v-show="actorCategory!=4" class="btn-small" :class="scope.row.expert==2 ? active : ''">行</span>
 							<span class="btn-small" :class="scope.row.leadInvestor==2 ? active : ''">领</span>
 							<span class="btn-small" :class="scope.row.investor==1 ? active : ''">投</span>
 						</template>
@@ -191,213 +218,235 @@
 			</div>
 
 		</el-dialog>
-		<el-dialog size="tiny" title="选择创建项目的类型" :visible.sync="chooseItemType" :close-on-click-modal="false">
-			<div class="itemType" @click="chooseType('A')">
-				普通项目
-			</div>
-			<div class="itemType" @click="chooseType('B')">
-				模拟投资项目
-			</div>
-		</el-dialog>
+		<div class="p-form">
+			<el-dialog title="渠道标志上传" :visible.sync="editChannelMarkChange" :close-on-click-modal="false">
+				<imageCropper :op="{fixedNumber:[16,9]}" @result="uploadSuccess"></imageCropper>
+			</el-dialog>
+		</div>
 	</div>
 </template>
 <script>
-import pagination from '../components/common/pagination'
-import { regionData } from 'element-china-area-data'
-import projectPhaseList from '../constant/projectPhase'
-import industryList from '../constant/industry'
-import statusList from '../constant/projectStatus'
-
-export default {
-	components: {
-		pagination
-	},
-	// asyncData ({ store,session,router }) {
-	// 	return Promise.all([store.dispatch('item_getManageList', session),store.dispatch('item_getHeadData',session)]);
-	// },
-	data() {
-		return {
-			tableloading: false,
-			param: {},
-			chooseItemType: false,
-			options3: regionData,
-			projectPhaseOption: projectPhaseList,
-			industryOption: industryList,
-			projectStatusList: statusList,
-			where: [],
-			industry: '',
-			phase: '',
-			isRestart: false,
-			status: '',
-			// 搜索
-			keyword: '',
-			copies: 1,
-			active: 'border-orange',
-			itemType: 'A',
-			customerKeyword: '',
-			chooseItemCustomer: false,
-			customerParam: {}
-		}
-	},
-	computed: {
-		itemManageList: function () {
-			return this.$store.state.item.itemManageList || {}
+	import pagination from '../components/common/pagination'
+	import { regionData } from 'element-china-area-data'
+	import projectPhaseList from '../constant/projectPhase'
+	import industryList from '../constant/industry'
+	import statusList from '../constant/projectStatus'
+	import imageCropper from '../components/common/cropper'
+	export default {
+		components: {
+			pagination,
+			imageCropper
 		},
-		itemManageHeadData: function () {
-			return this.$store.state.item.itemManageHeadData || {}
+		data() {
+			return {
+				editChannelMarkChange: false,
+				tableloading: false,
+				param: {},
+				options3: regionData,
+				projectPhaseOption: projectPhaseList,
+				industryOption: industryList,
+				projectStatusList: statusList,
+				where: [],
+				industry: '',
+				phase: '',
+				isRestart: false,
+				status: '',
+				// 搜索
+				keyword: '',
+				copies: 1,
+				active: 'border-orange',
+				projectChannel: {
+					channelType: 1,
+					channelMark: '',
+					channelDesc: ''
+				},
+				itemType: 'A',
+				actorCategory: 5,
+				customerKeyword: '',
+				chooseItemCustomer: false,
+				customerParam: {}
+			}
 		},
-		customerList: function () {
-			return this.$store.state.item.customerList || {}
+		computed: {
+			itemManageList: function () {
+				return this.$store.state.item.itemManageList || {}
+			},
+			itemManageHeadData: function () {
+				return this.$store.state.item.itemManageHeadData || {}
+			},
+			customerList: function () {
+				return this.$store.state.item.customerList || {}
+			},
+			customerInfoForSimulationList: function () {
+				return this.$store.state.item.customerInfoForSimulationList || {}
+			},
+			operator: function () {
+				return this.$store.state.login.actor
+			}
 		},
-		customerInfoForSimulationList: function () {
-			return this.$store.state.item.customerInfoForSimulationList || {}
+		beforeMount() {
+			this.param = {
+				industry: this.industry,
+				phase: this.phase,
+				status: '',
+				isRestart: 0,
+				regionCode: this.where.length > 0 ? this.where[this.where.length - 1] : '',
+				keyword: this.keyword,
+				pageSize: 10,
+				pageNo: 1
+			}
+			this.getListData()
+			this.$store.dispatch('item_getHeadData')
+			this.$store.commit('enterprise_setMemberInfo', {})
+			this.$store.commit('enterprise_setInfo', {})
 		},
-		operator: function () {
-			return this.$store.state.login.actor
-		}
-	},
-	beforeMount() {
-		this.param = {
-			industry: this.industry,
-			phase: this.phase,
-			status: '',
-			isRestart: 0,
-			regionCode: this.where.length > 0 ? this.where[this.where.length - 1] : '',
-			keyword: this.keyword,
-			pageSize: 10,
-			pageNo: 1
-		}
-		this.getListData()
-		this.$store.dispatch('item_getHeadData')
-		this.$store.commit('enterprise_setMemberInfo', {})
-		this.$store.commit('enterprise_setInfo', {})
-	},
-	methods: {
-		chooseType(type) {
-			this.itemType = type
-			if (type == 'A') {
+		methods: {
+			actorCategoryChange() {
 				this.customerParam = {
 					keyword: this.customerKeyword,
+					category: this.actorCategory,
+					certifi:'C',
 					pageNo: 1,
 					pageSize: 10
 				}
 				this.$store.dispatch('item_getCustomerList', this.customerParam)
-			} else {
-				this.customerParamForSimulation = {
-					pageNo: 1,
-					pageSize: 10
+			},
+			//上传成功时返回的数据
+			uploadSuccess(data) {
+				if (data) {
+					this.projectChannel.channelMark = data
+					this.editChannelMarkChange = false
 				}
-				this.$store.dispatch('item_getCustomerInfoForSimulation', this.customerParamForSimulation)
-			}
-			this.chooseItemType = false
-			this.chooseItemCustomer = true
-		},
-		handleCustomerCurrentChange(val) {
-			if (this.itemType == 'A') {
-				this.customerParam.pageNo = val
-				this.$store.dispatch('item_getCustomerList', this.customerParam)
-			} else {
-				this.customerParamForSimulation.pageNo = val
-				this.$store.dispatch('item_getCustomerInfoForSimulation', this.customerParamForSimulation)
-			}
-
-		},
-		handleCustomerSizeChange(val) {
-			if (this.itemType == 'A') {
-				this.customerParam.pageNo = 1
-				this.customerParam.pageSize = val
-				this.$store.dispatch('item_getCustomerList', this.customerParam)
-			} else {
-				this.customerParamForSimulation.pageNo = 1
-				this.customerParamForSimulation.pageSize = val
-				this.$store.dispatch('item_getCustomerInfoForSimulation', this.customerParamForSimulation)
-			}
-		},
-		createItemByCustomer(item) {
-			this.$store.dispatch('item_createProject1', { type: this.itemType, copies: this.copies }).then(() => {
-				if (!this.$store.state.item.createProjectId.length) {
-					this.$message.warning('创建项目失败，请联系服务器开发人员')
-					return false
+			},
+			uploadChannelMark() {
+				this.editChannelMarkChange = true
+			},
+			chooseType(type) {
+				this.itemType = type
+				if (type == 'A') {
+					this.actorCategory = 5
+					this.customerParam = {
+						keyword: this.customerKeyword,
+						category: this.actorCategory,
+						certifi:'C',
+						pageNo: 1,
+						pageSize: 10
+					}
+					this.$store.dispatch('item_getCustomerList', this.customerParam)
 				} else {
-					this.chooseItemCustomer = true
+					this.customerParamForSimulation = {
+						pageNo: 1,
+						pageSize: 10
+					}
+					this.$store.dispatch('item_getCustomerInfoForSimulation', this.customerParamForSimulation)
 				}
-				let projectParam = {
-					id: this.$store.state.item.createProjectId,
-					initiatorId: item.actorId
+			},
+			handleCustomerCurrentChange(val) {
+				if (this.itemType == 'A') {
+					this.customerParam.pageNo = val
+					this.$store.dispatch('item_getCustomerList', this.customerParam)
+				} else {
+					this.customerParamForSimulation.pageNo = val
+					this.$store.dispatch('item_getCustomerInfoForSimulation', this.customerParamForSimulation)
 				}
-				this.$store.dispatch('item_updateProject', { param: projectParam, vue: this })
-				this.$router.push('/itemStep1/' + this.$store.state.item.createProjectId)
-			})
-		},
-		createProject() {
-			this.chooseItemType = true
-		},
-		getListData() {
-			this.tableloading = true
-			this.$store.dispatch('item_getManageList', this.param).then(() => {
-				this.tableloading = false
-			})
-		},
-		restartChange() {
-			this.param.isRestart = this.isRestart ? 1 : 0
-			this.param.pageNo = 1
-			this.getListData()
-		},
-		customerKeywordChange() {
-			this.customerParam.keyword = this.customerKeyword
-			this.customerParam.pageNo = 1
-			this.$store.dispatch('item_getCustomerList', this.customerParam)
-		},
-		search() {
-			this.param.keyword = this.keyword
-			this.param.pageNo = 1
-			this.getListData()
-		},
-		industryChange() {
-			this.param.industry = this.industry
-			this.param.pageNo = 1
-			this.getListData()
-		},
-		phaseChange() {
-			this.param.phase = this.phase
-			this.param.pageNo = 1
-			this.getListData()
-		},
-		handleChange() {
-			this.param.regionCode = this.where.length > 0 ? this.where[this.where.length - 1] : ''
-			this.param.pageNo = 1
-			this.getListData()
-		},
-		handleSizeChange(size) {
-			this.param.pageSize = size
-			this.param.pageNo = 1
-			this.getListData()
-		},
-		handleCurrentChange(page) {
-			this.param.pageNo = page
-			this.getListData()
+			},
+			handleCustomerSizeChange(val) {
+				if (this.itemType == 'A') {
+					this.customerParam.pageNo = 1
+					this.customerParam.pageSize = val
+					this.$store.dispatch('item_getCustomerList', this.customerParam)
+				} else {
+					this.customerParamForSimulation.pageNo = 1
+					this.customerParamForSimulation.pageSize = val
+					this.$store.dispatch('item_getCustomerInfoForSimulation', this.customerParamForSimulation)
+				}
+			},
+			createItemByCustomer(item) {
+				this.$store.dispatch('item_createProject1', { type: this.itemType, copies: this.copies }).then(() => {
+					if (!this.$store.state.item.createProjectId.length) {
+						this.$message.warning('创建项目失败，请联系云开发人员')
+						return false
+					}
+					let projectParam = {
+						id: this.$store.state.item.createProjectId,
+						initiatorId: item.actorId
+					}
+					this.projectChannel.projectId = this.$store.state.item.createProjectId
+					this.$store.dispatch('item_addProjectChannel', this.projectChannel)
+					this.$store.dispatch('item_updateProject', { param: projectParam, vue: this })
+					this.$router.push('/itemStep1/' + this.$store.state.item.createProjectId)
+				})
+			},
+			createProject() {
+				this.chooseItemCustomer = true
+				this.chooseType('A')
+			},
+			getListData() {
+				this.tableloading = true
+				this.$store.dispatch('item_getManageList', this.param).then(() => {
+					this.tableloading = false
+				})
+			},
+			restartChange() {
+				this.param.isRestart = this.isRestart ? 1 : 0
+				this.param.pageNo = 1
+				this.getListData()
+			},
+			customerKeywordChange() {
+				this.customerParam.keyword = this.customerKeyword
+				this.customerParam.pageNo = 1
+				this.$store.dispatch('item_getCustomerList', this.customerParam)
+			},
+			search() {
+				this.param.keyword = this.keyword
+				this.param.pageNo = 1
+				this.getListData()
+			},
+			industryChange() {
+				this.param.industry = this.industry
+				this.param.pageNo = 1
+				this.getListData()
+			},
+			phaseChange() {
+				this.param.phase = this.phase
+				this.param.pageNo = 1
+				this.getListData()
+			},
+			handleChange() {
+				this.param.regionCode = this.where.length > 0 ? this.where[this.where.length - 1] : ''
+				this.param.pageNo = 1
+				this.getListData()
+			},
+			handleSizeChange(size) {
+				this.param.pageSize = size
+				this.param.pageNo = 1
+				this.getListData()
+			},
+			handleCurrentChange(page) {
+				this.param.pageNo = page
+				this.getListData()
+			}
 		}
 	}
-}
 </script>
 
 <style>
 	#main .itemType {
 		display: inline-block;
-		width: 250px;
+		width: 120px;
 		text-align: center;
-		height: 100px;
-		line-height: 100px;
+		height: 30px;
+		line-height: 30px;
 		vertical-align: middle;
-		margin: 0 9px;
-		font-size: 18px;
+		margin-right:10px;
+		font-size: 16px;
 		border: 1px solid #06ccb7;
 		color: #06ccb7;
 		font-weight: bold;
 		cursor: pointer;
 	}
 
-	#main .itemType:hover {
+	#main .itemTypehover {
 		border: 1px solid #fff;
 		color: #fff;
 		background: #06ccb7;

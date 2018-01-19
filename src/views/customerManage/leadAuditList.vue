@@ -9,7 +9,7 @@
             <el-row>
                 <el-col :span="4">
                     <div class="grid-content">
-                        <img class="pic" src="../../assets/images/fund3.png" />
+                        <img class="pic" src="../../assets/images/fund5.png" />
                         <div class="num-box">
                             <span class="color-green">未认证</span>
                             <p>{{customerStatistics.UnCertifiCount}}</p>
@@ -20,7 +20,7 @@
                     <div class="grid-content">
                         <img class="pic" src="../../assets/images/fund4.png" />
                         <div class="num-box">
-                            <span class="color-blue">项目方</span>
+                            <span class="color-blue">融资人</span>
                             <p>{{customerStatistics.projectPartyCount}}</p>
                         </div>
                     </div>

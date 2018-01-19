@@ -2,24 +2,22 @@
 	<div style="width:100%;height: 100%;background: #fff;margin: auto;padding:20px;float: left" class="Clear">
 		<div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;" v-for="item in postalAddressList">
 			<div style="height: 30px;line-height: 30px;">
-				<span>{{item.receiver}}</span>
+				<span><label>收件人：</label>{{item.receiver}}</span>
 				<div style="float: right;">
 					<el-button style="width: 70px;" @click="updatePostalAddress(item)">修改</el-button>
 					<el-button style="width: 70px;" @click="deletePostalAddress(item.id)">删除</el-button>
 				</div>
 			</div>
 			<div style="height: 30px;line-height: 30px;">
-				<span>{{item.receiverMobileNumber}}</span>
+				<span><label>手机号：</label>{{item.receiverMobileNumber}}</span>
 			</div>
 			<div style="height: 30px;line-height: 30px;">
-				<span>{{item.receiverRegionCode|address}}</span>
+				<span><label>地址 ：</label>{{item.receiverRegionCode|address}}{{item.receiverAddress}}</span>
 			</div>
-			<div style="height: 30px;line-height: 30px;">
-				<span>{{item.receiverAddress}}</span>
-			</div>
+			
 		</div>
 
-		<div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;height: 100px;">
+		<div style="width:40%;padding: 15px; border: 1px solid #c1c1c1;float:left;margin: 20px;height: 70px;">
 			<div style="text-align: center;">
 				<el-button @click="addPostalAddress" :plain="true" type="success">添加新地址
 					<i class="el-icon-plus"></i>
@@ -31,7 +29,7 @@
 				<el-form-item label="收件人" prop="receiver">
 					<el-input placeholder="请填写真实姓名" v-model="postalAddress.receiver" auto-complete="off"></el-input>
 				</el-form-item>
-				<el-form-item label="手机号码" prop="receiverMobileNumber">
+				<el-form-item label="手机号" prop="receiverMobileNumber">
 					<el-input placeholder="请填写手机号" v-model="postalAddress.receiverMobileNumber" auto-complete="off"></el-input>
 				</el-form-item>
 				<el-form-item label="所在地区" prop="selectedOptions">
@@ -52,6 +50,7 @@
 
 <script>
 import { regionData } from 'element-china-area-data'
+import { getSelectArray} from '../../../util/index.js'
 export default {
 	components: {
 	},
@@ -121,7 +120,6 @@ export default {
 							} else {
 								this.$message.error('编辑失败')
 								this.postalAddressInit()
-								// this.cancel();
 							}
 						})
 					} else {
@@ -161,12 +159,7 @@ export default {
 			this.title = '修改收件地址'
 			this.postalAddress = item
 			if (this.postalAddress.receiverRegionCode) {
-				this.postalAddress.selectedOptions = []
-				this.province = this.postalAddress.receiverRegionCode.substring(0, 3)
-				this.city = this.postalAddress.receiverRegionCode.substring(3, 4)
-				this.postalAddress.selectedOptions[0] = this.province + '000'
-				this.postalAddress.selectedOptions[1] = this.province + this.city + '00'
-				this.postalAddress.selectedOptions[2] = this.postalAddress.receiverRegionCode
+				this.postalAddress.selectedOptions = getSelectArray(this.postalAddress.receiverRegionCode)
 			}
 			this.dialogFormVisible = true
 		},

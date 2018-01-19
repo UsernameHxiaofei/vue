@@ -29,24 +29,33 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('ActorTask', 'addActorForAdmin', 'securityCenter')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
-			param,
+			{
+				identNumber:param.identNumber,
+				mobileNumber:param.mobileNumber,
+				name:param.name,
+				category:param.category
+			},
 			param.email,
 			param.roles
 		]
-		sc.send(stuff).then((resp) =>{res.json(resp.head)})
+		sc.send(stuff).then((resp) =>{
+				res.json(resp.object)
+		})
 	})
 	router.all('/system_updateUser*', function (req, res) {//根据用户ID更新账户信息
 		let param=req.body
 		const stuff = sc.instanceRequest('ActorTask', 'updateActorById', 'securityCenter')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
-			param.name,
+			{
+				id:param.id,
+				name:param.name,
+				identNumber:param.identNumber,
+				mobileNumber:param.mobileNumber,
+				category:param.category
+			},
 			param.email,
-			param.mobileNumber,
-			param.roles,
-			param.loginPassword,
-			param.id,
-			param.type
+			param.roles
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.head)})
 	})

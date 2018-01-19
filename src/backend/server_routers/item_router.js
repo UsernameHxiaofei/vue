@@ -236,7 +236,12 @@ module.exports = function client(router, sc, passport) {
 	//编辑认证注册信息
 	router.all('/item_updateAuthInfo', function(req, res) {
 		let param = req.body
-		const stuff = sc.instanceRequest('EnterpriseAccountTask', 'updateRegistrationAuthority', 'enterpriseManger')
+		let stuff = null
+		if(param.id!='undefined'){
+			stuff = sc.instanceRequest('EnterpriseAccountTask', 'updateRegistrationAuthority', 'enterpriseManger')
+		}else{
+			stuff = sc.instanceRequest('EnterpriseAccountTask', 'createEnterpriseAccount', 'enterpriseManger')
+		}
 		stuff.auxiliary = {
 			[passport]: req.session.passport
 		}
@@ -698,6 +703,9 @@ module.exports = function client(router, sc, passport) {
 			[passport]: req.session.passport
 		}
 		stuff.items = [
+			param.category,
+			param.beginTime,
+			param.endTime,
 			'',
 			'F',
 			param.keyword,
@@ -1086,6 +1094,34 @@ module.exports = function client(router, sc, passport) {
 		]
 		sc.send(stuff).then((resp) => {
 			res.json(resp.head)
+		})
+	})
+	//添加项目渠道
+	router.all('/item_addProjectChannel',function(req,res){
+		let param = req.body
+		const stuff = sc.instanceRequest('ProjectChannelTask', 'addProjectChannel', 'projectManage')
+		stuff.auxiliary = {
+			[passport]: req.session.passport
+		}
+		stuff.items = [
+			param
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.head)
+		})
+	})
+	//查询项目渠道
+	router.all('/item_getProjectChannel',function(req,res){
+		let param = req.body
+		const stuff = sc.instanceRequest('ProjectChannelTask', 'getProjectChannelByProjectId', 'projectManage')
+		stuff.auxiliary = {
+			[passport]: req.session.passport
+		}
+		stuff.items = [
+			param.id
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
 		})
 	})
     

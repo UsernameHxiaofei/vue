@@ -7,43 +7,36 @@ module.exports = function client(Vue) {
 	return {
 		show_imageList: (param) => {
 			return Vue.http.post('show_imageList', param).then(response => {
-
 				return response.body
 			})
 		},
 		delete_bannerById: (param) => {
 			return Vue.http.post('delete_bannerById', param).then(response => {
-
 				return response.body
 			})
 		},
 		banner_uploadByFile: (param) => {
 			return Vue.http.post('banner_uploadByFile', param).then(response => {
-
 				return response.body
 			})
 		},
 		msgModel_getList: (param) => {
 			return Vue.http.post('msgModel_getList', param).then(response => {
-
 				return response.body
 			})
 		},
 		msgModel_delete: (param) => {
 			return Vue.http.post('msgModel_delete', param).then(response => {
-
 				return response.body
 			})
 		},
 		msgModel_select: (param) => {
 			return Vue.http.post('msgModel_select', param).then(response => {
-
 				return response.body
 			})
 		},
 		msgModel_update: (param) => {
 			return Vue.http.post('msgModel_update', param).then(response => {
-
 				return response.body
 			})
 		},

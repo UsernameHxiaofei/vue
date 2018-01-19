@@ -11,77 +11,117 @@ import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
 import funFlowTypes from '../constant/funFlowType'
 import riskTypeData from '../constant/riskType'
-import tradeTypes from '../constant/tradeType'
+import tradeTypes from '../constant/tradeTypes'
+import channels from '../constant/payChannels'
+import actorCategorys from '../constant/actorCategory'
+import projectRoles from '../constant/projectRoles'
 
-export function tradeType(value){
-	for (let i = 0; i < tradeTypes.length; i++) {
-		const item = tradeTypes[i]
+
+export function projectRole(value){
+	for (let i = 0; i < projectRoles.length; i++) {
+		const item = projectRoles[i]
 		if(item.value==value){
-			return item.name
+			return item.label
 		}
 	}
 }
 
-export function riskLv(value){
-	return value===2?'中':value===3?'高':'未知'
+export function getProjectEndTime(x) {
+	if (x > 60 * 60 * 24) {
+		return Math.ceil(x / (60 * 60 * 24)) + '天'
+	} else if (x > 60 * 60) {
+		return Math.ceil(x / (60 * 60)) + '小时'
+	} else {
+		return Math.ceil(x / 60) + '分钟'
+	}
 }
-export function riskType(value){
-	let name=''
+export function actorCategory(value) {
+	for (let i = 0; i < actorCategorys.length; i++) {
+		const item = actorCategorys[i]
+		if (item.value == value) {
+			return item.label
+		}
+	}
+}
+
+export function tradeType(value) {
+	for (let i = 0; i < tradeTypes.length; i++) {
+		const item = tradeTypes[i]
+		if (item.value == value) {
+			return item.label
+		}
+	}
+}
+
+export function channel(value) {
+	for (let i = 0; i < channels.length; i++) {
+		const item = channels[i]
+		if (item.value == value) {
+			return item.label
+		}
+	}
+}
+
+export function riskLv(value) {
+	return value === 2 ? '中' : value === 3 ? '高' : '未知'
+}
+export function riskType(value) {
+	let name = ''
 	for (let i = 0; i < riskTypeData.length; i++) {
 		let item = riskTypeData[i]
-		if(item.value===value){
-			name=item.name
+		if (item.value === value) {
+			name = item.name
 			break
 		}
 	}
-	if(name==''){
+	if (name == '') {
 		return '其他'
 	}
 	return name
-    
+
 }
 
 //最多保留6位的算万元过滤器
 export function moneyFormat(num) {
-    try {
-        if (!parseFloat(num)) {
-            return 0;
-        }
-    } catch (error) {
-        return 0;
-    }
-    let temp = parseFloat(num / 10000);
-    if (temp.toString().indexOf('.') == -1) {
-        return temp;
-    } else {
-        if(temp.toString().split('.')[1]&&temp.toString().split('.')[1].length<=6){
-            return Number(temp);
-        }
-        return Number(temp.toFixed(6));
+	try {
+		if (!parseFloat(num)) {
+			return 0
+		}
+	} catch (error) {
+		return 0
 	}
-	
+	let temp = parseFloat(num / 10000)
+	if (temp.toString().indexOf('.') == -1) {
+		return temp
+	} else {
+		if (temp.toString().split('.')[1] && temp.toString().split('.')[1].length <= 6) {
+			return Number(temp)
+		}
+		return Number(temp.toFixed(6))
+	}
+
 }
 
 
-export function marriage(value){
-	let name=''
+export function marriage(value) {
+	let name = ''
 	for (let i = 0; i < marriageData.length; i++) {
 		let item = marriageData[i]
-		if(item.value===value){
-			name=item.label
+		if (item.value === value) {
+			name = item.label
 			break
 		}
 	}
-	if(name==''){
+	if (name == '') {
 		return '其他'
 	}
 	return name
-    
+
 }
 
-export function funFlowType(value){
-	let type=parseInt(value)
-	if(!type){
+export function funFlowType(value) {
+	let type = parseInt(value)
+	if (!type) {
 		return ''
 	}
 	try {
@@ -91,16 +131,16 @@ export function funFlowType(value){
 	}
 }
 
-export function riskRegion(value){
-	let name=''
+export function riskRegion(value) {
+	let name = ''
 	for (let i = 0; i < riskData.length; i++) {
 		let item = riskData[i]
-		if(item.id===value){
-			name=item.name
+		if (item.id === value) {
+			name = item.name
 			break
 		}
 	}
-	if(name==''){
+	if (name == '') {
 		return '未填写'
 	}
 	return name
@@ -144,7 +184,7 @@ export function address(code) { //区域代码过滤器
 	code = code + ''
 	if (code.length != 6) return '未填写'
 	let province = code.slice(0, 2) + '0000'
-	if(!addressData[province]){
+	if (!addressData[province]) {
 		return addressData[rootCode][province]
 	}
 	let state = code.slice(0, 4) + '00'
@@ -289,8 +329,8 @@ export function getNowFormatDate(x) {
 	let s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds()
 
 	let currentdate = ' ' + date.getFullYear() + seperator1 + month + seperator1 + strDate +
-        ' ' + h + seperator2 + m +
-        seperator2 + s
+		' ' + h + seperator2 + m +
+		seperator2 + s
 
 	return currentdate || ''
 

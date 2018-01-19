@@ -1,6 +1,6 @@
 import { api } from 'api'
 
-export const systemModule = {
+export default  {
 	state: {
 		////////////账户维护
 		systemManageList: [],//查询用户维护列表

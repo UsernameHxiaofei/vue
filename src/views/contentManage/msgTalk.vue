@@ -86,7 +86,7 @@
 					label: '行家'
 				}, {
 					value: 'C',
-					label: '项目方'
+					label: '融资人'
 				}, {
 					value: 'D',
 					label: '投资人'

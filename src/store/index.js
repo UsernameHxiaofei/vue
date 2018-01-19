@@ -1,33 +1,35 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-import {loginModule} from './login'
-import {riskModule} from './riskModule'
-import {customerModule} from './customerModule'
-import {enterpriseModule} from './enterpriseModule'
-import {systemModule} from './systemModule'
-import {moneyModule} from './moneyModule'
-import {itemModule} from './itemModule'
-import {contentModule} from './contentModule'
-import {employeeModule} from './employeeModule'
+import loginModule from './login/index';
+import riskModule from './riskModule/index';
+import customerModule from './customerModule/index';
+import enterpriseModule from './enterpriseModule/index';
+import systemModule from './systemModule/index';
+import moneyModule from './moneyModule/index';
+import itemModule from './itemModule/index';
+import contentModule from './contentModule/index';
+import employeeModule from './employeeModule/index';
+import investedItemModule from './investedItemModule/index';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
-const modules={
-	risk:riskModule,
-	customer:customerModule,
-	enterprise:enterpriseModule,
-	login:loginModule,
-	system:systemModule,
-	money:moneyModule,
-	item:itemModule,
-	content:contentModule,
-	employee:employeeModule
-}
+const modules = {
+	risk: riskModule,
+	customer: customerModule,
+	enterprise: enterpriseModule,
+	login: loginModule,
+	system: systemModule,
+	money: moneyModule,
+	item: itemModule,
+	content: contentModule,
+	employee: employeeModule,
+	investedItem: investedItemModule
+};
 
-export function createStore () {
+export function createStore() {
 	return new Vuex.Store({
-		modules: modules
-	})
+		modules
+	});
 }
 

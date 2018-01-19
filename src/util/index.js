@@ -1,65 +1,65 @@
-import industryList from '../constant/industry'
+import industryList from '../constant/industry';
 /**
  * 根据地址代码输出select级联框的选项数组
  * @param {*数据库地址代码} addressCode 
  */
 export const getSelectArray = function (addressCode) {
 	if (!addressCode || addressCode.length != 6) {
-		return ['', '', '']
+		return ['', '', ''];
 	}
-	addressCode += ''
-	let array = []
-	array.push(addressCode.slice(0, 2) + '0000')
-	array.push(addressCode.slice(0, 4) + '00')
-	array.push(addressCode.slice(0, 6))
-	return array
-}
+	addressCode += '';
+	let array = [];
+	array.push(addressCode.slice(0, 2) + '0000');
+	array.push(addressCode.slice(0, 4) + '00');
+	array.push(addressCode.slice(0, 6));
+	return array;
+};
 /**
  * 根据行业数组，累加出行业代码。
  * @param {*行业数组} array 
  */
 export const getIndustryByArray = function (array) {
-	let industryCode = 0
-	let i = 0
+	let industryCode = 0;
+	let i = 0;
 	for (let item in array) {
 		if (array.hasOwnProperty(item)) {
-			let element = array[item]
+			let element = array[item];
 			if (element) {
-				industryCode += industryList[i].value
+				industryCode += industryList[i].value;
 			}
-			i++
+			i++;
 		}
 	}
-	return industryCode
-}
+	return industryCode;
+};
 
 /**
  * 根据行业累加代码，输出行业组合名称
  * @param {*行业数组} array 
  */
 export const getIndustryArrayByCode = function (industry) {
-	let result = []
+	let result = [];
 	if (!parseInt(industry)) {
-		return result
+		return result;
 	}
-	let codes = parseInt(industry).toString(2).split('').reverse()
+	let codes = parseInt(industry).toString(2).split('').reverse();
 	for (let index = 0; index < codes.length; index++) {
-		let element = codes[index]
+		let element = codes[index];
 		if (element == '1') {
 			for (let i = 0; i < industryList.length; i++) {
-				let item = industryList[i]
+				let item = industryList[i];
 				if (item.value == Math.pow(2, index)) {
-					result.push(item.value)
+					result.push(item.value);
 				}
 			}
 		}
 	}
-	return result
-}
+	return result;
+};
 
 export const formatDate = function (obj,fmt) {
 	if(!obj){
-		return ''
+		return '';
 	}
 	let o = {
 		'M+': obj.getMonth() + 1, //月份 
@@ -70,13 +70,13 @@ export const formatDate = function (obj,fmt) {
 		's+': obj.getSeconds(), //秒 
 		'q+': Math.floor((obj.getMonth() + 3) / 3), //季度 
 		'S': obj.getMilliseconds() //毫秒 
-	}
+	};
 	if (/(y+)/.test(fmt))
-		fmt = fmt.replace(RegExp.$1, (obj.getFullYear() + '').substr(4 - RegExp.$1.length))
+		fmt = fmt.replace(RegExp.$1, (obj.getFullYear() + '').substr(4 - RegExp.$1.length));
 	for (let k in o) {
 		if (new RegExp('(' + k + ')').test(fmt)) {
-			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+			fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)));
 		}
 	}
-	return fmt
-}
+	return fmt;
+};

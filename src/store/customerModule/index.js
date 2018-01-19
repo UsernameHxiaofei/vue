@@ -1,6 +1,6 @@
 import { api } from 'api'
 
-export const customerModule = {
+export default  {
 	state: {
 		customerListData: [],
 		expertAuditList: [],
@@ -10,9 +10,8 @@ export const customerModule = {
 		leadAuditRefuseData:'',
 		leadAuditList: [],
 		customerStatistics: {},
-		customerInfoByCustomerId:{},
+		customerIndividualInfoByActorId:{},
 		customerInfoByActorId:{},
-		enterpriseInfoByActorId:{},
 		actorData:{},
 		customerData:{},
 		customerUpdate:'',
@@ -39,6 +38,8 @@ export const customerModule = {
 		leadData:'',
 		questionnaire:{},
 		headImage:'',
+		enterperiseAuditList:{},
+		enterperiseAudit:{},
 	},
 	actions: {
 		//客户信息维护列表
@@ -65,25 +66,6 @@ export const customerModule = {
 				commit('customer_update',data)
 			})
 		},
-		//查询客户企业信息
-		enterpriseInfoByActorId({ commit },param) {
-			return api.enterpriseInfoByActorId(param).then((data) => {
-				commit('enterpriseInfo_getData',data)
-			})
-		},
-		//新增企业信息
-		add_enterpriseInfo({ commit },param) {
-			return api.add_enterpriseInfo(param).then((data) => {
-				commit('enterpriseInfo_add',data)
-			})
-		},
-		//编辑企业信息
-		update_enterpriseInfo({ commit },param) {
-			return api.update_enterpriseInfo(param).then((data) => {
-				commit('enterpriseInfo_update',data)
-			})
-		},
-        
 		//查询客户邮政地址信息
 		postalAddressByActorId({ commit },param) {
 			return api.postalAddressByActorId(param).then((data) => {
@@ -200,12 +182,7 @@ export const customerModule = {
 				commit('expertAudit_refuseData',data)
 			})
 		},
-		//领投审核列表
-		leadAudit_getList({ commit },param) {
-			return api.leadAudit_getList(param).then((data) => {
-				commit('leadAudit_setList',data)
-			})
-		},
+		
 		//领投审核通过
 		leadAudit_adopt({ commit },param) {
 			return api.leadAudit_adopt(param).then((data) => {
@@ -225,9 +202,9 @@ export const customerModule = {
 			})
 		},
 		//客户信息customerId查询
-		customerInfoByCustomerId({ commit },param) {
-			return  api.customerInfoByCustomerId(param).then((data) => {
-				commit('customerInfoByCustomerId_setData',data)
+		customerIndividualInfoByActorId({ commit },param) {
+			return  api.customerIndividualInfoByActorId(param).then((data) => {
+				commit('customerIndividualInfoByActorId_setData',data)
 			})
 		},
 		//客户信息actorId查询
@@ -272,8 +249,59 @@ export const customerModule = {
 				dispatch('cusHeadPortrait',{id:param.id})
 			})
 		},
+		//企业会员变更审核列表
+		enterperiseAuditList({commit},param){
+			return api.enterperiseAuditList(param).then((data)=>{
+				commit('customer_enterperiseAuditList',data)
+			})
+		},
+		//更新会员审核状态
+		updateActorAuditeStatus(undefined,param){
+			return api.updateActorAuditeStatus(param)
+		},
+		//修改会员头像专用
+		customer_updateHeadFigureURL(undefined,param){
+			return api.customer_updateHeadFigureURL(param)
+		},
+		//会员审核记录详情
+		selectActorAuditeById({commit},param){
+			return api.selectActorAuditeById(param).then((data)=>{
+				commit('customer_enterperiseAudit',data)
+			})
+		},
+		updateActorEnterBasic(undefined,param){
+			return api.updateActorEnterBasic(param)
+		},
+		updateActorEnterRepInfo(undefined,param){
+			return api.updateActorEnterRepInfo(param)
+		},
+		auditeWaitByActorId({commit},param){
+			return api.auditeWaitByActorId(param)
+		},
+		verifyIdcardForAudite(undefined,param){
+			return api.verifyIdcardForAudite(param)
+		},
+		//个人领投审核列表
+		leadAudit_getPersonList({ commit },param) {
+			return api.leadAudit_getPersonList(param).then((data) => {
+				commit('leadAudit_setList',data)
+			})
+		},
+		//机构领投审核列表
+		leadAudit_getEnterpriseList({ commit },param) {
+			return api.leadAudit_getEnterpriseList(param).then((data) => {
+				commit('leadAudit_setList',data)
+			})
+		},
 	},
 	mutations: {
+	
+		customer_enterperiseAudit(state,data){
+			state.enterperiseAudit=data
+		},
+		customer_enterperiseAuditList(state,data){
+			state.enterperiseAuditList=data
+		},
 		customer_setHeadImage(state, data){
 			state.headImage = data
 		},
@@ -306,15 +334,6 @@ export const customerModule = {
 		},
 		customer_update(state,data){
 			state.customerUpdate = data
-		},
-		enterpriseInfo_getData(state,data){
-			state.enterpriseInfoByActorId = data
-		},
-		enterpriseInfo_add(state,data){
-			state.enterpriseInfoAdd = data
-		},
-		enterpriseInfo_update(state,data){
-			state.enterpriseInfoUpdate = data
 		},
 		postalAddress_getData(state,data){
 			state.postalAddressList = data
@@ -367,8 +386,8 @@ export const customerModule = {
 		customer_statistics_setData(state,data){
 			state.customerStatistics = data
 		},
-		customerInfoByCustomerId_setData(state,data){
-			state.customerInfoByCustomerId = data
+		customerIndividualInfoByActorId_setData(state,data){
+			state.customerIndividualInfoByActorId = data
 		},
 		customerInfoByActorId_setData(state,data){
 			state.customerInfoByActorId = data

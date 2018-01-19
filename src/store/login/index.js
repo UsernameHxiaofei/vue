@@ -1,7 +1,7 @@
 import { api } from 'api'
 import { Message } from 'element-ui'
 
-export const loginModule = {
+export default {
 	state: {
 		actor:{}//这里会拿来存放用户信息。可以在其他组件中this.$store.state.login.actor获取到。这里我在header里面用到了，可以查看
 	},
@@ -33,7 +33,7 @@ export const loginModule = {
 			return api.login_getUserByPassport().then((data)=>{
 				commit('login_setUser',data)
 			})
-		}
+		},
 	},
 	mutations: {
 		login_setUser(state,data){

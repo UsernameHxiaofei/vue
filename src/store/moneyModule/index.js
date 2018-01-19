@@ -1,6 +1,6 @@
 import { api } from 'api'
 
-export const moneyModule = {
+export default {
 	state: {
 		investmentFundData: {},//投资款管理页面数据展示
 		investGetHeadInfo: {},//投资款头部统计信息

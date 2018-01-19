@@ -321,7 +321,9 @@ code, kbd, pre, samp {
 }
 
 button, input, optgroup, select, textarea {
+    padding: 0;
     margin: 0;
+    border:0;
     font: inherit;
     color: inherit
 }
@@ -333,7 +335,6 @@ button {
 button, select {
     text-transform: none
 }
-
 button, html input[type=button], input[type=reset], input[type=submit] {
     -webkit-appearance: button;
     cursor: pointer
@@ -444,15 +445,7 @@ output {
 }
 
 /*弹出模态框*/
-.p-form .el-form-item__label{ 
-      width:90px !important;
-      text-align:right;
-      font-weight: normal;
-  }
 
-.p-form .el-form-item__content{
-  margin-left:90px !important;
-}
 .p-form .el-dialog--small {
     width: 35%;
     box-shadow:0 0 5px #eee;
@@ -511,7 +504,7 @@ output {
 .search-box .date-box{float: right;}
 .search-box .date-box .el-select{margin-left: 10px;width: 150px;}
 .my-calender{display: inline-block;}
-.search-box .date-box .el-date-editor.el-input{width: 345px;}
+.search-box .date-box .el-date-editor.el-input{min-width: 193px;}
 
 /*激活编辑封禁*/
 .normalize,.edits,.closure{margin: 0 8px;cursor: pointer;}

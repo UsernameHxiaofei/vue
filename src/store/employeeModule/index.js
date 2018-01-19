@@ -1,7 +1,7 @@
 import { api } from 'api'
 
 
-export const employeeModule = {
+export default {
 	state: {
 		employee:{}
 	},

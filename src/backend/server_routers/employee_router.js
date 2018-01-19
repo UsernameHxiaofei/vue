@@ -6,7 +6,7 @@
    */
 module.exports=function client(router,sc,passport){
 	//获取员工头像
-	router.all('/emp_selectEmployee', function (req, res) {//分页方法
+	router.all('/emp_selectEmployee', function (req, res) {
 		let param=req.body
 		const stuff = sc.instanceRequest('EmployeeInfoTask', 'selectEmployee', 'customerManage')
 		stuff.auxiliary = {[passport]: req.session.passport}
@@ -16,7 +16,7 @@ module.exports=function client(router,sc,passport){
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
 	//修改员工头像
-	router.all('/updateEmployeeInfo', function (req, res) {//分页方法
+	router.all('/updateEmployeeInfo', function (req, res) {
 		let param=req.body
 		const stuff = sc.instanceRequest('EmployeeInfoTask', 'updateEmployeeInfo', 'customerManage')
 		stuff.auxiliary = {[passport]: req.session.passport}

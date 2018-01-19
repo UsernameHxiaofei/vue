@@ -25,8 +25,13 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
-		leadAudit_getList: (param) => {
-			return Vue.http.post('leadAudit_getList',param).then(response => {
+		leadAudit_getPersonList: (param) => {
+			return Vue.http.post('leadAudit_getPersonList',param).then(response => {
+				return response.body
+			})
+		},
+		leadAudit_getEnterpriseList: (param) => {
+			return Vue.http.post('leadAudit_getEnterpriseList',param).then(response => {
 				return response.body
 			})
 		},
@@ -60,18 +65,13 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
-		customerInfoByCustomerId: (param) => {
-			return Vue.http.post('customerInfoByCustomerId',param).then(response => {
+		customerIndividualInfoByActorId: (param) => {
+			return Vue.http.post('customerIndividualInfoByActorId',param).then(response => {
 				return response.body
 			})
 		},
 		customerInfoByActorId: (param) => {
 			return Vue.http.post('customerInfoByActorId',param).then(response => {
-				return response.body
-			})
-		},
-		enterpriseInfoByActorId: (param) => {
-			return Vue.http.post('enterpriseInfoByActorId',param).then(response => {
 				return response.body
 			})
 		},
@@ -195,6 +195,45 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
-
+		enterperiseAuditList: (param) => {
+			return Vue.http.post('enterperiseAuditList', param).then(response => {
+				return response.body
+			})
+		},
+		updateActorAuditeStatus:(param) => {
+			return Vue.http.post('updateActorAuditeStatus', param).then(response => {
+				return response.body
+			})
+		},
+		customer_updateHeadFigureURL:(param) => {
+			return Vue.http.post('customer_updateHeadFigureURL', param).then(response => {
+				return response.body
+			})
+		},
+		selectActorAuditeById:(param)=>{
+			return Vue.http.post('selectActorAuditeById', param).then(response => {
+				return response.body
+			})
+		},
+		updateActorEnterBasic:(param)=>{
+			return Vue.http.post('updateActorEnterBasic', param).then(response => {
+				return response.body
+			})
+		},
+		updateActorEnterRepInfo:(param)=>{
+			return Vue.http.post('updateActorEnterRepInfo', param).then(response => {
+				return response.body
+			})
+		},
+		auditeWaitByActorId:(param)=>{
+			return Vue.http.post('auditeWaitByActorId', param).then(response => {
+				return response.body
+			})
+		},
+		verifyIdcardForAudite:(param)=>{
+			return Vue.http.post('verifyIdcardForAudite', param).then(response => {
+				return response.body
+			})
+		}	
 	} 
 }

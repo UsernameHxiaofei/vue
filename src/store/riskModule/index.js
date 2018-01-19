@@ -1,6 +1,6 @@
 import { api } from 'api'
 
-export const riskModule = {
+export default  {
 	state: {
 		listData: [],//风险项目列表对象
 		riskIndexList:{},//项目风险指标列表

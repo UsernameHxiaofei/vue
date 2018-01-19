@@ -14,7 +14,7 @@
 		<!--搜索-->
 		<div class="search-box">
 			<div class="output">
-				<el-input placeholder="名称" icon="search" v-model.trim="search_value" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
+				<el-input placeholder="标志码|手机号|名称|Email" icon="search" v-model.trim="search_value" @keyup.enter.native="handleIconClick" :on-icon-click="handleIconClick">
 				</el-input>
 			</div>
 			<div class="date-box">
@@ -30,6 +30,13 @@
 				<el-table-column width="30">
 				</el-table-column>
 				<el-table-column type='index' width="100" label="序号">
+				</el-table-column>
+				<el-table-column prop='identNumber' width="180" label="标识码">
+				</el-table-column>
+				<el-table-column   label="类别">
+						<template slot-scope="scope">
+								{{scope.row.category|actorCategory}}
+						</template>
 				</el-table-column>
 				<el-table-column prop="mobileNumber" label="手机号">
 				</el-table-column>
@@ -76,37 +83,31 @@
 			</div>
 		</div>
 		<!-- 添加用戶弹窗 -->
-		<div class="p-form">
+		<div>
 			<el-dialog title="添加账号" :visible.sync="dialogUserVisible" @close="cancel" :close-on-click-modal="false">
-				<el-form :model="addUser" :rules="rule" ref="addUser">
-					<el-form-item label="标志码" :label-width="formLabelWidth" prop="indetNumber">
+				<el-form :model="addUser" :label-width="formLabelWidth" :rules="rule" ref="addUser">
+					<el-form-item label="标志码"  prop="indetNumber">
 						<el-input v-model="addUser.identNumber" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="账号类型" :label-width="formLabelWidth" prop="category">
-						<el-select v-model="addUser.category" placeholder="请选择账号类型">
+					<el-form-item label="账号类型"  prop="category">
+						<el-select v-model.number="addUser.category" placeholder="请选择账号类型">
 							<el-option v-for="item in actorCategorys" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
 							</el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
+					<el-form-item :label="addUser.category==4?'代表人手机号':'手机号'"  prop="mobileNumber">
 						<el-input v-model="addUser.mobileNumber" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="名称" :label-width="formLabelWidth" prop="name">
+					<el-form-item :label="addUser.category==4?'企业名称':'名称'"  prop="name">
 						<el-input v-model="addUser.name" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="Email" :label-width="formLabelWidth" prop="email">
+					<el-form-item label="Email" prop="email">
 						<el-input v-model="addUser.email" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="角色" :label-width="formLabelWidth" prop="roles">
+					<el-form-item label="角色"  prop="roles">
 						<el-select multiple v-model="addUser.roles" clearable placeholder="请选择" style="width:100%;">
 							<el-option v-for="item in systemRole" :key="item.id" :label="item.name" :value="item.id"></el-option>
 						</el-select>
-					</el-form-item>
-					<el-form-item label="登录口令" :label-width="formLabelWidth" prop="loginPassword">
-						<el-input v-model="addUser.loginPassword" type="password" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item label="口令确认" :label-width="formLabelWidth" prop="psw1">
-						<el-input v-model="addUser.psw1" type="password" auto-complete="off"></el-input>
 					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
@@ -116,34 +117,35 @@
 			</el-dialog>
 		</div>
 		<!-- 编辑用戶弹窗 -->
-		<div class="p-form">
+		<div >
 			<el-dialog title="编辑账号" :visible.sync="dialogeditUserVisible" @close="quit" :close-on-click-modal="false">
-				<el-form :model="editUser" :rules="editRule" ref="editUser">
-					<el-form-item label="手机号" :label-width="formLabelWidth" prop="mobileNumber">
+				<el-form :model="editUser" :label-width="formLabelWidth" :rules="editRule" ref="editUser">
+					<el-form-item label="标志码" prop="indetNumber">
+						<el-input v-model="editUser.identNumber" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item label="账号类型"  prop="category">
+							<el-select v-model.number="editUser.category" placeholder="请选择账号类型">
+								<el-option v-for="item in actorCategorys" :key="item.value" :label="item.label" :disabled="item.disabled" :value="item.value">
+								</el-option>
+							</el-select>
+					</el-form-item>
+					<el-form-item :label="editUser.category==4?'代表人手机号':'手机号'"  prop="mobileNumber">
 						<el-input v-model="editUser.mobileNumber" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="名称" :label-width="formLabelWidth" prop="name">
+					<el-form-item :label="editUser.category==4?'企业名称':'名称'" prop="name">
 						<el-input v-model="editUser.name" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="Email" :label-width="formLabelWidth" prop="email">
+					<el-form-item label="Email"  prop="email">
 						<el-input v-model="editUser.email" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item label="角色" :label-width="formLabelWidth" prop="roles">
+					<el-form-item label="角色"  prop="roles">
 						<el-select multiple v-model="editUser.roles" clearable placeholder="请选择" style="width:100%;">
 							<el-option v-for="item in systemRole" :key="item.id" :label="item.name" :value="item.id"></el-option>
 						</el-select>
 					</el-form-item>
-					<el-form-item label="" :label-width="formLabelWidth">
-						<el-checkbox v-model="checked" @change="changeCommand">变更口令</el-checkbox>
-					</el-form-item>
-					<el-form-item v-if="command" label="登录口令" :label-width="formLabelWidth" prop="loginPassword">
-						<el-input v-model="editUser.loginPassword" type="password" auto-complete="off"></el-input>
-					</el-form-item>
-					<el-form-item v-if="command" label="口令确认" :label-width="formLabelWidth" prop="psw1">
-						<el-input v-model="editUser.psw1" type="password" auto-complete="off"></el-input>
-					</el-form-item>
 				</el-form>
 				<div slot="footer" class="dialog-footer">
+					<el-button type="success" @click="reset">重置密码</el-button>
 					<el-button @click="quit">取 消</el-button>
 					<el-button type="primary" @click="editClient">保 存</el-button>
 				</div>
@@ -163,7 +165,15 @@
 				</div>
 			</el-dialog>
 		</div>
-
+		<el-dialog title="请记住这个口令" :visible.sync="resetPasswordVisible" @close="resetPasswordVisible=false" :close-on-click-modal="false">
+			<el-form>
+				<el-form-item  label="重置口令：">
+					<span style="color:red">{{resetPassword}}</span>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+			</div>
+		</el-dialog>
 	</div>
 </template>
 <script>
@@ -195,6 +205,9 @@
 			actor: function () {
 				return this.$store.state.login.actor
 			},
+			resetLoginPasswordStatus: function () {
+				return this.$store.state.customer.resetLoginPasswordStatus
+			},
 		},
 		beforeMount() {
 			this.param = {
@@ -206,61 +219,14 @@
 			this.$store.dispatch('system_roleInfo')
 		},
 		data() {
-			let indentNumberValidate = (rule, value, callback) => {
-				if (!value || value === '') {
-					callback(new Error('请输入登录口令'))
-				} else {
-					if (this.addUser.psw1 !== '') {
-						this.$refs.addUser.validateField('psw1')
-					}
-					callback()
-				}
-			}
-
-			let validatePass = (rule, value, callback) => {
-				if (!value || value === '') {
-					callback(new Error('请输入登录口令'))
-				} else {
-					if (this.addUser.psw1 !== '') {
-						this.$refs.addUser.validateField('psw1')
-					}
-					callback()
-				}
-			}
-			let validatePass2 = (rule, value, callback) => {
-				if (!value || value === '') {
-					callback(new Error('请再次输入登录口令'))
-				} else if (value !== this.addUser.loginPassword) {
-					callback(new Error('两次输入的登录口令不一致!'))
-				} else {
-					callback()
-				}
-			}
-			let validatePass3 = (rule, value, callback) => {
-				if (!value || value === '') {
-					callback(new Error('请输入登录口令'))
-				} else {
-					if (this.editUser.psw1 !== '') {
-						this.$refs.editUser.validateField('psw1')
-					}
-					callback()
-				}
-			}
-			let validatePass4 = (rule, value, callback) => {
-				if (!value || value === '') {
-					callback(new Error('请再次输入登录口令'))
-				} else if (value !== this.editUser.loginPassword) {
-					callback(new Error('两次输入的登录口令不一致!'))
-				} else {
-					callback()
-				}
-			}
 			return {
 				command: false,
 				checked: false,
 				roles: [],
 				search_value: '',
-				formLabelWidth: '100px',
+				resetPasswordVisible:false,
+				resetPassword:'',
+				formLabelWidth: '120px',
 				dialogUserVisible: false,
 				dialogClosureVisible: false,
 				dialogeditUserVisible: false,
@@ -275,7 +241,6 @@
 					mobileNumber: '',
 					name: '',
 					email: '',
-					loginPassword: '',
 					category:5,
 					roles: []
 				},
@@ -284,7 +249,6 @@
 					mobileNumber: '',
 					name: '',
 					email: '',
-					loginPassword: '',
 					category: 5,
 					roles: []
 				},
@@ -300,17 +264,11 @@
 						{ required: true, message: '请输入名称', trigger: 'blur' }
 					],
 					email: [
-						{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur,change' }
+						{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
 					],
 					roles: [
 						{ required: true, type: 'array', message: '请至少选择一个角色', trigger: 'blur,change' }
-					],
-					loginPassword: [
-						{ required: true, validator: validatePass, trigger: 'blur' }
-					],
-					psw1: [
-						{ required: true, validator: validatePass2, trigger: 'blur' }
-					],
+					]
 				},
 				editRule: {
 					mobileNumber: [
@@ -325,13 +283,7 @@
 					],
 					roles: [
 						{ required: true, type: 'array', message: '请至少选择一个角色', trigger: 'blur,change' }
-					],
-					loginPassword: [
-						{ required: true, validator: validatePass3, trigger: 'blur' }
-					],
-					psw1: [
-						{ required: true, validator: validatePass4, trigger: 'blur' }
-					],
+					]
 				},
 				rule2: {
 					rejection: [
@@ -342,6 +294,35 @@
 			}
 		},
 		methods: {
+			reset() {
+				this.$confirm('此操作将重置客户登录口令, 是否继续?', '提示', {
+					confirmButtonText: '确定',
+					cancelButtonText: '取消',
+					type: 'warning'
+				}).then(() => {
+					let resetParam = {
+						id: this.editUser.id
+					}
+					this.$store.dispatch('resetLoginPwById', resetParam).then(() => {
+						if (this.resetLoginPasswordStatus.head.success) {
+							this.$message({
+								message: '重置密码成功！',
+								type: 'success'
+							})
+							this.resetPassword=JSON.parse(this.resetLoginPasswordStatus.objectLiteral)
+							this.resetPasswordVisible = true
+							this.customerInit()
+						} else {
+							this.$message.error('重置口令失败')
+						}
+					})
+				}).catch(() => {
+					this.$message({
+						type: 'info',
+						message: '已取消重置'
+					})
+				})
+			},
 			//新增的取消
 			cancel() {
 				this.$refs['addUser'].resetFields()
@@ -351,7 +332,6 @@
 					name: '',
 					email: '',
 					category: 5,
-					loginPassword: '',
 					roles: []
 				}
 				this.$store.dispatch('system_getManageList', this.param)
@@ -366,7 +346,6 @@
 					mobileNumber: '',
 					name: '',
 					email: '',
-					loginPassword: '',
 					roles: [],
 					category: 5
 				}
@@ -402,17 +381,20 @@
 			// 保存添加用户
 			client() {
 				this.$refs['addUser'].validate((valid) => {
+					console.log('asdad',this.addUser)
 					if (valid) {
 						this.$store.dispatch('system_createUser', this.addUser).then(() => {
-							if (this.systemCreate.success) {
+							if (this.systemCreate) {
 								this.$message({
 									message: '添加账号成功！',
 									type: 'success'
 								})
+								this.resetPassword=this.systemCreate
+								this.resetPasswordVisible=true
 								this.$store.dispatch('system_getManageList', this.param)
 								this.dialogUserVisible = false
 							} else {
-								this.$message('添加失败')
+								this.$message.warning('添加失败')
 							}
 						})
 					} else {
@@ -426,8 +408,6 @@
 				this.editUser.email = data.email && data.email.address
 				this.roles = []
 				this.checked = false
-				this.editUser.loginPassword = ''
-				this.editUser.psw1 = ''
 				for (let i = 0; i < this.editUser.roles.length; i++) {
 					this.roles[i] = this.editUser.roles[i].id
 				}
@@ -445,11 +425,6 @@
 			},
 			//保存编辑用户
 			editClient() {
-				if (this.editUser.loginPassword == '') {
-					this.editUser.type = 0
-				} else {
-					this.editUser.type = 1
-				}
 				this.$refs['editUser'].validate((valid) => {
 					if (valid) {
 						if (this.editUser.id) {

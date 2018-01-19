@@ -17,24 +17,12 @@
                         <el-dropdown-item @click.native="menuclick(3,'利润表')">利润表</el-dropdown-item>
                         <el-dropdown-item @click.native="menuclick(4,'资产负债表')">资产负债表</el-dropdown-item>
                         <el-dropdown-item @click.native="menuclick(5,'现金流量表')">现金流量表</el-dropdown-item>
-                        <el-dropdown-item @click.native="menuclick(6,'经营简报')">经营简报</el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>
-                <span class="menu-mdzz" :style="{'color':selectButton.menu2}">
-                    <el-dropdown class="el-dropdown-link">
-                        <span class="menu-mdzz" style="margin-left:0px;" :style="{'color':selectButton.menu2}">
-                            <span>资金流查询</span>
-                            <span v-html="currentTable1"></span>
-                            <i class="iconfont icon-jiantou"></i>
-                        </span>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item @click.native="menuclick(7,'银账资金流')">银账资金流</el-dropdown-item>
-                            <el-dropdown-item @click.native="menuclick(9,'哆啦宝资金流')">哆啦宝资金流</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                </span>
-                <span class="menu-mdzz" :style="{'color':selectButton.menu3}" @click="menuclick(8)">核心团队成员</span>
-
+                <span class="menu-mdzz" :style="{'color':selectButton.menu2}" @click="menuclick(6)">银行账户资金</span>
+                <span class="menu-mdzz" :style="{'color':selectButton.menu3}" @click="menuclick(7)">收银收单</span>
+                <span class="menu-mdzz" :style="{'color':selectButton.menu4}" @click="menuclick(8)">经营简报</span>
+                <span class="menu-mdzz" :style="{'color':selectButton.menu5}" @click="menuclick(9)">核心团队成员</span>
             </el-col>
         </el-row>
         <div class="enterprise-basicinfo">企业名称&emsp;
@@ -43,15 +31,15 @@
             <span style="color:#06ccb6">{{enterpriseInfo.addressCode|address}}</span>
         </div>
         <div style="padding-left:40px;padding-right:40px;box-sizing:content-box;">
-            <enterprise-team :enterprise="enterpriseInfo" v-if="show==8"></enterprise-team>
-            <enterprise-funflow :enterprise="enterpriseInfo" v-if="show==7"></enterprise-funflow>
-            <enterprise-funflow-DLB :enterprise="enterpriseInfo" v-if="show==9"></enterprise-funflow-DLB>
             <synthetic-financial-analysis :enterprise="enterpriseInfo" v-if="show==1"></synthetic-financial-analysis>
             <core-financial-index :enterprise="enterpriseInfo" v-if="show==2"></core-financial-index>
             <profit :enterprise="enterpriseInfo" v-if="show==3"></profit>
             <debts :enterprise="enterpriseInfo" v-if="show==4"></debts>
             <cashflow :enterprise="enterpriseInfo" v-if="show==5"></cashflow>
-            <manage-briefing :enterprise="enterpriseInfo" v-if="show==6"></manage-briefing>
+            <enterprise-funflow :enterprise="enterpriseInfo" v-if="show==6"></enterprise-funflow>
+            <enterprise-funflow-DLB :enterprise="enterpriseInfo" v-if="show==7"></enterprise-funflow-DLB>
+            <manage-briefing :enterprise="enterpriseInfo" v-if="show==8"></manage-briefing>
+            <enterprise-team :enterprise="enterpriseInfo" v-if="show==9"></enterprise-team>
         </div>
     </div>
 </template>
@@ -86,7 +74,9 @@ export default {
 			selectButton: {
 				menu1: '#06ccb6',
 				menu2: '#a3abbe',
-				menu3: '#a3abbe'
+				menu3: '#a3abbe',
+				menu4: '#a3abbe',
+				menu5: '#a3abbe',
 			},
 			currentTable: '',
 			currentTable1: '',
@@ -114,26 +104,30 @@ export default {
 		},
 		menuclick(n, name) {
 			this.show = n
-			this.currentTable = ''
+            this.currentTable = ''
+            this.selectButton={
+				menu1: '#a3abbe',
+				menu2: '#a3abbe',
+				menu3: '#a3abbe',
+				menu4: '#a3abbe',
+				menu5: '#a3abbe',
+			}
 			switch (n) {
-			case 7:
-				this.currentTable1 = `(${name})`
+			case 6:
 				this.selectButton.menu2 = '#06ccb6'
-				this.selectButton.menu3 = this.selectButton.menu1 = '#a3abbe'
+				break
+			case 7:
+				this.selectButton.menu3 = '#06ccb6'
 				break
 			case 8:
-				this.selectButton.menu3 = '#06ccb6'
-				this.selectButton.menu1 = this.selectButton.menu2 = '#a3abbe'
+				this.selectButton.menu4 = '#06ccb6'
 				break
 			case 9:
-				this.currentTable1 = `(${name})`
-				this.selectButton.menu2 = '#06ccb6'
-				this.selectButton.menu3 = this.selectButton.menu1 = '#a3abbe'
+				this.selectButton.menu5 = '#06ccb6'
 				break
 			default:
 				this.currentTable = `(${name})`
 				this.selectButton.menu1 = '#06ccb6'
-				this.selectButton.menu2 = this.selectButton.menu3 = '#a3abbe'
 				break
 			}
 		}

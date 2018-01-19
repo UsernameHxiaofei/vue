@@ -163,9 +163,8 @@
                 <div class="p-form">
                     <dialogComponent :title="'核心团队成员信息'" :dialogFormVisible="dialogTeamVisible" @dialog-confirm-callback="team" @dialog-cancel-callback="cancel">
                         <el-form :model="teamform" :rules="teamrule" ref="teamform">
-                            <el-form-item class="myhead" prop="imageURL" label="上传头像" label-width="170px">
+                            <el-form-item class="myhead" prop="imageURL" label="上传头像" label-width="140px">
                                 <img class="enterpriseMember-head-image" :src="teamform.imageURL" v-if="!!teamform.imageURL" alt="">
-                                <br>
                                 <el-button size="small" @click="editHeadImgChange=true">上传头像</el-button>
                             </el-form-item>
                             <el-form-item label="法定代表人" prop="isRepresent" label-width="140px">

@@ -1,12 +1,10 @@
 <template>
     <div>
         <div class="back-button">
-            <router-link :to="{path: '/leadAuditList'}">
-                <el-button type="text" icon="arrow-left">返回上一级</el-button>
-            </router-link>
+                <el-button type="text" @click="goback()" icon="arrow-left">返回上一级</el-button>
         </div>
         <div class="hangjiashenhe">
-            <h3 v-if="leadData.institution==1">个人信息</h3>
+            <h3 v-if="actor.category==4">代理人</h3>
             <ul>
                 <li>
                     <label>手机号</label>
@@ -21,7 +19,7 @@
                     <span>{{leadData.identNumber}}</span>
                 </li>
             </ul>
-            <h3 v-if="leadData.institution==1">企业信息</h3>
+            <h3 v-if="actor.category==4">企业信息</h3>
             <ul>
                 <li>
                     <label>关注行业</label>
@@ -29,41 +27,41 @@
                         <span>{{leadData.industry|industry}}</span>
                     </span>
                 </li>
-                <li v-if="leadData.institution!=1">
+                <li v-if="actor.category!=4">
                     <label>所属单位</label>
                     <span>{{leadData.organization}}</span>
                 </li>
-                <li v-if="leadData.institution!=1">
+                <li v-if="actor.category!=4">
                     <label>职位</label>
                     <span>{{leadData.position}}</span>
                 </li>
-                <li v-if="leadData.institution!=1">
+                <li v-if="actor.category!=4">
                     <label>籍贯</label>
                     <span>{{leadData.birthplace|address}}</span>
                 </li>
-                <li v-if="leadData.institution!=1">
+                <li v-if="actor.category!=4">
                     <label>常驻地区</label>
                     <span>{{leadData.permanent|address}}</span>
                 </li>
-                <li v-if="leadData.institution!=1">
+                <li v-if="actor.category!=4">
                     <label>个人情况</label>
                     <span class="zhuanzhuhangye">
                         <span>{{leadData.industryLevel|industryLevel}}</span>
                     </span>
                 </li>
-                <li v-if="leadData.institution==1">
+                <li v-if="actor.category==4">
                     <label>企业名称</label>
-                    <span>{{leadData.enterpriseName}}</span>
+                    <span>{{actor.name}}</span>
                 </li>
-                <li v-if="leadData.institution==1">
+                <li v-if="actor.category==4">
                     <label>统一社会信用代码</label>
-                    <span>{{leadData.creditCode}}</span>
+                    <span>{{actor.identNumber}}</span>
                 </li>
-                <li v-if="leadData.institution==1">
+                <li v-if="actor.category==4">
                     <label>所在地</label>
-                    <span>{{leadData.regionCode|address}}</span>
+                    <span>{{customer.actorEnter&&customer.actorEnter.addressCode|address}}</span>
                 </li>
-                <li v-if="leadData.institution==1">
+                <li v-if="actor.category==4">
                     <label>企业情况</label>
                     <span>{{leadData.industryLevel|enterpriseIndustryLevel}}</span>
                 </li>
@@ -74,23 +72,8 @@
                     </span>
                 </li>
             </ul>
-                <h3 v-if="leadData.institution==1">法定代表人信息</h3>
-            <ul>
-                <li v-if="leadData.institution==1">
-                    <label>法定代表人</label>
-                    <span>{{leadData.representative}}</span>
-                </li>    
-                <li v-if="leadData.institution==1">
-                    <label>身份证号</label>
-                    <span>{{leadData.representativeIdentNumber}}</span>
-                </li>    
-                <li v-if="leadData.institution==1">
-                    <label>手机号</label>
-                    <span>{{leadData.representativeMobileNumber}}</span>
-                </li>    
-            </ul>
-                <h3 v-if="leadData.institution==1">营业执照</h3>
-                <img v-imageBiger class="businessLicenseURL" v-if="leadData.institution==1" :src="leadData.businessLicenseURL" alt="">
+                <h3 v-if="actor.category==4">营业执照</h3>
+                <img v-imageBiger class="businessLicenseURL" v-if="actor.category==4" :src="leadData.businessLicenseURL" alt="">
             <div class="btn-box-c">
                 <el-button type="warning" @click="dialogClosureVisible = true">拒绝</el-button>
                 <el-button type="success" @click="adopt">通过</el-button>
@@ -126,7 +109,13 @@ export default {
 		},
 		leadData: function () {
 			return this.$store.state.customer.leadData
-		},
+        },
+        actor: function () {
+            return this.$store.state.customer.customerInfoByActorId
+        },
+        customer: function () {
+                return this.$store.state.customer.customerIndividualInfoByActorId
+        },
 	},
 	data() {
 		return {
@@ -146,10 +135,26 @@ export default {
 	beforeMount() {
 		let leadParam = {
 			id: this.$route.params.actorId
-		}
-		this.$store.dispatch('leadByActorId', leadParam)
+        }
+        this.$store.dispatch('customerInfoByActorId', leadParam).then(()=>{
+            if(this.actor.email){
+                this.actor.email=this.actor.email.address
+            }else{
+                this.actor.email=''
+            }
+        })
+        this.$store.dispatch('customerIndividualInfoByActorId', leadParam)
+        this.$store.dispatch('leadByActorId', leadParam)
+        
 	},
 	methods: {
+        goback(){
+            let path='/personLeadAuditList'
+            if(this.actor.category==4){
+                path='/enterpriseLeadAuditList'
+            }
+            this.$router.push(path)
+        },
 		adopt() {
 			let adoptParam = {
 				id: this.$route.params.customerId
@@ -160,11 +165,10 @@ export default {
 						message: '审核通过！',
 						type: 'success'
 					})
-					this.$router.push({ path: '/leadAuditList' })
+					this.goback()
 				} else {
 					this.$message.error('操作失败')
 				}
-
 			})
 		},
 		refuse() {
@@ -177,12 +181,11 @@ export default {
 								type: 'success'
 							})
 							this.dialogClosureVisible = false
-							this.$router.push({ path: '/leadAuditList' })
+							this.goback()
 						} else {
 							this.$message.error('操作失败')
 
 						}
-
 					})
 				}
 			})
@@ -190,7 +193,7 @@ export default {
 		cancel() {
 			this.$refs['refuseParam'].resetFields()
 			this.dialogClosureVisible = false
-		},
+		}
 	}
 }
 </script>
@@ -201,20 +204,12 @@ export default {
 .businessLicenseURL{
     margin-left:200px;
     text-align: center;
-    width:400px;
-}
-body {
-    background-color: #fcfcfc;
-}
-
-.content {
-    background-color: #fcfcfc;
+    width:200px;
 }
 
 .hangjiashenhe {
     box-sizing: border-box;
     width: 60%;
-    height: 100%;
     margin: 0 auto;
     padding-top:20px;
     background-color: #fff;

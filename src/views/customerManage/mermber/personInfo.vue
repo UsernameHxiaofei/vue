@@ -2,7 +2,6 @@
 <template>
 	<div style="width:100%;height: 100%;background: #fff;">
 		<div class="hangjiashenhe" style="position: relative;" v-if="status">
-
 			<el-button type="primary" style="position: absolute; right: 0;top: 30px;" @click="status=false">编辑</el-button>
 			<ul>
 				<li>
@@ -62,12 +61,7 @@
 				</li>
 			</ul>
 		</div>
-		<el-form v-if="!status" :model="customerInfo" ref="customerInfo" class="my-form" label-width="90px" style="width: 70%;margin:auto;padding: 20px 0;">
-			<el-form-item label="头像">
-				<img class="customer-head-image" :src="customerInfo.headFigureURL" v-if="!!customerInfo.headFigureURL" alt="">
-				<br>
-				<el-button size="small" @click="editHeadImgChange=true">上传头像</el-button>
-			</el-form-item>
+		<el-form v-if="!status" :model="customerInfo" ref="customerInfo" class="my-form" label-width="90px" style="width: 90%;margin:auto;padding: 20px 0;">
 			<el-form-item label="昵称" prop="nickname">
 				<el-input v-model="customerInfo.nickname"></el-input>
 			</el-form-item>
@@ -80,6 +74,10 @@
 			</el-form-item>
 			<el-form-item label="常驻地区 " prop="usualPlace">
 				<el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="usualPlaceOption">
+				</el-cascader>
+			</el-form-item>
+			<el-form-item label="籍贯 " prop="birthplace">
+				<el-cascader expand-trigger="click" change-on-select clearable :options="options" v-model="birthPlaceOption">
 				</el-cascader>
 			</el-form-item>
 			<el-form-item label="出生日期">
@@ -122,11 +120,6 @@
 				<el-button style="width: 120px;" type="primary" @click="onSubmit">保存</el-button>
 			</el-form-item>
 		</el-form>
-		<div class="p-form">
-			<el-dialog title="头像修改" :visible.sync="editHeadImgChange" :close-on-click-modal="false">
-				<imageCropper @result="uploadSuccess"></imageCropper>
-			</el-dialog>
-		</div>
 	</div>
 </template>
 <script>
@@ -142,7 +135,7 @@ export default {
 	},
 	computed: {
 		customerInfo: function () {
-			return this.$store.state.customer.customerInfoByCustomerId
+			return this.$store.state.customer.customerIndividualInfoByActorId
 		},
 		customerUpdate: function () {
 			return this.$store.state.customer.customerUpdate
@@ -153,34 +146,33 @@ export default {
 	},
 	data() {
 		return {
-			editHeadImgChange: false,
 			birthdate: '',
 			status: true,
 			options: regionData,
 			industryList: industryList,
-			industryObj: '',
+			industryObj: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
 			usualPlaceOption: [],
-			workYearsObj: '',
-			newIndustryList: [],
-			industryArr: {
-				industry: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-				workYears: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' },
-			}
+			birthPlaceOption: [],
+			workYearsObj: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' },
+			newIndustryList: []
 		}
 	},
 	methods: {
 		personInit() {
 			let customerParams = {
-				id: this.$route.params.customerId
+				id: this.$route.params.actorId
 			}
-			this.$store.dispatch('customerInfoByCustomerId', customerParams).then(() => {
+			this.$store.dispatch('customerIndividualInfoByActorId', customerParams).then(() => {
 				if (this.customerInfo.industryExp) {
 					var obj = JSON.parse(this.customerInfo.industryExp)
-					this.industryObj = obj.industry
-					this.workYearsObj = obj.workYears
+					this.industryObj = obj.industry||this.industryObj
+					this.workYearsObj = obj.workYears||this.workYearsObj
 				}
 				if (this.customerInfo.usualPlace) {
 					this.usualPlaceOption = getSelectArray(this.customerInfo.usualPlace)
+				}
+				if (this.customerInfo.birthplace) {
+					this.birthPlaceOption = getSelectArray(this.customerInfo.birthplace)
 				}
 				if (this.customerInfo.industryLed) {
 					this.newIndustryList = getIndustryArrayByCode(this.customerInfo.industryLed)
@@ -204,6 +196,7 @@ export default {
 			if (this.birthdate) this.customerInfo.birthdate = this.birthdate.Format('yyyy-MM-dd hh:mm:ss')
 			if (this.birthdate) this.customerInfo.birthdateStr = this.customerInfo.birthdate
 			this.customerInfo.usualPlace = this.usualPlaceOption.length > 0 ? this.usualPlaceOption[this.usualPlaceOption.length - 1] : ''
+			this.customerInfo.birthplace = this.birthPlaceOption.length > 0 ? this.birthPlaceOption[this.birthPlaceOption.length - 1] : ''
 			this.customerInfo.industryExp = JSON.stringify({ industry: this.industryObj, workYears: this.workYearsObj })
 			this.customerInfo.newIndustry = getIndustryByArray(this.industryObj)
 			this.customerInfo.industryLed = _.sum(this.newIndustryList)
@@ -213,7 +206,6 @@ export default {
 						message: '编辑成功！',
 						type: 'success'
 					})
-					this.$emit('edit-success')
 					this.status = true
 				} else {
 					this.$message.error('编辑失败')
@@ -224,13 +216,6 @@ export default {
 		},
 		cancel() {
 			this.status = true
-		},
-		//上传成功时返回的数据
-		uploadSuccess(data) {
-			if (data) {
-				this.customerInfo.headFigureURL = data
-				this.editHeadImgChange = false
-			}
 		}
 	}
 }
@@ -250,39 +235,28 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 </script>
 <style scoped>
-	/*.my-form .el-form-item {
-	margin-bottom: 10px;
-}*/
-
-	body {
-		background-color: #fcfcfc;
-	}
-
-	.content {
-		background-color: #fcfcfc;
-	}
-
-	.hangjiashenhe {
-		width: 80%;
-		height: 100%;
+	.hangjiashenhe {			
+		width: 90%;
 		margin: 0 auto;
 		background-color: #fff;
 		font-size: 14px;
 	}
 
 	.hangjiashenhe ul {
-		margin: 10px auto;
-		padding-top: 16px;
+		margin: 0 auto;
+		padding: 16px 0;
 		list-style: none;
 	}
 
 	.hangjiashenhe li {
 		margin-top: 10px;
+		line-height: 25px;
+		font-size:14px;
 	}
 
 	.hangjiashenhe label {
 
-		width: 100px;
+		width: 60px;
 		font-weight: 400;
 		color: #999;
 		text-align: right;
@@ -297,19 +271,4 @@ Date.prototype.Format = function (fmt) { //author: meizz
 		color: #333;
 	}
 
-	.hangjiashenhe .zhuanzhuhangye {
-		padding: 10px;
-		border: 1px solid #ccc;
-	}
-
-	.zhuanzhuhangye span {
-		display: inline-block;
-		font-size: 13px;
-		margin-right: 10px;
-	}
-
-	.hangjiashenhe .btn-box-c {
-		padding: 15px;
-		text-align: center
-	}
 </style>

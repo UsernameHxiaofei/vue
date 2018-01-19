@@ -1,6 +1,6 @@
 import { api } from 'api'
 
-export const itemModule = {
+export default  {
 	state: {
 		itemManageList: [],//项目管理首页列表
 		itemManageHeadData: {},//项目管理首页头部信息
@@ -43,7 +43,9 @@ export const itemModule = {
 		salesQuota:{},//销售份额
 		businessInfo:{},//工商信息
 		credit:{},//反欺诈信息
-		merchant:{}//聚合支付商户信息
+		merchant:{},//聚合支付商户信息
+
+		projectChannel:{}
 	},
 	actions: {
 		//项目首页列表
@@ -155,7 +157,7 @@ export const itemModule = {
 			return api.item_updateAuthInfo(param).then((data) => {
 				if(data.success){
 					vue.$message.success(data.information)
-					dispatch('item_getAuthInfo',{id:param.enterpriseId})
+					 return dispatch('item_getAuthInfo',{id:param.enterpriseId})
 				}else{
 					vue.$message.warning(data.information)
 				}
@@ -507,9 +509,21 @@ export const itemModule = {
 		},
 		item_checkDeposit(undefined,param){
 			return api.item_checkDeposit(param)
-		}
+		},
+		item_addProjectChannel(undefined,param){
+			return api.item_addProjectChannel(param)
+		},
+		item_getProjectChannel({commit},param){
+			return api.item_getProjectChannel(param).then((data)=>{
+				commit('item_setProjectChannel',data)
+			})
+		},
+
 	},
 	mutations: {
+		item_setProjectChannel(state,data){
+			state.projectChannel=data
+		},
 		item_setMerchant(state,data){
 			state.merchant=data
 		},

@@ -1,7 +1,7 @@
 import { api } from 'api'
 
 
-export const contentModule = {
+export default {
 	state: {
 		showImageList: [],     //banner列表 172.19.83.73
 		uploadBanner:'',       //返回文件路径

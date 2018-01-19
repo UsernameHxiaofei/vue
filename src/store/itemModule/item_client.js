@@ -315,6 +315,16 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
+		item_addProjectChannel:(param)=>{
+			return Vue.http.post('item_addProjectChannel',param).then(response=>{
+				return response.body
+			})
+		},
+		item_getProjectChannel:(param)=>{
+			return Vue.http.post('item_getProjectChannel',param).then(response=>{
+				return response.body
+			})
+		},
 	} 
 }
 

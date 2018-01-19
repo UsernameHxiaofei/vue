@@ -11,19 +11,21 @@
     }
 
     .merchantTab .add-merchant {
-        margin:0 0 20px 0;
+        margin: 0 0 20px 0;
     }
-    .merchantlist th{
+
+    .merchantlist th {
         font-size: 14px;
         line-height: 40px;
-        padding:0 10px;
+        padding: 0 10px;
         border: 1px solid #e2e6ef;
     }
-    .merchantlist td{
+
+    .merchantlist td {
         border: 1px solid #e2e6ef;
         font-size: 14px;
         line-height: 40px;
-        padding:0 10px;
+        padding: 0 10px;
     }
 </style>
 <template>
@@ -39,6 +41,7 @@
                     <th>店铺名称</th>
                     <th>机具号</th>
                     <th>交易类型</th>
+                    <th>渠道类型</th>
                     <th>操作</th>
                 </tr>
                 <tr v-for="item in merchant">
@@ -48,9 +51,10 @@
                     <td>{{item.shop_name}}</td>
                     <td>{{item.machine_num}}</td>
                     <td>{{item.tradeType|tradeType}}</td>
+                    <td>{{item.channel|channel}}</td>
                     <td class="bianji">
-                        <el-button  size="small" @click="edit(item)">编辑</el-button>
-                        <el-button  size="small" @click="deleteItem(item)">删除</el-button>
+                        <el-button size="small" @click="edit(item)">编辑</el-button>
+                        <el-button size="small" @click="deleteItem(item)">删除</el-button>
                     </td>
                 </tr>
             </table>
@@ -73,8 +77,10 @@
                     <el-input v-model="merchantForm.machine_num" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="tradeType" label="交易类型">
-                    <el-radio  v-model="merchantForm.tradeType" :label="1">聚合支付</el-radio>
-                      <el-radio v-model="merchantForm.tradeType" :label="2">POS刷卡</el-radio>
+                    <el-radio v-for="item in tradeTypeOptions" :key="item.value" v-model="merchantForm.tradeType" :label="item.value">{{item.label}}</el-radio>
+                </el-form-item>
+                <el-form-item prop="channel" label="渠道类型">
+                    <el-radio v-for="item in channelOptions" :key="item.value" v-model="merchantForm.channel" :label="item.value">{{item.label}}</el-radio>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -85,13 +91,20 @@
     </div>
 </template>
 <script>
+    import channels from '../../../constant/payChannels'
+    import tradeTypes from '../../../constant/tradeTypes'
     export default {
         name: 'merchant',
+        beforeMount () {
+            this.$store.dispatch('item_getMerchant', { id: this.projectId })
+        },
+        props: ['projectId'],
         data() {
             return {
+                channelOptions: channels,
+                tradeTypeOptions: tradeTypes,
                 dialogFormVisible: false,
-                addFlag:false,
-                projectId: this.$route.params.projectId,
+                addFlag: false,
                 merchantForm: {
                     projectId: '',
                     customer_num: '',
@@ -99,7 +112,7 @@
                     shop_num: '',
                     shop_name: '',
                     machine_num: '',
-                    tradeType:1
+                    tradeType: 1
                 },
                 merchantFormRules: {
                     customer_num: [{ required: true, message: '请输入商户编号', trigger: 'blur' }]
@@ -116,19 +129,20 @@
                     shop_num: '',
                     shop_name: '',
                     machine_num: '',
-                    tradeType:1
+                    tradeType: 1,
+                    channel: 1,
                 }
-                this.addFlag=true;
+                this.addFlag = true;
             },
-            
+
             edit(item) {
                 this.dialogFormVisible = true
                 this.merchantForm = JSON.parse(JSON.stringify(item))
             },
             submitForm() {
-                if(this.addFlag){
+                if (this.addFlag) {
                     this.merchantSubmit()
-                }else{
+                } else {
                     this.$refs['merchantForm'].validate((valid) => {
                         if (valid) {
                             this.$store.dispatch('item_editMerchant', { param: this.merchantForm, vue: this })
@@ -139,7 +153,7 @@
                         }
                     })
                 }
-                this.addFlag=false
+                this.addFlag = false
             },
             merchantSubmit() {
                 this.$refs['merchantForm'].validate((valid) => {
@@ -161,7 +175,7 @@
                 }).then(() => {
                     this.$store.dispatch('item_deleteMerchant', { param: { id: item.id, projectId: item.projectId }, vue: this })
                 }).catch(() => {
-                 
+
                 })
 
             }

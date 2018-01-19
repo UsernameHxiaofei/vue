@@ -64,6 +64,10 @@
 					var wh = this.op.fixedNumber[0] / this.op.fixedNumber[1]
 					// 如果设置了比例
 					w = ~~(h * wh)
+					if(w>=300){
+						w=300
+						h=~~(w/wh)
+					}
 					return { w, h }
 				}
 				return { w: 300, h: 300 }

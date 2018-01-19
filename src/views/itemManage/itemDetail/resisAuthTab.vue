@@ -260,13 +260,11 @@ export default {
 	computed: {
 		authInfoList: function () {
 			return this.$store.state.item.authInfo || {}
-		},
-		itemManageDetail: function () {
-			return this.$store.state.item.itemManageDetail||{}
 		}
 	},
+	props: ['enterpriseId'],
 	beforeMount() {
-		this.$store.dispatch('item_getAuthInfo', { id: this.itemManageDetail.enterpriseId }).then(()=>{
+		this.$store.dispatch('item_getAuthInfo', { id: this.enterpriseId}).then(()=>{
 			this.formatData()
 		})
 	},
@@ -416,7 +414,7 @@ export default {
 					{trigger: 'blur',validator:(rule, value, callback) => {
 						if(value==''){
 							callback(new Error('请确认查询口令'))
-						}else if (value==this.limitform2.queryPassword) {
+						}else if (value!=this.limitform2.queryPassword) {
 							callback(new Error('两次输入口令不一致'))
 						} else {
 							callback()
@@ -435,7 +433,7 @@ export default {
 				if (valid) {
 					let param=this.limitform2
 					param.id=this.personAccount.id
-					param.enterpriseId= this.itemManageDetail.enterpriseId
+					param.enterpriseId= this.enterpriseId
 					this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
 						this.dialogFormVisible1=false
 						this.formatData()
@@ -503,7 +501,7 @@ export default {
 				if (valid) {
 					let param=this.limitform1
 					param.id=this.enterpriseAccount.id
-					param.enterpriseId= this.itemManageDetail.enterpriseId
+					param.enterpriseId= this.enterpriseId
 					this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
 						this.dialogFormVisible=false
 						this.formatData()

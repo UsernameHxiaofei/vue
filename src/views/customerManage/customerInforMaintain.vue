@@ -20,7 +20,7 @@
                     <div class="grid-content">
                         <img class="pic" src="../../assets/images/fund4.png" />
                         <div class="num-box">
-                            <span class="color-blue">项目方</span>
+                            <span class="color-blue">融资人</span>
                             <p>{{customerStatistics.projectPartyCount}}</p>
                         </div>
                     </div>
@@ -65,6 +65,17 @@
                 </el-input>
             </div>
             <div class="date-box">
+                <el-date-picker
+                    v-model="beginTime"
+                    type="datetime"
+                    placeholder="注册开始时段">
+                  </el-date-picker>
+                  至
+                  <el-date-picker
+                  v-model="endTime"
+                  type="datetime"
+                  placeholder="注册截止时段">
+                </el-date-picker>
                 <el-select v-model="status" @change="statusChange" clearable placeholder="状态">
                     <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
                     </el-option>
@@ -108,7 +119,7 @@
                 </el-table-column>
                 <el-table-column>
                     <template  slot-scope="scope">
-                        <router-link :to="{path: '/customerDetail/'+scope.row.customerId+'/'+scope.row.actorId}">
+                        <router-link :to="{path: '/personMemberDetail/'+scope.row.customerId+'/'+scope.row.actorId}">
                             <el-button class="btn-style">详情</el-button>
                         </router-link>
                     </template>
@@ -197,7 +208,7 @@ export default {
 		return {
 			statusOptions: [ { value: 1, label: '正常' }, { value: 2, label: '已封禁' }],
 			certifiOptions: [{ value: 'A', label: '实名' }, { value: 'B', label: '行家' },
-				{ value: 'C', label: '项目方' },
+				{ value: 'C', label: '融资人' },
 				{ value: 'D', label: '投资人' },
 				{ value: 'E', label: '领投人' }],
 			active: 'border-orange',
@@ -206,7 +217,9 @@ export default {
 			formLabelWidth: '120px',
 			keyword: '',
 			certifi: '',
-			status: '',
+            status: '',
+            beginTime:'',
+            endTime:'',
 			param: {},
 			customer: {
 				identNumber: '',
@@ -221,7 +234,6 @@ export default {
 				],
 				name: [
 					{ required: true, message: '请输入姓名', trigger: 'blur' },
-					// { pattern: /^[\u4E00-\u9FA5]+$/, message: '姓名只能为中文', trigger: 'blur' }
 				],
 				identNumber: [
 					{ required: true, message: '请输入身份证号', trigger: 'blur' },
@@ -239,7 +251,9 @@ export default {
 		this.param = {
 			keyword: this.keyword,
 			status: this.status,
-			certifi: this.certifi,
+            certifi: this.certifi,
+            beginTime:this.beginTime,
+            endTime:this.endTime,
 			pageSize: 10,
 			pageNum: 1
 		}

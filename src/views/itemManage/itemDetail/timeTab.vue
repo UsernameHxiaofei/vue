@@ -98,7 +98,7 @@
 					{{timeInfo.crowdFundingEnd||'未设置'}}
 				</el-form-item>
 				<el-form-item>
-					<el-button class="again" v-if="operator.category==2" type="success" @click="edit">修改</el-button>
+					<el-button class="again" v-if="operator.id=='02a58390-037a-4d52-8e43-5cd8dbc31e3e'" type="success" @click="edit">修改</el-button>
 				</el-form-item>
 			</el-form>
 		</div>

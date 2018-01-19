@@ -10,7 +10,7 @@ module.exports = function client(router, sc, passport) {
 		let param = req.body
 		const stuff = sc.instanceRequest('CustomerInfoTask', 'selectCustomerInfo', 'customerManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [param.status, param.certifi, param.keyword, param.pageNum, param.pageSize]
+		stuff.items = [param.category,param.beginTime,param.endTime,param.status, param.certifi, param.keyword, param.pageNum, param.pageSize]
 		sc.send(stuff).then((resp) => {
 			res.json(resp.object)
 		})
@@ -42,15 +42,7 @@ module.exports = function client(router, sc, passport) {
 			res.json(resp.head)
 		})
 	})
-	router.all('/leadAudit_getList', function (req, res) {
-		let param = req.body
-		const stuff = sc.instanceRequest('CustomerInfoTask', 'selectCustomerLeadInvestorAuditInfo', 'customerManage')
-		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [param.keyword, param.pageNum, param.pageSize]
-		sc.send(stuff).then((resp) => {
-			res.json(resp.object)
-		})
-	})
+	
 	router.all('/leadAudit_adopt', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('IndividualLeadInvestorTask', 'verificationleadInvestor', 'customerManage')
@@ -76,9 +68,9 @@ module.exports = function client(router, sc, passport) {
 			res.json(resp.object)
 		})
 	})
-	router.all('/customerInfoByCustomerId', function (req, res) {
+	router.all('/customerIndividualInfoByActorId', function (req, res) {
 		let param = req.body
-		const stuff = sc.instanceRequest('CustomerIndividualInfoTask', 'selectCustomerIndividualInfo', 'customerManage')
+		const stuff = sc.instanceRequest('CustomerIndividualInfoTask', 'selectCustomerIndividualInfoByActorId', 'customerManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = [param.id]
 		sc.send(stuff).then((resp) => {
@@ -108,7 +100,7 @@ module.exports = function client(router, sc, passport) {
 		let param = req.body
 		const stuff = sc.instanceRequest('ActorTask', 'addActorForWeb', 'securityCenter')
 		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [param.mobileNumber, param.name, param.identNumber]
+		stuff.items = [param]
 		sc.send(stuff).then((resp) => {
 			res.json(resp)
 		})
@@ -125,36 +117,6 @@ module.exports = function client(router, sc, passport) {
 	router.all('/update_customer', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('CustomerIndividualInfoTask', 'updateCustomerIndividualInfo', 'customerManage')
-		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [param]
-		sc.send(stuff).then((resp) => {
-			res.json(resp.head)
-		})
-	})
-	//企业信息查询
-	router.all('/enterpriseInfoByActorId', function (req, res) {
-		let param = req.body
-		const stuff = sc.instanceRequest('CustomerEnterpriseInfoTask', 'selectCustomerEnterpriseInfoByActorId', 'customerManage')
-		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [param.id]
-		sc.send(stuff).then((resp) => {
-			res.json(resp.object)
-		})
-	})
-	//新增企业信息
-	router.all('/add_enterpriseInfo', function (req, res) {
-		let param = req.body
-		const stuff = sc.instanceRequest('CustomerEnterpriseInfoTask', 'createCustomerEnterpriseInfo', 'customerManage')
-		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [param]
-		sc.send(stuff).then((resp) => {
-			res.json(resp.head)
-		})
-	})
-	//编辑企业信息
-	router.all('/update_enterpriseInfo', function (req, res) {
-		let param = req.body
-		const stuff = sc.instanceRequest('CustomerEnterpriseInfoTask', 'updateCustomerEnterpriseInfo', 'customerManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = [param]
 		sc.send(stuff).then((resp) => {
@@ -376,7 +338,7 @@ module.exports = function client(router, sc, passport) {
 		const stuff = sc.instanceRequest('FileManage', 'fileUpload', 'fileManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
 		// 请求参数以数组形式传递 按照接口规定顺序传递，只需要按照规定顺序传入就好。不用传字段名。
-		stuff.items = [param.fileName, param.fileType]
+		stuff.items = [param.fileName, param.fileType,'N']
 		stuff.essences = [sc.instanceEssence(null, req.file.buffer)]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
@@ -403,6 +365,145 @@ module.exports = function client(router, sc, passport) {
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = [param.id,param.url]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+	//企业变更审核列表
+	router.all('/enterperiseAuditList', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ActorAuditeTask', 'selectPageActorAuditeForEnter', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.status,
+			param.keyword,
+			param.pageNum,
+			param.pageSize
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
+	})
+	//查询变更审核详情
+	router.all('/selectActorAuditeById', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ActorAuditeTask', 'selectActorAuditeById', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
+	})
+	//人员变更审核状态
+	router.all('/updateActorAuditeStatus', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ActorAuditeTask', 'updateActorAuditeStatus', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id,
+			param.status,
+			param.rejection
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.head)
+		})
+	})
+	//会员变更审核实名认证
+	router.all('/verifyIdcardForAudite', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('VerifyTask', 'verifyIdcardForAudite', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.name,
+			param.identNumber,
+			param.mobileNumber,
+			param.id
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.head)
+		})
+	})
+	//会员头像变更
+	router.all('/customer_updateHeadFigureURL', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('CustomerIndividualInfoTask', 'updateHeadFigureURL', 'customerManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id,
+			param.headFigureURL
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.head)
+		})
+	})
+	//查询会员账号变更申请（type:1注册2修改手机号3法人）
+	router.all('/auditeWaitByActorId', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ActorAuditeTask', 'selectActorAuditeWaitByActorId', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.type,
+			param.id
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
+	})
+	
+	//更新企业账户法定代表人信息提交申请
+	router.all('/updateActorEnterRepInfo', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ActorEnterTask', 'updateActorEnterRepInfo', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			{
+				addressCode: param.addressCode,
+				repName: param.repName,
+				repMobile: param.repMobile,
+				repIdcard: param.repIdcard,
+				actorId: param.actorId
+			}
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
+	})
+	//更新企业信息
+	router.all('/updateActorEnterBasic', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ActorEnterTask', 'updateActorEnterBasic', 'securityCenter')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			{
+				actorId:param.actorId,
+				enterShortName:param.enterShortName,
+				brief:param.brief,
+				investment:param.investment,
+				industry:parseInt(param.industry)
+			}
+		]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
+	})
+	//获取个人领投审核列表
+	router.all('/leadAudit_getPersonList', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('CustomerInfoTask', 'selectCustomerLeadInvestorAuditInfo', 'customerManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [param.keyword, param.pageNum, param.pageSize]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
+	})
+	//获取企业审核列表
+	router.all('/leadAudit_getEnterpriseList', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('CustomerInfoTask', 'selectInstitutionLeadInvestorAuditInfo', 'customerManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [param.keyword, param.pageNum, param.pageSize]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
+		})
 	})
 
 }
