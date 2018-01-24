@@ -94,6 +94,9 @@
 <template>
     <div id="investedItem">
         <!--项目信息-->
+        <div class="back-button">
+            <el-button type="text" icon="arrow-left" @click="back">返回上一级</el-button>
+        </div>
         <div class="item-info">
             <img class="com-img" :src="investedItemDetail.imgUrl" alt="项目展示图" />
             <div class="item-con">
@@ -138,13 +141,13 @@
                     <!-- <expertTab v-show="activeName=='1'"></expertTab> -->
                 </el-tab-pane>
                 <el-tab-pane label="银账授权信息" name="2">
-                    <enterpriseAccount v-if="activeName=='2'" :enterpriseId="investedItemDetail.enterpriseId"></enterpriseAccount>
+                    <enterpriseAccount v-if="activeName=='2'" :item="investedItemDetail"></enterpriseAccount>
                 </el-tab-pane>
                 <el-tab-pane label="收银收单渠道" name="3">
                     <merchant v-if="activeName=='3'" :projectId="projectId"></merchant>
                 </el-tab-pane>
                 <el-tab-pane label="核心团队成员" name="4">
-                    <enterpriseTeam :enterprise='{id:investedItemDetail.enterpriseId}'></enterpriseTeam>
+                    <enterpriseTeam  v-if="activeName=='4'" :enterprise='{id:investedItemDetail.enterpriseId}'></enterpriseTeam>
                 </el-tab-pane>
                 <el-tab-pane label="分红报告" name="5">
                 </el-tab-pane>
@@ -193,7 +196,9 @@
             }
         },
         methods: {
-
+            back(){
+                this.$router.go(-1)
+            }
         }
     }
 </script>

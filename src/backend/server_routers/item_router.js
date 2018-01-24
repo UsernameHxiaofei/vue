@@ -240,11 +240,13 @@ module.exports = function client(router, sc, passport) {
 		if(param.id!='undefined'){
 			stuff = sc.instanceRequest('EnterpriseAccountTask', 'updateRegistrationAuthority', 'enterpriseManger')
 		}else{
+			param.id=param.projectId
 			stuff = sc.instanceRequest('EnterpriseAccountTask', 'createEnterpriseAccount', 'enterpriseManger')
 		}
 		stuff.auxiliary = {
 			[passport]: req.session.passport
 		}
+		delete param.projectId
 		stuff.items = [
 			param
 		]

@@ -43,7 +43,7 @@
 	<div style="background: #fafafa;">
 		<div>
 			<div class="back-button">
-				<router-link :to="{path: '/enterpriseMember'}">
+				<router-link :to="{path: '/personMember'}">
 					<el-button type="text" icon="arrow-left">返回上一级</el-button>
 				</router-link>
 			</div>
@@ -166,7 +166,56 @@
 				<el-dialog title="头像编辑" :visible.sync="editHeadImgChange" :close-on-click-modal="false">
 						<imageCropper  :op="{img:customerIndividualInfoByActorId.headFigureURL}" @result="updateHeadFigureURL"></imageCropper>
 				</el-dialog>
-			</div>
+		</div>
+		<div class="p-form">
+                <el-dialog title="个人会员账号变更审核" :visible.sync="auditeWaitFormVisible" @close="auditeWaitFormVisible=false" :close-on-click-modal="false">
+                    <el-form >
+                        <el-form-item  label="姓名">
+                            {{customerInfoByActorId.name}}
+                        </el-form-item>
+                        <el-form-item  label="身份证号">
+                            {{customerInfoByActorId.identNumber}}
+                        </el-form-item>
+                        <el-form-item  label="原手机号">
+                            {{customerInfoByActorId.mobileNumber}}
+                        </el-form-item>
+                        <hr style="height:2px;background:rgb(191, 217, 217);;margin:10px 0;">
+                        <el-form-item  label="新手机号">
+                            {{auditeWaitByActorId.mobileNumber}}
+                        </el-form-item>
+                        <el-form-item  label="新姓名">
+                            {{auditeWaitByActorId.name}}
+                        </el-form-item>
+                        <el-form-item  label="新身份证号">
+                            {{auditeWaitByActorId.identNumber}}
+                        </el-form-item>
+                        <el-form-item  label="新账号实名认证">
+                            <el-button v-if="auditeWaitByActorId.isRealName==0" @click="realNameValidate">
+                                开始认证
+                            </el-button>
+                            <!-- 0：待认证 1：未通过 2：通过' -->
+                            <span v-if="auditeWaitByActorId.isRealName!=0">{{auditeWaitByActorId.isRealName==2?'通过':'未通过'}}</span>
+                        </el-form-item>
+                    </el-form>
+                    <div slot="footer" class="dialog-footer">
+						<el-button type="warning" @click="accountAuditRefuseVisible = true">拒绝</el-button>
+                            <el-button type="success" @click="auditAccount">通过</el-button>
+                    </div>
+				</el-dialog>
+				<div class="p-form">
+						<el-dialog title="拒绝理由" :visible.sync="accountAuditRefuseVisible" @close="cancel" :close-on-click-modal="false">
+							<el-form :model="refuseParam"  ref="refuseParam">
+								<el-form-item prop="rejection" required label="拒绝理由">
+									<el-input class="inputing" v-model="refuseParam.rejection" type="textarea" placeholder="请输入拒绝理由..."></el-input>
+								</el-form-item>
+							</el-form>
+							<div slot="footer" class="dialog-footer">
+								<el-button @click="cancel">取 消</el-button>
+								<el-button type="primary" @click="refuse">保 存</el-button>
+							</div>
+						</el-dialog>
+					</div>
+            </div>
 	</div>
 </template>
 <script>
@@ -205,6 +254,7 @@
 				editHeadImgChange:false,
 				dialogFormVisible: false,
 				dialogClosureVisible: false,
+				accountAuditRefuseVisible:false,
 				resetPasswordVisible: false,
 				title: '编辑账号',
 				formLabelWidth: '120px',
@@ -213,7 +263,10 @@
 					rejection: '',
 					actorId: '',
 				},
-
+				refuseParam: {
+                    actorId: this.$route.params.actorId,
+                    rejection: '',
+                },
 				actorRule: {
 					rejection: [
 						{ required: true, message: '请输入封禁理由', trigger: 'blur' }
@@ -229,7 +282,8 @@
 					]
 				},
 				resetPassword: '',
-				auditeWaitByActorId:{}
+				auditeWaitByActorId:{},
+				auditeWaitFormVisible: false
 			}
 		},
 		beforeMount() {
@@ -237,10 +291,71 @@
 		},
 		methods: {
 			auditeAccountChange(){
-				this.$store.dispatch('auditeWaitByActorId',{type:2,id:this.$route.params.actorId}).then((data)=>{
-					this.auditeWaitByActorId=data
-				})
+				this.loadChangeAudit().then(()=>{
+					if(this.auditeWaitByActorId.id){
+						 this.auditeWaitFormVisible=true
+					}else{
+						this.$message.info('该会员没有出现账号变更审核')
+					}
+				 })
 			},
+			realNameValidate(){
+                this.$store.dispatch('verifyIdcardForAudite',{
+                    name:this.customerInfoByActorId.name,
+                    identNumber:this.customerInfoByActorId.identNumber,
+                    mobileNumber:this.auditeWaitByActorId.mobileNumber,
+                    id:this.auditeWaitByActorId.actorId
+                }).then((data)=>{
+                    this.loadChangeAudit()
+                })
+			},
+			auditAccount(){
+				let adoptParam = {
+                    id: this.auditeWaitByActorId.id,
+                    status: 1,
+                    rejection: this.refuseParam.rejection
+                }
+                this.$store.dispatch('updateActorAuditeStatus', adoptParam).then((data) => {
+                    if (data.success) {
+                        this.$message({
+                            message: '审核通过',
+                            type: 'success'
+                        })
+                        this.cancel()
+                    } else {
+                        this.$message.error(data.information)
+                    }
+                })
+			},
+			refuse() {
+                this.$refs['refuseParam'].validate((valid) => {
+                    if (valid) {
+                        let adoptParam = {
+                            id: this.auditeWaitByActorId.id,
+                            status: 2,
+                            rejection: this.refuseParam.rejection
+                        }
+                        this.$store.dispatch('updateActorAuditeStatus', adoptParam).then((data) => {
+                            if (data.success) {
+                                this.$message({
+                                    message: '拒绝成功',
+                                    type: 'success'
+								})
+								this.auditeWaitFormVisible=false
+                                this.cancel('refuseParam')
+                            } else {
+                                this.$message.error(data.information)
+                            }
+                        })
+                    }
+                })
+
+            },
+			loadChangeAudit(){
+                return this.$store.dispatch('auditeWaitByActorId',{type:2,id:this.$route.params.actorId}).then((data)=>{
+                    this.auditeWaitByActorId=data
+                })
+            },
 			editHeadImage(){
                 this.editHeadImgChange=true
 			},
@@ -383,9 +498,12 @@
 				})
 			},
 			cancel(formName) {
-				this.$refs[formName].resetFields()
+				if(this.$refs[formName]){
+                    this.$refs[formName].resetFields()
+                }
 				this.dialogClosureVisible = false
-				// this.dialogFormVisible = false;
+				this.accountAuditRefuseVisible = false;
+				this.auditeWaitFormVisible=false
 			}
 		}
 	}

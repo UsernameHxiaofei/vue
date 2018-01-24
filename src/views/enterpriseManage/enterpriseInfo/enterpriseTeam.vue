@@ -222,6 +222,7 @@ export default {
 		imageCropper
 	},
 	beforeMount() {
+		this.$store.dispatch('enterprise_getInfo',{ id: this.enterpriseInfo.id || (this.enterprise && this.enterprise.id) })
 		this.$store.dispatch('enterprise_getMemberInfo', { id: this.enterpriseInfo.id || (this.enterprise && this.enterprise.id) })
 	},
 	data() {
@@ -291,7 +292,7 @@ export default {
 		addWarning(type, member) {
 			// //type 添加ADD 删除DELETE 更新UPDATE
 			this.$store.dispatch('addWarningForEnterpriseMemberChange', {
-				type, member, enterpriseId: this.enterpriseInfo.id
+				type, member, enterpriseId: this.enterpriseInfo.id|| (this.enterprise && this.enterprise.id)
 			})
 		},
 		addEnterpriseMember() {//点击添加团队成员 
@@ -318,7 +319,7 @@ export default {
 				if (valid) {
 					let param = this.teamform
 					let warningParam = JSON.parse(JSON.stringify(this.teamform))
-					param.enterpriseId = this.enterpriseInfo.id
+					param.enterpriseId = this.enterpriseInfo.id || (this.enterprise && this.enterprise.id)
 					if (this.editMember.length > 0) {
 						param.id = this.editMember
 						this.$store.dispatch('item_updateEnterpriseMember', { param, vue: this }).then(() => {

@@ -35,7 +35,7 @@ module.exports=function client(router,sc,passport){
 				name:param.name,
 				category:param.category
 			},
-			param.email,
+			param.email=='undefined'?'':param.email,,
 			param.roles
 		]
 		sc.send(stuff).then((resp) =>{
@@ -54,7 +54,7 @@ module.exports=function client(router,sc,passport){
 				mobileNumber:param.mobileNumber,
 				category:param.category
 			},
-			param.email,
+			param.email=='undefined'?'':param.email,
 			param.roles
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.head)})

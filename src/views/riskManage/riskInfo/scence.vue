@@ -6,7 +6,7 @@
 <template>
     <div id="scence">
         <img style="height:750px;" src="../../../assets/images/risk/123.jpg" alt="">
-
+        
 
 
     </div>

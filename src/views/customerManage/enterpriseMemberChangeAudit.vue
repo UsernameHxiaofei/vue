@@ -57,7 +57,7 @@
                         法定代表人实名认证
                     </el-button>
                     <label v-if="actorAudit.isRealName!=0">法定代表人实名认证</label>
-                    <span v-if="actorAudit.isRealName!=0">{{customer.actorEnter&&customer.actorEnter.isRealName==1?'通过':'不通过'}}</span>
+                    <span v-if="actorAudit.isRealName!=0">{{actorAudit.isRealName==1?'通过':'不通过'}}</span>
                 </li>
             </ul>
             <div class="btn-box-c">
@@ -128,7 +128,7 @@
                 let param = {
                     name: this.actorAudit.repName,
                     identNumber: this.actorAudit.repIdcard,
-                    mobileNumber:this.actor.repMobile,
+                    mobileNumber:this.actorAudit.repMobile,
                     id: this.$route.params.id
                 }
                 this.$store.dispatch('verifyIdcardForAudite', param).then((data) => {
@@ -161,7 +161,6 @@
                     } else {
                         this.$message.error(data.information)
                     }
-
                 })
             },
             refuse() {

@@ -6,7 +6,6 @@ Vue.use(Router);
 const MainView = () => import('../views/mainView.vue');
 const riskView = () => import('../views/riskManage/riskManage.vue');
 //会员管理
-const customerInforMaintain = () => import('../views/customerManage/customerInforMaintain.vue');
 const personMember = () => import('../views/customerManage/personMember.vue');
 const enterpriseMember = () => import('../views/customerManage/enterpriseMember.vue');
 const enterpriseChangeAuditList = () => import('../views/customerManage/enterpriseMemberChangeAuditList.vue');
@@ -32,6 +31,7 @@ const approval = () => import('../views/moneyManage/approval.vue');
 const refundApproval = () => import('../views/moneyManage/refundApproval.vue');
 const capitalApproval = () => import('../views/moneyManage/capitalApproval.vue');
 const brokerageManage = () => import('../views/moneyManage/brokerageManage.vue');
+const ibrokerageManage = () => import('../views/moneyManage/ibrokerageManage.vue');
 const rechargeManage = () => import('../views/moneyManage/rechargeManage.vue');
 const rateSetting = () => import('../views/moneyManage/rateSetting.vue');
 const enterpriseManage = () => import('../views/enterpriseManage/enterpriseManage.vue');
@@ -81,7 +81,6 @@ const routes = [
 	{ path: '/riskIndexDetail/:id', component: riskIndexDetail },
 	{ path: '/editRiskIndex/:id', component: editRiskIndex },
 	{ path: '/riskHistoryDetail/:id', component: riskHistoryDetail },
-	{ path: '/customerInforMaintain', component: customerInforMaintain },
 	{ path: '/personMember', component: personMember },
 	{ path: '/enterpriseMember', component: enterpriseMember },
 	{ path: '/enterpriseChangeAuditList', component: enterpriseChangeAuditList },
@@ -102,6 +101,7 @@ const routes = [
 	{ path: '/refundApproval', component: refundApproval },
 	{ path: '/capitalApproval', component: capitalApproval },
 	{ path: '/brokerageManage', component: brokerageManage },
+	{ path: '/ibrokerageManage', component: ibrokerageManage },
 	{ path: '/rechargeManage', component: rechargeManage },
 	{ path: '/rateSetting', component: rateSetting },
 	{ path: '/enterprise', component: enterpriseManage },

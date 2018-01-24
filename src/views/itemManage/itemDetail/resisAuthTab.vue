@@ -262,9 +262,9 @@ export default {
 			return this.$store.state.item.authInfo || {}
 		}
 	},
-	props: ['enterpriseId'],
+	props: ['item'],
 	beforeMount() {
-		this.$store.dispatch('item_getAuthInfo', { id: this.enterpriseId}).then(()=>{
+		this.$store.dispatch('item_getAuthInfo', { id: this.item.enterpriseId}).then(()=>{
 			this.formatData()
 		})
 	},
@@ -433,7 +433,8 @@ export default {
 				if (valid) {
 					let param=this.limitform2
 					param.id=this.personAccount.id
-					param.enterpriseId= this.enterpriseId
+					param.projectId=this.item.id
+					param.enterpriseId= this.item.enterpriseId
 					this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
 						this.dialogFormVisible1=false
 						this.formatData()
@@ -501,7 +502,8 @@ export default {
 				if (valid) {
 					let param=this.limitform1
 					param.id=this.enterpriseAccount.id
-					param.enterpriseId= this.enterpriseId
+					param.projectId=this.item.id
+					param.enterpriseId= this.item.enterpriseId
 					this.$store.dispatch('item_updateAuthInfo',{param,vue:this}).then(()=>{
 						this.dialogFormVisible=false
 						this.formatData()

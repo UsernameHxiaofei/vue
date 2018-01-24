@@ -32,14 +32,6 @@ module.exports = function client(router, sc, passport) {
 			res.json(resp.head)
 		})
 	})
-	router.all('/login_getUser', function (req, res) {//退出系统接口
-		const stuff = sc.instanceRequest('LoginTask', 'selectActorByPassport', 'securityCenter')
-		stuff.auxiliary = { [passport]: req.session.passport }
-		stuff.items = [req.session.passport]
-		return sc.send(stuff).then((resp) => {
-			res.json(resp.object)
-		})
-	})
 	router.all('/sendCheckcode', function (req, res) {//发送短信验证码
 		let param = req.body
 		const stuff = sc.instanceRequest('SendCheckcodeTask', 'sendCheckcode', 'ltMessageManagement')

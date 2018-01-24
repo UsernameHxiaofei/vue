@@ -15,7 +15,8 @@ export default {
 		sf:{},   //综合
 		statementBrief:{},
 		listDayAmount:{},//每日流水数据
-		items:[]//融资企业项目信息
+		items:[],//融资企业项目信息
+		JHAmountByTime:{},//收银收单统计信息
 	},
 	actions: {
 		enterprise_getManageList({ commit },param) {
@@ -89,13 +90,21 @@ export default {
 			})
 		},
 		enterprise_savePOSData(undefined,param){
-			return api.enterprise_savePOSData(param).then((data)=>data)
+			return api.enterprise_savePOSData(param)
 		},
 		enterprise_saveDataEnterCMBC(undefined,param){
-			return api.enterprise_saveDataEnterCMBC(param).then((data)=>data)
+			return api.enterprise_saveDataEnterCMBC(param)
+		},
+		enterprise_DLBAmountByTime({commit},param){
+			return api.enterprise_DLBAmountByTime(param).then((data)=>{
+				commit('enterprise_DLBAmountByTime',data)
+			})
 		}
 	},
 	mutations: {
+		enterprise_DLBAmountByTime(state,data){
+			state.JHAmountByTime=data
+		},
 		enterprise_setItems(state,data){
 			state.items=data
 		},

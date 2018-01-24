@@ -1,6 +1,6 @@
 <template>
 	<div id='enterpriseFunflowDLB'>
-		<el-row style="margin:30px auto 30px auto;">
+		<el-row style="margin:20px auto 20px auto;">
 			<el-col :span="24">
 				<div class="titleField">
 					<span>代理商编号：</span>
@@ -21,25 +21,58 @@
 					至
 					<el-date-picker v-model="endTime" :clearable="false" align="right" :editable="false" type="date" @change="endChange" placeholder="选择结束日期"></el-date-picker>
 				</span>
-			</el-col>
-		</el-row>
-		<el-row>
-			<el-col :span="24" style="margin :45px auto 20px 0">
-				<div id="enterpriseDLBchart"></div>
-			</el-col>
-		</el-row>
-		<el-row style="margin-top:60px">
-			<el-col style="margin-top:-40px">
-				<div style="float:right;font-size: 18px;color: rgb(6, 204, 182);font-weight:600">
-					<span>合计：入账</span>
-					<span>{{totalData.totalb}}</span>
-					<span>笔</span>&nbsp;
-					<span>{{totalData.totalbNum}}</span>
-					<span>元</span>
+				<div class="actionbar">
+					<button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="changeChart(1)"> 图表 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="changeChart(0)"> 明细 </button>
 				</div>
 			</el-col>
 		</el-row>
 		<el-row>
+			<el-col style="margin:60px auto 40px auto;">
+				<table class="enterpriseTotalData">
+					<thead>
+						<tr>
+							<th>收入金额(元)</th>
+							<th>订单数</th>
+							<th>最高客单价(元)</th>
+							<th>最低客单价(元)</th>
+							<th>客单均价（元）</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								{{total.pay_amount||0}}
+							</td>
+							<td>
+								{{total.dayNum||0}}
+							</td>
+							<td>
+								{{total.maxAmount||0}}
+							</td>
+							<td>
+								{{total.minAount||0}}
+							</td>
+							<td>
+								{{total.dayAmount||0}}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</el-col>
+		</el-row>
+		<el-row v-show="showChart">
+			<el-col :span="24" style="margin :15px auto 20px 0">
+				<div id="enterpriseOrderCountchart"></div>
+			</el-col>
+		</el-row>
+		<el-row v-show="showChart">
+			<el-col :span="24" style="margin :25px auto 20px 0">
+				<div id="enterpriseDLBchart"></div>
+			</el-col>
+		</el-row>
+
+		<el-row v-show="!showChart">
 			<el-col :span="24">
 				<el-table border :data="listData.list" stripe style="width: 100%">
 					<el-table-column prop="order_num" width="120" label="订单号" align="center"> </el-table-column>
@@ -63,9 +96,9 @@
 					<el-table-column prop="shop_name" width="110" label="店铺名称" align="center"> </el-table-column>
 					<el-table-column prop="shop_num" width="100" label="店铺编号" align="center"> </el-table-column>
 					<el-table-column prop="isInclude" width="100" label="是否计入营业额" align="center">
-							<template slot-scope="scope">
-								<span>{{scope.row.isInclude==0?'不计入':scope.row.isInclude==1?'计入':'计入'}}</span>
-							</template>
+						<template slot-scope="scope">
+							<span>{{scope.row.isInclude==0?'不计入':scope.row.isInclude==1?'计入':'计入'}}</span>
+						</template>
 					</el-table-column>
 				</el-table>
 				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
@@ -91,40 +124,56 @@
 			},
 			listDayAmount: function () {
 				return this.$store.state.enterprise.listDayAmount || {}
+			},
+			total: function () {
+				return this.$store.state.enterprise.JHAmountByTime || {}
 			}
 		},
 		components: {
-			'pagination': pagination
+			pagination
 		},
 		methods: {
+			changeChart(a) {
+				if (a) {
+					this.showChart = true
+				} else {
+					this.showChart = false
+				}
+				this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
+					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.getTotalData()
+					this.getImageData()
+				})
+			},
 			getImageData() {
-				let bIn = []
+				let bIn = [], bNum = []
 				let param = {
 					type: 1,
-					enterpriseId: this.enterprise.id,
+					enterpriseId: this.param.id,
 					beginTime: this.param.beginTime.toLocaleString(),
 					endTime: this.param.endTime.toLocaleString()
 				}
 				this.$store.dispatch('enterprise_selectListDayAmount', param).then(() => {
 					Object.keys(this.listDayAmount).forEach((key) => {
-						let pay_amount = 0
+						let pay_amount = 0, dayNum = 0
 						this.listDayAmount[key].forEach((item) => {
 							pay_amount += item.pay_amount || 0
+							dayNum += item.dayNum || 0
 						})
 						bIn.push([new Date(key).getTime(), pay_amount || 0])
+						bNum.push([new Date(key).getTime(), dayNum || 0])
 					})
-					this.imageData = { bIn }
+					this.imageData = { bIn, bNum }
 					this.buildEcharts()
 				})
 			},
 			getTotalData() {
-				let totalLean = 0, totalb = 0, totalLeanNum = 0, totalbNum = 0
-				for (let i = 0; this.dataList.list && i < this.dataList.list.length; i++) {
-					let item = this.dataList.list[i]
-					totalb++
-					totalbNum += item.pay_amount
+				let param = {
+					enterpriseId: this.param.id,
+					beginTime: this.param.beginTime.toLocaleString(),
+					endTime: this.param.endTime.toLocaleString()
 				}
-				this.totalData = { totalLean, totalb, totalLeanNum, totalbNum }
+				this.$store.dispatch('enterprise_DLBAmountByTime', param)
 			},
 			startChange(v) {
 				this.param.beginTime = v
@@ -158,10 +207,43 @@
 				})
 			},
 			buildEcharts() {
+				let orderNumberChart = echarts.init(document.getElementById('enterpriseOrderCountchart'), 'customed')
 				let myChart = echarts.init(document.getElementById('enterpriseDLBchart'), 'customed')
 				// 指定图表的配置项和数据
+				let orderNumberOption = {
+					title: { text: '店铺日订单数量', left: '300' },
+					tooltip: {
+						trigger: 'axis', formatter: function (params) {
+							let content = []
+							for (let i = 0; i < params.length; i++) {
+								const item = params[i]
+								content.push('<span style="background:' + item.color + ';" class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1] || 0))
+							}
+							return content.join('</br>')
+						}
+					},
+					legend: { data: ['订单数'], right: 100, orient: 'vertical' },
+					xAxis: {
+						type: 'time', position: 'bottom', axisPointer: {
+							label: {
+								formatter: function (params) {
+									return moment(new Date(params.value)).format('YYYY-MM-DD')
+								}
+							}
+						}
+					},
+					yAxis: { name: '数量', nameLocation: 'end' },
+					series: [{
+						name: '日订单量', type: 'line',
+						data: this.imageData.bNum,
+						lineStyle: { normal: { width: 3 } }
+					}],
+					dataZoom: [{
+						type: 'inside'
+					}]
+				}
 				let option = {
-					title: { text: '店铺订单收入', left: '300' },
+					title: { text: '店铺日收入', left: '300' },
 					tooltip: {
 						trigger: 'axis', formatter: function (params) {
 							let content = []
@@ -194,6 +276,7 @@
 				}
 				// 使用刚指定的配置项和数据显示图表。
 				myChart.setOption(option)
+				orderNumberChart.setOption(orderNumberOption)
 			}
 		},
 		beforeMount() {
@@ -206,6 +289,7 @@
 				beginTime: formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
 				endTime: formatDate(end, 'yyyy-MM-dd HH:mm:ss'),
 				id: this.enterprise.id,
+				// id: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
 				pageSize: 10,
 				pageNo: 1
 			}
@@ -220,19 +304,67 @@
 				startTime: '',
 				endTime: '',
 				param: {},
-				totalData: {},
 				imageData: [],
-				listData: []
+				listData: [],
+				showChart: true
 			}
 		}
 	}
 
 </script>
 
-<style>
-	#enterpriseDLBchart {
+<style scoped>
+	#enterpriseDLBchart,
+	#enterpriseOrderCountchart {
 		width: 100%;
 		height: 400px;
+	}
+
+	.enterpriseTotalData {
+		margin: 0 auto;
+		width: 100%;
+	}
+
+	.enterpriseTotalData td,
+	th {
+		height: 30px;
+		text-align: center;
+		border: 1px solid #535455;
+	}
+
+	#enterpriseFunflowDLB .typebutton {
+		width: 75px;
+		color: rgb(6, 204, 182);
+		border-radius: 5px;
+		height: 34px;
+		background: white;
+		outline: none;
+
+		border: 1px solid rgb(6, 204, 182);
+	}
+
+	#enterpriseFunflowDLB .typebutton:nth-child(1) {
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+
+	}
+
+	#enterpriseFunflowDLB .typebutton:nth-child(2) {
+		border-top-left-radius: 0;
+		border-bottom-left-radius: 0;
+
+	}
+
+	#enterpriseFunflowDLB .actionbar {
+		width: 200px;
+		float: right;
+		margin-right: 150px;
+	}
+
+	#enterpriseFunflowDLB .noeffect {
+		color: #999;
+		background: rgb(205, 214, 214);
+		border: none;
 	}
 
 	#enterpriseFunflowDLB .titleField {
@@ -245,9 +377,7 @@
 		margin-left: 20px;
 	}
 
-	#enterpriseFunflowDLB .el-table .cell {
-		text-align: center;
-	}
+
 
 	#enterpriseFunflowDLB .el-table__body .cell {
 		color: #535455;

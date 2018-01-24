@@ -92,7 +92,7 @@
                     <div class="grid-content">
                         <img class="pic" src="../../assets/images/fund5.png" />
                         <div class="num-box">
-                            <span class="color-yellow">已收居间费</span>
+                            <span class="color-yellow">已收融资服务费</span>
                             <p>
                                 <sup>￥</sup><span>{{headBrokerageFeeData.collectedIntermediaryFee}}</span></p>
                         </div>
@@ -102,7 +102,7 @@
                     <div class="grid-content">
                         <img class="pic" src="../../assets/images/fund6.png" />
                         <div class="num-box">
-                            <span class="color-green">待收居间费</span>
+                            <span class="color-green">待收融资服务费</span>
                             <p>
                                 <sup>￥</sup><span>{{headBrokerageFeeData.uncollectIntermediaryFee}}</span></p>
                         </div>
@@ -278,8 +278,7 @@ export default {
 			return this.$store.state.money.moneySelectData
 		},
 		headBrokerageFeeData: function () {
-			if(this.$store.state.money.headBrokerageFeeData)return this.$store.state.money.headBrokerageFeeData
-			else return {}
+            return this.$store.state.money.headBrokerageFeeData || {}
 		},
 		brokerageFeeList: function () {
 			return this.$store.state.money.brokerageFeeList

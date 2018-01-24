@@ -96,9 +96,9 @@
     export default {
         name: 'merchant',
         beforeMount () {
-            this.$store.dispatch('item_getMerchant', { id: this.projectId })
+            this.$store.dispatch('item_getMerchant', { id: this.item.id })
         },
-        props: ['projectId'],
+        props: ['item'],
         data() {
             return {
                 channelOptions: channels,
@@ -123,7 +123,7 @@
             add() {
                 this.dialogFormVisible = true
                 this.merchantForm = {
-                    projectId: '',
+                    projectId: this.item.id,
                     customer_num: '',
                     short_name: '',
                     shop_num: '',
@@ -158,7 +158,7 @@
             merchantSubmit() {
                 this.$refs['merchantForm'].validate((valid) => {
                     if (valid) {
-                        this.merchantForm.projectId = this.projectId
+                        this.merchantForm.projectId = this.item.id
                         this.$store.dispatch('item_addMerchant', { param: this.merchantForm, vue: this })
                         this.$refs['merchantForm'].resetFields()
                         this.dialogFormVisible = false

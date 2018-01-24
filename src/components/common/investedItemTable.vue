@@ -1,15 +1,10 @@
 <template>
-    <div id='investedItemList'>
-        <!--搜索-->
-        <div class="search-box" style="padding:5px 0 10px 5px;float:left;">
+    <div id='investedItemTable'>
+        <div class="search-box" >
             <div class="output">
                 <el-input style="width:260px;" placeholder="项目编号|项目名称|经营主" icon="search" v-model.trim="keyword" :on-icon-click="search" @keyup.enter.native="search"></el-input>
             </div>
-            <el-button type="primary" style="margin-left:10px;float:right" @click="createProject">创建项目
-                <i class="el-icon-plus"></i>
-            </el-button>
             <div class="date-box">
-
                 <el-cascader style="margin-left:10px;" placeholder="所属区域" expand-trigger="click" change-on-select clearable :options="options3"
                     v-model="where" @change="handleChange">
                 </el-cascader>
@@ -18,7 +13,6 @@
                     </el-option>
                 </el-select>
             </div>
-
         </div>
         <!--表格-->
         <div class="my-table">
@@ -47,9 +41,7 @@
                 </el-table-column>
                 <el-table-column>
                     <template slot-scope="scope" style="text-align:center">
-                        <router-link :to="{path: '/investedItemDetail/'+scope.row.id}">
-                            <el-button class="btn-style">详情</el-button>
-                        </router-link>
+                            <el-button @click="runButton(scope.row)" class="btn-style">{{button.label}}</el-button>
                     </template>
                 </el-table-column>
                 <el-table-column prop="" width="40"></el-table-column>
@@ -60,35 +52,47 @@
             <div class="page-wrap">
                 <pagination :total="projectList.count" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
             </div>
+
         </div>
     </div>
 </template>
+
 <script>
-    import pagination from '../../components/common/pagination'
+    import pagination from '../common/pagination'
     import { regionData } from 'element-china-area-data'
     import projectPhaseList from '../../constant/projectPhase'
     import industryList from '../../constant/industry'
+
     export default {
+        name: 'investedItemTable',
         components: {
             pagination
         },
-        data() {
-            return {
-                tableloading: false,
-                param: {},
-                options3: regionData,
-                projectPhaseOption: projectPhaseList,
-                industryOption: industryList,
-                where: [],
-                industry: '',
-                // 搜索
-                keyword: ''
-            }
+        props: {
+            button: {
+                type: Object,
+                default: function () {
+                    return { label: '详情',value:'/investedItemDetail/' }
+                }
+            },
         },
         computed: {
             projectList: function () {
                 return this.$store.state.investedItem.projectList || {}
-            },
+            }
+        },
+        data() {
+            return {
+                where: [],
+                industry: '',
+                // 搜索
+                keyword: '',
+                tableloading: false,
+                param: {},
+                projectPhaseOption: projectPhaseList,
+                industryOption: industryList,
+                options3: regionData,
+            }
         },
         beforeMount() {
             this.param = {
@@ -101,8 +105,8 @@
             this.getListData()
         },
         methods: {
-            createProject() {
-                this.$router.push('/investedItemCreate')
+            runButton(data){
+                this.$emit('buttonClick',data)
             },
             getListData() {
                 this.tableloading = true
@@ -139,8 +143,4 @@
 </script>
 
 <style scoped>
-    .output1 {
-        width: 450px;
-        float: left;
-    }
 </style>

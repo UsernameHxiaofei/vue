@@ -173,7 +173,7 @@
                             </el-form-item>
                             <el-form-item label="责任角色" required>
                                 <el-radio-group v-model.number="editPerson.projectRole">
-                                    <el-radio v-for="item in projectRoles" :key="item.value" :label="item.value">{{item.label}}</el-radio>
+                                    <el-radio v-for="item in projectRoles"  :key="item.value" :label="item.value">{{item.label}}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item label="权益占比" prop="rightsRatio">
@@ -218,9 +218,6 @@
             imageCropper
         },
         mounted() {
-
-
-
             this.$store.dispatch('ProjectRightsInfoGets', { projectId: this.projectId })
         },
         data() {
@@ -322,9 +319,10 @@
                 this.editPersonInfo = item
             },
             savePerson() {
-                this.editPerson.rightsRatio = this.editPerson.rightsRatio / 100
-                this.editPerson.projectId = this.projectId
-                this.$store.dispatch('ProjectRightsInfoUpdate', this.editPerson).then((data) => {
+                let param=Object.assign({},this.editPerson)
+                param.rightsRatio = param.rightsRatio / 100
+                param.projectId = this.projectId
+                this.$store.dispatch('ProjectRightsInfoUpdate', param).then((data) => {
                     if (data.flag) {
                         this.$message.success('修改成功')
                         this.editPersonformChange = false

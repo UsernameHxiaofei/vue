@@ -138,7 +138,7 @@ module.exports=function client(router,sc,passport){
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.head)})
 	})
-	//哆啦宝上传账单数据
+	//项目方或领投的保证金是否缴纳
 	router.all('/item_checkDeposit', function (req, res) {
 		let param=req.body
 		const stuff = sc.instanceRequest('DealManageTask', 'checkDeposit', 'dealManage')
@@ -159,4 +159,17 @@ module.exports=function client(router,sc,passport){
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
+	//根据企业id，时间周期查询哆啦宝总的客单信息
+	router.all('/enterprise_DLBAmountByTime', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('EnterpriseAccountDetailTask', 'selectListDLBAmountByTime', 'enterpriseManger')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.enterpriseId,
+			param.beginTime,
+			param.endTime
+		]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
+
 }

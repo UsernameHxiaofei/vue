@@ -79,6 +79,11 @@ module.exports=function client(Vue){
 			return Vue.http.post('enterprise_saveDataEnterCMBC',param).then(response =>{
 				return response.body
 			})
+		},
+		enterprise_DLBAmountByTime:(param)=>{
+			return Vue.http.post('enterprise_DLBAmountByTime',param).then(response =>{
+				return response.body
+			})
 		}
 	} 
 }

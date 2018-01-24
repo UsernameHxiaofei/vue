@@ -323,10 +323,10 @@
 					<partnerTab></partnerTab>
 				</el-tab-pane>
 				<el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="10">
-					<resisAuthTab :enterpriseId="itemManageDetail.enterpriseId" v-if="activeName=='10'"></resisAuthTab>
+					<resisAuthTab :item="itemManageDetail" v-if="activeName=='10'"></resisAuthTab>
 				</el-tab-pane>
 				<el-tab-pane label="聚合支付商户信息" v-if="itemManageDetail.phase>=10" name="11">
-					<merchant :projectId="projectId" v-if="activeName=='11'"></merchant>
+					<merchant :item="itemManageDetail" v-if="activeName=='11'"></merchant>
 				</el-tab-pane>
 			</el-tabs>
 		</div>
@@ -723,6 +723,7 @@
 				this.$refs['merchantForm'].validate((valid) => {
 					if (valid) {
 						this.merchantForm.projectId = this.projectId
+						this.merchantForm.enterpriseId = this.itemManageDetail.enterpriseId
 						this.$store.dispatch('item_addMerchant', { param: this.merchantForm, vue: this })
 						this.$refs['merchantForm'].resetFields()
 						this.dialogMerchantVisible = false

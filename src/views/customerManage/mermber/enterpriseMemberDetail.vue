@@ -45,7 +45,7 @@
         <div style="background: #fafafa;">
             <div>
                 <div class="back-button">
-                    <router-link :to="{path: '/personMember'}">
+                    <router-link :to="{path: '/enterpriseMember'}">
                         <el-button type="text" icon="arrow-left">返回上一级</el-button>
                     </router-link>
                 </div>
@@ -199,17 +199,32 @@
                             {{auditeWaitByActorId.gentIdcard}}
                         </el-form-item>
                         <el-form-item  label="新代理人实名认证">
-                            <el-button v-if="customerIndividualInfoByActorId.isRealName&&customerIndividualInfoByActorId.isRealName==0" @click="realNameValidate">
+                            <el-button v-if="auditeWaitByActorId.isRealName==0" @click="realNameValidate">
                                 开始认证
                             </el-button>
                             <!-- 0：待认证 1：未通过 2：通过' -->
-                            <span v-if="customerIndividualInfoByActorId.isRealName&&customerIndividualInfoByActorId.isRealName!=0">{{customerIndividualInfoByActorId.isRealName==2?'通过':'未通过'}}</span>
+                            <span v-if="auditeWaitByActorId.isRealName!=0">{{auditeWaitByActorId.isRealName==2?'通过':'未通过'}}</span>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
+                            <el-button type="warning" @click="accountAuditRefuseVisible = true">拒绝</el-button>
+                            <el-button type="success" @click="auditAccount">通过</el-button>
                     </div>
                 </el-dialog>
             </div>
+            <div class="p-form">
+                    <el-dialog title="拒绝理由" :visible.sync="accountAuditRefuseVisible" @close="cancel" :close-on-click-modal="false">
+                        <el-form :model="refuseParam"  ref="refuseParam">
+                            <el-form-item prop="rejection" required label="拒绝理由">
+                                <el-input class="inputing" v-model="refuseParam.rejection" type="textarea" placeholder="请输入拒绝理由..."></el-input>
+                            </el-form-item>
+                        </el-form>
+                        <div slot="footer" class="dialog-footer">
+                            <el-button @click="cancel">取 消</el-button>
+                            <el-button type="primary" @click="refuse">保 存</el-button>
+                        </div>
+                    </el-dialog>
+                </div>
             <div class="p-form">
 				<el-dialog title="头像编辑" :visible.sync="editHeadImgChange" :close-on-click-modal="false">
 						<imageCropper  :op="{img:customerIndividualInfoByActorId.headFigureURL}" @result="updateHeadFigureURL"></imageCropper>
@@ -253,6 +268,7 @@
                 editHeadImgChange: false,
                 dialogFormVisible: false,
                 dialogClosureVisible: false,
+                accountAuditRefuseVisible:false,
                 resetPasswordVisible:false,
                 title: '编辑账号',
                 formLabelWidth: '130px',
@@ -261,7 +277,10 @@
                     rejection: '',
                     actorId: '',
                 },
-    
+                refuseParam: {
+                    actorId: this.$route.params.actorId,
+                    rejection: '',
+                },
                 actorRule: {
                     rejection: [
                         { required: true, message: '请输入封禁理由', trigger: 'blur' }
@@ -291,7 +310,7 @@
                    if(this.auditeWaitByActorId.id){
                         this.auditeWaitFormVisible=true
                    }else{
-                       this.$message.warning('该会员没有出现需要变更审核的')
+                       this.$message.info('该会员没有出现账号变更审核')
                    }
                 })
             },
@@ -308,6 +327,48 @@
             loadChangeAudit(){
                 return this.$store.dispatch('auditeWaitByActorId',{type:2,id:this.$route.params.actorId}).then((data)=>{
                     this.auditeWaitByActorId=data
+                })
+            },
+            refuse() {
+                this.$refs['refuseParam'].validate((valid) => {
+                    if (valid) {
+                        let adoptParam = {
+                            id: this.auditeWaitByActorId.id,
+                            status: 2,
+                            rejection: this.refuseParam.rejection
+                        }
+                        this.$store.dispatch('updateActorAuditeStatus', adoptParam).then((data) => {
+                            if (data.success) {
+                                this.$message({
+                                    message: '拒绝成功',
+                                    type: 'success'
+                                })
+                                this.cancel('refuseParam')
+                            } else {
+                                this.$message.error(data.information)
+                            }
+                        })
+                    }
+                })
+
+            },
+            auditAccount(){
+                let adoptParam = {
+                    id: this.auditeWaitByActorId.id,
+                    status: 1,
+                    rejection: this.refuseParam.rejection
+                }
+                this.$store.dispatch('updateActorAuditeStatus', adoptParam).then((data) => {
+                    if (data.success) {
+                        this.$message({
+                            message: '审核通过',
+                            type: 'success'
+                        })
+                        this.customerInit()
+                        this.cancel()
+                    } else {
+                        this.$message.error(data.information)
+                    }
                 })
             },
             editHeadImage(){
@@ -462,8 +523,12 @@
                 })
             },
             cancel(formName) {
-                this.$refs[formName].resetFields()
+                if( this.$refs[formName]){
+                    this.$refs[formName].resetFields()
+                }
                 this.dialogClosureVisible = false
+                this.accountAuditRefuseVisible = false
+                this.auditeWaitFormVisible=false
                 // this.dialogFormVisible = false;
             }
         }

@@ -7,7 +7,7 @@
                 <span v-if="webMessageByActorid.count&&webMessageByActorid.count>0">{{webMessageByActorid.count}}</span>
             </div>
             <span class="sepreate">|</span>
-            <img  :src="headImage&&headImage.length>0?headImage:'../../assets/images/headimg.png'" class="headimg" @click="editHeadImg" />
+            <img  :src="headImage&&headImage.length>0?headImage:''" class="headimg" @click="editHeadImg" />
             <span class="username" v-html="actor.name"></span>
             <span class="setting">
                 <el-dropdown>
