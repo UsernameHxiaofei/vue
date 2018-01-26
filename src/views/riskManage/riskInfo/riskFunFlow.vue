@@ -502,15 +502,15 @@ export default {
 		this.param = {
 			beginTime: formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
 			endTime: formatDate(end, 'yyyy-MM-dd HH:mm:ss'),
-			id: this.itemManageDetail.enterpriseId,
+			id: this.$route.params.enterpriseId,
 			pageSize: 10,
 			pageNo: 1
 		}
-		this.$store.dispatch('item_getAuthInfo', { id: this.itemManageDetail.id })
+		this.$store.dispatch('item_getAuthInfo', { id: this.$route.params.projectId })
 		this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
 			this.listData = JSON.parse(JSON.stringify(this.dataList))
 			this.ready = true
-			this.$store.dispatch('risk_selectProjectRiskRule', { id: this.itemManageDetail.id, category: 1 }).then(() => {
+			this.$store.dispatch('risk_selectProjectRiskRule', { id: this.$route.params.projectId, category: 1 }).then(() => {
 				this.getTotalData()
 				this.getRiskLine()
 				this.getImageData()
