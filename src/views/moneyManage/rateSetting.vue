@@ -369,6 +369,7 @@
 				page: 1,
 				number: 10
 			}
+			this.$store.dispatch('overall_fundRule')
 			this.$store.dispatch('rate_getList', this.param)
 		},
 		data() {
@@ -581,23 +582,25 @@
 				}
 				this.$refs['rateForm'].validate((valid) => {
 					if (valid) {
-						this.rateForm = Object.assign(this.rateForm, {
-							serviceChargeRate: 0,
-							feeRate: 0,
-							expertSharePercent: 0,
-							carryPercent: 0,
-							leadInvestSharePercent: 0,
-							leadInvestPercent: 0,
-							financingEnsurePercent: 0,
-							quotaUnder: 0,
-							underEnsurePercent: 0,
-							quotaAbove: 0,
-							aboveEnsurePercent: 0,
-							investEnsurePercent: 0,
-							minInvestPenaltyPercent: 0,
-							maxInvestPenaltyPercent: 0,
-							simulatePercent: 0
-						})
+						if(this.isInvested){
+							this.rateForm = Object.assign(this.rateForm, {
+								serviceChargeRate: 0,
+								feeRate: 0,
+								expertSharePercent: 0,
+								carryPercent: 0,
+								leadInvestSharePercent: 0,
+								leadInvestPercent: 0,
+								financingEnsurePercent: 0,
+								quotaUnder: 0,
+								underEnsurePercent: 0,
+								quotaAbove: 0,
+								aboveEnsurePercent: 0,
+								investEnsurePercent: 0,
+								minInvestPenaltyPercent: 0,
+								maxInvestPenaltyPercent: 0,
+								simulatePercent: 0
+							})
+						}
 						if (this.rateForm.ruleId) {
 							this.rateForm.updateUserId = this.actor.id
 							this.$store.dispatch('modify_fundRule', formParam).then(() => {

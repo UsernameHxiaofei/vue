@@ -5,7 +5,7 @@
    * @param passport 常量
    */
 module.exports = function client(router, sc, passport) {
-	//////////////////充值记录查询列表
+	//充值记录查询列表
 	router.all('/find_topupByCondition', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('transactionInquiry.TopupInquiry', 'findTopupByCondition', 'dealManage')
@@ -14,14 +14,14 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	////////////充值记录状态
+	//充值记录状态
 	router.all('/getAll_transactionStatus', function (req, res) {
 		const stuff = sc.instanceRequest('LtGetOptionsTask', 'getTopupStatus', 'ltSystemManagement')
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = []
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
-	////////////充值记录头部信息
+	//充值记录头部信息
 	router.all('/get_topupStatResult', function (req, res) {
 		let param=req.body
 		const stuff = sc.instanceRequest('transactionInquiry.TopupInquiry', 'getTopupStatResult', 'dealManage')
@@ -76,14 +76,14 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	/////////////保证金管理头部统计信息
+	//保证金管理头部统计信息
 	router.all('/money_getHeadInfo', function (req, res) {
 		const stuff = sc.instanceRequest('FundManageTask', 'findDepositHead', 'dealManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = []
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
-	/////////////保证金管理页面数据展示
+	//保证金管理页面数据展示
 	router.all('/money_promiseList', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('FundManageTask', 'findProjectList', 'dealManage')
@@ -97,7 +97,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	/////////////投资款管理查询列表
+	//投资款管理查询列表
 	router.all('/investmentFund_getList', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('FundManageTask', 'selectProjectListForInvest', 'dealManage')
@@ -111,7 +111,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	/////////////投资款管理头部信息
+	//投资款管理头部信息
 	router.all('/invest_getHeadInfo', function (req, res) {
 		const stuff = sc.instanceRequest('FundManageTask', 'getHeadDataInfoForInvest', 'dealManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
@@ -119,7 +119,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	////////////////投资款管理画面-查询认投交易流水
+	// 投资款管理画面-查询认投交易流水
 	router.all('/getSubscription', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('FundManageTask', 'selectSubscriptionByLimit', 'dealManage')
@@ -132,7 +132,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	///////////////费率设置画面-项目列表查询
+	//费率设置画面-项目列表查询
 	router.all('/rate_getList', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('FundManageTask', 'selectProjectListForSetFundsRule', 'dealManage')
@@ -147,7 +147,7 @@ module.exports = function client(router, sc, passport) {
 	})
 	//todo
     
-	///////////费率设置-按所属ID查询资金规则
+	//费率设置-按所属ID查询资金规则
 	router.all('/id_fundRule', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('LtFundsRuleTask', 'findLtFundsRule', 'ltSystemManagement')
@@ -157,7 +157,7 @@ module.exports = function client(router, sc, passport) {
 		]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
-	///////////费率设置-按所属ID查询资金规则
+	//费率设置-按所属ID查询资金规则
 	router.all('/id_fundRule2', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('LtFundsRuleTask', 'findLtFundsRuleForShow', 'ltSystemManagement')
@@ -168,7 +168,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	///////////费率设置-查询全局资金规则
+	//费率设置-查询全局资金规则
 	router.all('/overall_fundRule', function (req, res) {
 		const stuff = sc.instanceRequest('LtFundsRuleTask', 'findOverallLtFundsRule', 'ltSystemManagement')
 		stuff.auxiliary = { [passport]: req.session.passport }
@@ -176,7 +176,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	///////////费率设置-新增或修改资金规则
+	//费率设置-新增或修改资金规则
 	router.all('/modify_fundRule', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('LtFundsRuleTask', 'createOrUpdateLtFundsRule', 'ltSystemManagement')
@@ -214,7 +214,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////注资审批-拒绝
+	//注资审批-拒绝
 	router.all('/refuse_capitalInjection', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('transactionProcess.PayPlanProcess', 'doPayPlanRefuse', 'dealManage')
@@ -225,7 +225,7 @@ module.exports = function client(router, sc, passport) {
 		]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
-	//////////注资审批-注资通过
+	//注资审批-注资通过
 	router.all('/agree_capitalInjection', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('transactionProcess.PayPlanProcess', 'doPayPlanAgree', 'dealManage')
@@ -236,7 +236,7 @@ module.exports = function client(router, sc, passport) {
 		]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
-	//////////注资审批-重新申请
+	//注资审批-重新申请
 	router.all('/renew_capitalInjection', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('transactionProcess.PayPlanProcess', 'doPayPlanReprocess', 'dealManage')
@@ -248,7 +248,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////保证金管理-查看详情-领投、项目方退款
+	//保证金管理-查看详情-领投、项目方退款
 	router.all('/bail_refund', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('DealManageAppropriationTask', 'approRefund', 'dealManage')
@@ -261,7 +261,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////退款审批-头部数据
+	//退款审批-头部数据
 	router.all('/drawback_headInfo', function (req, res) {
 		const stuff = sc.instanceRequest('FundManageTask', 'findAproRefundHeadInfo', 'dealManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
@@ -269,7 +269,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////退款审批-查询列表
+	//退款审批-查询列表
 	router.all('/drawback_getList', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('FundManageTask', 'findAproRefundList', 'dealManage')
@@ -283,7 +283,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////保证金审批-查询列表
+	//保证金审批-查询列表
 	router.all('/margin_approvalGetList', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('FundManageTask', 'findAproDepositList', 'dealManage')
@@ -297,7 +297,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	///////////退款审批、保证金审批-通过
+	//退款审批、保证金审批-通过
 	router.all('/pass_operate', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('transactionProcess.RefundProcess', 'doRefundAgree', 'dealManage')
@@ -309,7 +309,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
     
-	///////////退款审批、保证金审批-拒绝  
+	//退款审批、保证金审批-拒绝  
 	router.all('/fail_operate', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('transactionProcess.RefundProcess', 'doRefundRefuse', 'dealManage')
@@ -321,7 +321,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	}) 
 
-	//////////保证金管理-查看详情-领投催收
+	//保证金管理-查看详情-领投催收
 	router.all('/leader_collect', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('Settlement', 'callDepositToLeader', 'finance')
@@ -332,7 +332,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////保证金管理-查看详情-项目方催收
+	//保证金管理-查看详情-项目方催收
 	router.all('/item_collect', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('Settlement', 'callDepositToInitiator', 'finance')
@@ -343,7 +343,7 @@ module.exports = function client(router, sc, passport) {
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
 
-	//////////居间费管理-行家分润
+	// 居间费管理-行家分润
 	router.all('/share_profit', function (req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('Settlement', 'doShareProfit', 'finance')
@@ -354,4 +354,62 @@ module.exports = function client(router, sc, passport) {
 		]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})
+
+	// 投后融资服务项目列表
+	router.all('/selectProjectNotIncludeAll', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ProjectManageTask', 'selectProjectNotIncludeAll', 'projectManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.name,
+			param.projectType||1,
+			param.status||0,
+			param.startPage,
+			param.limit
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+	// 投后融资服务项目列表头信息
+	router.all('/LeadShareProfitHead', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('LeadShareProfitTask', 'LeadShareProfitHead', 'finance')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = []
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+	// 投后融资服务项目分红列表
+	router.all('/ShareProfitHis', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('ShareProfitExecutionTask', 'ShareProfitHis', 'finance')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.projectId,
+			param.startTime==''? undefined:param.startTime,
+			param.endTime==''? undefined:param.endTime,
+			param.pageStart,
+			param.limt
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+	//分红详情
+	router.all('/selectLeadShareProfit', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('LeadShareProfitTask', 'selectLeadShareProfit', 'finance')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+	//执行分红
+	router.all('/executeLeadShareProfit', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('LeadShareProfitTask', 'executeLeadShareProfit', 'finance')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+
 }

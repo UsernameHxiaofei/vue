@@ -203,7 +203,7 @@
                                 开始认证
                             </el-button>
                             <!-- 0：待认证 1：未通过 2：通过' -->
-                            <span v-if="auditeWaitByActorId.isRealName!=0">{{auditeWaitByActorId.isRealName==2?'通过':'未通过'}}</span>
+                            <span v-if="auditeWaitByActorId.isRealName!=0">{{auditeWaitByActorId.isRealName==1?'通过':'未通过'}}</span>
                         </el-form-item>
                     </el-form>
                     <div slot="footer" class="dialog-footer">
@@ -319,13 +319,23 @@
                     name:this.auditeWaitByActorId.gentName,
                     identNumber:this.auditeWaitByActorId.gentIdcard,
                     mobileNumber:this.auditeWaitByActorId.mobileNumber,
-                    id:this.auditeWaitByActorId.actorId
+                    id:this.auditeWaitByActorId.id
                 }).then((data)=>{
-                    this.loadChangeAudit()
+                    if(data.success){
+                        this.$store.dispatch('auditeWaitByActorId',{type:2,id:this.$route.params.actorId}).then((data)=>{
+                                this.$message({
+                                    message: this.auditeWaitByActorId.isRealName==1?'实名认证通过':'实名认证不通过，三要素信息不符',
+                                    type: 'success'
+                                })
+                        })
+                    }else{
+                        this.$message.error(data.information)
+                    }
                 })
             },
             loadChangeAudit(){
                 return this.$store.dispatch('auditeWaitByActorId',{type:2,id:this.$route.params.actorId}).then((data)=>{
+                    
                     this.auditeWaitByActorId=data
                 })
             },

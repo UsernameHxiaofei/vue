@@ -70,11 +70,6 @@ module.exports=function client(Vue){
 				return response.body
 			})
 		},
-		enterprise_savePOSData:(param)=>{
-			return Vue.http.post('enterprise_savePOSData',param).then(response =>{
-				return response.body
-			})
-		},
 		enterprise_saveDataEnterCMBC:(param)=>{
 			return Vue.http.post('enterprise_saveDataEnterCMBC',param).then(response =>{
 				return response.body
@@ -82,6 +77,11 @@ module.exports=function client(Vue){
 		},
 		enterprise_DLBAmountByTime:(param)=>{
 			return Vue.http.post('enterprise_DLBAmountByTime',param).then(response =>{
+				return response.body
+			})
+		},
+		enterprise_saveDLBData:(param)=>{
+			return Vue.http.post('enterprise_saveDLBData',param).then(response =>{
 				return response.body
 			})
 		}

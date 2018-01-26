@@ -23,9 +23,9 @@
                     <label>专注行业</label>
                     <span class="zhuanzhuhangye">
                         <div style="float: left;padding-right: 20px;" v-for="(item,i) in industryList">
-                            <el-checkbox :disabled="true" v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
+                            <el-checkbox :disabled="true" v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
-                            <input type="number" v-model="workYearsObj[i]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
+                            <input type="number" v-model="workYearsObj[item.value]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
                         </div>
                     </span>
                 </li>

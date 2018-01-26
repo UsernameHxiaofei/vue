@@ -170,9 +170,9 @@
 					</el-form-item>
 					<el-form-item label="专注行业" required>
 						<div style="float: left;padding-right: 20px;" v-for="(item,i) in industryList">
-							<el-checkbox :disabled="true" v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
+							<el-checkbox :disabled="true" v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
 							</el-checkbox>
-							<input type="number" v-model="workYearsObj[i]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
+							<input type="number" v-model="workYearsObj[item.value]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
 						</div>
 					</el-form-item>
 					<el-form-item label="所属单位">
@@ -215,9 +215,9 @@
 					</el-form-item>
 					<el-form-item label="专注行业" required>
 						<div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
-							<el-checkbox v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}
+							<el-checkbox v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
 							</el-checkbox>
-							<input type="number" v-model="workYearsObj[i]" :disabled="industryObj[i]?false:true" number="true" class="el-pagination__editor"
+							<input type="number" v-model="workYearsObj[i]" :disabled="industryObj[item.value]?false:true" number="true" class="el-pagination__editor"
 							 style="width: 30px;line-height: 0px;">年
 						</div>
 					</el-form-item>
@@ -550,14 +550,14 @@
 				}
 			}
 			return {
-				industryObj: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-				workYearsObj: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' },
+				industryObj: { 1: false, 2: false, 4: false, 8: false, 16: false, 32: false, 128:false,64: false },
+				workYearsObj: { 1: '', 2: '', 4: '', 8: '', 16: '', 32: '', 128: '' ,64: ''},
 				uploadList: [],
 				newIndustryList: [],
 				fileParam: {},
 				industryArr: {
-					industry: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
-					workYears: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' },
+					industry:  { 1: false, 2: false, 4: false, 8: false, 16: false, 32: false, 128:false,64: false },
+					workYears: { 1: '', 2: '', 4: '', 8: '', 16: '', 32: '', 128: '' ,64: ''},
 				},
 				active: 'tab-active',
 				options: regionData,

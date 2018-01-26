@@ -6,7 +6,7 @@
 			<ul>
 				<li>
 					<label>所在地</label>
-					<span>{{customer.actorEnter&&customer.actorEnter.addressCode}}</span>
+					<span>{{customer.actorEnter&&customer.actorEnter.addressCode|address}}</span>
 				</li>
 				<li>
 					<label>法定代表人姓名</label>

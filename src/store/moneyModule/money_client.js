@@ -165,6 +165,31 @@ module.exports = function client(Vue) {
 				return response.body
 			})
 		},
+		selectProjectNotIncludeAll: (param) => {
+			return Vue.http.post('selectProjectNotIncludeAll', param).then(response => {
+				return response.body
+			})
+		},
+		LeadShareProfitHead: (param) => {
+			return Vue.http.post('LeadShareProfitHead', param).then(response => {
+				return response.body
+			})
+		},
+		ShareProfitHis: (param) => {
+			return Vue.http.post('ShareProfitHis', param).then(response => {
+				return response.body
+			})
+		},
+		executeLeadShareProfit: (param) => {
+			return Vue.http.post('executeLeadShareProfit', param).then(response => {
+				return response.body
+			})
+		},
+		selectLeadShareProfit: (param) => {
+			return Vue.http.post('selectLeadShareProfit', param).then(response => {
+				return response.body
+			})
+		}
 	}
 }
 

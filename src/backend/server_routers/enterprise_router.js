@@ -128,16 +128,6 @@ module.exports=function client(router,sc,passport){
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
-	//哆啦宝上传账单数据
-	router.all('/enterprise_savePOSData', function (req, res) {
-		let param=req.body
-		const stuff = sc.instanceRequest('DuolabaoProcessService', 'savePOSData', 'enterpriseManger')
-		stuff.auxiliary = {[passport]: req.session.passport}
-		stuff.items = [
-			param.path
-		]
-		sc.send(stuff).then((resp) =>{res.json(resp.head)})
-	})
 	//项目方或领投的保证金是否缴纳
 	router.all('/item_checkDeposit', function (req, res) {
 		let param=req.body
@@ -171,5 +161,17 @@ module.exports=function client(router,sc,passport){
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
-
+	//上传哆啦宝账单
+	
+	//根据企业id，时间周期查询哆啦宝总的客单信息
+	router.all('/enterprise_saveDLBData', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('DuolabaoProcessService', 'saveDLBData', 'enterpriseManger')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.accountId,
+			param.path
+		]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
 }

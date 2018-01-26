@@ -41,6 +41,7 @@
                         <el-menu-item index="4-1" @click="go('/investmentFund','4-1')">&emsp;投资款管理</el-menu-item>
                         <el-menu-item index="4-2" @click="go('/depositManage','4-2')">&emsp;保证金管理</el-menu-item>
                         <el-menu-item index="4-3" @click="go('/brokerageManage','4-3')">&emsp;融资服务费管理</el-menu-item>
+                        <el-menu-item index="4-7" @click="go('/ibrokerageManage','4-7')">&emsp;投资投后服务费管理</el-menu-item>
                         <el-menu-item index="4-4" @click="go('/rechargeManage','4-4')">&emsp;充值记录</el-menu-item>
                         <el-menu-item index="4-5" @click="go('/rateSetting','4-5')">&emsp;资金规则参数设置</el-menu-item>
                         <el-menu-item index="4-6" @click="go('/refundApproval','4-6')">&emsp;资金划拨审批</el-menu-item>
@@ -98,6 +99,7 @@ export default {
 				{ value: '/investmentFund', index: '4-1' },
 				{ value: '/depositManage', index: '4-2' },
 				{ value: '/brokerageManage', index: '4-3' },
+				{ value: '/ibrokerageManage', index: '4-7' },
 				{ value: '/rechargeManage', index: '4-4' },
 				{ value: '/rateSetting', index: '4-5' },
 				{ value: '/refundApproval', index: '4-6' },

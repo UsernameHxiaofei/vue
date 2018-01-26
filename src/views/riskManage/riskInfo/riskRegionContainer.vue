@@ -37,16 +37,9 @@ export default {
 			category: 0
 		}
 	},
-	computed: {
-		itemManageDetail: function () {
-			return this.$store.state.item.itemManageDetail||{}
-		}
-	},
 	beforeMount() {
-		this.$store.dispatch('item_getManageDetail',  {id: this.$route.params.projectId}).then(()=>{
-			this.$store.dispatch('enterprise_getInfo',{id:this.itemManageDetail.enterpriseId}).then(()=>{
-				this.category = this.$route.params.category
-			})
+		this.$store.dispatch('enterprise_getInfo',{id:this.$route.params.enterpriseId}).then(()=>{
+			this.category = this.$route.params.category
 		})
 	},
 	methods: {

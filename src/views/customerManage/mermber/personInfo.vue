@@ -102,8 +102,8 @@
 			</el-form-item>
 			<el-form-item label="专注行业">
 				<div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
-					<el-checkbox v-model="industryObj[i]" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
-					<input type="number" v-model="workYearsObj[i]" :disabled="industryObj[i]?false:true" number="true" class="el-pagination__editor"
+					<el-checkbox v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}</el-checkbox>
+					<input type="number" v-model="workYearsObj[item.value]" :disabled="industryObj[item.value]?false:true" number="true" class="el-pagination__editor"
 					 style="width: 30px;line-height: 0px;">年
 				</div>
 			</el-form-item>
@@ -150,10 +150,10 @@ export default {
 			status: true,
 			options: regionData,
 			industryList: industryList,
-			industryObj: { 0: false, 1: false, 2: false, 3: false, 4: false, 5: false, 6: false },
+			industryObj: { 1: false, 2: false, 4: false, 8: false, 16: false, 32: false, 128:false,64: false },
 			usualPlaceOption: [],
 			birthPlaceOption: [],
-			workYearsObj: { 0: '', 1: '', 2: '', 3: '', 4: '', 5: '', 6: '' },
+			workYearsObj: { 1: '', 2: '', 4: '', 8: '', 16: '', 32: '', 128: '' ,64: ''},
 			newIndustryList: []
 		}
 	},

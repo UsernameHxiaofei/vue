@@ -18,7 +18,7 @@
                 </li>
                 <li>
                     <label>原所在地</label>
-                    <span v-if="customer.actorEnter">{{customer.actorEnter.addressCode||'未填写'}}</span>
+                    <span v-if="customer.actorEnter">{{customer.actorEnter.addressCode|address}}</span>
                 </li>
                 <li>
                     <label>原法定代表人姓名</label>
@@ -61,8 +61,8 @@
                 </li>
             </ul>
             <div class="btn-box-c">
-                <el-button type="warning" @click="dialogClosureVisible = true">拒绝</el-button>
-                <el-button type="success" @click="adopt">通过</el-button>
+                <el-button type="warning" :disabled="actorAudit.status==1" @click="dialogClosureVisible = true">拒绝</el-button>
+                <el-button type="success" :disabled="actorAudit.status==1" @click="adopt">通过</el-button>
             </div>
         </div>
         <div class="p-form">
@@ -132,17 +132,21 @@
                     id: this.$route.params.id
                 }
                 this.$store.dispatch('verifyIdcardForAudite', param).then((data) => {
+                    
                     if(data.success){
-                        this.$message({
-                            message: '认证成功',
-                            type: 'success'
+                        this.$store.dispatch('selectActorAuditeById', {
+                            id: this.$route.params.id
+                        }).then(()=>{
+                            this.$message({
+                                message: this.actorAudit.isRealName==1?'实名认证通过':'实名认证不通过，三要素信息不符',
+                                type: 'success'
+                            })
                         })
+                        
                     }else{
                         this.$message.warning(data.information)
                     }
-                    this.$store.dispatch('selectActorAuditeById', {
-                        id: this.$route.params.id
-                    })
+                    
                 })
             },
             adopt() {

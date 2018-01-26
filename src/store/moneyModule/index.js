@@ -39,6 +39,11 @@ export default {
 		marginApprovalGetList:{},//保证金审批-查询列表
 		passOperate:{},//退款审批、保证金审批-通过
 		failOperate:{},//退款审批、保证金审批-拒绝
+
+		investedServiceFeeList:{},//投后融资服务费项目列表
+		investedServiceFeeHeadData:{},//投后融资服务费管理头信息
+		shareProfitHis:{},//项目投后服务管理列表
+		selectLeadShareProfit:{}
 	},
 	actions: {
 		share_profit({ commit }, param) {
@@ -198,9 +203,43 @@ export default {
 				commit('setCapitalInjectionDetail', data)
 			})
 		},
-
+		selectProjectNotIncludeAll({commit},param) {
+			return api.selectProjectNotIncludeAll(param).then((data) => {
+				commit('selectProjectNotIncludeAll', data)
+			})
+		},
+		LeadShareProfitHead({commit},param){
+			return api.LeadShareProfitHead(param).then((data) => {
+				commit('LeadShareProfitHead', data)
+			})
+		},
+		ShareProfitHis({commit},param){
+			return api.ShareProfitHis(param).then((data) => {
+				commit('ShareProfitHis', data)
+			})
+		},
+		selectLeadShareProfit({commit},param){
+			return api.selectLeadShareProfit(param).then((data) => {
+				commit('selectLeadShareProfit',data)
+			})
+		},
+		executeLeadShareProfit(undefined,param){
+			return api.executeLeadShareProfit(param)
+		}
 	}, 
-	mutations: {  
+	mutations: {
+		selectLeadShareProfit(state,data){
+			state.selectLeadShareProfit=data
+		},
+		ShareProfitHis(state,data){
+			state.shareProfitHis=data
+		},
+		LeadShareProfitHead(state,data){
+			state.investedServiceFeeHeadData=data
+		},
+		selectProjectNotIncludeAll(state,data){
+			state.investedServiceFeeList=data
+		},
 		setShareProfit(state, data) {
 			state.shareProfit = data
 		},

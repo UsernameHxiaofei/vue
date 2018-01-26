@@ -15,7 +15,16 @@ import tradeTypes from '../constant/tradeTypes'
 import channels from '../constant/payChannels'
 import actorCategorys from '../constant/actorCategory'
 import projectRoles from '../constant/projectRoles'
+import shareProfitStatusData from '../constant/shareProfitStatus'
 
+export function shareProfitStatus(value){
+	for (let i = 0; i < shareProfitStatusData.length; i++) {
+		const item = shareProfitStatusData[i]
+		if(item.value==value){
+			return item.label
+		}
+	}
+}
 
 export function projectRole(value){
 	for (let i = 0; i < projectRoles.length; i++) {

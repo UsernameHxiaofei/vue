@@ -33,7 +33,6 @@
 					</el-table-column>
 					<el-table-column width="30" prop="" label="" align="center"> </el-table-column>
 				</el-table>
-				<el-button type="success" @click="dlbPosImport=true" style="float:left;margin:10px 50px">上传哆啦宝账单</el-button>
 				<pagination style="float:right;margin:10px 50px" :total="enterpriseListData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
 			</el-col>
 		</el-row>
@@ -71,32 +70,7 @@
 				</el-table-column>
 			</el-table>
 		</el-dialog>
-		<el-dialog title="导入哆啦宝pos账单" :visible.sync="dlbPosImport">
-			<el-form>
-				<el-form-item label="上传账单excel">
-					<el-button @click="uploadFile" :loading="fileloading">上传</el-button>
-				</el-form-item>
-				<el-form-item label="上传文件列表">
-					<el-table border :data="exportlist" stripe style="width: 100%">
-						<el-table-column prop="name" label="文件名"></el-table-column>
-						<el-table-column prop="size" label="文件大小" align="center"> </el-table-column>
-						<el-table-column prop="time" label="上传时间" align="center"> </el-table-column>
-						<el-table-column label="操作" align="center">
-							<template slot-scope="scope">
-								<el-button class="btn-style" size="small" :disabled="scope.row.isExported" @click="exportFile(scope.row)">{{scope.row.isExported?'已导入':'导入'}}</el-button>
-							</template>
-						</el-table-column>
-					</el-table>
-					<form style="display:none">
-						<input type="file" @change="fileChange" name="file" ref="fileInput">
-					</form>
-				</el-form-item>
-			</el-form>
-			<el-row>
-				<el-button style="float:right" @click="dlbPosImport=false">取消</el-button>
-				<el-button style="float:right;margin-right:10px;" type="primary" @click="dlbPosImport=false">确定</el-button>
-			</el-row>
-		</el-dialog>
+		
 	</div>
 </template>
 
@@ -130,9 +104,7 @@
 		},
 		data() {
 			return {
-				fileloading: false,
-				exportlist: [],
-				dlbPosImport: false,
+				
 				where: [],
 				startTime: '',
 				endTime: '',
@@ -145,49 +117,7 @@
 			}
 		},
 		methods: {
-			uploadFile() {
-				this.$refs['fileInput'].click()
-				// this.exportlist
-			},
-			fileChange(event) {
-				if (event.target.files.length == 0) {
-					return
-				}
-				let file = event.target.files[0]
-				let formData = new FormData()
-				formData.append('file', file)
-				let xhr = new XMLHttpRequest()
-				xhr.open('post', '/ajax/fileupload')
-				let self = this
-				this.fileloading = true
-				xhr.onload = function () {
-					self.fileloading = false
-					if (!xhr.response) {
-						self.$message.warning(JSON.parse(xhr.response).information)
-					} else if (xhr.status == 200) {
-						self.$message.success('上传完成')
-						let temp = {
-							name: file.name,
-							size: file.size + 'byte',
-							time: new Date().toLocaleString(),
-							path: JSON.parse(JSON.parse(xhr.response).objectLiteral),
-							isExported: false
-						}
-						self.exportlist.push(temp)
-					}
-				}
-				xhr.send(formData)
-			},
-			exportFile(item) {
-				this.$store.dispatch('enterprise_savePOSData', { path: item.path }).then((data) => {
-					if (data.success) {
-						this.$message.success('导入成功')
-						item.isExported = true
-					} else {
-						this.$message.warning(data.information)
-					}
-				})
-			},
+			
 			findItems(item) {
 				this.$store.dispatch('enterprise_getItems', { enterpriseId: item.id })
 				this.titleName = item.name

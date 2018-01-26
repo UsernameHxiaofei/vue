@@ -11,6 +11,8 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('RiskProjectMapTask', 'selectRiskProjectList', 'riskManage')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
+			1,
+			'',
 			param.industry,
 			param.regionCode,
 			param.keyword,
@@ -26,6 +28,8 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('RiskProjectMapTask', 'selectRiskProjectList', 'riskManage')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
+			1,
+			'',
 			param.industry,
 			param.regionCode,
 			param.keyword,

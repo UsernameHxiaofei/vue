@@ -127,7 +127,10 @@
 			},
 			total: function () {
 				return this.$store.state.enterprise.JHAmountByTime || {}
-			}
+			},
+			merchant: function () {
+				return this.$store.state.item.merchant || {}
+			},
 		},
 		components: {
 			pagination
@@ -217,7 +220,7 @@
 							let content = []
 							for (let i = 0; i < params.length; i++) {
 								const item = params[i]
-								content.push('<span style="background:' + item.color + ';" class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1] || 0))
+								content.push('<span  style="background:' + item.color + ';"  class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1] || 0))
 							}
 							return content.join('</br>')
 						}
@@ -293,6 +296,7 @@
 				pageSize: 10,
 				pageNo: 1
 			}
+			this.$store.dispatch('item_getMerchant', { enterpriseId: this.enterprise.id })
 			this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
 				this.listData = JSON.parse(JSON.stringify(this.dataList))
 				this.getTotalData()

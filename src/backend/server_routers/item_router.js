@@ -1031,7 +1031,14 @@ module.exports = function client(router, sc, passport) {
 	//获取聚合支付商户信息
 	router.all('/item_getMerchant', function(req, res) {
 		let param = req.body
-		const stuff = sc.instanceRequest('EnterpriseAccountDLBTask', 'selectAccountByProjectId', 'enterpriseManger')
+		let stuff={}
+		if(param.enterpriseId){
+			stuff = sc.instanceRequest('EnterpriseAccountDLBTask', 'selectAccountByEnterpriseId', 'enterpriseManger')
+			param.id=param.enterpriseId
+		}else{
+			stuff = sc.instanceRequest('EnterpriseAccountDLBTask', 'selectAccountByProjectId', 'enterpriseManger')
+		}
+		
 		stuff.auxiliary = {
 			[passport]: req.session.passport
 		}

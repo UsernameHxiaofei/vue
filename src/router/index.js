@@ -32,6 +32,9 @@ const refundApproval = () => import('../views/moneyManage/refundApproval.vue');
 const capitalApproval = () => import('../views/moneyManage/capitalApproval.vue');
 const brokerageManage = () => import('../views/moneyManage/brokerageManage.vue');
 const ibrokerageManage = () => import('../views/moneyManage/ibrokerageManage.vue');
+
+
+
 const rechargeManage = () => import('../views/moneyManage/rechargeManage.vue');
 const rateSetting = () => import('../views/moneyManage/rateSetting.vue');
 const enterpriseManage = () => import('../views/enterpriseManage/enterpriseManage.vue');
@@ -125,7 +128,7 @@ const routes = [
 	{ path: '/itemEditForAll/:id', component: itemEditForAll ,meta: { scrollToTop: true } },
 	{ path: '/displayItem/:projectId', component: displayItem,meta: { scrollToTop: true }  },
 	{ path: '/enterpriseDetail/:id', component: enterpriseDetail },
-	{ path: '/riskRegionContainer/:category/:projectId', component: riskRegionContainer ,meta: { scrollToTop: true } },
+	{ path: '/riskRegionContainer/:category/:projectId/:enterpriseId', component: riskRegionContainer ,meta: { scrollToTop: true } },
 	{ path: '/monitor', component: monitor },
 	{ path: '/costMonitor', component: costMonitor },
 

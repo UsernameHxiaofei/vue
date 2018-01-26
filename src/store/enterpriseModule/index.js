@@ -89,9 +89,6 @@ export default {
 				commit('enterprise_setItems',data)
 			})
 		},
-		enterprise_savePOSData(undefined,param){
-			return api.enterprise_savePOSData(param)
-		},
 		enterprise_saveDataEnterCMBC(undefined,param){
 			return api.enterprise_saveDataEnterCMBC(param)
 		},
@@ -99,6 +96,9 @@ export default {
 			return api.enterprise_DLBAmountByTime(param).then((data)=>{
 				commit('enterprise_DLBAmountByTime',data)
 			})
+		},
+		enterprise_saveDLBData(undefined,param){
+			return api.enterprise_saveDLBData(param)
 		}
 	},
 	mutations: {

@@ -110,4 +110,15 @@
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
+	//修改投后项目的状态(20 运营中 30 休业整顿 40 停运)
+	router.all('/AtiProjectStatusUpdate', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('AtiProjectInfoTask', 'AtiProjectStatusUpdate', 'projectManage')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.projectId,
+			param.status
+		]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
 }
