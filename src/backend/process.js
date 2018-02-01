@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 const passport = 'linktou.base.task.data.Passport'; //放置通行证对象的字段名
 // 8883
-let sc = new StuffClient('127.0.0.1', 8883);
+let sc = new StuffClient('127.0.0.1', 8876);
 if (process.env.NODE_ENV === 'production') {
 	if (process.env.server === 'test') {
 		sc = new StuffClient('10.240.240.147', 9880);

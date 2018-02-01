@@ -25,29 +25,30 @@
 					<el-date-picker v-model="endTime" :clearable="false" align="right" :editable="false" type="date" @change="endChange" placeholder="选择结束日期"></el-date-picker>
 				</span>
 				<div class="actionbar">
-					<button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="changeChart(1)"> 图表 </button>
-					<button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="changeChart(0)"> 明细 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="changeChart(1)"> 分析图表 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="changeChart(0)"> 订单明细 </button>
 				</div>
 			</el-col>
 		</el-row>
-		<el-row >
+		<el-row>
 			<el-col style="margin:10px auto" :span="24">
-				 <label class="titleField" for="dateRange">快捷查询</label>&emsp;
+				<label class="titleField" for="dateRange">快捷查询</label>&emsp;
 				<el-button size="small" :class="{'choosed':timeQuick==1}" @click="setTimeQuick(1)">近一天</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==2}"  @click="setTimeQuick(2)">近三天</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==3}" @click="setTimeQuick(2)">近一周</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==4}" @click="setTimeQuick(3)">近一月</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(4)">近六月</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==6}" @click="setTimeQuick(5)">近一年</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==7}" @click="setTimeQuick(6)">近两年</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==8}"  @click="setTimeQuick(7)">近三年</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==2}" @click="setTimeQuick(2)">近三天</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==3}" @click="setTimeQuick(3)">近一周</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==4}" @click="setTimeQuick(4)">近一月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(5)">近一月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==6}" @click="setTimeQuick(6)">近六月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==7}" @click="setTimeQuick(7)">近一年</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==8}" @click="setTimeQuick(8)">近两年</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==9}" @click="setTimeQuick(9)">近三年</el-button>
 			</el-col>
 		</el-row>
 		<el-row>
 			<el-col style="margin:10px auto" :span="24">
 				<label class="titleField" for="dateRange">单位</label>&emsp;
-				<el-button size="small" class="{'choosed':unit==0}" @click="chooseUnit(0)">元</el-button>
-				<el-button size="small" class="{'choosed':unit==10000}" @click="chooseUnit(10000)">万元</el-button>
+				<el-button size="small" :class="{'choosed':unit==1}" @click="chooseUnit(1)">元</el-button>
+				<el-button size="small" :class="{'choosed':unit==10000}" @click="chooseUnit(10000)">万元</el-button>
 			</el-col>
 		</el-row>
 		<el-row v-show="showChart" style="margin :15px auto 20px 0;display:flex;align-items:center">
@@ -55,29 +56,29 @@
 			<table class="enterpriseTotalData">
 				<thead>
 					<tr>
-						<th>收入金额(元)</th>
+						<th>收入金额({{unitName}})</th>
 						<th>订单数</th>
-						<th>最高客单价(元)</th>
-						<th>最低客单价(元)</th>
-						<th>客单均价（元）</th>
+						<th>最高客单价({{unitName}})</th>
+						<th>最低客单价({{unitName}})</th>
+						<th>客单均价({{unitName}})</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr>
 						<td>
-							{{total.pay_amount||0}}
+							{{total.pay_amount/this.unit||0}}
 						</td>
 						<td>
 							{{total.dayNum||0}}
 						</td>
 						<td>
-							{{total.maxAmount||0}}
+							{{total.maxAmount/this.unit||0}}
 						</td>
 						<td>
-							{{total.minAount||0}}
+							{{total.minAmount/this.unit||0}}
 						</td>
 						<td>
-							{{total.dayAmount||0}}
+							{{total.dayAmount/this.unit||0}}
 						</td>
 					</tr>
 				</tbody>
@@ -96,9 +97,9 @@
 			<el-col :span="24">
 				<el-table border :data="listData.list" stripe style="width: 100%">
 					<el-table-column prop="order_num" label="订单号" align="center"> </el-table-column>
-					<el-table-column prop="order_amount" label="订单金额(元)" align="center"> </el-table-column>
-					<el-table-column prop="pay_amount" label="实付金额(元)" align="center"> </el-table-column>
-					<el-table-column prop="merchant_discount" label="商家补贴(元)" align="center"> </el-table-column>
+					<el-table-column prop="order_amount" :label="'订单金额('+unitName+')'" align="center"> </el-table-column>
+					<el-table-column prop="pay_amount" :label="'实付金额('+unitName+')'" align="center"> </el-table-column>
+					<el-table-column prop="merchant_discount" label="'商家补贴(元)" align="center"> </el-table-column>
 					<el-table-column prop="balance_account_time" label="开单时间" align="center"> </el-table-column>
 				</el-table>
 				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
@@ -113,7 +114,6 @@
 	import pagination from '../../../components/common/pagination.vue'
 	import moment from 'moment'
 	import theme from '../../../assets/js/echarts.theme.js'
-	import { formatDate } from '../../../util/index'
 	import importFile from '../../../components/common/importFile'
 	theme(echarts)
 
@@ -135,6 +135,9 @@
 			},
 			fire2PayKind: function () {
 				return this.$store.state.enterprise.selectDfire2PayKind || {}
+			},
+			unitName: function () {
+				return this.unit == 1 ? '元' : '万元'
 			}
 		},
 		components: {
@@ -142,17 +145,60 @@
 			importFile
 		},
 		methods: {
-			setTimeQuick(n){
-				if(n===1){
-					
-				}else if(n===2){
-
-				}else 
-				this.timeQuick=n
+			setTimeQuick(n) {
+				this.timeQuick = n
+				this.isTimeQuick = true
+				this.endTime = moment().toDate()
+				switch (n) {
+					case 1:
+						this.startTime = moment().subtract(1, 'day').toDate()
+						break;
+					case 2:
+						this.startTime = moment().subtract(3, 'day').toDate()
+						break;
+					case 3:
+						this.startTime = moment().subtract(1, 'week').toDate()
+						break;
+					case 4:
+						this.startTime = moment().subtract(1, 'month').toDate()
+						break;
+					case 5:
+						this.startTime = moment().subtract(3, 'month').toDate()
+						break;
+					case 6:
+						this.startTime = moment().subtract(6, 'month').toDate()
+						break;
+					case 7:
+						this.startTime = moment().subtract(1, 'year').toDate()
+						break;
+					case 8:
+						this.startTime = moment().subtract(2, 'year').toDate()
+						break;
+					case 9:
+						this.startTime = moment().subtract(3, 'year').toDate()
+						break;
+					default:
+						break;
+				}
+				this.param = {
+					beginTime: this.startTime.toLocaleString(),
+					endTime: this.endTime.toLocaleString(),
+					id: this.enterprise.id,
+					// id: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
+					pageSize: 10,
+					pageNo: 1
+				}
+				Promise.all([this.$store.dispatch('enterprise_getAccountDetailDLB', this.param), this.getImageData(), this.getTotalData()]).then((data) => {
+					this.formatListData()
+					this.isTimeQuick = false
+				})
 			},
-			chooseUnit(n){
-				this.unit=n
-				
+			chooseUnit(n) {
+				this.unit = n
+				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
+					this.formatListData()
+					this.getImageData()
+				})
 			},
 			importFileClick(item) {
 				if (this.merchant.length > 0 && this.merchant[0].id) {
@@ -163,7 +209,7 @@
 						if (data.success) {
 							this.$message.success('导入成功')
 							this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
-								this.listData = JSON.parse(JSON.stringify(this.dataList))
+								this.formatListData()
 								this.getTotalData()
 								this.getImageData()
 							})
@@ -180,7 +226,7 @@
 					this.showChart = false
 				}
 				this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
-					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.formatListData()
 					this.getTotalData()
 					this.getImageData()
 				})
@@ -193,11 +239,11 @@
 					beginTime: this.param.beginTime.toLocaleString(),
 					endTime: this.param.endTime.toLocaleString()
 				}
-				this.$store.dispatch('enterprise_selectListDayAmount', param).then(() => {
+				return this.$store.dispatch('enterprise_selectListDayAmount', param).then(() => {
 					Object.keys(this.listDayAmount).forEach((key) => {
 						let pay_amount = 0, dayNum = 0
 						this.listDayAmount[key].forEach((item) => {
-							pay_amount += item.pay_amount || 0
+							pay_amount += item.pay_amount / this.unit || 0
 							dayNum += item.dayNum || 0
 						})
 						bIn.push([new Date(key).getTime(), pay_amount || 0])
@@ -213,20 +259,26 @@
 					beginTime: this.param.beginTime.toLocaleString(),
 					endTime: this.param.endTime.toLocaleString()
 				}
-				this.$store.dispatch('enterprise_DLBAmountByTime', param)
+				return this.$store.dispatch('enterprise_DLBAmountByTime', param)
 			},
 			startChange(v) {
+				if (this.isTimeQuick) {
+					return
+				}
 				this.param.beginTime = v
 				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.formatListData()
 					this.getTotalData()
 					this.getImageData()
 				})
 			},
 			endChange(v) {
+				if (this.isTimeQuick) {
+					return
+				}
 				this.param.endTime = v
 				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.formatListData()
 					this.getTotalData()
 					this.getImageData()
 				})
@@ -235,16 +287,25 @@
 				this.param.pageSize = size
 				this.param.pageNo = 1
 				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.formatListData()
 					this.getTotalData()
 				})
 			},
 			handleCurrentChange(page) {
 				this.param.pageNo = page
 				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-					this.listData = JSON.parse(JSON.stringify(this.dataList))
+					this.formatListData()
 					this.getTotalData()
 				})
+			},
+			formatListData() {
+				let listData = JSON.parse(JSON.stringify(this.dataList))
+				for (let i = 0; i < listData.list.length; i++) {
+					let item = listData.list[i]
+					item.order_amount = item.order_amount / this.unit
+					item.pay_amount = item.pay_amount / this.unit
+				}
+				this.listData = listData
 			},
 			buildEcharts() {
 				let orderNumberChart = echarts.init(document.getElementById('enterpriseOrderCountchart'), 'customed')
@@ -257,7 +318,7 @@
 							let content = []
 							for (let i = 0; i < params.length; i++) {
 								const item = params[i]
-								content.push('<span  style="background:' + item.color + ';"  class="echart-dot"></span>' + item.seriesName + '：' + Number.parseInt(item.value[1] || 0))
+								content.push('<span  style="background:' + item.color + ';"  class="echart-dot"></span>' + moment(item.value[0]).format('YYYY-MM-DD') + '&emsp;' + item.seriesName + '：' + Number.parseInt(item.value[1] || 0))
 							}
 							return content.join('</br>')
 						}
@@ -289,7 +350,7 @@
 							let content = []
 							for (let i = 0; i < params.length; i++) {
 								const item = params[i]
-								content.push('<span style="background:' + item.color + ';" class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1].toFixed(2)) + '元')
+								content.push('<span style="background:' + item.color + ';" class="echart-dot"></span>' + moment(item.value[0]).format('YYYY-MM-DD') + '&emsp;' + item.seriesName + '：' + Number(item.value[1].toFixed(2)) + '元')
 							}
 							return content.join('</br>')
 						}
@@ -304,7 +365,7 @@
 							}
 						}
 					},
-					yAxis: { name: '金额(元)', nameLocation: 'end' },
+					yAxis: { name: `金额(${this.unitName})`, nameLocation: 'end' },
 					series: [{
 						name: '收入', type: 'line',
 						data: this.imageData.bIn,
@@ -375,21 +436,7 @@
 			}
 		},
 		beforeMount() {
-			window.moment=moment
-			const end = new Date()
-			const start = new Date()
-			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 3)
-			this.startTime = start
-			this.endTime = end
-			this.param = {
-				beginTime: formatDate(start, 'yyyy-MM-dd HH:mm:ss'),
-				endTime: formatDate(end, 'yyyy-MM-dd HH:mm:ss'),
-				id: this.enterprise.id,
-				// id: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
-				pageSize: 10,
-				pageNo: 1
-			}
-
+			this.setTimeQuick(1)
 			this.$store.dispatch('selectDfire2PayKind', {
 				enterpriseId: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
 				beginTime: '2018-01-28 00:00:00',
@@ -398,11 +445,6 @@
 				this.buildChannelMap()
 			})
 			this.$store.dispatch('item_getMerchant', { enterpriseId: this.enterprise.id })
-			this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-				this.listData = JSON.parse(JSON.stringify(this.dataList))
-				this.getTotalData()
-				this.getImageData()
-			})
 		},
 		data() {
 			return {
@@ -414,8 +456,9 @@
 				showChart: true,
 				isUpload: false,
 				uploadVisible: false,
-				unit:1,
-				timeQuick:1
+				unit: 1,
+				timeQuick: 1,
+				isTimeQuick: true,
 			}
 		}
 	}
@@ -423,10 +466,11 @@
 </script>
 
 <style scoped>
-	#enterpriseFunflowDLB .choosed{
+	#enterpriseFunflowDLB .choosed {
 		background: #06ccb6;
 		color: white;
 	}
+
 	#enterpriseDLBchart,
 	#enterpriseOrderCountchart {
 		width: 100%;
