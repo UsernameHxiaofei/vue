@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="back-button">
-                <el-button type="text" @click="goback()" icon="arrow-left">返回上一级</el-button>
+            <el-button type="text" @click="goback()" icon="arrow-left">返回上一级</el-button>
         </div>
         <div class="hangjiashenhe">
             <h3 v-if="actor.category==4">代理人</h3>
@@ -72,8 +72,8 @@
                     </span>
                 </li>
             </ul>
-                <h3 v-if="actor.category==4">营业执照</h3>
-                <img v-imageBiger class="businessLicenseURL" v-if="actor.category==4" :src="leadData.businessLicenseURL" alt="">
+            <h3 v-if="actor.category==4">营业执照</h3>
+            <img v-imageBiger class="businessLicenseURL" v-if="actor.category==4" :src="leadData.businessLicenseURL" alt="">
             <div class="btn-box-c">
                 <el-button type="warning" @click="dialogClosureVisible = true">拒绝</el-button>
                 <el-button type="success" @click="adopt">通过</el-button>
@@ -99,163 +99,165 @@
 
 
 <script>
-export default {
-	computed: {
-		leadAuditAdoptData: function () {
-			return this.$store.state.customer.leadAuditAdoptData
-		},
-		leadAuditRefuseData: function () {
-			return this.$store.state.customer.leadAuditRefuseData
-		},
-		leadData: function () {
-			return this.$store.state.customer.leadData
-        },
-        actor: function () {
-            return this.$store.state.customer.customerInfoByActorId
-        },
-        customer: function () {
+    export default {
+        computed: {
+            leadAuditAdoptData: function () {
+                return this.$store.state.customer.leadAuditAdoptData
+            },
+            leadAuditRefuseData: function () {
+                return this.$store.state.customer.leadAuditRefuseData
+            },
+            leadData: function () {
+                return this.$store.state.customer.leadData
+            },
+            actor: function () {
+                return this.$store.state.customer.customerInfoByActorId
+            },
+            customer: function () {
                 return this.$store.state.customer.customerIndividualInfoByActorId
+            },
         },
-	},
-	data() {
-		return {
-			refuseParam: {
-				actorId: this.$route.params.actorId,
-				rejection: '',
-			},
-			dialogClosureVisible: false,
-			rules: {
-				rejection: [
-					{ required: true, message: '请输入拒绝理由', trigger: 'blur' }
-				],
+        data() {
+            return {
+                refuseParam: {
+                    actorId: this.$route.params.actorId,
+                    rejection: '',
+                },
+                dialogClosureVisible: false,
+                rules: {
+                    rejection: [
+                        { required: true, message: '请输入拒绝理由', trigger: 'blur' }
+                    ],
 
-			},
-		}
-	},
-	beforeMount() {
-		let leadParam = {
-			id: this.$route.params.actorId
+                },
+            }
+        },
+        beforeMount() {
+            let leadParam = {
+                id: this.$route.params.actorId
+            }
+            this.$store.dispatch('customerInfoByActorId', leadParam).then(() => {
+                if (this.actor.email) {
+                    this.actor.email = this.actor.email.address
+                } else {
+                    this.actor.email = ''
+                }
+            })
+            this.$store.dispatch('customerIndividualInfoByActorId', leadParam)
+            this.$store.dispatch('leadByActorId', leadParam)
+
+        },
+        methods: {
+            goback() {
+                let path = '/personLeadAuditList'
+                if (this.actor.category == 4) {
+                    path = '/enterpriseLeadAuditList'
+                }
+                this.$router.push(path)
+            },
+            adopt() {
+                let adoptParam = {
+                    id: this.$route.params.customerId
+                }
+                this.$store.dispatch('leadAudit_adopt', adoptParam).then(() => {
+                    if (this.leadAuditAdoptData.success) {
+                        this.$message({
+                            message: '审核通过！',
+                            type: 'success'
+                        })
+                        this.goback()
+                    } else {
+                        this.$message.error('操作失败')
+                    }
+                })
+            },
+            refuse() {
+                this.$refs['refuseParam'].validate((valid) => {
+                    if (valid) {
+                        this.$store.dispatch('leadAudit_refuse', this.refuseParam).then(() => {
+                            if (this.leadAuditRefuseData.success) {
+                                this.$message({
+                                    message: '拒绝成功！',
+                                    type: 'success'
+                                })
+                                this.dialogClosureVisible = false
+                                this.goback()
+                            } else {
+                                this.$message.error('操作失败')
+
+                            }
+                        })
+                    }
+                })
+            },
+            cancel() {
+                this.$refs['refuseParam'].resetFields()
+                this.dialogClosureVisible = false
+            }
         }
-        this.$store.dispatch('customerInfoByActorId', leadParam).then(()=>{
-            if(this.actor.email){
-                this.actor.email=this.actor.email.address
-            }else{
-                this.actor.email=''
-            }
-        })
-        this.$store.dispatch('customerIndividualInfoByActorId', leadParam)
-        this.$store.dispatch('leadByActorId', leadParam)
-        
-	},
-	methods: {
-        goback(){
-            let path='/personLeadAuditList'
-            if(this.actor.category==4){
-                path='/enterpriseLeadAuditList'
-            }
-            this.$router.push(path)
-        },
-		adopt() {
-			let adoptParam = {
-				id: this.$route.params.customerId
-			}
-			this.$store.dispatch('leadAudit_adopt', adoptParam).then(() => {
-				if (this.leadAuditAdoptData.success) {
-					this.$message({
-						message: '审核通过！',
-						type: 'success'
-					})
-					this.goback()
-				} else {
-					this.$message.error('操作失败')
-				}
-			})
-		},
-		refuse() {
-			this.$refs['refuseParam'].validate((valid) => {
-				if (valid) {
-					this.$store.dispatch('leadAudit_refuse', this.refuseParam).then(() => {
-						if (this.leadAuditRefuseData.success) {
-							this.$message({
-								message: '拒绝成功！',
-								type: 'success'
-							})
-							this.dialogClosureVisible = false
-							this.goback()
-						} else {
-							this.$message.error('操作失败')
-
-						}
-					})
-				}
-			})
-		},
-		cancel() {
-			this.$refs['refuseParam'].resetFields()
-			this.dialogClosureVisible = false
-		}
-	}
-}
+    }
 </script>
 
 
 
 <style scoped>
-.businessLicenseURL{
-    margin-left:200px;
-    text-align: center;
-    width:200px;
-}
+    .businessLicenseURL {
+        margin-left: 200px;
+        text-align: center;
+        width: 200px;
+    }
 
-.hangjiashenhe {
-    box-sizing: border-box;
-    width: 60%;
-    margin: 0 auto;
-    padding-top:20px;
-    background-color: #fff;
-    font-size: 14px;
-}
-.hangjiashenhe h3{
-    padding-top:10px;
-    margin-left: 50px
-}
-.hangjiashenhe ul {
-    margin-left: 100px;
-    list-style: none;
-}
+    .hangjiashenhe {
+        box-sizing: border-box;
+        width: 60%;
+        margin: 0 auto;
+        padding-top: 20px;
+        background-color: #fff;
+        font-size: 14px;
+    }
 
-.hangjiashenhe li {
-    margin-top: 10px;
-}
+    .hangjiashenhe h3 {
+        padding-top: 10px;
+        margin-left: 50px
+    }
 
-.hangjiashenhe label {
-    display: inline-block;
-    width: 150px;
-    font-weight: 400;
-    color: #999;
-    text-align: right;
-    margin-right: 20px;
-}
+    .hangjiashenhe ul {
+        margin-left: 100px;
+        list-style: none;
+    }
 
-.hangjiashenhe li>span {
-    display: inline-block;
-    width: 300px;
-    color: #333;
-}
+    .hangjiashenhe li {
+        margin-top: 10px;
+    }
 
-.hangjiashenhe .zhuanzhuhangye {
-    padding: 10px;
-    border: 1px solid #ccc;
-}
+    .hangjiashenhe label {
+        float: left;
+        width: 100px;
+        font-weight: 400;
+        color: #999;
+        text-align: right;
+        margin-right: 20px;
+    }
 
-.zhuanzhuhangye span {
-    display: inline-block;
-    font-size: 13px;
-    margin-right: 10px;
-}
+    .hangjiashenhe li>span {
+        display: inline-block;
+        width: 300px;
+        color: #333;
+    }
 
-.hangjiashenhe .btn-box-c {
-    padding: 15px;
-    text-align: center
-}
+    .hangjiashenhe .zhuanzhuhangye {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+
+    .zhuanzhuhangye span {
+        display: inline-block;
+        font-size: 13px;
+        margin-right: 10px;
+    }
+
+    .hangjiashenhe .btn-box-c {
+        padding: 15px;
+        text-align: center
+    }
 </style>

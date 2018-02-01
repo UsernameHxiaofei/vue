@@ -162,8 +162,6 @@ module.exports=function client(router,sc,passport){
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
 	//上传哆啦宝账单
-	
-	//根据企业id，时间周期查询哆啦宝总的客单信息
 	router.all('/enterprise_saveDLBData', function (req, res) {
 		let param=req.body
 		const stuff = sc.instanceRequest('DuolabaoProcessService', 'saveDLBData', 'enterpriseManger')
@@ -172,6 +170,19 @@ module.exports=function client(router,sc,passport){
 			param.accountId,
 			param.path
 		]
+		sc.send(stuff).then((resp) =>{res.json(resp.head)})
+	})
+	//查看二维火支付方式图形数据
+	router.all('/selectDfire2PayKind', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('Dfire2DataService', 'selectDfire2PayKind', 'enterpriseManger')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items = [
+			param.enterpriseId,
+			param.beginTime,
+			param.endTime
+		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
+
 }

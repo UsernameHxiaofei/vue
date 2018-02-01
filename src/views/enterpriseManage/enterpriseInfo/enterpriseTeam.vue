@@ -113,7 +113,7 @@
             <el-col>
                 <div class="edit-button-block" v-if="!showDisplay">
                     <el-button style="float:left" v-show="!editFlag" @click="addEnterpriseMember" type="text">添加团队成员</el-button>
-                    <el-button style="float:right" @click="editFlag=!editFlag" type="text">{{editFlag?'进入编辑模式':'退出编辑'}}</el-button>
+                    <el-button style="float:right" @click="editFlag=!editFlag" type="text">{{editFlag?'开始编辑':'退出编辑'}}</el-button>
                 </div>
                 <div v-for="item in datalist" class="enterprisePerson" :key="item.id" v-show="editFlag">
                     <img :src="item.imageURL" alt="">

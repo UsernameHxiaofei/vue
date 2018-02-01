@@ -115,9 +115,9 @@
 					</el-form-item>
 					<el-form-item label="专注行业" required>
 						<div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
-							<el-checkbox v-model="industryArr.industry[i]" :label="item.value" :key="item.label">{{item.label}}
+							<el-checkbox v-model="industryArr.industry[item.value]" :label="item.value" :key="item.label">{{item.label}}
 							</el-checkbox>
-							<input type="number" v-model="industryArr.workYears[i]" :disabled="industryArr.industry[i]?false:true" number="true" class="el-pagination__editor"
+							<input type="number" v-model="industryArr.workYears[item.value]" :disabled="industryArr.industry[item.value]?false:true" number="true" class="el-pagination__editor"
 							 style="width: 30px;line-height: 0px;">年
 						</div>
 					</el-form-item>
@@ -132,14 +132,16 @@
 						</el-cascader>
 					</el-form-item>
 					<el-form-item label="名片">
-						<el-upload class="upload-demo" ref="uploadBusinessCard" action="/ajax/image_uploadByFile" :data="fileParam" list-type="picture-card"
-						 :show-file-list="true" :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="businessCardSuccess">
+							<img style="width:200px;" v-show="expert.businessCard" :src="expert.businessCard">
+						<el-upload class="upload-demo" ref="uploadBusinessCard" action="/ajax/image_uploadByFile" :data="fileParam" 
+						 :show-file-list="false" :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="businessCardSuccess">
 							<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
 						</el-upload>
 					</el-form-item>
 					<el-form-item label="专业性凭证">
-						<el-upload class="upload-demo" ref="uploadCredentials" action="/ajax/image_uploadByFile" :data="fileParam" list-type="picture-card"
-						 :show-file-list="true" :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="credentialsSuccess">
+						<img style="width:200px;" v-for="item in expert.credentialsObject" :key="item"  :src="item">
+						<el-upload class="upload-demo" ref="uploadCredentials" action="/ajax/image_uploadByFile" :data="fileParam" 
+						 :show-file-list="false" :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="credentialsSuccess">
 							<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
 						</el-upload>
 					</el-form-item>
@@ -188,7 +190,7 @@
 						<img style="width:200px;" :src="expertData.businessCard">
 					</el-form-item>
 					<el-form-item label="专业性凭证">
-						<img style="width:200px;" :src="expertData.credentials">
+						<img style="width:200px;" v-for="item in expertData.credentialsObject" :key="item"  :src="item">
 					</el-form-item>
 					<el-form-item label="行家简介">
 						<span>{{expertData.profile}}</span>
@@ -217,7 +219,7 @@
 						<div v-for="(item , i) in industryList" style="float: left;padding-right: 20px;">
 							<el-checkbox v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
 							</el-checkbox>
-							<input type="number" v-model="workYearsObj[i]" :disabled="industryObj[item.value]?false:true" number="true" class="el-pagination__editor"
+							<input type="number" v-model="workYearsObj[item.value]" :disabled="industryObj[item.value]?false:true" number="true" class="el-pagination__editor"
 							 style="width: 30px;line-height: 0px;">年
 						</div>
 					</el-form-item>
@@ -239,7 +241,8 @@
 						</el-upload>
 					</el-form-item>
 					<el-form-item label="专业性凭证">
-						<img style="width:200px;" :src="expertData.credentials">
+						
+						<img style="width:200px;" v-for="item in expertData.credentialsObject" :key="item"  :src="item">
 						<el-upload class="upload-demo" ref="uploadCredentials" action="/ajax/image_uploadByFile" :data="fileParam" :show-file-list="false"
 						 :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="updateCredentialsSuccess">
 							<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
@@ -308,8 +311,9 @@
 						</el-checkbox-group>
 					</el-form-item>
 					<el-form-item v-if="actor.category == 4" label="营业执照">
-						<el-upload class="upload-demo" ref="upload" action="/ajax/image_uploadByFile" :data="fileParam" list-type="picture-card"
-						 :show-file-list="true" :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="businessLicenseSuccess">
+							<img style="width:200px;" :src="lead.businessLicenseURL">
+						<el-upload class="upload-demo" ref="upload" action="/ajax/image_uploadByFile" :data="fileParam" 
+						 :show-file-list="false" :auto-upload="true" :file-list="uploadList" :before-upload="beforeAvatarUpload" :on-success="businessLicenseSuccess">
 							<el-button slot="trigger" size="small" type="primary">选取文件</el-button>
 						</el-upload>
 					</el-form-item>
@@ -324,7 +328,6 @@
 					<el-form-item label="已投项目">
 						<el-input type="textarea" v-model="lead.investment" placeholder="请输入已投资的项目名称、尽量填写完整"></el-input>
 					</el-form-item>
-
 					<el-form-item prop="agree">
 						<el-checkbox v-model="lead.agree" label="我已知股权投资是一种高风险投资，是一种没有固定收益和固定期限的投资" name=""></el-checkbox>
 					</el-form-item>
@@ -397,7 +400,6 @@
 						<h3 style="text-align:center">
 							{{actor.category == 5?'个人领投认证':'企业领投认证'}}
 						</h3>
-
 					</el-row>
 					<el-form-item label="手机号" prop="mobileNumber">
 						<el-input v-model="leadData.mobileNumber" auto-complete="off" :readonly="customer.realName?true:false"></el-input>
@@ -579,11 +581,12 @@
 					newIndustry: '',
 					industryList: [],
 					newIndustryList: [],
+					credentialsObject:[],
 					industryLevel: 0,
 					organization: '',
 					position: '',
 					businessCard: '',
-					credentials: '',
+					credentials: '[]',
 					profile: '',
 					rejection: '',
 					agree: true,
@@ -913,6 +916,11 @@
 						this.industryObj = obj.industry || this.industryObj
 						this.workYearsObj = obj.workYears || this.workYearsObj
 					}
+					this.expertData.credentialsObject=JSON.parse(this.expertData.credentials)||[]
+					this.viewExpertDialog = true
+				}).catch((e)=>{
+					this.expertData.credentialsObject=[]
+					this.expertData.credentials='[]'
 					this.viewExpertDialog = true
 				})
 			},
@@ -925,6 +933,9 @@
 					this.expertData.expertRegionOptions = []
 					this.expertData.expertUsualPlaceOptions = []
 					this.expertData.agree = true
+					if(this.expertData.credentials){
+						this.expertData.credentialsObject=JSON.parse(this.expertData.credentials)||[]
+					}
 					if (this.expertData.industry) {
 						var obj = JSON.parse(this.expertData.industry)
 						this.industryObj = obj.industry || this.industryObj
@@ -1227,14 +1238,16 @@
 			credentialsSuccess(data) {
 				if (data) {
 					this.$message.success('上传图片成功')
-					this.expert.credentials = data
+					this.expert.credentials = JSON.stringify([JSON.stringify(data)])
+					this.expert.credentialsObject = [data]
 				}
 			},
 			//上传成功时返回的数据
 			updateCredentialsSuccess(data) {
 				if (data) {
 					this.$message.success('上传图片成功')
-					this.expertData.credentials = data
+					this.expertData.credentials = JSON.stringify([JSON.stringify(data)])
+					this.expexpertDataert.credentialsObject = [data]
 				}
 			},
 			//上传成功时返回的数据

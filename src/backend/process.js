@@ -4,7 +4,7 @@ const router = express.Router();
 const multer = require('multer');
 const passport = 'linktou.base.task.data.Passport'; //放置通行证对象的字段名
 // 8883
-let sc = new StuffClient('127.0.0.1', 8876);
+let sc = new StuffClient('127.0.0.1', 8883);
 if (process.env.NODE_ENV === 'production') {
 	if (process.env.server === 'test') {
 		sc = new StuffClient('10.240.240.147', 9880);
@@ -30,8 +30,7 @@ require('./server_routers/employee_router')(router,sc, passport);
 require('./server_routers/investedItem_router')(router,sc, passport);
 
 
-//上传下载 通用↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-
+//上传下载 通用                   ↓↓↓↓↓↓
 router.all('/fileupload', multer().single('file'), function(req, res) { //上传组件必须有data{fileType:1}
 	let param = req.body;
 	const stuff = sc.instanceRequest('FileManage', 'fileUpload', 'fileManage');

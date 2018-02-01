@@ -159,6 +159,7 @@
                 this.$refs['merchantForm'].validate((valid) => {
                     if (valid) {
                         this.merchantForm.projectId = this.item.id
+                        this.merchantForm.enterpriseId = this.item.enterpriseId
                         this.$store.dispatch('item_addMerchant', { param: this.merchantForm, vue: this })
                         this.$refs['merchantForm'].resetFields()
                         this.dialogFormVisible = false

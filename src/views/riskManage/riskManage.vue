@@ -196,7 +196,7 @@
             <el-row>
                 <el-col>
                     <el-button class="paction-button1" @click="handleFunFlow(1)">银行账户资金流</el-button>
-                    <el-button class="paction-button1" @click="handleFunFlow(2)">哆啦宝资金流</el-button>
+                    <el-button class="paction-button1" @click="handleFunFlow(2)">收银收单资金流</el-button>
                 </el-col>
             </el-row>
         </el-dialog>
@@ -260,7 +260,6 @@
         },
         methods: {
             handleFunFlow(index) {
-                console.log(this.tempItem)
                 if (index == 1) {
                     this.$router.push('/riskRegionContainer/11/' + this.tempItem.projectId + '/' + this.tempItem.enterpriseId)
                 } else {

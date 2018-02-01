@@ -84,6 +84,11 @@ module.exports=function client(Vue){
 			return Vue.http.post('enterprise_saveDLBData',param).then(response =>{
 				return response.body
 			})
+		},
+		selectDfire2PayKind:(param)=>{
+			return Vue.http.post('selectDfire2PayKind',param).then(response =>{
+				return response.body
+			})
 		}
 	} 
 }

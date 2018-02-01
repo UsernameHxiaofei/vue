@@ -231,8 +231,8 @@
     }
 
     .hangjiashenhe label {
-        display: inline-block;
-        width: 150px;
+        float:left;
+        width: 100px;
         font-weight: 400;
         color: #999;
         text-align: right;

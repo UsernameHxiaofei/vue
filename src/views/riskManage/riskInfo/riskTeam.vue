@@ -57,7 +57,7 @@ export default {
 	beforeMount () {
 		this.$store.dispatch('enterprise_getMemberInfo',{id:this.enterpriseInfo.id||(this.enterprise&&this.enterprise.id)})
 		this.param={
-			projectId:this.itemManageDetail.id,
+			projectId:this.$route.params.projectId,
 			pageNo:1,
 			pageSize:10
 		}
@@ -76,9 +76,6 @@ export default {
 		},  
 	},
 	computed: {
-		itemManageDetail: function () {
-			return this.$store.state.item.itemManageDetail||{}
-		},
 		datalist:function(){
 			return this.$store.state.enterprise.enterpriseMember||{}
 		},

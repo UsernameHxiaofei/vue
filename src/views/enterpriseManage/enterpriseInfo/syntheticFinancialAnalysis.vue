@@ -1,13 +1,13 @@
 <template>
 	<div id='SyntheticFinancialAnalysis' style="background:#ffffff">
-		<el-row style="margin-top:20px;">
+		<el-row style="margin-top:10px;">
 			<label class="text-label">快捷查询</label>
 			<el-button class="sbtn" size="small" @click="select(1)" :class="{'selectb':M3}">3个月内</el-button>
 			<el-button class="sbtn" size="small" @click="select(2)" :class="{'selectb':M6}">6个月内</el-button>
 			<el-button class="sbtn" size="small" @click="select(3)" :class="{'selectb':J4}">4个季度内</el-button>
 			<el-button class="sbtn" size="small" @click="select(4)" :class="{'selectb':Y3}">3年内</el-button>
 		</el-row>
-		<el-row style="margin-top:30px">
+		<el-row style="margin-top:10px">
 			<el-row>
 				<label class="text-label">时间范围</label>
 				<el-button class="sbtn" size="small" @click="choose(3)" :class="{'selectb':Y}">年</el-button>
@@ -16,7 +16,7 @@
 			</el-row>
 			<el-row>
 				<label class="text-label">&emsp;&emsp;&emsp;&emsp;</label>
-				<el-select style="margin:30px auto auto 20px" class="selectstyle" v-model="start_year" @change="search">
+				<el-select style="margin:10px auto auto 20px" class="selectstyle" v-model="start_year" @change="search">
 					<el-option v-for="item in years" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 				</el-select>
 				<el-select class="selectstyle" v-if="J" v-model="start_quarter" @change="search">
@@ -37,7 +37,7 @@
 				</el-select>
 			</el-row>
 		</el-row>
-		<el-row style="margin-top:30px">
+		<el-row style="margin-top:10px">
 			<label class="text-label">单&emsp;&emsp;位</label>
 			<el-button class="sbtn" size="small" @click="select(7)" :class="{'selectb':unit1}">元</el-button>
 			<el-button class="sbtn" size="small" @click="select(8)" :class="{'selectb':unit2}">万元</el-button>
@@ -101,6 +101,7 @@
 <script>
 import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
 import theme from '../../../assets/js/echarts.theme.js'
+import {moneyFormat} from '../../../util/index'
 
 theme(echarts)
 
@@ -221,27 +222,27 @@ export default {
 				}
 				xAxis.push(time)
 				if (this.unit2) {
-					data.businessIncome.push(item.businessIncome / 10000 || 0)
-					data.netProfit.push(item.netProfit / 10000 || 0)
-					data.salesIncome.push(item.salesIncome / 10000 || 0)
-					data.paymentsAssetsCash.push(item.paymentsAssetsCash / 10000 || 0)
-					data.assetsTotal.push(item.assetsTotal / 10000 || 0)
-					data.equityTotal.push(item.equityTotal / 10000 || 0)
-					data.liabilitiesTotal.push(item.liabilitiesTotal / 10000 || 0)
-					data.currentLiabilitiesTotal.push(item.currentLiabilitiesTotal / 10000 || 0)
-					data.currentAssetsTotal.push(item.currentAssetsTotal / 10000 || 0)
-					data.monetaryFund.push(item.monetaryFund / 10000 || 0)
+					data.businessIncome.push(moneyFormat(item.businessIncome,6,10000))
+					data.netProfit.push(moneyFormat(item.netProfit,6,10000))
+					data.salesIncome.push(moneyFormat(item.salesIncome,6,10000))
+					data.paymentsAssetsCash.push(moneyFormat(item.paymentsAssetsCash,6,10000) )
+					data.assetsTotal.push(moneyFormat(item.assetsTotal,6,10000))
+					data.equityTotal.push(moneyFormat(item.equityTotal,6,10000))
+					data.liabilitiesTotal.push(moneyFormat(item.liabilitiesTotal,6,10000))
+					data.currentLiabilitiesTotal.push(moneyFormat(item.currentLiabilitiesTotal,6,10000))
+					data.currentAssetsTotal.push(moneyFormat(item.currentAssetsTotal,6,10000))
+					data.monetaryFund.push(moneyFormat(item.monetaryFund,6,10000))
 				} else {
-					data.businessIncome.push(item.businessIncome || 0)
-					data.netProfit.push(item.netProfit || 0)
-					data.salesIncome.push(item.salesIncome || 0)
-					data.paymentsAssetsCash.push(item.paymentsAssetsCash || 0)
-					data.assetsTotal.push(item.assetsTotal || 0)
-					data.equityTotal.push(item.equityTotal || 0)
-					data.liabilitiesTotal.push(item.liabilitiesTotal || 0)
-					data.currentLiabilitiesTotal.push(item.currentLiabilitiesTotal || 0)
-					data.currentAssetsTotal.push(item.currentAssetsTotal || 0)
-					data.monetaryFund.push(item.monetaryFund || 0)
+					data.businessIncome.push(moneyFormat(item.businessIncome))
+					data.netProfit.push(moneyFormat(item.netProfit))
+					data.salesIncome.push(moneyFormat(item.salesIncome))
+					data.paymentsAssetsCash.push(moneyFormat(item.paymentsAssetsCash))
+					data.assetsTotal.push(moneyFormat(item.assetsTotal))
+					data.equityTotal.push(moneyFormat(item.equityTotal))
+					data.liabilitiesTotal.push(moneyFormat(item.liabilitiesTotal))
+					data.currentLiabilitiesTotal.push(moneyFormat(item.currentLiabilitiesTotal))
+					data.currentAssetsTotal.push(moneyFormat(item.currentAssetsTotal))
+					data.monetaryFund.push(moneyFormat(item.monetaryFund))
 				}
 				data.incomeRate.push(parseFloat(item.incomeRate.replace('%', '')) || 0)
 				data.netProfitRate.push(parseFloat(item.netProfitRate.replace('%', '')) || 0)

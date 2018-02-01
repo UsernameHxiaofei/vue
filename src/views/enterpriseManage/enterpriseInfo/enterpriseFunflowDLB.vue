@@ -3,12 +3,15 @@
 		<el-row style="margin:20px auto 20px auto;">
 			<el-col :span="24">
 				<div class="titleField">
-					<span>代理商编号：</span>
-					<span>{{listData.list&&listData.list[0].agent_num}}</span> &emsp;&emsp;&emsp;&emsp;
-					<span>商户编号：</span>
-					<span>{{listData.list&&listData.list[0].customer_num}}</span> &emsp;&emsp;&emsp;&emsp;
-					<span>商户简称：</span>
-					<span>{{listData.list&&listData.list[0].short_name}}</span>
+					<span>商户编号&emsp;</span>
+					<span style="color:#06ccb6">{{merchant[0]&&merchant[0].customer_num}}</span> &emsp;&emsp;&emsp;&emsp;
+					<span>商户名称&emsp;</span>
+					<span style="color:#06ccb6">{{merchant[0]&&merchant[0].shop_name}}</span> &emsp;&emsp;&emsp;&emsp;
+					<span @click="isUpload=!isUpload">支付渠道&emsp;</span>
+					<span style="color:#06ccb6">{{merchant[0]&&merchant[0].channel|channel}}</span> &emsp;&emsp;&emsp;&emsp;
+					<el-button v-if="isUpload" size="small" type="primary" @click="uploadVisible=true">
+						上传哆啦宝商户账单
+					</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -27,44 +30,61 @@
 				</div>
 			</el-col>
 		</el-row>
-		<el-row>
-			<el-col style="margin:60px auto 40px auto;">
-				<table class="enterpriseTotalData">
-					<thead>
-						<tr>
-							<th>收入金额(元)</th>
-							<th>订单数</th>
-							<th>最高客单价(元)</th>
-							<th>最低客单价(元)</th>
-							<th>客单均价（元）</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								{{total.pay_amount||0}}
-							</td>
-							<td>
-								{{total.dayNum||0}}
-							</td>
-							<td>
-								{{total.maxAmount||0}}
-							</td>
-							<td>
-								{{total.minAount||0}}
-							</td>
-							<td>
-								{{total.dayAmount||0}}
-							</td>
-						</tr>
-					</tbody>
-				</table>
+		<el-row >
+			<el-col style="margin:10px auto" :span="24">
+				 <label class="titleField" for="dateRange">快捷查询</label>&emsp;
+				<el-button size="small" :class="{'choosed':timeQuick==1}" @click="setTimeQuick(1)">近一天</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==2}"  @click="setTimeQuick(2)">近三天</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==3}" @click="setTimeQuick(2)">近一周</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==4}" @click="setTimeQuick(3)">近一月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(4)">近六月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==6}" @click="setTimeQuick(5)">近一年</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==7}" @click="setTimeQuick(6)">近两年</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==8}"  @click="setTimeQuick(7)">近三年</el-button>
 			</el-col>
 		</el-row>
-		<el-row v-show="showChart">
-			<el-col :span="24" style="margin :15px auto 20px 0">
-				<div id="enterpriseOrderCountchart"></div>
+		<el-row>
+			<el-col style="margin:10px auto" :span="24">
+				<label class="titleField" for="dateRange">单位</label>&emsp;
+				<el-button size="small" class="{'choosed':unit==0}" @click="chooseUnit(0)">元</el-button>
+				<el-button size="small" class="{'choosed':unit==10000}" @click="chooseUnit(10000)">万元</el-button>
 			</el-col>
+		</el-row>
+		<el-row v-show="showChart" style="margin :15px auto 20px 0;display:flex;align-items:center">
+			<div id="enterpriseOrderChannelCount"></div>
+			<table class="enterpriseTotalData">
+				<thead>
+					<tr>
+						<th>收入金额(元)</th>
+						<th>订单数</th>
+						<th>最高客单价(元)</th>
+						<th>最低客单价(元)</th>
+						<th>客单均价（元）</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							{{total.pay_amount||0}}
+						</td>
+						<td>
+							{{total.dayNum||0}}
+						</td>
+						<td>
+							{{total.maxAmount||0}}
+						</td>
+						<td>
+							{{total.minAount||0}}
+						</td>
+						<td>
+							{{total.dayAmount||0}}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</el-row>
+		<el-row v-show="showChart" style="margin :15px auto 20px 0">
+			<div id="enterpriseOrderCountchart"></div>
 		</el-row>
 		<el-row v-show="showChart">
 			<el-col :span="24" style="margin :25px auto 20px 0">
@@ -75,35 +95,16 @@
 		<el-row v-show="!showChart">
 			<el-col :span="24">
 				<el-table border :data="listData.list" stripe style="width: 100%">
-					<el-table-column prop="order_num" width="120" label="订单号" align="center"> </el-table-column>
-					<el-table-column prop="order_amount" label="订单金额" width="100" align="center"> </el-table-column>
-					<el-table-column prop="pay_amount" label="实付金额" width="100" align="center"> </el-table-column>
-					<el-table-column prop="audit" label="支付渠道" width="100">
-						<template slot-scope="scope">
-							<span>{{scope.row.channel|channel}}</span>
-						</template>
-					</el-table-column>
-					<el-table-column prop="dlb_discount" label="哆啦宝补贴" width="110" align="center"> </el-table-column>
-					<el-table-column prop="merchant_discount" label="商家补贴" width="100" align="center"> </el-table-column>
-					<el-table-column prop="balance_account_time" width="110" label="入账时间" align="center"> </el-table-column>
-					<el-table-column prop="complete_time" width="100" label="完成时间" align="center"> </el-table-column>
-					<el-table-column prop="refund_time" width="100" label="退款时间" align="center"> </el-table-column>
-					<el-table-column prop="fee" width="100" label="交易费率" align="center"> </el-table-column>
-					<el-table-column prop="fee_value" width="80" label="手续费" align="center"> </el-table-column>
-					<el-table-column prop="status" label="订单状态" width="100" align="center"> </el-table-column>
-					<el-table-column prop="batch_num" width="90" label="批次号" align="center"> </el-table-column>
-					<el-table-column prop="machine_num" width="90" label="机具号" align="center"> </el-table-column>
-					<el-table-column prop="shop_name" width="110" label="店铺名称" align="center"> </el-table-column>
-					<el-table-column prop="shop_num" width="100" label="店铺编号" align="center"> </el-table-column>
-					<el-table-column prop="isInclude" width="100" label="是否计入营业额" align="center">
-						<template slot-scope="scope">
-							<span>{{scope.row.isInclude==0?'不计入':scope.row.isInclude==1?'计入':'计入'}}</span>
-						</template>
-					</el-table-column>
+					<el-table-column prop="order_num" label="订单号" align="center"> </el-table-column>
+					<el-table-column prop="order_amount" label="订单金额(元)" align="center"> </el-table-column>
+					<el-table-column prop="pay_amount" label="实付金额(元)" align="center"> </el-table-column>
+					<el-table-column prop="merchant_discount" label="商家补贴(元)" align="center"> </el-table-column>
+					<el-table-column prop="balance_account_time" label="开单时间" align="center"> </el-table-column>
 				</el-table>
 				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
 			</el-col>
 		</el-row>
+		<importFile :importFile="{title: '哆啦宝账单上传',label:'上传账单'}" @result="importFileClick" :visible.sync="uploadVisible" @close="uploadVisible=false"></importFile>
 	</div>
 </template>
 
@@ -113,6 +114,7 @@
 	import moment from 'moment'
 	import theme from '../../../assets/js/echarts.theme.js'
 	import { formatDate } from '../../../util/index'
+	import importFile from '../../../components/common/importFile'
 	theme(echarts)
 
 	export default {
@@ -131,11 +133,46 @@
 			merchant: function () {
 				return this.$store.state.item.merchant || {}
 			},
+			fire2PayKind: function () {
+				return this.$store.state.enterprise.selectDfire2PayKind || {}
+			}
 		},
 		components: {
-			pagination
+			pagination,
+			importFile
 		},
 		methods: {
+			setTimeQuick(n){
+				if(n===1){
+					
+				}else if(n===2){
+
+				}else 
+				this.timeQuick=n
+			},
+			chooseUnit(n){
+				this.unit=n
+				
+			},
+			importFileClick(item) {
+				if (this.merchant.length > 0 && this.merchant[0].id) {
+					this.$store.dispatch('enterprise_saveDLBData', {
+						accountId: this.merchant.length > 0 ? this.merchant[0].id : '',
+						path: item.path
+					}).then((data) => {
+						if (data.success) {
+							this.$message.success('导入成功')
+							this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
+								this.listData = JSON.parse(JSON.stringify(this.dataList))
+								this.getTotalData()
+								this.getImageData()
+							})
+						} else {
+							this.$message.warning(data.information)
+						}
+					})
+				}
+			},
 			changeChart(a) {
 				if (a) {
 					this.showChart = true
@@ -220,7 +257,7 @@
 							let content = []
 							for (let i = 0; i < params.length; i++) {
 								const item = params[i]
-								content.push('<span  style="background:' + item.color + ';"  class="echart-dot"></span>' + item.seriesName + '：' + Number(item.value[1] || 0))
+								content.push('<span  style="background:' + item.color + ';"  class="echart-dot"></span>' + item.seriesName + '：' + Number.parseInt(item.value[1] || 0))
 							}
 							return content.join('</br>')
 						}
@@ -280,9 +317,65 @@
 				// 使用刚指定的配置项和数据显示图表。
 				myChart.setOption(option)
 				orderNumberChart.setOption(orderNumberOption)
+			},
+			buildChannelMap() {
+				let chart = echarts.init(document.getElementById('enterpriseOrderChannelCount'), 'customed')
+				let data = []
+				for (let i = 0; i < this.fire2PayKind.length; i++) {
+					const element = this.fire2PayKind[i];
+					data.push({ name: element.kindPayName, value: parseInt(element.orderCount) || 0 })
+				}
+				let option = {
+					title: {
+						text: '订单付款方式',
+						left: 'center',
+						top: 20,
+						textStyle: {
+							color: '#111'
+						}
+					},
+
+					tooltip: {
+						trigger: 'item',
+						formatter: "{a} <br/>{b} : {c} ({d}%)"
+					},
+					series: [
+						{
+							name: '支付渠道',
+							type: 'pie',
+							radius: '60%',
+							center: ['50%', '50%'],
+							data: data.sort(function (a, b) { return b.value - a.value; }),
+							label: {
+								normal: {
+									textStyle: {
+										color: 'rgba(11, 11, 11, 0.7)'
+									}
+								}
+							},
+							labelLine: {
+								normal: {
+									lineStyle: {
+										color: 'rgba(11, 11,11, 0.7)'
+									},
+									smooth: 0.2,
+									length: 10,
+									length2: 20
+								}
+							},
+							animationType: 'scale',
+							animationEasing: 'elasticOut',
+							animationDelay: function (idx) {
+								return Math.random() * 200;
+							}
+						}
+					]
+				};
+				chart.setOption(option)
 			}
 		},
 		beforeMount() {
+			window.moment=moment
 			const end = new Date()
 			const start = new Date()
 			start.setTime(start.getTime() - 3600 * 1000 * 24 * 30 * 3)
@@ -296,6 +389,14 @@
 				pageSize: 10,
 				pageNo: 1
 			}
+
+			this.$store.dispatch('selectDfire2PayKind', {
+				enterpriseId: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
+				beginTime: '2018-01-28 00:00:00',
+				endTime: '2018-01-28 00:00:00'
+			}).then(() => {
+				this.buildChannelMap()
+			})
 			this.$store.dispatch('item_getMerchant', { enterpriseId: this.enterprise.id })
 			this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
 				this.listData = JSON.parse(JSON.stringify(this.dataList))
@@ -310,7 +411,11 @@
 				param: {},
 				imageData: [],
 				listData: [],
-				showChart: true
+				showChart: true,
+				isUpload: false,
+				uploadVisible: false,
+				unit:1,
+				timeQuick:1
 			}
 		}
 	}
@@ -318,20 +423,33 @@
 </script>
 
 <style scoped>
+	#enterpriseFunflowDLB .choosed{
+		background: #06ccb6;
+		color: white;
+	}
 	#enterpriseDLBchart,
 	#enterpriseOrderCountchart {
 		width: 100%;
 		height: 400px;
 	}
 
+	#enterpriseOrderChannelCount {
+		float: left;
+		width: 400px;
+		height: 400px;
+	}
+
 	.enterpriseTotalData {
-		margin: 0 auto;
-		width: 100%;
+		float: left;
+		margin: auto auto;
+		line-height: 1.2em;
+		vertical-align: middle;
 	}
 
 	.enterpriseTotalData td,
 	th {
 		height: 30px;
+		width: 160px;
 		text-align: center;
 		border: 1px solid #535455;
 	}

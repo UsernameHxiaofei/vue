@@ -17,6 +17,7 @@ export default {
 		listDayAmount:{},//每日流水数据
 		items:[],//融资企业项目信息
 		JHAmountByTime:{},//收银收单统计信息
+		selectDfire2PayKind:{}//二维火支付方式统计
 	},
 	actions: {
 		enterprise_getManageList({ commit },param) {
@@ -99,9 +100,17 @@ export default {
 		},
 		enterprise_saveDLBData(undefined,param){
 			return api.enterprise_saveDLBData(param)
+		},
+		selectDfire2PayKind({commit},param){
+			return api.selectDfire2PayKind(param).then((data)=>{
+				commit('selectDfire2PayKind',data)
+			})
 		}
 	},
 	mutations: {
+		selectDfire2PayKind(state,data){
+			state.selectDfire2PayKind=data
+		},
 		enterprise_DLBAmountByTime(state,data){
 			state.JHAmountByTime=data
 		},

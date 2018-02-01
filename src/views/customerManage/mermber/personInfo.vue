@@ -255,14 +255,12 @@ Date.prototype.Format = function (fmt) { //author: meizz
 	}
 
 	.hangjiashenhe label {
-
-		width: 60px;
-		font-weight: 400;
-		color: #999;
-		text-align: right;
-		margin-right: 20px;
-		float: left;
-		display: block;
+		 float: left;
+        width: 60px;
+        font-weight: 400;
+        color: #999;
+        text-align: right;
+        margin-right: 20px;
 	}
 
 	.hangjiashenhe li>span {

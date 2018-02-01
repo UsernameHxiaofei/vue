@@ -144,7 +144,7 @@
                     <enterpriseAccount v-if="activeName=='2'" :item="investedItemDetail"></enterpriseAccount>
                 </el-tab-pane>
                 <el-tab-pane label="收银收单渠道" name="3">
-                    <merchant v-if="activeName=='3'" :projectId="projectId"></merchant>
+                    <merchant v-if="activeName=='3'" :item="investedItemDetail"></merchant>
                 </el-tab-pane>
                 <el-tab-pane label="核心团队成员" name="4">
                     <enterpriseTeam  v-if="activeName=='4'" :enterprise='{id:investedItemDetail.enterpriseId}'></enterpriseTeam>

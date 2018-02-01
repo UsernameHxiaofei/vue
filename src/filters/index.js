@@ -9,7 +9,6 @@ import marriageData from '../constant/marriage'
 import enterpriseData from '../constant/enterprise'
 import educations from '../constant/education'
 import riskData from '../constant/riskRegion'
-import funFlowTypes from '../constant/funFlowType'
 import riskTypeData from '../constant/riskType'
 import tradeTypes from '../constant/tradeTypes'
 import channels from '../constant/payChannels'
@@ -17,6 +16,7 @@ import actorCategorys from '../constant/actorCategory'
 import projectRoles from '../constant/projectRoles'
 import shareProfitStatusData from '../constant/shareProfitStatus'
 
+//分红状态
 export function shareProfitStatus(value){
 	for (let i = 0; i < shareProfitStatusData.length; i++) {
 		const item = shareProfitStatusData[i]
@@ -25,7 +25,7 @@ export function shareProfitStatus(value){
 		}
 	}
 }
-
+//投后项目角色
 export function projectRole(value){
 	for (let i = 0; i < projectRoles.length; i++) {
 		const item = projectRoles[i]
@@ -34,7 +34,7 @@ export function projectRole(value){
 		}
 	}
 }
-
+//项目剩余时间
 export function getProjectEndTime(x) {
 	if (x > 60 * 60 * 24) {
 		return Math.ceil(x / (60 * 60 * 24)) + '天'
@@ -44,6 +44,7 @@ export function getProjectEndTime(x) {
 		return Math.ceil(x / 60) + '分钟'
 	}
 }
+//账户类型
 export function actorCategory(value) {
 	for (let i = 0; i < actorCategorys.length; i++) {
 		const item = actorCategorys[i]
@@ -52,7 +53,7 @@ export function actorCategory(value) {
 		}
 	}
 }
-
+//交易类型
 export function tradeType(value) {
 	for (let i = 0; i < tradeTypes.length; i++) {
 		const item = tradeTypes[i]
@@ -61,7 +62,7 @@ export function tradeType(value) {
 		}
 	}
 }
-
+//收银收单支付渠道
 export function channel(value) {
 	for (let i = 0; i < channels.length; i++) {
 		const item = channels[i]
@@ -70,10 +71,11 @@ export function channel(value) {
 		}
 	}
 }
-
+//风险等级
 export function riskLv(value) {
 	return value === 2 ? '中' : value === 3 ? '高' : '未知'
 }
+//风险展示类型
 export function riskType(value) {
 	let name = ''
 	for (let i = 0; i < riskTypeData.length; i++) {
@@ -108,10 +110,11 @@ export function moneyFormat(num) {
 		}
 		return Number(temp.toFixed(6))
 	}
-
 }
 
 
+
+//婚姻情况
 export function marriage(value) {
 	let name = ''
 	for (let i = 0; i < marriageData.length; i++) {
@@ -126,18 +129,6 @@ export function marriage(value) {
 	}
 	return name
 
-}
-
-export function funFlowType(value) {
-	let type = parseInt(value)
-	if (!type) {
-		return ''
-	}
-	try {
-		return funFlowTypes[type]
-	} catch (error) {
-		return ''
-	}
 }
 
 export function riskRegion(value) {

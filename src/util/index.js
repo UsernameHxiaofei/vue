@@ -1,4 +1,26 @@
 import industryList from '../constant/industry';
+
+//最多保留几位位小数的方法(num初始值，n小数位数默认2，m除以倍数默认1)
+export const moneyFormat = function(num,n,m) {
+	let tempN = parseInt(n)||2,tempM = parseInt(m)||1
+	let temp = parseFloat(num/tempM)
+	try {
+		if (!temp) {
+			return 0
+		}
+	} catch (error) {
+		return 0
+	}
+	if (temp.toString().indexOf('.') == -1) {
+		return temp
+	} else {
+		if (temp.toString().split('.')[1] && temp.toString().split('.')[1].length <=tempN) {
+			return Number(temp)
+		}
+		return Number(temp.toFixed(tempN))
+	}
+}
+
 /**
  * 根据地址代码输出select级联框的选项数组
  * @param {*数据库地址代码} addressCode 

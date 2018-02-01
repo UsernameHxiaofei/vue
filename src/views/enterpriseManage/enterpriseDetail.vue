@@ -95,7 +95,7 @@ export default {
 		if (!this.enterpriseInfo.name) {
 			this.$message.warning('查询企业信息出现故障，请联系管理员')
 		}
-		this.$store.dispatch('item_getAuthInfo', { id: this.enterpriseInfo.id })
+		this.$store.dispatch('item_getAuthInfo', { id: this.$route.params.id})
 		this.menuclick(1, '综合财务分析')
 	},
 	methods: {

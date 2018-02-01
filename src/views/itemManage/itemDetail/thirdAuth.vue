@@ -29,7 +29,7 @@
            <table  class="table3">
                 <tbody>
                     <tr ><td class="tit" colspan="3">企业</td></tr>
-                    <tr  v-for="(Item,index) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.company" :key="index">
+                    <tr  v-for="(Item,index) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.company" :key="Item.id">
                         <td> {{Item.nameCn}}</td>
                         <td> {{Item.result}}</td>
                         <td> {{Item.message}}</td>
@@ -39,7 +39,7 @@
             <table  class="table3" v-for="(presonItem,i) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==1">
                  <tbody>
                     <tr ><td class="tit" colspan="3">法人-{{presonItem.name}}</td></tr>
-                    <tr  v-for="(Item,index) in presonItem.adminDetail" :key="index">
+                    <tr  v-for="(Item,index) in presonItem.adminDetail" :key="Item.id">
                         <td> {{Item.nameCn}}</td>
                         <td> {{Item.result}}</td>
                         <td> {{Item.message}}</td>
@@ -49,7 +49,7 @@
             <table  class="table3" v-for="(presonItem,i) in credit.tcCreditAntiFraudList&&credit.tcCreditAntiFraudList.administrators" :key="i" v-if="presonItem.type==2">
                 <tbody >
                     <tr ><td class="tit" colspan="3">高管-{{presonItem.name}}</td></tr>
-                    <tr  v-for="(Item,index) in presonItem.adminDetail" :key="index">
+                    <tr  v-for="(Item,index) in presonItem.adminDetail" :key="Item.id">
                         <td> {{Item.nameCn}}</td>
                         <td> {{Item.result}}</td>
                         <td> {{Item.message}}</td>
@@ -100,7 +100,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item,i) in tcEnterpriseShareholder" :key="i">
+                    <tr v-for="(item,i) in tcEnterpriseShareholder" :key="item.id">
                         <td> {{item.shaname}}</td>
                         <td>  {{item.subconam}}</td>
                         <td>  {{item.fundedratio}}</td>
@@ -120,7 +120,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(item,i) in tcEnterprisePerson" :key="i">
+                    <tr v-for="(item,i) in tcEnterprisePerson" :key="item.id">
                         <td> {{i+1}}</td>
                         <td> {{item.pername}}</td>
                         <td> {{item.position}}</td>
@@ -141,7 +141,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr  v-for="(item,i) in tcEnterpriseAlter" :key="i">
+                    <tr  v-for="(item,i) in tcEnterpriseAlter" :key="item.id">
                         <td> {{item.altdate}}</td>
                         <td> {{item.altitem}}</td>
                         <td> {{item.altbe}}</td>
@@ -151,7 +151,7 @@
             </table>
 
             <h5>企业对外投资信息</h5>
-            <table class="tableTwo" v-for="(item,i) in tcEnterpriseEntinv" :key="i">
+            <table class="tableTwo" v-for="(item,i) in tcEnterpriseEntinv" :key="item.id">
                 <tr>
                     <td>投资对象企业</td><td>{{item.entname}}</td><td>企业类型</td><td>{{item.enttype}}</td>
                 </tr>
@@ -165,7 +165,7 @@
            
 
             <h5>法人代表在其他企业任职</h5>
-            <table class="tableTwo" v-for="(item,i) in tcEnterpriseFrposition" :key="i">
+            <table class="tableTwo" v-for="(item,i) in tcEnterpriseFrposition" :key="item.id">
                 <tr>
                     <td>企业名称</td><td>{{item.entname}}</td><td>企业类型</td><td>{{item.enttype}}</td>
                 </tr>
@@ -179,7 +179,7 @@
             
 
             <h5>法人代表对外投资</h5>
-            <table class="tableTwo"  v-for="(item,i) in tcEnterpriseFrinv" :key="i">
+            <table class="tableTwo"  v-for="(item,i) in tcEnterpriseFrinv" :key="item.id">
                 <tr>
                     <td>投资对象企业</td><td>{{item.entname}}</td><td>企业类型</td><td>{{item.enttype}}</td>
                 </tr>
@@ -192,7 +192,7 @@
             </table>
 
             <h5>商标申请</h5>
-            <table class="tableTwo"  v-for="(item,i) in tcTpcinfoTrademark" :key="i">
+            <table class="tableTwo"  v-for="(item,i) in tcTpcinfoTrademark" :key="item.id">
                 <tr>
                     <td>注册号</td><td>{{item.registerNum}}</td><td>申请状态</td><td>{{item.status}}</td>
                 </tr>
@@ -206,7 +206,7 @@
             
 
             <h5>专利著作信息</h5>
-            <table class="tableTwo"  v-for="(item,i) in tcTpcinfoPatent" :key="i">
+            <table class="tableTwo"  v-for="(item,i) in tcTpcinfoPatent" :key="item.id">
                 <tr>
                     <td>专利申请号/版本</td><td>{{item.patentNumber}}</td><td>发布日期/首次发表日期</td><td>{{item.pubDate}}</td>
                 </tr>
@@ -234,59 +234,47 @@
 export default {
 	name:'thirdAuth',
 	computed: {
-		enterpriseInfo: function () {
-			return this.$store.state.enterprise.enterpriseInfo || {}
-		},
-		thirdReport:function(){
-			return this.$store.state.item.thirdReport||{}
-		},
 		projectItem(){
-			return this.$store.state.item.itemManageDetail||{}
-		},
-		itemManageDetail: function () {
 			return this.$store.state.item.itemManageDetail||{}
 		},
 		credit:function(){
 			return this.$store.state.item.thirdReport||{}
 		},
 		tcEnterpriseBasic(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&(this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic.length>0)&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcBasic[0]||{}
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcBasic&&this.credit.tcEnterpriseBusinessInfo.tcBasic.length>0&&this.credit.tcEnterpriseBusinessInfo.tcBasic[0]||{}
 		},
 		tcEnterpriseShareholder(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcShareholder
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcShareholder
 		},
 		tcEnterprisePerson(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcPerson
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcPerson
 		},
 		tcEnterpriseAlter(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcAlter
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcAlter
 		},
 		tcEnterpriseEntinv(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcEntinv
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcEntinv
 		},
 		tcEnterpriseFrposition(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrposition
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcFrposition
 		},
 		tcEnterpriseFrinv(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo&&this.$store.state.item.thirdReport.tcEnterpriseBusinessInfo.tcFrinv
+			return this.credit&&this.credit.tcEnterpriseBusinessInfo&&this.credit.tcEnterpriseBusinessInfo.tcFrinv
 		},
 		tcTpcinfoTrademark(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoTrademark||{}
+			return this.credit&&this.credit.tcTpcinfoTrademark||{}
 		},
 		tcTpcinfoPatent(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcTpcinfoPatent
+			return this.credit&&this.credit.tcTpcinfoPatent
 		},
 		tcRepresentativeInfo(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcRepresentativeInfo
-		},
-		tcEnterpriseMemberInfo(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.thirdReport.tcEnterpriseMemberInfo
+			return this.credit&&this.credit.tcRepresentativeInfo
 		},
 		expertAdvice(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.expertAd||{}
+			return this.credit&&this.$store.state.item.expertAd||{}
 		},
 		leadInvestorIntention(){
-			return this.$store.state.item.thirdReport&&this.$store.state.item.leadAd||{}
+			return this.credit&&this.$store.state.item.leadAd||{}
 		}
 	},
 	data() {

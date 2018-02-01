@@ -41,6 +41,7 @@ export default {
 		this.$store.dispatch('enterprise_getInfo',{id:this.$route.params.enterpriseId}).then(()=>{
 			this.category = this.$route.params.category
 		})
+		this.$store.dispatch('item_getAuthInfo', { id: this.$route.params.projectId})
 	},
 	methods: {
 		back() {

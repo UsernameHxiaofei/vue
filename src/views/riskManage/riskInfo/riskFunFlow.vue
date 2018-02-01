@@ -98,7 +98,7 @@
 	<div id='riskFunflow'>
 		<el-row style="padding:50px;">
 			<el-row style="margin:10px auto 10px auto;">
-				<div class="head-action" v-for="(item,index) in account" :key="index">
+				<div class="head-action" v-for="(item,index) in account" :key="index" v-show="item.type==0">
 					<div class="info">
 						<div class="info-item">
 							<label>开户许可核准号</label>
@@ -168,17 +168,13 @@
 			<el-row v-show="!showChart">
 				<el-col :span="24">
 					<el-table border :data="listData.list" stripe style="width: 100%">
-						<el-table-column prop="transactionTime" width="170" label="交易时间" align="center"> </el-table-column>
-						<el-table-column prop="summary" width="150" label="摘要" align="center"> </el-table-column>
-						<el-table-column prop="debitAmount" label="借方发生额" align="center"> </el-table-column>
-						<el-table-column prop="creditAmount" label="贷方发生额" align="center"> </el-table-column>
-						<el-table-column prop="balance" label="余额" align="center"> </el-table-column>
-						<el-table-column prop="recAccountNumber" label="对方账户" align="center"> </el-table-column>
-						<el-table-column prop="recAccountName" width="140" label="对方账户名称" align="center"> </el-table-column>
-						<el-table-column prop="voucherKind" label="凭证种类" align="center"> </el-table-column>
-						<el-table-column prop="voucherNumber" label="凭证号码" align="center"> </el-table-column>
-						<el-table-column prop="businessNumber" width="140" label="企业业务编号" align="center"> </el-table-column>
-						<el-table-column prop="cardNumber" label="卡号" align="center"> </el-table-column>
+							<el-table-column prop="transactionTime" width="180" label="交易时间" align="center"> </el-table-column>
+							<el-table-column prop="summary" width="180" label="摘要" align="center"> </el-table-column>
+							<el-table-column prop="debitAmount" label="借方发生额" align="center"> </el-table-column>
+							<el-table-column prop="creditAmount" label="贷方发生额" align="center"> </el-table-column>
+							<el-table-column prop="balance" label="余额" align="center"> </el-table-column>
+							<el-table-column prop="recAccountNumber" label="对方账户" align="center"> </el-table-column>
+							<el-table-column prop="recAccountName" width="180" label="对方账户名称" align="center"> </el-table-column>
 					</el-table>
 					<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
 				</el-col>
@@ -206,9 +202,6 @@ export default {
 		},
 		enterprise: function () {
 			return this.$store.state.enterprise.enterpriseInfo || {}
-		},
-		itemManageDetail: function () {
-			return this.$store.state.item.itemManageDetail || {}
 		},
 		listDayAmount: function () {
 			return this.$store.state.enterprise.listDayAmount || {}

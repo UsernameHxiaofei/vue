@@ -22,10 +22,11 @@
                 <li>
                     <label>专注行业</label>
                     <span class="zhuanzhuhangye">
-                        <div style="float: left;padding-right: 20px;" v-for="(item,i) in industryList">
-                            <el-checkbox :disabled="true" v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
+                        <div style="float: left;padding-right: 20px;" v-for="(item,i) in industryObj">
+                            <label v-show="industryObj[item.value]"  for="">{{item.label}}&emsp;{{workYearsObj[item.value]||0}}年</label>
+                            <!-- <el-checkbox :disabled="true" v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
                             </el-checkbox>
-                            <input type="number" v-model="workYearsObj[item.value]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年
+                            <input type="number" v-model="workYearsObj[item.value]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年 -->
                         </div>
                     </span>
                 </li>
@@ -43,12 +44,12 @@
                 </li>
                 <li>
                     <label>名片</label>
-                    <img v-imageBiger style="width:200px;" :src="expertData.businessCard">
+                    <img v-imageBiger style="width:150px;" :src="expertData.businessCard">
                 </li>
                 <li>
                     <label>专业性凭证</label>
-                    <img v-imageBiger style="width:200px;" :src="expertData.credentials">
-                </li>
+                    <img v-for="(item,i) in credentialsObj" :key="i" v-imageBiger style="width:150px;height:150px" :src="item">
+                </li><br>
                 <li>
                     <label>行家简介</label>
                     <span class="zhuanzhuhangye">
@@ -99,6 +100,7 @@
             return {
                 industryObj: '',
                 workYearsObj: '',
+                credentialsObj:{},
                 refuseParam: {
                     actorId: this.$route.params.actorId,
                     rejection: '',
@@ -123,7 +125,18 @@
                     this.industryObj = obj.industry
                     this.workYearsObj = obj.workYears
                 }
-
+                try {
+                    this.credentialsObj= JSON.parse(this.expertData.credentials)
+                } catch (error) {
+                    this.credentialsObj=[]
+                }
+                // this.credentialsObj = JSON.parse(this.expertData.credentials)
+                
+                
+                console.log(JSON.stringify(this.industryObj))
+                console.log(JSON.stringify(this.workYearsObj))
+                console.log(this.industryObj)
+                console.log(this.workYearsObj)
             })
         },
         methods: {
@@ -200,7 +213,7 @@
     }
 
     .hangjiashenhe label {
-        display: inline-block;
+        float:left;
         width: 100px;
         font-weight: 400;
         color: #999;
