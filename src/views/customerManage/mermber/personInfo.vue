@@ -255,7 +255,6 @@ Date.prototype.Format = function (fmt) { //author: meizz
 	}
 
 	.hangjiashenhe label {
-		 float: left;
         width: 60px;
         font-weight: 400;
         color: #999;

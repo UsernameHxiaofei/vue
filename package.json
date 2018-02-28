@@ -7,8 +7,8 @@
     "dev": "node server",
     "start": "cross-env NODE_ENV=production node server",
     "build": "rimraf dist && npm run build:client && npm run build:server",
-    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
-    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules",
+    "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --display-modules --profile",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --display-modules --profile",
     "format": "eslint ./src/backend/**.js ./src/directive/**.js ./src/util/**.js ./src/backend/**.js ./src/router/**.js ./src/filters/**.js ./src/store/**.js ./src/**.vue --fix "
   },
   "engines": {

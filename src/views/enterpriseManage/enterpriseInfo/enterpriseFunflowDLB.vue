@@ -37,7 +37,7 @@
 				<el-button size="small" :class="{'choosed':timeQuick==2}" @click="setTimeQuick(2)">近三天</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==3}" @click="setTimeQuick(3)">近一周</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==4}" @click="setTimeQuick(4)">近一月</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(5)">近一月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(5)">近三月</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==6}" @click="setTimeQuick(6)">近六月</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==7}" @click="setTimeQuick(7)">近一年</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==8}" @click="setTimeQuick(8)">近两年</el-button>
@@ -51,9 +51,9 @@
 				<el-button size="small" :class="{'choosed':unit==10000}" @click="chooseUnit(10000)">万元</el-button>
 			</el-col>
 		</el-row>
-		<el-row v-show="showChart" style="margin :15px auto 20px 0;display:flex;align-items:center">
-			<div id="enterpriseOrderChannelCount"></div>
-			<table class="enterpriseTotalData">
+		<el-row style="margin :15px auto 20px 0;display:flex;align-items:center">
+			<div v-show="showChart" id="enterpriseOrderChannelCount"></div>
+			<table v-show="showChart" class="enterpriseTotalData">
 				<thead>
 					<tr>
 						<th>收入金额({{unitName}})</th>
@@ -66,19 +66,19 @@
 				<tbody>
 					<tr>
 						<td>
-							{{total.pay_amount/this.unit||0}}
+							{{moneyFormat(total.pay_amount,2,this.unit)}}
 						</td>
 						<td>
 							{{total.dayNum||0}}
 						</td>
 						<td>
-							{{total.maxAmount/this.unit||0}}
+							{{moneyFormat(total.maxAmount,2,this.unit)}}
 						</td>
 						<td>
-							{{total.minAmount/this.unit||0}}
+							{{moneyFormat(total.minAmount,2,this.unit)}}
 						</td>
 						<td>
-							{{total.dayAmount/this.unit||0}}
+							{{moneyFormat(total.dayAmount,2,this.unit)}}
 						</td>
 					</tr>
 				</tbody>
@@ -99,7 +99,7 @@
 					<el-table-column prop="order_num" label="订单号" align="center"> </el-table-column>
 					<el-table-column prop="order_amount" :label="'订单金额('+unitName+')'" align="center"> </el-table-column>
 					<el-table-column prop="pay_amount" :label="'实付金额('+unitName+')'" align="center"> </el-table-column>
-					<el-table-column prop="merchant_discount" label="'商家补贴(元)" align="center"> </el-table-column>
+					<el-table-column prop="merchant_discount" label="商家补贴(元)" align="center"> </el-table-column>
 					<el-table-column prop="balance_account_time" label="开单时间" align="center"> </el-table-column>
 				</el-table>
 				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
@@ -115,6 +115,7 @@
 	import moment from 'moment'
 	import theme from '../../../assets/js/echarts.theme.js'
 	import importFile from '../../../components/common/importFile'
+	import {moneyFormat} from '../../../util/index'
 	theme(echarts)
 
 	export default {
@@ -188,6 +189,13 @@
 					pageSize: 10,
 					pageNo: 1
 				}
+				this.$store.dispatch('selectDfire2PayKind', {
+					enterpriseId: this.enterprise.id,
+					beginTime: this.startTime.toLocaleString(),
+					endTime: this.endTime.toLocaleString(),
+				}).then(() => {
+					this.buildChannelMap()
+				})
 				Promise.all([this.$store.dispatch('enterprise_getAccountDetailDLB', this.param), this.getImageData(), this.getTotalData()]).then((data) => {
 					this.formatListData()
 					this.isTimeQuick = false
@@ -225,6 +233,13 @@
 				} else {
 					this.showChart = false
 				}
+				this.$store.dispatch('selectDfire2PayKind', {
+					enterpriseId: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
+					beginTime: '2018-01-28 00:00:00',
+					endTime: '2018-01-28 00:00:00'
+				}).then(() => {
+					this.buildChannelMap()
+				})
 				this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
 					this.formatListData()
 					this.getTotalData()
@@ -236,8 +251,8 @@
 				let param = {
 					type: 1,
 					enterpriseId: this.param.id,
-					beginTime: this.param.beginTime.toLocaleString(),
-					endTime: this.param.endTime.toLocaleString()
+					beginTime: this.param.beginTime,
+					endTime: this.param.endTime
 				}
 				return this.$store.dispatch('enterprise_selectListDayAmount', param).then(() => {
 					Object.keys(this.listDayAmount).forEach((key) => {
@@ -256,8 +271,8 @@
 			getTotalData() {
 				let param = {
 					enterpriseId: this.param.id,
-					beginTime: this.param.beginTime.toLocaleString(),
-					endTime: this.param.endTime.toLocaleString()
+					beginTime: this.param.beginTime,
+					endTime: this.param.endTime
 				}
 				return this.$store.dispatch('enterprise_DLBAmountByTime', param)
 			},
@@ -300,7 +315,7 @@
 			},
 			formatListData() {
 				let listData = JSON.parse(JSON.stringify(this.dataList))
-				for (let i = 0; i < listData.list.length; i++) {
+				for (let i = 0; listData.list && i < listData.list.length; i++) {
 					let item = listData.list[i]
 					item.order_amount = item.order_amount / this.unit
 					item.pay_amount = item.pay_amount / this.unit
@@ -340,6 +355,9 @@
 						lineStyle: { normal: { width: 3 } }
 					}],
 					dataZoom: [{
+						startValue: this.startTime,
+						endValue: this.endTime,
+					}, {
 						type: 'inside'
 					}]
 				}
@@ -372,6 +390,9 @@
 						lineStyle: { normal: { width: 3 } }
 					}],
 					dataZoom: [{
+						startValue: this.startTime,
+						endValue: this.endTime,
+					}, {
 						type: 'inside'
 					}]
 				}
@@ -395,7 +416,6 @@
 							color: '#111'
 						}
 					},
-
 					tooltip: {
 						trigger: 'item',
 						formatter: "{a} <br/>{b} : {c} ({d}%)"
@@ -436,14 +456,7 @@
 			}
 		},
 		beforeMount() {
-			this.setTimeQuick(1)
-			this.$store.dispatch('selectDfire2PayKind', {
-				enterpriseId: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
-				beginTime: '2018-01-28 00:00:00',
-				endTime: '2018-01-28 00:00:00'
-			}).then(() => {
-				this.buildChannelMap()
-			})
+			this.setTimeQuick(4)
 			this.$store.dispatch('item_getMerchant', { enterpriseId: this.enterprise.id })
 		},
 		data() {
@@ -459,6 +472,7 @@
 				unit: 1,
 				timeQuick: 1,
 				isTimeQuick: true,
+				moneyFormat:moneyFormat
 			}
 		}
 	}
@@ -542,8 +556,6 @@
 	.datepp {
 		margin-left: 20px;
 	}
-
-
 
 	#enterpriseFunflowDLB .el-table__body .cell {
 		color: #535455;

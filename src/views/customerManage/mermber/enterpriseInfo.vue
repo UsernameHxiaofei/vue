@@ -217,7 +217,6 @@
 
 	.hangjiashenhe label {
 		width: 130px;
-		float:left;
         font-weight: 400;
         color: #999;
         text-align: right;

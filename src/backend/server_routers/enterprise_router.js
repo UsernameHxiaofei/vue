@@ -42,12 +42,12 @@ module.exports=function client(router,sc,passport){
 		stuff.items = [param.id,param.beginTime,param.endTime,param.pageNo,param.pageSize]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
-	router.all('/enterprise_selectListDayAmount', function (req, res) {//获取账户流水
+	router.all('/enterprise_selectListDayAmount', function (req, res) {//获取账户日流水
 		let param=req.body
 		const stuff = sc.instanceRequest('EnterpriseAccountDetailTask', 'selectListDayAmount', 'enterpriseManger')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
-			param.type,
+			param.type,//0 企业  1聚合
 			param.enterpriseId,
 			param.beginTime,
 			param.endTime

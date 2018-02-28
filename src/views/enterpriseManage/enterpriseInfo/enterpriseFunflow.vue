@@ -163,7 +163,7 @@
 				<el-button size="small" :class="{'choosed':timeQuick==2}" @click="setTimeQuick(2)">近三天</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==3}" @click="setTimeQuick(3)">近一周</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==4}" @click="setTimeQuick(4)">近一月</el-button>
-				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(5)">近一月</el-button>
+				<el-button size="small" :class="{'choosed':timeQuick==5}" @click="setTimeQuick(5)">近三月</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==6}" @click="setTimeQuick(6)">近六月</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==7}" @click="setTimeQuick(7)">近一年</el-button>
 				<el-button size="small" :class="{'choosed':timeQuick==8}" @click="setTimeQuick(8)">近两年</el-button>
@@ -303,7 +303,7 @@
 			},
 			chooseUnit(n) {
 				this.unit = n
-				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
+				this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
 					this.formatListData()
 					this.getTotalData()
 					this.getImageData()
@@ -475,13 +475,13 @@
 					dataZoom: [{
 						show: true,
 						realtime: true,
-						startValue: this.param.beginTime ? new Date(this.param.beginTime).getTime() : new Date().getTime(),
-						endValue: this.param.endTime ? new Date(this.param.endTime).getTime() : new Date().getTime() - 1000 * 60 * 60 * 24 * 28,
+						startValue: this.startTime,
+						endValue: this.endTime,
 						xAxisIndex: [0, 1]
 					}, {
 						realtime: true,
-						startValue: this.param.beginTime ? new Date(this.param.beginTime).getTime() : new Date().getTime(),
-						endValue: this.param.endTime ? new Date(this.param.endTime).getTime() : new Date().getTime() - 1000 * 60 * 60 * 24 * 28,
+						startValue: this.startTime,
+						endValue: this.endTime,
 						xAxisIndex: [0, 1],
 						type: 'inside'
 					}]
@@ -503,8 +503,8 @@
 						lineStyle: { normal: { width: 3 } }
 					}],
 					dataZoom: [{
-						startValue: this.param.beginTime ? new Date(this.param.beginTime).getTime() : new Date().getTime(),
-						endValue: this.param.endTime ? new Date(this.param.endTime).getTime() : new Date().getTime() - 1000 * 60 * 60 * 24 * 28
+						startValue: this.startTime,
+						endValue: this.endTime
 					}, {
 						type: 'inside'
 					}]
@@ -515,9 +515,7 @@
 			}
 		},
 		beforeMount() {
-			this.setTimeQuick(1)
-			
-
+			this.setTimeQuick(4)
 		},
 		data() {
 			return {

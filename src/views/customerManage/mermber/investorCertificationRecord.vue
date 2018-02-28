@@ -163,7 +163,6 @@ body {
 }
 
 .hangjiashenhe label {
-    float: left;
     width: 100px;
     font-weight: 400;
     color: #999;

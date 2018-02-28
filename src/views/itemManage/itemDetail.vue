@@ -307,20 +307,20 @@
 				<el-tab-pane label="司法涉诉" name="4" v-if="itemManageDetail.phase>=5">
 					<riskTab v-if="activeName=='4'"></riskTab>
 				</el-tab-pane>
-				<el-tab-pane label="企业关系图谱" name="5" v-if="itemManageDetail.phase>=5">
+				<!-- <el-tab-pane label="企业关系图谱" name="5" v-if="itemManageDetail.phase>=5">
 					<enterpriseRelationship></enterpriseRelationship>
-				</el-tab-pane>
+				</el-tab-pane> -->
 				<el-tab-pane label="第三方征信报告" name="6" v-if="itemManageDetail.phase>=5">
-					<thirdAuth></thirdAuth>
+					<thirdAuth  v-if="activeName=='8'"></thirdAuth>
 				</el-tab-pane>
 				<el-tab-pane label="审核结论" name="7" v-if="itemManageDetail.phase>=4">
 					<resultTab v-if="activeName=='7'"></resultTab>
 				</el-tab-pane>
 				<el-tab-pane label="时间信息" name="8" v-if="itemManageDetail.phase>=7">
-					<timeTab></timeTab>
+					<timeTab  v-if="activeName=='8'"></timeTab>
 				</el-tab-pane>
 				<el-tab-pane label="有限合伙信息" v-if="itemManageDetail.phase>=10" name="9">
-					<partnerTab></partnerTab>
+					<partnerTab v-show="activeName=='9'"></partnerTab>
 				</el-tab-pane>
 				<el-tab-pane label="银账授权信息" v-if="itemManageDetail.phase>=10" name="10">
 					<resisAuthTab :item="itemManageDetail" v-if="activeName=='10'"></resisAuthTab>
@@ -466,7 +466,7 @@
 	import partnerTab from './itemDetail/partnerTab'
 	import industryTab from './itemDetail/industryTab'
 	import riskTab from './itemDetail/riskTab'
-	import enterpriseRelationship from './itemDetail/enterpriseRelationship.vue'
+	// import enterpriseRelationship from './itemDetail/enterpriseRelationship.vue'
 	import thirdAuth from './itemDetail/thirdAuth.vue'
 	import merchant from './itemDetail/merchant.vue'
 
@@ -485,7 +485,7 @@
 			partnerTab,
 			industryTab,
 			riskTab,
-			enterpriseRelationship,
+			// enterpriseRelationship,
 			thirdAuth,
 			dialogComponent,
 			merchant

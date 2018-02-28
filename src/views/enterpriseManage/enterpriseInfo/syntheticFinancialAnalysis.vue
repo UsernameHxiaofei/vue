@@ -244,16 +244,16 @@ export default {
 					data.currentAssetsTotal.push(moneyFormat(item.currentAssetsTotal))
 					data.monetaryFund.push(moneyFormat(item.monetaryFund))
 				}
-				data.incomeRate.push(parseFloat(item.incomeRate.replace('%', '')) || 0)
-				data.netProfitRate.push(parseFloat(item.netProfitRate.replace('%', '')) || 0)
-				data.saleRate.push(parseFloat(item.saleRate.replace('%', '')) || 0)
-				data.netSaleRate.push(parseFloat(item.netSaleRate.replace('%', '')) || 0)
-				data.roe.push(parseFloat(item.roe.replace('%', '')) || 0)
-				data.roa.push(parseFloat(item.roa.replace('%', '')) || 0)
-				data.saleIncomeRate.push(parseFloat(item.saleIncomeRate.replace('%', '')) || 0)
-				data.assetsRate.push(parseFloat(item.assetsRate.replace('%', '')) || 0)
-				data.currentRatio.push(parseFloat(item.currentRatio) || 0)
-				data.quickRatio.push(parseFloat(item.quickRatio) || 0)
+				data.incomeRate.push(item.incomeRate&&parseFloat(item.incomeRate.replace('%', '')) || 0)
+				data.netProfitRate.push(item.netProfitRate&&parseFloat(item.netProfitRate.replace('%', '')) || 0)
+				data.saleRate.push(item.saleRate&&parseFloat(item.saleRate.replace('%', '')) || 0)
+				data.netSaleRate.push(item.netSaleRate&&parseFloat(item.netSaleRate.replace('%', '')) || 0)
+				data.roe.push(item.roe&&parseFloat(item.roe.replace('%', '')) || 0)
+				data.roa.push(item.roa&&parseFloat(item.roa.replace('%', '')) || 0)
+				data.saleIncomeRate.push(item.saleIncomeRate&&parseFloat(item.saleIncomeRate.replace('%', '')) || 0)
+				data.assetsRate.push(item.assetsRate&&parseFloat(item.assetsRate.replace('%', '')) || 0)
+				data.currentRatio.push(item.currentRatio&&parseFloat(item.currentRatio) || 0)
+				data.quickRatio.push(item.quickRatio&&parseFloat(item.quickRatio) || 0)
 			}
 			this.listdata = data
 			this.xAxis = xAxis

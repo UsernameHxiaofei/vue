@@ -67,7 +67,7 @@
         </div>
         <div class="p-form">
             <el-dialog title="拒绝理由" :visible.sync="dialogClosureVisible" @close="cancel" :close-on-click-modal="false">
-                <el-form :model="refuseParam"  ref="refuseParam">
+                <el-form :model="refuseParam" ref="refuseParam">
                     <el-form-item prop="rejection" required label="拒绝理由">
                         <el-input class="inputing" v-model="refuseParam.rejection" type="textarea" placeholder="请输入拒绝理由..."></el-input>
                     </el-form-item>
@@ -128,25 +128,25 @@
                 let param = {
                     name: this.actorAudit.repName,
                     identNumber: this.actorAudit.repIdcard,
-                    mobileNumber:this.actorAudit.repMobile,
+                    mobileNumber: this.actorAudit.repMobile,
                     id: this.$route.params.id
                 }
                 this.$store.dispatch('verifyIdcardForAudite', param).then((data) => {
-                    
-                    if(data.success){
+
+                    if (data.success) {
                         this.$store.dispatch('selectActorAuditeById', {
                             id: this.$route.params.id
-                        }).then(()=>{
+                        }).then(() => {
                             this.$message({
-                                message: this.actorAudit.isRealName==1?'实名认证通过':'实名认证不通过，三要素信息不符',
+                                message: this.actorAudit.isRealName == 1 ? '实名认证通过' : '实名认证不通过，三要素信息不符',
                                 type: 'success'
                             })
                         })
-                        
-                    }else{
+
+                    } else {
                         this.$message.warning(data.information)
                     }
-                    
+
                 })
             },
             adopt() {
@@ -231,7 +231,6 @@
     }
 
     .hangjiashenhe label {
-        float:left;
         width: 100px;
         font-weight: 400;
         color: #999;

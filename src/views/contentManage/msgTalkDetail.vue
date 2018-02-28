@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="back-button">
-            <router-link class="pull-left" :to="{path: '/msgWebsite'}">
+            <router-link class="pull-left" :to="{path: '/msgTalk'}">
                 <el-button type="text" icon="arrow-left">返回上一级</el-button>
             </router-link>
         </div>

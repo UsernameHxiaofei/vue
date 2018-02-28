@@ -17,8 +17,8 @@
 					<el-table-column width="30" prop="" label="" align="center"> </el-table-column>
 					<el-table-column type="index" label="序号" width="70"></el-table-column>
 					<el-table-column prop="creditCode" label="统一社会信用代码" width="250" align="center"> </el-table-column>
-					<el-table-column prop="name" label="企业名称" width="220" align="center"> </el-table-column>
-					<el-table-column label="所在地" width="180" align="center">
+					<el-table-column prop="name" label="企业名称" width="260" align="center"> </el-table-column>
+					<el-table-column label="所在地" width="220" align="center">
 						<template slot-scope="scope">
 							{{scope.row.addressCode|address}}
 						</template>
