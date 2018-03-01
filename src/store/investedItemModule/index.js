@@ -46,6 +46,9 @@ export default {
 				commit('AtiProjectInfoGet',data)
 			})
 		},
+		AtiProjectStatusUpdate({commit}, param) {
+			return api.AtiProjectStatusUpdate(param)
+		},
 	},
 	mutations: {
 		AtiProjectInfoGet(state,data){

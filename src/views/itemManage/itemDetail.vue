@@ -41,7 +41,7 @@
 
 	.item-title {
 		font-weight: bold;
-		font-size: 20px;
+		font-size: 18px;
 		line-height: 40px;
 		margin: 0;
 	}
@@ -54,8 +54,9 @@
 	}
 
 	.item-channelMark {
-		float: right;
-		height: 40px;
+		position: relative;
+        height:40px;
+        left:20px;
 	}
 
 	.item-list-info .grid-content {
@@ -203,10 +204,10 @@
 		<div class="item-info">
 			<img class="com-img" :src="itemManageDetail.imageURL||''" alt="项目展示图" />
 			<div class="item-con">
-				<span class="item-title">{{itemManageDetail.name}}</span>
-				<img class="item-channelMark" v-if="projectChannel.channelMark" :src="projectChannel.channelMark" :title="projectChannel.channelDesc"
-				 :alt="projectChannel.channelDesc">
-				<span class="item-channel" v-if="projectChannel.channelMark">引入渠道：{{projectChannel.channelDesc}}</span>
+				<span class="item-title">{{itemManageDetail.name}}
+						<img class="item-channelMark" v-if="projectChannel.channelMark" :src="projectChannel.channelMark" :title="projectChannel.channelDesc"
+						:alt="projectChannel.channelDesc">
+				</span>
 				<div class="item-list-info">
 					<el-row>
 						<el-col :span="6">

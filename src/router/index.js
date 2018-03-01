@@ -73,6 +73,8 @@ const investedItemList = () => import('../views/investedItemManage/investedItemL
 const investedItemDetail = () => import('../views/investedItemManage/investedItemDetail.vue');
 const investedItemCreate = () => import('../views/investedItemManage/investedItemCreate.vue');
 
+const articleManage = () => import('../views/contentManage/articleManage.vue');
+
 const routes = [
 	{ path: '/main', component: MainView ,meta: { scrollToTop: true } },
 	{ path: '/risk', component: riskView },
@@ -135,6 +137,8 @@ const routes = [
 	{ path: '/investedItemList',component:investedItemList},
 	{ path: '/investedItemDetail/:id',component:investedItemDetail},
 	{ path: '/investedItemCreate',component:investedItemCreate},
+	
+	{ path: '/articleManage',component:articleManage},
 	{ path: '/', redirect: '/main' }
 ];
 

@@ -45,6 +45,11 @@ module.exports = function client(Vue) {
 				return response.body
 			})
 		},
+		AtiProjectStatusUpdate:(param)=>{
+			return Vue.http.post('AtiProjectStatusUpdate', param).then(response => {
+				return response.body
+			})
+		}
 	}
 }
 

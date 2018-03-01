@@ -15,7 +15,18 @@ import channels from '../constant/payChannels'
 import actorCategorys from '../constant/actorCategory'
 import projectRoles from '../constant/projectRoles'
 import shareProfitStatusData from '../constant/shareProfitStatus'
+import investedItemStatusData from '../constant/investedItemStatus'
 
+
+
+export function investedItemStatus(value){
+	for (let i = 0; i < investedItemStatusData.length; i++) {
+		const item = investedItemStatusData[i]
+		if(item.value==value){
+			return item.label
+		}
+	}
+}
 //分红状态
 export function shareProfitStatus(value){
 	for (let i = 0; i < shareProfitStatusData.length; i++) {

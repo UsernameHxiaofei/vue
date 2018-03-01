@@ -26,7 +26,7 @@
 
     #investedItem .item-title {
         font-weight: bold;
-        font-size: 20px;
+        font-size: 18px;
         line-height: 40px;
         margin: 0;
     }
@@ -39,16 +39,10 @@
 
     }
 
-    #investedItem .item-channel {
-        float: right;
-        font-weight: bold;
-        line-height: 40px;
-        font-size: 16px;
-    }
-
     #investedItem .item-channelMark {
-        float: right;
-        height: 40px;
+        position: relative;
+        height:40px;
+        left:20px;
     }
 
     #investedItem .item-list-info .grid-content {
@@ -100,10 +94,11 @@
         <div class="item-info">
             <img class="com-img" :src="investedItemDetail.imgUrl" alt="项目展示图" />
             <div class="item-con">
-                <div class="item-title">{{investedItemDetail.name}}</div>
+                <div class="item-title">{{investedItemDetail.name}}
+                        <img class="item-channelMark" v-if="projectChannel.channelMark" :src="projectChannel.channelMark" :title="projectChannel.channelDesc"
+                        :alt="projectChannel.channelDesc">
+                </div>
                 <div class="item-summary">{{investedItemDetail.summary}}</div>
-                <img class="item-channelMark" v-if="projectChannel.channelMark" :src="projectChannel.channelMark" :title="projectChannel.channelDesc"
-                    :alt="projectChannel.channelDesc">
                 <!-- <span class="item-channel" v-if="projectChannel.channelMark">引入渠道：{{projectChannel.channelDesc}}</span> -->
                 <div class="item-list-info">
                     <el-row class="grid-content">
@@ -151,6 +146,9 @@
                 </el-tab-pane>
                 <el-tab-pane label="分红报告" name="5">
                 </el-tab-pane>
+                <el-tab-pane label="变更项目状态" name="6">
+                    <updateInvestedItemStatus v-if="activeName=='6'"></updateInvestedItemStatus>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -161,6 +159,7 @@
     import rightsPerson from './investedItemDetail/rightsPerson'
     import enterpriseTeam from '../../views/enterpriseManage/enterpriseInfo/enterpriseTeam'
     import merchant from '../itemManage/itemDetail/merchant'
+    import updateInvestedItemStatus from './investedItemDetail/updateInvestedItemStatus'
 
     export default {
         name: 'investedItemDetail',
@@ -168,7 +167,8 @@
             enterpriseTeam,
             rightsPerson,
             enterpriseAccount,
-            merchant
+            merchant,
+            updateInvestedItemStatus
         },
         computed: {
             projectChannel: function () {

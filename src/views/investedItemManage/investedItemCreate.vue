@@ -52,7 +52,7 @@
                     <img :src="projectChannel.channelMark" v-if="!!projectChannel.channelMark">
                     <el-button size="small" type="primary" @click="editChannelMarkChange=true">选取文件</el-button>
                 </el-form-item>
-                <el-form-item label="渠道概述">
+                <el-form-item label="渠道概述" v-show="projectChannel.channelType==2">
                     <el-input v-model="projectChannel.channelDesc" placeholder="渠道概述" :maxlength="255"></el-input>
                 </el-form-item>
             </el-form>
@@ -171,7 +171,8 @@
                     totalInvestAmount: '',
                     imgUrl: '',
                     enterpriseName: '',
-                    creditCode: ''
+                    creditCode: '',
+                    status:20
                 }
             }
         },

@@ -195,8 +195,8 @@ module.exports = function client(router, sc, passport) {
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = [
 			param.projectName,
-			param.page,
-			param.number
+			parseInt(param.page),
+			parseInt(param.number)
 		]
 		sc.send(stuff).then((resp) => { res.json(resp.object) })
 	})

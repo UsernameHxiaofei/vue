@@ -42,7 +42,7 @@
                 </el-table-column>
                 <el-table-column prop="status" label="状态">
                     <template slot-scope="scope">
-                        运营中
+                       {{scope.row.status|investedItemStatus}}
                     </template>
                 </el-table-column>
                 <el-table-column>
