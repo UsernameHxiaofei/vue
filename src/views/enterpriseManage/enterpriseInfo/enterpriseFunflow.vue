@@ -362,8 +362,8 @@
 							debitAmount += item.debitAmount/this.unit || 0
 							balan += item.balance/this.unit || 0
 						})
-						leanOut.push([new Date(key).getTime(), creditAmount || 0])
-						bIn.push([new Date(key).getTime(), debitAmount || 0])
+						leanOut.push([new Date(key).getTime(), debitAmount || 0])
+						bIn.push([new Date(key).getTime(), creditAmount || 0])
 						balance.push([new Date(key).getTime(), balan || 0])
 					})
 					this.imageData = { leanOut, bIn, balance }
