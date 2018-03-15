@@ -149,7 +149,7 @@
 					</el-upload>
 				</el-form-item>
 				<div class="edit-con" v-if="editorRender">
-					<quill-editor v-model="content" ref="myQuillEditor"> </quill-editor>
+					<quill-editor v-model="content" > </quill-editor>
 				</div>
 				<div class="model-divider">
 					<img src="../../../assets/images/linear.png" />

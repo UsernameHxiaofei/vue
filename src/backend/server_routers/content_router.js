@@ -175,5 +175,60 @@ module.exports = function client(router, sc, passport) {
 		stuff.items = [param.messageId, param.reason]
 		sc.send(stuff).then((resp) => { res.json(resp.head) })
 	})
+	
+	//添加文稿
+	router.all('/addDynamic', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('DynamicTask', 'addDynamic', 'contentManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id||null,
+			param.title, 
+			param.sectionType,
+			param.content,
+			param.status,
+			param.opreationId,
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+
+	//更新状态
+	router.all('/dynamicUpdate', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('DynamicTask', 'dynamicUpdate', 'contentManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id,
+			param.status
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+
+	// 查询列表 分页
+	router.all('/selectDynamicForShow', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('DynamicTask', 'selectDynamicForShow', 'contentManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.section||1,
+			param.status||0, 
+			param.keyword,
+			param.pageNum,
+			param.pageLimit
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+
+	// 详情信息
+	router.all('/selectDynamicForDetail', function (req, res) {
+		let param = req.body
+		const stuff = sc.instanceRequest('DynamicTask', 'selectDynamicForDetail', 'contentManage')
+		stuff.auxiliary = { [passport]: req.session.passport }
+		stuff.items = [
+			param.id
+		]
+		sc.send(stuff).then((resp) => { res.json(resp.object) })
+	})
+
 
 }

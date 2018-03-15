@@ -257,8 +257,7 @@
 	}
 
 	.container-width {
-		width: 750px;
-		margin: auto;
+		padding:30px 10%;
 	}
 
 	.banner-detail .delete-img {

@@ -28,7 +28,7 @@
                         <template slot="title">
                             <i class="iconfont icon-neirong"></i>&emsp;内容管理
                         </template>
-                        <!-- <el-menu-item index="3-6" @click="go('/articleManage','3-1')">&emsp;文稿管理</el-menu-item> -->
+                        <el-menu-item index="3-6" @click="go('/articleManage','3-6')">&emsp;文稿管理</el-menu-item>
                         <el-menu-item index="3-1" @click="go('/msgImages','3-1')">&emsp;图片管理</el-menu-item>
                         <el-menu-item index="3-2" @click="go('/msgModel','3-2')">&emsp;消息模版管理</el-menu-item>
                         <el-menu-item index="3-3" @click="go('/msgShort','3-3')">&emsp;短信通知管理</el-menu-item>
@@ -97,6 +97,7 @@ export default {
 				{ value: '/msgShort',index:'3-3'},
 				{ value: '/msgWebsite',index:'3-4'},
 				{ value: '/msgTalk',index:'3-5'},
+                { value: '/articleManage',index:'3-6'},
 				{ value: '/investmentFund', index: '4-1' },
 				{ value: '/depositManage', index: '4-2' },
 				{ value: '/brokerageManage', index: '4-3' },

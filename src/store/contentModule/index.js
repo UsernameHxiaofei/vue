@@ -19,7 +19,9 @@ export default {
 		webMessageBySenderid:[],  //根据用户id查询个人发送的站内消息
 		updateIsRead:'',          //改变阅读状态
 		allActorList:[],          //所有站内用户信息
-		fobidStatus:{}         //禁止状态
+		fobidStatus:{},         //禁止状态
+		selectDynamicForDetail:{}, //文稿详情
+		selectDynamicForShow:{}
 	},
 	actions: {
 		//banner列表
@@ -121,12 +123,41 @@ export default {
 		//屏蔽消息
 		forBidMessageById({ state }, param) {
 			return api.forBidMessageById(param).then((data) => {
-				state.fobidStatus=data
+				commit('forBidMessageById',data)
+			})
+		},
+		//添加
+		addDynamic({ state }, param) {
+			return api.addDynamic(param)
+		},
+		//修改文稿状态
+		dynamicUpdate({ state }, param) {
+			return api.dynamicUpdate(param)
+		},
+		//文稿分页
+		selectDynamicForShow({ commit,state }, param) {
+			return api.selectDynamicForShow(param).then((data) => {
+				commit('selectDynamicForShow',data)
+			})
+		},
+		//文稿详情
+		selectDynamicForDetail({ commit,state }, param) {
+			return api.selectDynamicForDetail(param).then((data) => {
+				commit('selectDynamicForDetail',data)
 			})
 		},
 	},
 	//获取返回值( 突变，变化 )
 	mutations: {
+		selectDynamicForShow(state,data){
+			state.selectDynamicForShow=data
+		},
+		forBidMessageById(state, data) {
+			state.fobidStatus=data
+		},
+		selectDynamicForDetail(state, data) {
+			state.selectDynamicForDetail=data
+		},
 		show_banner(state, data) {
 			state.showImageList = data
 		},

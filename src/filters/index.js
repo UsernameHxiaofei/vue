@@ -16,9 +16,19 @@ import actorCategorys from '../constant/actorCategory'
 import projectRoles from '../constant/projectRoles'
 import shareProfitStatusData from '../constant/shareProfitStatus'
 import investedItemStatusData from '../constant/investedItemStatus'
+import articleStatusData from '../constant/articleStatus'
 
+//文稿状态
+export function articleStatus(value){
+	for (let i = 0; i < articleStatusData.length; i++) {
+		const item = articleStatusData[i]
+		if(item.value==value){
+			return item.label
+		}
+	}
+}
 
-
+//投后项目状态
 export function investedItemStatus(value){
 	for (let i = 0; i < investedItemStatusData.length; i++) {
 		const item = investedItemStatusData[i]
@@ -27,6 +37,7 @@ export function investedItemStatus(value){
 		}
 	}
 }
+
 //分红状态
 export function shareProfitStatus(value){
 	for (let i = 0; i < shareProfitStatusData.length; i++) {

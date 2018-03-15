@@ -99,10 +99,33 @@ module.exports = function client(Vue) {
 				return response.body
 			})
 		},
-		//根据id 修改阅读状态
+		//屏蔽
 		forBidMessageById: (param) => {
 			return Vue.http.post('forBidMessageById', param).then(response => {
-
+				return response.body
+			})
+		},
+		//添加文稿
+		addDynamic: (param) => {
+			return Vue.http.post('addDynamic', param).then(response => {
+				return response.body
+			})
+		},
+		//更新状态
+		dynamicUpdate: (param) => {
+			return Vue.http.post('dynamicUpdate', param).then(response => {
+				return response.body
+			})
+		},
+		// 查询列表 分页
+		selectDynamicForShow: (param) => {
+			return Vue.http.post('selectDynamicForShow', param).then(response => {
+				return response.body
+			})
+		},
+		//详情信息
+		selectDynamicForDetail: (param) => {
+			return Vue.http.post('selectDynamicForDetail', param).then(response => {
 				return response.body
 			})
 		}

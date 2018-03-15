@@ -74,6 +74,7 @@ const investedItemDetail = () => import('../views/investedItemManage/investedIte
 const investedItemCreate = () => import('../views/investedItemManage/investedItemCreate.vue');
 
 const articleManage = () => import('../views/contentManage/articleManage.vue');
+const articleDetail = () => import('../views/contentManage/articleDetail.vue');
 
 const routes = [
 	{ path: '/main', component: MainView ,meta: { scrollToTop: true } },
@@ -139,6 +140,7 @@ const routes = [
 	{ path: '/investedItemCreate',component:investedItemCreate},
 	
 	{ path: '/articleManage',component:articleManage},
+	{ path: '/articleDetail/:id?',component:articleDetail},
 	{ path: '/', redirect: '/main' }
 ];
 

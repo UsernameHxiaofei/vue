@@ -312,7 +312,7 @@
 					<enterpriseRelationship></enterpriseRelationship>
 				</el-tab-pane> -->
 				<el-tab-pane label="第三方征信报告" name="6" v-if="itemManageDetail.phase>=5">
-					<thirdAuth  v-if="activeName=='8'"></thirdAuth>
+					<thirdAuth  v-if="activeName=='6'"></thirdAuth>
 				</el-tab-pane>
 				<el-tab-pane label="审核结论" name="7" v-if="itemManageDetail.phase>=4">
 					<resultTab v-if="activeName=='7'"></resultTab>

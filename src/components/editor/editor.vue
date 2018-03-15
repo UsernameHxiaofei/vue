@@ -79,7 +79,6 @@ export default {
 				target: document.getElementsByClassName('quill-editor')[0],
 				text: '正在上传'
 			})
-		
 			xhr.onload = function () {
 				if (!xhr.response) {
 					self.$message.warning(JSON.parse(xhr.response).information)
@@ -93,7 +92,6 @@ export default {
 		},
 		initialize() {
 			if (this.$el) {
-
 				// options and instance
 				var self = this
 				self.options.theme = self.options.theme || 'snow'
@@ -102,11 +100,8 @@ export default {
 				self.options.modules.toolbar = self.options.modules.toolbar !== undefined
 					? self.options.modules.toolbar
 					: self.defaultModules.toolbar
-				self.options.placeholder = self.options.placeholder || '请在这里书写项目详细介绍'
+				self.options.placeholder = self.options.placeholder || ''
 				self.options.readOnly = self.options.readOnly !== undefined ? self.options.readOnly : false
-          
-
-
 				self.quill = new Quill(self.$refs.editor, self.options)
 				self.quill.getModule('toolbar').addHandler('image', this.handleImage)
 
