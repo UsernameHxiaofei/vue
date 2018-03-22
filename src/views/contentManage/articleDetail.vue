@@ -47,9 +47,7 @@
         name: 'articleDetail',
         beforeMount() {
             this.$store.commit('selectDynamicForDetail',{})
-            if (this.$route.params.id) {
-                this.refreshData()
-            }
+            this.refreshData()
         },
         mounted () {
             this.isRender = true
@@ -84,6 +82,7 @@
                     if (valid) {
                         this.$store.dispatch('addDynamic', this.detail).then((data) => {
                             if (data.flag) {
+                                Object.assign({},this.detail);
                                 this.$message.success('保存完成')
                                 this.refreshData()
                             } else {
@@ -148,6 +147,9 @@
                 })
             },
             refreshData() {
+                if (!this.$route.params.id) {
+                    return
+                }
                 this.$store.dispatch('selectDynamicForDetail', { id: this.$route.params.id }).then(() => {
                     this.detail = this.selectDynamicForDetail.flag ? this.selectDynamicForDetail.resutl :  {
                         id: this.$route.params.id||this.selectDynamicForDetail.resutl.id,

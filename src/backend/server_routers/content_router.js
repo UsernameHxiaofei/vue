@@ -182,7 +182,7 @@ module.exports = function client(router, sc, passport) {
 		const stuff = sc.instanceRequest('DynamicTask', 'addDynamic', 'contentManage')
 		stuff.auxiliary = { [passport]: req.session.passport }
 		stuff.items = [
-			param.id||null,
+			param.id=='undefined'? null: param.id,
 			param.title, 
 			param.sectionType,
 			param.content,
