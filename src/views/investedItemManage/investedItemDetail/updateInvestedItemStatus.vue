@@ -24,20 +24,16 @@
         data() {
             return {
                 investedItemStatus: investedItemStatusData,
-                ready:false,
                 status:0
             }
         },
         mounted(){
-            this.status=this.investedItemDetail.status
+           
         },
         methods: {
             updateStatus() {
                 // 20 运营中 30 休业整顿 40 停运
-                if(!this.ready){
-                    this.ready=!this.ready
-                    return
-                }
+                
                 this.$confirm('此操作将改变项目的状态, 是否继续?', '提示', {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
@@ -50,8 +46,7 @@
                         this.$message.info(data.message)
                     })
 				}).catch(() => {
-                    this.status=this.investedItemDetail.status
-                    this.ready=false
+                    
 				})
             }
         }
