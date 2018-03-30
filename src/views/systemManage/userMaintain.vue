@@ -86,7 +86,7 @@
 		<div>
 			<el-dialog title="添加账号" :visible.sync="dialogUserVisible" @close="cancel" :close-on-click-modal="false">
 				<el-form :model="addUser" :label-width="formLabelWidth" :rules="rule" ref="addUser">
-					<el-form-item label="标志码"  prop="indetNumber">
+					<el-form-item label="标志码"  required prop="indetNumber">
 						<el-input v-model="addUser.identNumber" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="账号类型"  prop="category">
@@ -120,7 +120,7 @@
 		<div >
 			<el-dialog title="编辑账号" :visible.sync="dialogeditUserVisible" @close="quit" :close-on-click-modal="false">
 				<el-form :model="editUser" :label-width="formLabelWidth" :rules="editRule" ref="editUser">
-					<el-form-item label="标志码" prop="indetNumber">
+					<el-form-item label="标志码" required prop="indetNumber">
 						<el-input v-model="editUser.identNumber" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item label="账号类型"  prop="category">

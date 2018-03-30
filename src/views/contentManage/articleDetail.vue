@@ -82,6 +82,7 @@
                     if (valid) {
                         this.$store.dispatch('addDynamic', this.detail).then((data) => {
                             if (data.flag) {
+                                this.detail.id=data.resutl;
                                 Object.assign({},this.detail);
                                 this.$message.success('保存完成')
                                 this.refreshData()
@@ -104,6 +105,7 @@
                         if (valid) {
                             this.$store.dispatch('addDynamic', param).then((data) => {
                                 if (data.flag) {
+                                    this.detail.id=data.resutl;
                                     this.$message.success('发表成功')
                                     this.refreshData()
                                 } else {
@@ -126,7 +128,6 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    
                     let param = {
                         id: this.$route.params.id||this.detail.id,
                         status: 3
@@ -147,17 +148,21 @@
                 })
             },
             refreshData() {
-                if (!this.$route.params.id) {
+                if(!this.detail.id){
                     return
                 }
-                this.$store.dispatch('selectDynamicForDetail', { id: this.$route.params.id }).then(() => {
-                    this.detail = this.selectDynamicForDetail.flag ? this.selectDynamicForDetail.resutl :  {
-                        id: this.$route.params.id||this.selectDynamicForDetail.resutl.id,
-                        title: '',
-                        sectionType: 1,//1、新闻动态
-                        status: 1,//1、草稿2、已发表3、已屏蔽
-                        content: '',
-                        opreationId: this.$store.state.login.actor.id
+                this.$store.dispatch('selectDynamicForDetail', { id: this.detail.id }).then(() => {
+                    if(this.selectDynamicForDetail.flag){
+                        this.detail=this.selectDynamicForDetail.resutl
+                    }else{
+                        this.detail={
+                            id: this.detail.id,
+                            title: '',
+                            sectionType: 1,//1、新闻动态
+                            status: 1,//1、草稿2、已发表3、已屏蔽
+                            content: '',
+                            opreationId: this.$store.state.login.actor.id
+                        }
                     }
                 })
             },
