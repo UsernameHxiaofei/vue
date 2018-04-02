@@ -78,7 +78,7 @@ app.use(session({
 app.use(bodyParser.json({ limit: '20000kb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '20000kb' }));
 app.use(compression({ threshold: 0 }));
-app.use('/favicon.ico', serve('./public/favico.png', true));
+app.use('/favicon.ico', serve('./public/favicon.png', true));
 app.use('/dist', serve('./dist', true));
 app.use('/public', serve('./public', true));
 app.use('/assets', serve('./src/assets', true));

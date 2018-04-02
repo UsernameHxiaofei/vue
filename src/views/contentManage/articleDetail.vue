@@ -9,7 +9,7 @@
         <h2>文稿信息</h2>
         <el-form ref="form" :model="detail" :rules="rules" label-width="75px">
             <el-form-item label="标题" prop="title" >
-                <el-input v-model.trim="detail.title" :maxlength="20"></el-input>
+                <el-input v-model.trim="detail.title" :maxlength="50"></el-input>
             </el-form-item>
             <el-form-item label="栏目" prop="sectionType" >
                 <el-select v-model="detail.sectionType" clearable placeholder="栏目">
@@ -70,7 +70,7 @@
                 rules: {
                     title: [
                         { required: true, message: '请输入标题', trigger: 'blur' },
-                        { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
+                        { min: 2, max:50, message: '长度在 2 到 50 个字符', trigger: 'blur' }
                     ]
                 }
             }
