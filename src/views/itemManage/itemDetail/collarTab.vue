@@ -10,7 +10,7 @@
 .remind{padding: 20px 0 30px 0;}
 .remind span{color: #a3abbe;margin: 0 0 5px 10px;display: inline-block;}
 .remind p{color: #ffc322;padding: 0 10px;}
-.main-pic{margin: 35px 0 0 70px;float: left;}
+.main-pic{margin: 5px 0 0 70px;float: left;}
 </style>
 <template>
    <!--tab2-->
@@ -25,7 +25,7 @@
                 </div>
             </div>
             <div class="main-pic" v-show="leadAd.surveyReportURL&&leadAd.surveyReportURL.length>0">
-                <a v-if="item&&item.length&&item.length>0" v-for="item in JSON.parse(leadAd.surveyReportURL||'[]')" :href="'/ajax/filedownload?url='+encodeURIComponent(item)">领投资料{{''+item}}</a>
+                <a v-if="leadAd.surveyReportURL" :href="'/ajax/filedownload?url='+encodeURIComponent(leadAd.surveyReportURL)">领投资料({{leadAd.surveyReportURL}})</a>
             </div>
         </div>
     </div>
