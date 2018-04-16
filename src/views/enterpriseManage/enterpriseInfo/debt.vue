@@ -327,22 +327,22 @@
                                 </tr>
                                 <tr>
                                     <td>盈余公积</td>
-                                    <td>49</td>
+                                    <td>50</td>
                                     <td v-for="n in listData.length">{{listData[n-1].surplusReserve}}</td>
                                 </tr>
                                 <tr>
                                     <td>未分配利润</td>
-                                    <td>49</td>
+                                    <td>51</td>
                                     <td v-for="n in listData.length">{{listData[n-1].undistributedProfit}}</td>
                                 </tr>
                                 <tr>
                                     <td>所有者权益（或股东权益）合计</td>
-                                    <td>49</td>
+                                    <td>52</td>
                                     <td v-for="n in listData.length">{{listData[n-1].ownerEquity}}</td>
                                 </tr>
                                 <tr>
                                     <td>负债和所有者权益（或股东权益）总计</td>
-                                    <td>49</td>
+                                    <td>53</td>
                                     <td v-for="n in listData.length">{{listData[n-1].liabilitiesAndOwnerEquity}}</td>
                                 </tr>
                             </tbody>
