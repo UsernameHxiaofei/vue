@@ -322,10 +322,10 @@
                     id:this.auditeWaitByActorId.id
                 }).then((data)=>{
                     if(data.success){
-                        this.$store.dispatch('auditeWaitByActorId',{type:2,id:this.$route.params.actorId}).then((data)=>{
+                        this.loadChangeAudit().then(()=>{
                                 this.$message({
                                     message: this.auditeWaitByActorId.isRealName==1?'实名认证通过':'实名认证不通过，三要素信息不符',
-                                    type: 'success'
+                                    type: this.auditeWaitByActorId.isRealName == 1 ? 'success' : 'warning'
                                 })
                         })
                     }else{

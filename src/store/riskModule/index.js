@@ -49,7 +49,8 @@ export default  {
 			return api.risk_saveHandle(param).then((data)=> {
 				if(data.head.success){
 					vue.$message.success(data.head.information)
-					commit('risk_riskId',JSON.parse(data.objectLiteral))
+					commit('risk_riskId', JSON.parse(data.objectLiteral))
+					vue.$router.go(-1);
 				}else{
 					vue.$message.warning(data.head.information)
 				}

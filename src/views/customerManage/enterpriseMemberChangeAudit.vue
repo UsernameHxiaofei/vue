@@ -139,7 +139,7 @@
                         }).then(() => {
                             this.$message({
                                 message: this.actorAudit.isRealName == 1 ? '实名认证通过' : '实名认证不通过，三要素信息不符',
-                                type: 'success'
+                                type: this.actorAudit.isRealName == 1 ? 'success' : 'warning'
                             })
                         })
 

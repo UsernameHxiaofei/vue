@@ -29,8 +29,8 @@
               <table class="tableInfo" v-for="item in businessInfo.tcShareholder" :key="item.businessId">
                   <tr><td>股东名称</td><td>{{item.shaname }}</td><td>认缴出资额(万元)</td><td>{{item.subconam }}</td></tr>
                   <tr><td>认缴出资币种</td><td>{{item.regcapcur }}</td><td>出资方式</td><td>{{item.conform }}</td></tr>
-                  <tr><td>出资方式</td><td>{{item.fundedratio }}</td><td>出资比例</td><td>{{item.fundedratio }}</td></tr>
-                  <tr><td>出资日期</td><td>{{item.condate }}</td><td>国别</td><td>{{item.country }}</td></tr>
+                  <tr><td>国别</td><td>{{item.country }}</td><td>出资比例</td><td>{{item.fundedratio }}</td></tr>
+                  <tr><td>出资日期</td><td>{{item.condate }}</td><td></td><td></td></tr>
                   <tr><td>股东总数量</td><td>{{item.invamount }}</td><td>股东出资比例总和</td><td>{{item.invsumfundedratio }}</td></tr>
               </table>
           </el-col>
@@ -118,7 +118,7 @@
           <el-col class="businessinfo-content">  
               <table class="tableInfo1">
                   <tr><th>质权人姓名</th><th>出质人类别</th><th>出质金额（万元）</th><th>出质备案日期</th><th>出质审批部门</th><th>出质批准日期</th><th>出质截至日期</th></tr>
-                  <tr v-if="businessInfo.tcFiliation&&businessInfo.tcSharesimpawn.length>0"  v-for="item in businessInfo.tcFiliation" :key="item.brname">
+                  <tr v-if="businessInfo.tcSharesimpawn&&businessInfo.tcSharesimpawn.length>0"  v-for="item in businessInfo.tcFiliation" :key="item.brname">
                     <td>{{item.imporg}}</td>
                     <td>{{item.imporgtype}}</td>
                     <td>{{item.impam}}</td>
@@ -150,7 +150,7 @@
               <table class="tableInfo1">
                   <tr><th>抵押 ID</th><th>抵押物名称</th><th>数量</th><th>价值(万元)</th></tr>
                   <tr v-if="businessInfo.tcMorguainfo&&businessInfo.tcMorguainfo.length>0"  v-for="item in businessInfo.tcMorguainfo" :key="item.businessId">
-                    <td>{{item.brname}}</td><td>{{item.brregno}}</td><td>{{item.brprincipal}}</td><td>{{item.cbuitem}}</td>
+                    <td>{{item.morreg_id}}</td><td>{{item.guaname}}</td><td>{{item.quan}}</td><td>{{item.value}}</td>
                   </tr>
               </table>
           </el-col>
@@ -192,7 +192,7 @@
                 <tr><td>冻结文号</td><td>{{item.frodocno }}</td><td>冻结机关</td><td>{{item.froauth }}</td></tr>
                 <tr><td>冻结起始日期</td><td>{{item.frofrom }}</td><td>冻结截至日期</td><td>{{item.froto }}</td></tr>
                 <tr><td>冻结金额（万元）</td><td>{{item.froam }}</td><td>解冻机关</td><td>{{item.thawauth }}</td></tr>
-                <tr><td>解冻文号</td><td>{{item.thawauth }}</td><td>解冻日期</td><td>{{item.thawdate }}</td></tr>
+                <tr><td>解冻文号</td><td>{{item.thawdocno }}</td><td>解冻日期</td><td>{{item.thawdate }}</td></tr>
                 <tr><td>解冻说明</td><td>{{item.thawcomment }}</td><td></td><td></td></tr>
             </table>    
           </el-col>
@@ -200,9 +200,9 @@
             <img src="../../../assets/images/linear.png"  /> <span>清算信息</span>
           </el-col>
           <el-col class="businessinfo-content">
-            <table class="tableInfo1">
+            <table class="tableInfo1">tc                    
                 <tr><th>清算责任人</th><th>清算负责人</th><th>清算组成员</th><th>清算完结情况</th><th>清算完结日期</th><th>债务承接人</th><th>债权承接人</th></tr>
-                <tr v-if="businessInfo.tcMorguainfo&&businessInfo.tcMorguainfo.length>0"  v-for="item in businessInfo.tcMorguainfo" :key="item.businessId">
+                <tr v-if="businessInfo.tcLiquidation&&businessInfo.tcLiquidation.length>0"  v-for="item in businessInfo.tcLiquidation" :key="item.businessId">
                   <td>{{item.ligentity}}</td>
                   <td>{{item.ligprincipal}}</td>
                   <td>{{item.liqmen}}</td>
