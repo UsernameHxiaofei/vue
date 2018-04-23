@@ -64,7 +64,7 @@
             <p><b>概要</b>：{{projectItem.summary}}
             </p>
 
-            <h5>行家建议</h5>
+            <h5>行家点评</h5>
             <p>{{expertAdvice.content}} 
             </p>
 

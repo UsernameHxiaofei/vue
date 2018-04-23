@@ -67,6 +67,7 @@
 		width: 120px;
 		height: 120px;
 		border-radius: 50%;
+		flex-shrink: 0;
 	}
 
 	.choose-list .grid-content .info-content {

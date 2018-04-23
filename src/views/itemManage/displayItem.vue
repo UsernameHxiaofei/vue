@@ -335,7 +335,7 @@
                         </el-col>
                     </el-row>
                 </el-tab-pane>
-                <el-tab-pane label="行家建议" :name="'4'">
+                <el-tab-pane label="行家点评" :name="'4'">
                     <el-row :gutter="30">
                         <el-col :span="17" class="tab-left">
                             <expertTab></expertTab>

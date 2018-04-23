@@ -81,7 +81,9 @@
 	}
 
 	.edit-con {
-		margin-bottom: 40px;
+		width:860px;
+		margin:0 auto 40px;
+		font-size:12px;
 	}
 
 	/*添加团队成员弹窗*/
@@ -564,7 +566,8 @@
 					enterpriseId: this.itemManageDetail.enterpriseId || this.$store.state.item.enterpriseId
 				}
 				if (this.editFlag && this.itemManageDetail.detailedIntroductionId) {
-					this.$store.dispatch('item_updateDetailedIntroduction', { param: { id: this.itemManageDetail.detailedIntroductionId, content: this.content }, vue: this })
+					
+					this.$store.dispatch('item_updateDetailedIntroduction', { param: { id: this.itemManageDetail.detailedIntroductionId, content: this.content}, vue: this })
 					this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
 						this.$store.commit('item_setClearCreateItemData')
 						this.$router.push('/itemStep3/' + this.$route.params.id)

@@ -7,7 +7,7 @@ export default  {
 		itemManageDetail: {},//项目详情信息
 		financingPlanData: {},//项目融资方案信息
 		partnerInfo: {},//有限合伙人信息
-		expertAd: {},//行家建议
+		expertAd: {},//行家点评
 		leadAd:{},//领投意向
 		timeInfo:{},//时间信息
 		authInfo:{},//登记授信信息

@@ -233,7 +233,7 @@
                             </p>
     
                         </div>
-                        <el-form-item label="行家建议" label-width="80px" class="advices">
+                        <el-form-item label="行家点评" label-width="80px" class="advices">
                             <el-input type="textarea" readonly v-model="form.expertAdvice">
                             </el-input>
                         </el-form-item>

@@ -296,7 +296,7 @@
 		<!--tabber-->
 		<div id="tabber">
 			<el-tabs v-model="activeName">
-				<el-tab-pane label="行家建议" name="1" v-if="itemManageDetail.phase>=3">
+				<el-tab-pane label="行家点评" name="1" v-if="itemManageDetail.phase>=3">
 					<expertTab v-show="activeName=='1'"></expertTab>
 				</el-tab-pane>
 				<el-tab-pane label="领投意向" name="2" v-if="itemManageDetail.leadInvestorIntentionId||itemManageDetail.phase>=4">

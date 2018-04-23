@@ -85,7 +85,7 @@ module.exports = function client(router, sc, passport) {
 			res.json(resp.object)
 		})
 	})
-	//获取行家建议
+	//获取行家点评
 	router.all('/item_getExpertAd', function(req, res) {
 		let param = req.body
 		const stuff = sc.instanceRequest('ExpertAdviceTask', 'selectExpertAdvice', 'projectManage')

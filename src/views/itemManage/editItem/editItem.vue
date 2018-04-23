@@ -81,7 +81,9 @@
 	}
 
 	.edit-con {
-		margin-bottom: 40px;
+		width:860px;
+		margin:0 auto 40px;
+		font-size:12px;
 	}
 
 	/*添加团队成员弹窗*/
