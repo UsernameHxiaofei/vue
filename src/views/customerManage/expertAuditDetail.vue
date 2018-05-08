@@ -24,9 +24,6 @@
                     <span class="zhuanzhuhangye">
                         <div style="float: left;padding-right: 20px;" v-for="(item,i) in industryObj">
                             <label v-show="industryObj[item.value]"  for="">{{item.label}}&emsp;{{workYearsObj[item.value]||0}}年</label>
-                            <!-- <el-checkbox :disabled="true" v-model="industryObj[item.value]" :label="item.value" :key="item.label">{{item.label}}
-                            </el-checkbox>
-                            <input type="number" v-model="workYearsObj[item.value]" :disabled="true" number="true" class="el-pagination__editor" style="width: 30px;line-height: 0px;">年 -->
                         </div>
                     </span>
                 </li>
@@ -130,13 +127,6 @@
                 } catch (error) {
                     this.credentialsObj=[]
                 }
-                // this.credentialsObj = JSON.parse(this.expertData.credentials)
-                
-                
-                console.log(JSON.stringify(this.industryObj))
-                console.log(JSON.stringify(this.workYearsObj))
-                console.log(this.industryObj)
-                console.log(this.workYearsObj)
             })
         },
         methods: {

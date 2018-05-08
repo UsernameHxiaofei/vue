@@ -8,9 +8,7 @@ import directive from './directive/index'
 import ElementUI from 'element-ui'
 import './assets/index.css'
 import './assets/css/common.css'
-import 'quill/dist/quill.snow.css'
-import 'quill/dist/quill.bubble.css'
-import 'quill/dist/quill.core.css'
+import './assets/css/quill.snow.css'
 
 // register global utility directive.
 Object.keys(directive).forEach(key=>{
