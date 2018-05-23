@@ -84,6 +84,7 @@ app.use('/public', serve('./public', true));
 app.use('/assets', serve('./src/assets', true));
 app.use('/manifest.json', serve('./manifest.json', true));
 app.use('/service-worker.js', serve('./dist/service-worker.js'));
+app.use('/node_modules', serve('./dist/service-worker.js'));
 const { router } = require('./src/backend/process');
 app.use('/ajax', router);
 app.use('/login', serve('./src/login.html'));

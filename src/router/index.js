@@ -75,8 +75,10 @@ const investedItemCreate = () => import('../views/investedItemManage/investedIte
 
 const articleManage = () => import('../views/contentManage/articleManage.vue');
 const articleDetail = () => import('../views/contentManage/articleDetail.vue');
+// const ck = () => import('../components/editor/ckeditor.vue');
 
 const routes = [
+	// { path: '/ck', component: ck ,meta: { scrollToTop: true } },
 	{ path: '/main', component: MainView ,meta: { scrollToTop: true } },
 	{ path: '/risk', component: riskView },
 	{ path: '/riskHandle/:id', component: riskHandle },

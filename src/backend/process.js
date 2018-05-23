@@ -44,6 +44,19 @@ router.all('/fileupload', multer().single('file'), function(req, res) { //上传
 		res.json(resp);
 	});
 });
+//上传下载 通用                   ↓↓↓↓↓↓
+router.all('/fileupload_editor', multer().single('upload'), function(req, res) { //上传组件必须有data{fileType:1}
+	let param = req.body;
+	const stuff = sc.instanceRequest('FileManage', 'fileUpload', 'fileManage');
+	stuff.items = [req.file.originalname, param.fileType || 2, 'N']; // fileType：1文件，2图片
+	stuff.auxiliary = {
+		[passport]: req.session.passport 
+	}; 
+	stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
+	sc.send(stuff).then((resp) => {
+		res.json(resp.object);
+	});
+});
 //上传头像截图信息
 router.all('/fileuploadBlob', multer().single('file'), function(req, res) { //上传组件必须有data{fileType:1}
 	let param = req.body;

@@ -39,6 +39,10 @@ module.exports = {
         exclude: /node_modules/
       },
       {
+          test: /\.scss$/,
+          loader: 'vue-style-loader!css-loader!sass-loader'
+      },
+      {
         test: /\.css$/,
         use: isProd
           ? ExtractTextPlugin.extract({
