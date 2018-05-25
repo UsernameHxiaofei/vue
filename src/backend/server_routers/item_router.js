@@ -359,46 +359,50 @@ module.exports = function client(router, sc, passport) {
 	router.all('/item_createFinancingPlan', function(req, res) {
 		let param = req.body
 		let stuff = sc.instanceRequest('FinancingPlanTask', 'createFinancingPlan', 'projectManage')
-		let stuff1 = sc.instanceRequest('RewardPlanTask', 'createRewardPlan', 'projectManage')
-		let stuff2 = sc.instanceRequest('SalesQuotaTask', 'createSalesQuota', 'projectManage')
+		// let stuff1 = sc.instanceRequest('RewardPlanTask', 'createRewardPlan', 'projectManage')
+		// let stuff2 = sc.instanceRequest('SalesQuotaTask', 'createSalesQuota', 'projectManage')
 		stuff.auxiliary = {
 			[passport]: req.session.passport
 		}
-		stuff1.auxiliary = {
-			[passport]: req.session.passport
-		}
-		stuff2.auxiliary = {
-			[passport]: req.session.passport
-		}
-		stuff1.items=[{
-			annualEarningsRatio: 0,
-			annualEarningsRatioTo: 0,
-			flooredAnnualEarningsRatio: 0,
-			consumable: 0,
-			consumableDescription: '',
-			repurchase: 0,
-			repurchaseYearsFrom: 0,
-			repurchaseYearsTo: 0,
-			repurchaseRateFrom: 0,
-			repurchaseRateTo: 0.0,
-			dividendCycle: 0
-		}]
-		stuff2.items=[{
-			id: '',
-			quantity: 0,
-			unitPrice: 0,
-			salesAmount: 0
-		}]
-		const HBJH = sc.send(stuff1).then((resp1) => resp1.object)
-		const XSFE = sc.send(stuff2).then((resp2) => resp2.object)
-		Promise.all([HBJH, XSFE]).then(value => {
-			param.rewardPlanId = value[0]
-			param.salesQuotaId = value[1]
-			stuff.items = [param]
-			sc.send(stuff).then((resp) =>{
-				res.json(resp.object)
-			})
+		stuff.items = [param]
+		sc.send(stuff).then((resp) => {
+			res.json(resp.object)
 		})
+		// stuff1.auxiliary = {
+		// 	[passport]: req.session.passport
+		// }
+		// stuff2.auxiliary = {
+		// 	[passport]: req.session.passport
+		// }
+		// stuff1.items=[{
+		// 	annualEarningsRatio: 0,
+		// 	annualEarningsRatioTo: 0,
+		// 	flooredAnnualEarningsRatio: 0,
+		// 	consumable: 0,
+		// 	consumableDescription: '',
+		// 	repurchase: 0,
+		// 	repurchaseYearsFrom: 0,
+		// 	repurchaseYearsTo: 0,
+		// 	repurchaseRateFrom: 0,
+		// 	repurchaseRateTo: 0.0,
+		// 	dividendCycle: 0
+		// }]
+		// stuff2.items=[{
+		// 	id: '',
+		// 	quantity: 0,
+		// 	unitPrice: 0,
+		// 	salesAmount: 0
+		// }]
+		// const HBJH = sc.send(stuff1).then((resp1) => resp1.object)
+		// const XSFE = sc.send(stuff2).then((resp2) => resp2.object)
+		// Promise.all([HBJH, XSFE]).then(value => {
+		// 	param.rewardPlanId = value[0]
+		// 	param.salesQuotaId = value[1]
+		// 	stuff.items = [param]
+		// 	sc.send(stuff).then((resp) =>{
+		// 		res.json(resp.object)
+		// 	})
+		// })
 	})
 	//创建融资凭证
 	router.all('/item_createInvestedEvidence', function(req, res) {
