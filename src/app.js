@@ -9,7 +9,7 @@ import ElementUI from 'element-ui'
 import './assets/index.css'
 import './assets/css/common.css'
 import './assets/css/quill.snow.css'
-
+import './assets/fonts/iconfont.css'
 // register global utility directive.
 Object.keys(directive).forEach(key=>{
 	Vue.directive(key,directive[key])

@@ -1,14 +1,18 @@
 <template>
     <div id='detailIntroduction'>
-        <div class="detailContent ql-editor" v-html="detailedIntroduction.content">
-
+        <div class="detailContent" >
+            <ckeditor v-model="detailedIntroduction.content"></ckeditor>
         </div>
     </div>
 </template>
 
 <script>
+    import ckeditor from '../../../components/editor/ckeditor.vue'
 export default {
-	name: 'detailIntroduction',
+    name: 'detailIntroduction',
+    components: {
+        ckeditor
+    },
 	computed: {
 		detailedIntroduction: function () {
 			return this.$store.state.item.detailedIntroduction || {}
@@ -23,7 +27,7 @@ export default {
         padding: 10px 10px;
     }
 
-    .detailContent img {
+    /* .detailContent img {
         max-width: 100%;
-    }
+    } */
 </style>

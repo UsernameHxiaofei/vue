@@ -1,6 +1,5 @@
 import { createApp } from './app'
 import App from './App.vue'
-
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
 // state of our application before actually rendering it.

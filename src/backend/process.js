@@ -53,8 +53,15 @@ router.all('/fileupload_editor', multer().single('upload'), function(req, res) {
 		[passport]: req.session.passport 
 	}; 
 	stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
+	// sc.send(stuff).then((resp) => {
+	// 	if(resp.assignUniqueSecretMessage){
+	// 		res.json({default:resp.object,uploaded:false});
+	// 	}else{
+	// 		res.json({default:resp.object,uploaded:true});
+	// 	}
+	// });
 	sc.send(stuff).then((resp) => {
-		res.json(resp.object);
+			res.json(resp);
 	});
 });
 //上传头像截图信息

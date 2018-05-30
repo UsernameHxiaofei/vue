@@ -18,7 +18,8 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="内容" prop="content" v-if="isRender">
-                <quill-editor v-model="detail.content"></quill-editor>
+                <!-- <quill-editor v-model="detail.content"></quill-editor> -->
+                <ckeditor v-model="detail.content" :isEdit="true"></ckeditor>
             </el-form-item>
             <el-form-item label="创建时间" v-if="detail.creatTime" >
                 {{detail.creatTime}}
@@ -43,6 +44,7 @@
 <script>
     import articleStatusData from '../../constant/articleStatus'
     import editor from '../../components/editor/editor.vue'
+    import ckeditor from '../../components/editor/ckeditor.vue'
     export default {
         name: 'articleDetail',
         beforeMount() {
@@ -174,6 +176,7 @@
         },
         components: {
             'quill-editor': editor,
+            ckeditor
         }
 
     }

@@ -24,7 +24,7 @@
                     <template slot-scope="props">
                         <el-form label-position="left" inline class="demo-table-expand">
                             <el-form-item label="内容">
-                                <div class="ql-editor" v-html="props.row.content"></div>
+                                <div class="ck-content" v-html="props.row.content"></div>
                             </el-form-item>
                         </el-form>
                     </template>

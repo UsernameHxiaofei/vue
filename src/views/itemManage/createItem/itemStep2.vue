@@ -83,7 +83,7 @@
 	.edit-con {
 		width:860px;
 		margin:0 auto 40px;
-		font-size:12px;
+		font-size:14px;
 	}
 
 	/*添加团队成员弹窗*/
@@ -151,7 +151,8 @@
 					</el-upload>
 				</el-form-item>
 				<div class="edit-con" v-if="editorRender">
-					<quill-editor v-model="content" > </quill-editor>
+					<!-- <quill-editor v-model="content" > </quill-editor> -->
+					<ckeditor  v-model="content"  :isEdit="true"></ckeditor>
 				</div>
 				<div class="model-divider">
 					<img src="../../../assets/images/linear.png" />
@@ -293,12 +294,16 @@
 	import industryData from '../../../constant/industry.js'
 	import marriageData from '../../../constant/marriage.js'
 	import imageCropper from '../../../components/common/cropper'
+	import ckeditor from '../../../components/editor/ckeditor'
+
+
 	export default {
 		name: 'itemStep2',
 		components: {
 			dialogComponent,
 			'quill-editor': editor,
-			imageCropper
+			imageCropper,
+			ckeditor
 		},
 		computed: {
 			enterpriseMembers: function () {
