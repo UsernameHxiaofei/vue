@@ -47,7 +47,7 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('EnterpriseAccountDetailTask', 'selectListDayAmount', 'enterpriseManger')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
-			param.type,//0 企业  1聚合
+			param.type,//0 银行账户  1聚合
 			param.enterpriseId,
 			param.beginTime,
 			param.endTime
@@ -96,6 +96,7 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('EnterpriseAccountDetailTask', 'selectDLBAccountDetail', 'enterpriseManger')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
+			param.type||0,
 			param.id,
 			param.beginTime,
 			param.endTime,
@@ -155,6 +156,7 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('EnterpriseAccountDetailTask', 'selectListDLBAmountByTime', 'enterpriseManger')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
+			param.type||0,
 			param.enterpriseId,
 			param.beginTime,
 			param.endTime
@@ -178,11 +180,38 @@ module.exports=function client(router,sc,passport){
 		const stuff = sc.instanceRequest('Dfire2DataService', 'selectDfire2PayKind', 'enterpriseManger')
 		stuff.auxiliary = {[passport]: req.session.passport}
 		stuff.items = [
+			param.type||0,
 			param.enterpriseId,
 			param.beginTime,
 			param.endTime
 		]
 		sc.send(stuff).then((resp) =>{res.json(resp.object)})
 	})
-
+	//添加四果汤账户交易明细
+	router.all('/addSGTTradeDetailByExcel', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('EnterpriseAccountDetailTask', 'addSGTTradeDetailByExcel', 'enterpriseManger')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items =req.body.items
+		//[账号id,文件路径]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
+	//蒸有料交易明细EXCEL上传
+	router.all('/addZYLTradeDetailByExcel', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('ZhengYLTradeDetailTask', 'addZYLTradeDetailByExcel', 'enterpriseManger')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items =req.body.items
+		//[账号id,文件路径]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
+	//蒸有料交易明细查询
+	router.all('/selectZYLTradeDetail', function (req, res) {
+		let param=req.body
+		const stuff = sc.instanceRequest('ZhengYLTradeDetailTask', 'selectZYLTradeDetail', 'enterpriseManger')
+		stuff.auxiliary = {[passport]: req.session.passport}
+		stuff.items =req.body.items
+		//[账号id,开始时间，结束时间，文件路径，当前页数,页显示数]
+		sc.send(stuff).then((resp) =>{res.json(resp.object)})
+	})
 }

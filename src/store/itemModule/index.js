@@ -518,7 +518,15 @@ export default  {
 				commit('item_setProjectChannel',data)
 			})
 		},
-
+		obtainContracts({},param){
+			return api.obtainContracts(param)
+		},
+		modifyContractInformation({},param){
+			return api.modifyContractInformation(param)
+		},
+		removeContract({},param){
+			return api.removeContract(param)
+		},
 	},
 	mutations: {
 		item_setProjectChannel(state,data){

@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'production') {
 	}
 }
 
+
 //这里调用的router方法，来拦截vue请求给node服务器
 require('./server_routers/login_router')(router, sc, passport);
 require('./server_routers/risk_router')(router, sc, passport);
@@ -29,6 +30,7 @@ require('./server_routers/item_router')(router, sc, passport);
 require('./server_routers/content_router')(router, sc, passport);
 require('./server_routers/employee_router')(router,sc, passport);
 require('./server_routers/investedItem_router')(router,sc, passport);
+require('./server_routers/contract_router')(router,sc, passport);
 
 
 //上传下载 通用                   ↓↓↓↓↓↓
@@ -48,18 +50,11 @@ router.all('/fileupload', multer().single('file'), function(req, res) { //上传
 router.all('/fileupload_editor', multer().single('upload'), function(req, res) { //上传组件必须有data{fileType:1}
 	let param = req.body;
 	const stuff = sc.instanceRequest('FileManage', 'fileUpload', 'fileManage');
-	stuff.items = [req.file.originalname, param.fileType || 2, 'N']; // fileType：1文件，2图片
+	stuff.items = [req.file.originalname, param.fileType || 1, 'N']; // fileType：1文件，2图片
+	stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
 	stuff.auxiliary = {
 		[passport]: req.session.passport 
 	}; 
-	stuff.essences = [sc.instanceEssence(null, req.file.buffer)];
-	// sc.send(stuff).then((resp) => {
-	// 	if(resp.assignUniqueSecretMessage){
-	// 		res.json({default:resp.object,uploaded:false});
-	// 	}else{
-	// 		res.json({default:resp.object,uploaded:true});
-	// 	}
-	// });
 	sc.send(stuff).then((resp) => {
 			res.json(resp);
 	});
@@ -107,6 +102,5 @@ router.all('/filedownload*', function(req, res) {
 		res.send(resp.essences[0].byteBuffer);
 	});
 });
-
 
 module.exports = { router, sc, passport };

@@ -152,24 +152,24 @@
 					<el-input v-model="projectChannel.channelDesc" placeholder="渠道概述" :maxlength="255"></el-input>
 				</el-form-item>
 				<el-form-item label="项目分类">
-					<div class="itemType" :class="{'itemTypehover':itemType=='A'}" :style="" @click="chooseType('A')">
+					<div class="itemType" :class="{'itemTypehover':itemType==1}" :style="" @click="chooseType(1)">
 						普通项目
 					</div>
-					<div class="itemType" :class="{'itemTypehover':itemType=='B'}" @click="chooseType('B')">
+					<div class="itemType" :class="{'itemTypehover':itemType==2}" @click="chooseType(2)">
 						模拟投资项目
 					</div>
 				</el-form-item>
-				<el-form-item label="模拟投资最大购买份数" required v-if="itemType=='B'">
+				<el-form-item label="模拟投资最大购买份数" required v-if="itemType==2">
 					<el-input-number v-model.number="copies" :min="1"></el-input-number>
 				</el-form-item>
-				<el-form-item label="融资人类型" v-show="itemType=='A'">
+				<el-form-item label="融资人类型" v-show="itemType==1">
 					<el-radio-group v-model.number="actorCategory" @change="actorCategoryChange">
 						<el-radio :label="5">个人</el-radio>
 						<el-radio :label="4">企业</el-radio>
 					</el-radio-group>
 				</el-form-item>
 			</el-form>
-			<div v-if="itemType=='A'" class="search-box" style="margin:0px 1px 30px 10px;float:left">
+			<div v-if="itemType==1" class="search-box" style="margin:0px 1px 30px 10px;float:left">
 				<div class="output">
 					<el-input placeholder="姓名 | 手机号 | 身份证" icon="search" v-model="customerKeyword" @keyup.enter.native="customerKeywordChange"
 					 :on-icon-click="customerKeywordChange">
@@ -260,7 +260,7 @@
 					channelMark: '',
 					channelDesc: ''
 				},
-				itemType: 'A',
+				itemType: 1,
 				actorCategory: 5,
 				customerKeyword: '',
 				chooseItemCustomer: false,
@@ -323,7 +323,7 @@
 			},
 			chooseType(type) {
 				this.itemType = type
-				if (type == 'A') {
+				if (type == 1) {
 					this.actorCategory = 5
 					this.customerParam = {
 						keyword: this.customerKeyword,
@@ -342,7 +342,7 @@
 				}
 			},
 			handleCustomerCurrentChange(val) {
-				if (this.itemType == 'A') {
+				if (this.itemType == 1) {
 					this.customerParam.pageNo = val
 					this.$store.dispatch('item_getCustomerList', this.customerParam)
 				} else {
@@ -351,7 +351,7 @@
 				}
 			},
 			handleCustomerSizeChange(val) {
-				if (this.itemType == 'A') {
+				if (this.itemType == 1) {
 					this.customerParam.pageNo = 1
 					this.customerParam.pageSize = val
 					this.$store.dispatch('item_getCustomerList', this.customerParam)
@@ -379,7 +379,7 @@
 			},
 			createProject() {
 				this.chooseItemCustomer = true
-				this.chooseType('A')
+				this.chooseType(1)
 			},
 			getListData() {
 				this.tableloading = true

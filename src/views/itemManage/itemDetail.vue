@@ -347,30 +347,36 @@
 			<dialogComponent :title="'关联有限合伙'" :dialogFormVisible="dialogPartnerVisible" @dialog-confirm-callback="partner" @dialog-cancel-callback="quit">
 				<el-form :model="limitform" :rules="limitrule" ref="limitform">
 					<el-form-item prop="name" label="企业名称" :label-width="formLabelWidth">
-						<el-input v-model="limitform.name" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.name" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="code" label="统一社会信用代码" :label-width="formLabelWidth">
-						<el-input v-model="limitform.code" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.code" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="licence" label="开户许可核准号" :label-width="formLabelWidth">
-						<el-input v-model="limitform.licence" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.licence" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="bankName" label="开户银行" :label-width="formLabelWidth">
-						<el-input v-model="limitform.bankName" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.bankName" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="bankProvince" label="开户行省名" :label-width="formLabelWidth">
-						<el-input v-model="limitform.bankProvince" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.bankProvince" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="bankCity" label="开户行市名" :label-width="formLabelWidth">
-						<el-input v-model="limitform.bankCity" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.bankCity" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="bankOrgnizationName" label="开户行机构名" :label-width="formLabelWidth">
-						<el-input v-model="limitform.bankOrgnizationName" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.bankOrgnizationName" auto-complete="off"></el-input>
 					</el-form-item>
 					<el-form-item prop="bankAccount" label="银行账户" :label-width="formLabelWidth">
-						<el-input v-model="limitform.bankAccount" auto-complete="off"></el-input>
+						<el-input v-model.trim="limitform.bankAccount" auto-complete="off"></el-input>
 					</el-form-item>
-					<el-form-item prop="protocol" label="有限合伙协议模板" :label-width="formLabelWidth">
+					<el-form-item prop="contractName" label="合同名" :label-width="formLabelWidth">
+						<el-input v-model.trim="limitform.contractName" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item prop="signatureKeyword" label="合同签章关键字" :label-width="formLabelWidth">
+						<el-input v-model.trim="limitform.signatureKeyword" auto-complete="off"></el-input>
+					</el-form-item>
+					<el-form-item prop="protocol" label="签约协议上传" :label-width="formLabelWidth">
 						<el-upload ref="partnerContractDemo" :multiple="false" action="/ajax/fileupload" :auto-upload="true" :on-remove="protocol_remove"
 						 :before-upload="beforeUpload" :on-success="protocolUpload" :data="{fileType:2}">
 							<el-button size="small" type="primary">点击上传</el-button>
@@ -606,8 +612,11 @@
 					bankProvince: '',
 					bankCity: '',
 					bankAccount: '',
-					protocol: ''
+					protocol: '',
+					contractName:'',
+					signatureKeyword:''
 				},
+				partnerFormData:{},
 				limitrule: {
 					name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
 					code: [{ required: true, message: '请输入统一社会信用代码', trigger: 'blur' }],
@@ -617,7 +626,9 @@
 					bankProvince: [{ required: true, message: '请输入开户行省名', trigger: 'blur' }],
 					bankCity: [{ required: true, message: '请输入开户行市名', trigger: 'blur' }],
 					bankAccount: [{ required: true, message: '请输入银行账户', trigger: 'blur' }],
-					protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'change' }]
+					protocol: [{ required: true, message: '请上传有限合伙协议模板', trigger: 'change' }],
+					contractName: [{ required: true, message: '请输入合同名', trigger: 'change' }],
+					signatureKeyword: [{ required: true, message: '请输入合同签约关键字', trigger: 'change' }]
 				},
 				dateform: {
 					reserveBegin: '',
@@ -762,6 +773,10 @@
 					this.$message.warning('有限合伙人模板只能上传一个！')
 					return false
 				}
+				if(this.limitform.contractName==''||this.limitform.signatureKeyword==''){
+					this.$message.warning('请填写完善合同名以及合同签章关键字')
+					return false
+				}
 				if (file.size >= 1024 * 1024 * 10) {
 					this.$message.warning('不能上传大于10MB的文件！')
 					return false
@@ -770,7 +785,7 @@
 					this.$message.warning('协议模板必须是pdf文件！')
 					return false
 				}
-				return true
+				return this.createContract(file)
 			},
 			time() {
 				this.$refs['dateform'].validate((valid) => {
@@ -908,8 +923,27 @@
 						this.dialogPartnerVisible = false
 						let param = this.limitform
 						param.id = this.$route.params.projectId
-						this.$store.dispatch('item_createPartnerInfo', { param, vue: this })
-						this.$refs['limitform'].resetFields()
+						this.$store.dispatch('item_createPartnerInfo', { param, vue: this }).then(()=>{
+							let xhr = new XMLHttpRequest()
+							xhr.open('post', '/ajax/item_createContract')
+							let self = this
+							return new Promise((resolve,reject)=>{
+								xhr.onload = function () {
+									if (!xhr.response) {
+										self.$message.warning(JSON.parse(xhr.response).information)
+										resolve(false)
+									} else if (xhr.status == 200) {
+										if(JSON.parse(xhr.response).assignUniqueSecretMessage){
+											resolve(false)
+										}else{
+											resolve(true)
+										}
+									}
+								}
+								xhr.send(this.partnerFormData)
+							})
+						})
+						// this.$refs['limitform'].resetFields()
 					} else {
 						return false
 					}
@@ -918,7 +952,17 @@
 			quit() {
 				this.$refs['limitform'].resetFields()
 				this.dialogPartnerVisible = false
+			},
+			createContract(file){
+                let formData = new FormData()
+				formData.append('file', file)
+				formData.append('projectId', this.projectId)
+				formData.append('signatureKeyword', this.limitform.signatureKeyword)
+				formData.append('contractName',this.limitform.contractName)
+				this.partnerFormData = formData;
+				return true;
 			}
+
 		}
 	}
 </script>

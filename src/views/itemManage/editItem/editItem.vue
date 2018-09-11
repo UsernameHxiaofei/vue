@@ -152,7 +152,7 @@
 				</el-form-item>
 				<div class="edit-con" v-if="editorRender">
 					<!-- <quill-editor v-model="content" ref="myQuillEditor"> </quill-editor> -->
-					<ckeditor  v-model="content"  :isEdit="true"></ckeditor>
+					<ckeditor  v-model="content" ref="ckeditor" :isEdit="true"></ckeditor>
 				</div>
 				<div class="model-divider">
 					<img src="../../../assets/images/linear.png" />
@@ -242,7 +242,7 @@
 		<div class="p-form">
 			<dialogComponent :title="title1" :dialogFormVisible="dialogTeamVisible" @dialog-confirm-callback="team" @dialog-cancel-callback="cancel">
 				<el-form :model="teamform" :rules="teamrule" id="teamform" ref="teamform">
-					<el-form-item class="myhead" prop="imageURL" label="上传头像" label-width="170px">
+					<el-form-item class="myhead" prop="imageURL" label="上传头像" label-width="140px">
 						<img class="enterpriseMember-head-image" :src="teamform.imageURL" v-if="!!teamform.imageURL" alt="">
 						<br>
 						<el-button size="small" @click="editHeadImgChange=true">上传头像</el-button>
@@ -563,14 +563,14 @@ export default {
 				enterpriseId: this.itemManageDetail.enterpriseId || this.$store.state.item.enterpriseId
 			}
 			if (this.editFlag && this.itemManageDetail.detailedIntroductionId) {
-				this.$store.dispatch('item_updateDetailedIntroduction', { param: { id: this.itemManageDetail.detailedIntroductionId, content: this.content }, vue: this })
+				this.$store.dispatch('item_updateDetailedIntroduction', { param: { id: this.itemManageDetail.detailedIntroductionId, content: this.$refs.ckeditor.getData() }, vue: this })
 				this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {
 					this.$store.commit('item_setClearCreateItemData')
 					this.$store.dispatch('item_contentConfirm', { param: { id: this.$route.params.id }, vue: this })
 					this.$router.push('/itemDetail/' + this.$route.params.id)
 				})
 			} else {
-				this.$store.dispatch('item_createDetailedIntroduction', { param: { content: this.content }, vue: this }).then(() => {
+				this.$store.dispatch('item_createDetailedIntroduction', { param: { content:this.$refs.ckeditor.getData() }, vue: this }).then(() => {
 					if (this.$store.state.item.detailedIntroductionId && this.$store.state.item.detailedIntroductionId.length > 0) {
 						projectParam.detailedIntroductionId = this.$store.state.item.detailedIntroductionId
 						this.$store.dispatch('item_updateProjectForAffrim', { param: projectParam, vue: this }).then(() => {

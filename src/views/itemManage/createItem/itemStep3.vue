@@ -108,9 +108,9 @@
 						<img src="../../../assets/images/linear.png" />
 						<span>选择行家</span>
 					</div>
-					<el-input class="hang-select" placeholder="请输入行家" icon="search" v-if="this.itemManageDetail.type=='A'" v-model="expert" :on-icon-click="handleExpertClick">
+					<el-input class="hang-select" placeholder="请输入行家" icon="search" v-if="this.itemManageDetail.type==1" v-model="expert" :on-icon-click="handleExpertClick">
 					</el-input>
-					<el-select v-model="industry1" @change="expertIndustryChange" v-if="this.itemManageDetail.type=='A'" clearable placeholder="所属行业"
+					<el-select v-model="industry1" @change="expertIndustryChange" v-if="this.itemManageDetail.type==1" clearable placeholder="所属行业"
 					 class="hang-input">
 						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
@@ -142,9 +142,9 @@
 						<img src="../../../assets/images/linear.png" />
 						<span>选择领投</span>
 					</div>
-					<el-input class="hang-select" v-if="this.itemManageDetail.type=='A'" placeholder="请输入领投名称" icon="search" v-model="lead" :on-icon-click="handleLeadClick">
+					<el-input class="hang-select" v-if="this.itemManageDetail.type==1" placeholder="请输入领投名称" icon="search" v-model="lead" :on-icon-click="handleLeadClick">
 					</el-input>
-					<el-select v-model="industry2" @change="leadIndustryChange" v-if="this.itemManageDetail.type=='A'" clearable placeholder="所属行业"
+					<el-select v-model="industry2" @change="leadIndustryChange" v-if="this.itemManageDetail.type==1" clearable placeholder="所属行业"
 					 class="hang-input">
 						<el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
 						</el-option>
@@ -214,7 +214,7 @@ export default {
 				this.leader = this.itemManageDetail.leadInvestorId
 				this.experter = this.itemManageDetail.expertId
 			}
-			if (this.itemManageDetail.type == 'B') {
+			if (this.itemManageDetail.category == 2) {
 				this.isSimulation = true
 			}
 			if (this.isSimulation) {

@@ -89,6 +89,21 @@ module.exports=function client(Vue){
 			return Vue.http.post('selectDfire2PayKind',param).then(response =>{
 				return response.body
 			})
-		}
+		},
+		addSGTTradeDetailByExcel:(param)=>{
+			return Vue.http.post('addSGTTradeDetailByExcel',param).then(response =>{
+				return response.body
+			})
+		},
+		addZYLTradeDetailByExcel:(param)=>{
+			return Vue.http.post('addZYLTradeDetailByExcel',param).then(response =>{
+				return response.body
+			})
+		},
+		selectZYLTradeDetail:(param)=>{
+			return Vue.http.post('selectZYLTradeDetail',param).then(response =>{
+				return response.body
+			})
+		},
 	} 
 }

@@ -1,20 +1,39 @@
 <style lang="scss" scoped>
     .ck-block {
-        width:100%;
+        width: 100%;
         .ckeditor {
             width: 100%;
             margin: 0 auto;
             font-size: 14px;
+
         }
         .edit-content {
             min-height: 300px;
             max-height: 400px;
             overflow-y: auto;
+
+        }
+        .ck-content {
+            font-size: 0.875rem;
+            img {
+                max-width: 100%;
+            }
+            p {
+                margin: 0;
+                line-height: initial;
+                font-size: 1em;
+                line-height: 2em;
+            }
+            figure {
+                display: block;
+                margin-left: 0;
+                margin-right: 0;
+            }
         }
     }
 </style>
 <template>
-    <div class="ck-block" >
+    <div class="ck-block">
         <div class="ckeditor" v-if="isEdit">
             <div ref="ckeditor" @change="getData" class="edit-content"></div>
         </div>
@@ -25,7 +44,7 @@
 </template>
 
 <script>
-   
+
     export default {
         name: "ckeditor",
         data() {
@@ -34,31 +53,31 @@
             };
         },
         props: {
-            isEdit:{
-                reqiured:false,
-                type:Boolean,
-                default:false,
+            isEdit: {
+                reqiured: false,
+                type: Boolean,
+                default: false,
             },
-            value:{
-                reqiured:false,
-                type:String,
-                default:'<p></p><p></p><p></p>'
+            value: {
+                reqiured: false,
+                type: String,
+                default: '<p></p><p></p><p></p>'
             }
         },
         watch: {
-            value:function(v,old){
+            value: function (v, old) {
                 if (this.editor.plugins) {
                     this.editor.setData(v)
-                }else if(!this.isEdit){
-                    this.$nextTick(()=>{
+                } else if (!this.isEdit) {
+                    this.$nextTick(() => {
                         this.$refs.ckeditorContent.innerHTML = v
                     })
                 }
-            }  
+            }
         },
         methods: {
             initCkeditor() {
-                if(!window.ClassicEditor){
+                if (!window.ClassicEditor) {
                     console.log('window.ClassicEditor is disappear')
                     return;
                 }
@@ -91,28 +110,28 @@
                         return new FileUploadAdapter(loader);
                     };
                     this.editor = editor;
-                    
-                    this.editor.keystrokes.set( 'Ctrl+S', ( data, cancel ) => {
+
+                    this.editor.keystrokes.set('Ctrl+S', (data, cancel) => {
                         this.getData();
                         cancel();
-                    } );
+                    });
                 }).catch(error => {
                     console.error(error);
                 });
             },
             getData() {
                 if (this.editor.plugins) {
-                    let value=this.editor.getData()
-                    this.$emit('input',value)
+                    let value = this.editor.getData()
+                    this.$emit('input', value)
                     return value
                 }
             },
         },
         mounted() {
-            if(this.isEdit){
+            if (this.isEdit) {
                 this.initCkeditor();
-            }else{
-                this.$nextTick(()=>{
+            } else {
+                this.$nextTick(() => {
                     this.$refs.ckeditorContent.innerHTML = this.value;
                 })
             }
@@ -140,17 +159,17 @@
                 xhr.onload = function () {
                     if (xhr.status == 200) {
                         console.log(xhr);
-                        if(xhr.response.head.success){
-                            let str= ''
+                        if (xhr.response.head.success) {
+                            let str = ''
                             try {
-                                str = JSON.parse(xhr.response.objectLiteral)  
+                                str = JSON.parse(xhr.response.objectLiteral)
                             } catch (error) {
                                 reject(error)
                             }
                             resolve({
-                                default:str
+                                default: str
                             })
-                        }else{
+                        } else {
                             reject(xhr.response.head.information)
                         }
                     }

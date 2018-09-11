@@ -17,7 +17,6 @@ Vue.http.interceptors.push(function (request, next) {
 					location.href = '/login';
 				}, 1000);
 			}
-			response.data = null;
 		}
 	});
 

@@ -105,7 +105,16 @@ export default {
 			return api.selectDfire2PayKind(param).then((data)=>{
 				commit('selectDfire2PayKind',data)
 			})
-		}
+		},
+		addSGTTradeDetailByExcel({commit},param){
+			return api.addSGTTradeDetailByExcel(param)
+		},
+		addZYLTradeDetailByExcel({commit},param){
+			return api.addZYLTradeDetailByExcel(param)
+		},
+		selectZYLTradeDetail({commit},param){
+			return api.selectZYLTradeDetail(param)
+		},
 	},
 	mutations: {
 		selectDfire2PayKind(state,data){

@@ -93,7 +93,7 @@ export default {
 		getImageData() {
 			let bIn = []
 			let param = {
-				type: 1,
+				type:2,
 				enterpriseId: this.enterprise.id,
 				beginTime: this.param.beginTime,
 				endTime: this.param.endTime

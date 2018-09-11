@@ -35,7 +35,7 @@ module.exports=function client(router,sc,passport){
 				name:param.name,
 				category:param.category
 			},
-			param.email=='undefined'?'':param.email,,
+			param.email=='undefined'?'':param.email,
 			param.roles
 		]
 		sc.send(stuff).then((resp) =>{

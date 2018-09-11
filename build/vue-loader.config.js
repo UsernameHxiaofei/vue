@@ -7,7 +7,6 @@ module.exports = {
     })
   ],
   loaders: {
-    scss: ['vue-style-loader', 'css-loader', 'sass-loader'], // <style lang="scss">
-    sass: ['vue-style-loader', 'css-loader', 'sass-loader'] // <style lang="sass">
+    scss: ['vue-style-loader', 'css-loader', 'sass-loader']
   }
 }

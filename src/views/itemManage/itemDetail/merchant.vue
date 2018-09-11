@@ -77,10 +77,10 @@
                     <el-input v-model="merchantForm.machine_num" auto-complete="off"></el-input>
                 </el-form-item>
                 <el-form-item prop="tradeType" label="交易类型">
-                    <el-radio v-for="item in tradeTypeOptions" :key="item.value" v-model="merchantForm.tradeType" :label="item.value">{{item.label}}</el-radio>
+                    <el-radio v-for="item in tradeTypeOptions" :key="item.value" v-model.number="merchantForm.tradeType" :label="item.value">{{item.label}}</el-radio>
                 </el-form-item>
                 <el-form-item prop="channel" label="渠道类型">
-                    <el-radio v-for="item in channelOptions" :key="item.value" v-model="merchantForm.channel" :label="item.value">{{item.label}}</el-radio>
+                    <el-radio v-for="item in channelOptions" :key="item.value" v-model.number="merchantForm.channel" :label="item.value">{{item.label}}</el-radio>
                 </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">

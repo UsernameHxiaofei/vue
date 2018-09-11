@@ -384,7 +384,7 @@
 					console.log('asdad',this.addUser)
 					if (valid) {
 						this.$store.dispatch('system_createUser', this.addUser).then(() => {
-							if (this.systemCreate) {
+							if (this.systemCreate.length>0) {
 								this.$message({
 									message: '添加账号成功！',
 									type: 'success'

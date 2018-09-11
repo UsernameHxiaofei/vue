@@ -18,8 +18,7 @@
                 </el-select>
             </el-form-item>
             <el-form-item label="内容" prop="content" v-if="isRender">
-                <!-- <quill-editor v-model="detail.content"></quill-editor> -->
-                <ckeditor v-model="detail.content" :isEdit="true"></ckeditor>
+                <ckeditor v-model="detail.content" ref="ckeditor" :isEdit="true"></ckeditor>
             </el-form-item>
             <el-form-item label="创建时间" v-if="detail.creatTime" >
                 {{detail.creatTime}}
@@ -79,13 +78,14 @@
         },
         methods: {
             createArticle() {
-                this.detail.status = 1
+                let param = Object.assign({},this.detail);
+                param.status = 1
+                param.content=this.$refs.ckeditor.getData()
                 this.$refs['form'].validate((valid) => {
                     if (valid) {
-                        this.$store.dispatch('addDynamic', this.detail).then((data) => {
+                        this.$store.dispatch('addDynamic', param).then((data) => {
                             if (data.flag) {
                                 this.detail.id=data.resutl;
-                                Object.assign({},this.detail);
                                 this.$message.success('保存完成')
                                 this.refreshData()
                             } else {
@@ -97,6 +97,7 @@
             },
             deploy() {
                 let param = Object.assign({},this.detail);
+                param.content=this.$refs.ckeditor.getData()
                 param.status=2;
                 this.$confirm('发表该文稿将把此文稿变为已发表状态，并开始展示在客户端', '发表确认', {
                     confirmButtonText: '确定',
@@ -153,6 +154,7 @@
                 if(!this.detail.id){
                     return
                 }
+                
                 this.$store.dispatch('selectDynamicForDetail', { id: this.detail.id }).then(() => {
                     if(this.selectDynamicForDetail.flag){
                         this.detail=this.selectDynamicForDetail.resutl

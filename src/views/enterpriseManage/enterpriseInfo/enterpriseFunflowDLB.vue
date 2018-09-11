@@ -12,6 +12,7 @@
 					<el-button v-if="isUpload" size="small" type="primary" @click="uploadVisible=true">
 						上传哆啦宝商户账单
 					</el-button>
+					<el-button v-if="isUpload" size="small" type="primary" class="importExcel" @click="isImport=true">导入蒸有料四果汤excel数据</el-button>
 				</div>
 			</el-col>
 		</el-row>
@@ -25,8 +26,8 @@
 					<el-date-picker v-model="endTime" :clearable="false" align="right" :editable="false" type="date" @change="endChange" placeholder="选择结束日期"></el-date-picker>
 				</span>
 				<div class="actionbar">
-					<button class="typebutton" type="button" :class="{'noeffect':!showChart}" @click="changeChart(1)"> 分析图表 </button>
-					<button class="typebutton" type="button" :class="{'noeffect':showChart}" @click="changeChart(0)"> 订单明细 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':showChart!=1}" @click="changeChart(1)"> 分析图表 </button>
+					<button class="typebutton" type="button" :class="{'noeffect':showChart!=0}" @click="changeChart(0)"> 订单明细 </button>
 				</div>
 			</el-col>
 		</el-row>
@@ -52,8 +53,8 @@
 			</el-col>
 		</el-row>
 		<el-row style="margin :15px auto 20px 0;display:flex;align-items:center">
-			<div v-show="showChart" id="enterpriseOrderChannelCount"></div>
-			<table v-show="showChart" class="enterpriseTotalData">
+			<div v-show="showChart==1" id="enterpriseOrderChannelCount"></div>
+			<table v-show="showChart==1" class="enterpriseTotalData">
 				<thead>
 					<tr>
 						<th>收入金额({{unitName}})</th>
@@ -84,16 +85,16 @@
 				</tbody>
 			</table>
 		</el-row>
-		<el-row v-show="showChart" style="margin :15px auto 20px 0">
+		<el-row v-show="showChart==1" style="margin :15px auto 20px 0">
 			<div id="enterpriseOrderCountchart"></div>
 		</el-row>
-		<el-row v-show="showChart">
+		<el-row v-show="showChart==1">
 			<el-col :span="24" style="margin :25px auto 20px 0">
 				<div id="enterpriseDLBchart"></div>
 			</el-col>
 		</el-row>
 
-		<el-row v-show="!showChart">
+		<el-row v-show="showChart==0">
 			<el-col :span="24">
 				<el-table border :data="listData.list" stripe style="width: 100%">
 					<el-table-column prop="order_num" label="订单号" align="center"> </el-table-column>
@@ -105,7 +106,31 @@
 				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
 			</el-col>
 		</el-row>
+		<el-row v-show="showChart==3">
+			<el-col :span="24">
+				<el-table border :data="listData.list" stripe style="width: 100%">
+					<el-table-column prop="complete_time" label="交易日期" align="center"></el-table-column>
+					<el-table-column prop="order_amount" :label="'订单金额('+unitName+')'" align="center"> </el-table-column>
+					<el-table-column prop="pay_amount" :label="'实付金额('+unitName+')'" align="center"> </el-table-column>
+					<el-table-column prop="guestNum" label="来客数" align="center"> </el-table-column>
+					<el-table-column prop="guestPrice" label="客单价(元)" align="center"></el-table-column>
+					<el-table-column  label="支付宝(元)" align="center">
+						<template slot-scope="scope">
+							{{scope.row.ipay+scope.row.itran}}
+						</template>
+					</el-table-column>
+					<el-table-column label="微信(元)" align="center">
+						<template slot-scope="scope">
+							{{scope.row.wxpay+scope.row.wxtran}}
+						</template>
+					</el-table-column>
+					<el-table-column prop="discount_amount" label="折扣金额(元)" align="center"> </el-table-column>
+				</el-table>
+				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
+			</el-col>
+		</el-row>
 		<importFile :importFile="{title: '哆啦宝账单上传',label:'上传账单'}" @result="importFileClick" :visible.sync="uploadVisible" @close="uploadVisible=false"></importFile>
+		<importFile :visible="isImport" @result="getFile" @close="isImport=false"></importFile>
 	</div>
 </template>
 
@@ -146,37 +171,81 @@
 			importFile
 		},
 		methods: {
+			getFile(file){
+				let accountTmp=this.merchant[0]
+				if(accountTmp&&accountTmp.id){
+					this.$prompt('请输入要导入的项目编号：1.四果汤，2.蒸有料', '提示', {
+						confirmButtonText: '确定',
+						cancelButtonText: '取消',
+						inputPattern: /1|2/,
+						inputErrorMessage: '未知项目'
+					}).then(({ value }) => {
+						let type=parseInt(value);
+						if(type==1){
+							this.$store.dispatch('addSGTTradeDetailByExcel',{items:[accountTmp.id,file.path]}).then((data)=>{
+								if(!(data&&data.assignUniqueSecretMessage)){
+									this.$message.success('导入成功')
+								}
+							})
+						}else if(type==2){
+							this.$store.dispatch('addZYLTradeDetailByExcel',{items:[accountTmp.id,file.path]}).then((data)=>{
+								if(!(data&&data.assignUniqueSecretMessage)){
+									this.$store.dispatch('selectZYLTradeDetail',{items:[accountTmp.id,this.startTime.toLocaleString(),this.endTime.toLocaleString(),this.param.pageNo,this.param.pageSize]}).then((data)=>{
+										this.ZYLList=data;
+										this.formatListData()
+									})
+									this.$message.success('导入成功')
+								}
+							})
+						}else{
+							this.$message({
+								type: 'info',
+								message: '不正确的输入编号'
+							});  
+						}
+					}).catch((e) => {
+						this.$message({
+							type: 'info',
+							message: '取消输入'
+						});       
+					});
+					
+				}else{
+					this.$message.warning('银行账户不存在')
+				}
+				
+			},
 			setTimeQuick(n) {
 				this.timeQuick = n
 				this.isTimeQuick = true
-				this.endTime = moment().toDate()
+				this.endTime = moment().format('YYYY-MM-DD 00:00:00')
 				switch (n) {
 					case 1:
-						this.startTime = moment().subtract(1, 'day').toDate()
+						this.startTime = moment().subtract(1, 'day').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 2:
-						this.startTime = moment().subtract(3, 'day').toDate()
+						this.startTime = moment().subtract(3, 'day').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 3:
-						this.startTime = moment().subtract(1, 'week').toDate()
+						this.startTime = moment().subtract(1, 'week').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 4:
-						this.startTime = moment().subtract(1, 'month').toDate()
+						this.startTime = moment().subtract(1, 'month').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 5:
-						this.startTime = moment().subtract(3, 'month').toDate()
+						this.startTime = moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 6:
-						this.startTime = moment().subtract(6, 'month').toDate()
+						this.startTime = moment().subtract(6, 'month').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 7:
-						this.startTime = moment().subtract(1, 'year').toDate()
+						this.startTime = moment().subtract(1, 'year').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 8:
-						this.startTime = moment().subtract(2, 'year').toDate()
+						this.startTime = moment().subtract(2, 'year').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 9:
-						this.startTime = moment().subtract(3, 'year').toDate()
+						this.startTime = moment().subtract(3, 'year').format('YYYY-MM-DD 00:00:00')
 						break;
 					default:
 						break;
@@ -185,21 +254,34 @@
 					beginTime: this.startTime.toLocaleString(),
 					endTime: this.endTime.toLocaleString(),
 					id: this.enterprise.id,
-					// id: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
 					pageSize: 10,
 					pageNo: 1
 				}
-				this.$store.dispatch('selectDfire2PayKind', {
-					enterpriseId: this.enterprise.id,
-					beginTime: this.startTime.toLocaleString(),
-					endTime: this.endTime.toLocaleString(),
-				}).then(() => {
-					this.buildChannelMap()
+				this.$store.dispatch('item_getMerchant', { enterpriseId: this.enterprise.id }).then(()=>{
+					if(this.merchant[0]&&this.merchant[0].channel==6){
+						this.isDuoWei=true;
+						this.showChart=3;
+						this.$store.dispatch('selectZYLTradeDetail',{items:[this.merchant[0].id,this.startTime.toLocaleString(),this.endTime.toLocaleString(),this.param.pageNo,this.param.pageSize]}).then((data)=>{
+							this.ZYLList=data;
+							this.formatListData()
+						})
+					}
 				})
-				Promise.all([this.$store.dispatch('enterprise_getAccountDetailDLB', this.param), this.getImageData(), this.getTotalData()]).then((data) => {
-					this.formatListData()
-					this.isTimeQuick = false
-				})
+				if(!this.isDuoWei){
+					this.$store.dispatch('selectDfire2PayKind', {
+						type:0,
+						enterpriseId: this.enterprise.id,
+						beginTime: this.startTime.toLocaleString(),
+						endTime: this.endTime.toLocaleString(),
+					}).then(() => {
+						this.buildChannelMap()
+					})
+					Promise.all([this.$store.dispatch('enterprise_getAccountDetailDLB', this.param), this.getImageData(), this.getTotalData()]).then((data) => {
+						this.formatListData()
+						this.isTimeQuick = false
+					})
+				}
+				
 			},
 			chooseUnit(n) {
 				this.unit = n
@@ -228,15 +310,12 @@
 				}
 			},
 			changeChart(a) {
-				if (a) {
-					this.showChart = true
-				} else {
-					this.showChart = false
-				}
+				this.showChart = a
 				this.$store.dispatch('selectDfire2PayKind', {
-					enterpriseId: '02b2cb2a-a22f-47a8-a992-aac6a6edee6f',
-					beginTime: '2018-01-28 00:00:00',
-					endTime: '2018-01-28 00:00:00'
+					type:0,
+					enterpriseId: this.param.id,
+					beginTime: this.startTime.toLocaleString(),
+					endTime: this.endTime.toLocaleString(),
 				}).then(() => {
 					this.buildChannelMap()
 				})
@@ -249,7 +328,7 @@
 			getImageData() {
 				let bIn = [], bNum = []
 				let param = {
-					type: 1,
+					type: 2,
 					enterpriseId: this.param.id,
 					beginTime: this.param.beginTime,
 					endTime: this.param.endTime
@@ -280,7 +359,7 @@
 				if (this.isTimeQuick) {
 					return
 				}
-				this.param.beginTime = v
+				this.param.beginTime = moment(v).format('YYYY-MM-DD 00:00:00')
 				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
 					this.formatListData()
 					this.getTotalData()
@@ -291,7 +370,7 @@
 				if (this.isTimeQuick) {
 					return
 				}
-				this.param.endTime = v
+				this.param.endTime = moment(v).format('YYYY-MM-DD 00:00:00')
 				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
 					this.formatListData()
 					this.getTotalData()
@@ -301,20 +380,39 @@
 			handleSizeChange(size) {
 				this.param.pageSize = size
 				this.param.pageNo = 1
-				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-					this.formatListData()
-					this.getTotalData()
-				})
+				if(this.isDuoWei){
+					this.$store.dispatch('selectZYLTradeDetail',{items:[this.merchant[0].id,this.startTime.toLocaleString(),this.endTime.toLocaleString(),this.param.pageNo,this.param.pageSize]}).then((data)=>{
+							this.ZYLList=data;
+							this.formatListData()
+						})
+				}else{
+					this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
+						this.formatListData()
+						this.getTotalData()
+					})
+				}
 			},
 			handleCurrentChange(page) {
 				this.param.pageNo = page
-				this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
-					this.formatListData()
-					this.getTotalData()
-				})
+				if(this.isDuoWei){
+					this.$store.dispatch('selectZYLTradeDetail',{items:[this.merchant[0].id,this.startTime.toLocaleString(),this.endTime.toLocaleString(),this.param.pageNo,this.param.pageSize]}).then((data)=>{
+							this.ZYLList=data;
+							this.formatListData()
+						})
+				}else{
+					this.$store.dispatch('enterprise_getAccountDetailDLB', this.param).then(() => {
+						this.formatListData()
+						this.getTotalData()
+					})
+				}
 			},
 			formatListData() {
-				let listData = JSON.parse(JSON.stringify(this.dataList))
+				let listData
+				if(this.isDuoWei){
+					listData = JSON.parse(JSON.stringify(this.ZYLList))
+				}else{
+					listData = JSON.parse(JSON.stringify(this.dataList))
+				}
 				for (let i = 0; listData.list && i < listData.list.length; i++) {
 					let item = listData.list[i]
 					item.order_amount = item.order_amount / this.unit
@@ -457,16 +555,19 @@
 		},
 		beforeMount() {
 			this.setTimeQuick(4)
-			this.$store.dispatch('item_getMerchant', { enterpriseId: this.enterprise.id })
+			
 		},
 		data() {
 			return {
+				ZYLList:{},
+				isDuoWei:false,
+				isImport:false,
 				startTime: '',
 				endTime: '',
 				param: {},
 				imageData: [],
 				listData: [],
-				showChart: true,
+				showChart: 1,
 				isUpload: false,
 				uploadVisible: false,
 				unit: 1,

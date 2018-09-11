@@ -55,7 +55,7 @@
 	}
 
 	#enterpriseFunflow .info .info-item label {
-		width: 140px;
+		width: 110px;
 		text-align: right;
 		margin-right: 10px;
 	}
@@ -127,7 +127,7 @@
 						<span>{{item.depositBank}}</span>
 					</div>
 					<div class="info-item">
-						<label>基本存款账账户账号</label>
+						<label>基本存款账账户</label>
 						<span>{{item.basicDepositAccountNumber}}</span>
 					</div>
 					<div class="info-item">
@@ -140,6 +140,7 @@
 					<span>{{item.balance||0}}元</span>
 				</div>
 			</div>
+			
 		</el-row>
 		<el-row>
 			<el-col :span="24" style="margin:10px auto">
@@ -220,15 +221,18 @@
 				<pagination style="float:right;margin:10px 50px" :total="listData.totalCount" @size-change="handleSizeChange" @current-change="handleCurrentChange"></pagination>
 			</el-col>
 		</el-row>
+		<importFile :visible="isImport" @result="getFile" @close="isImport=false"></importFile>
 	</div>
 </template>
 
 <script>
 	import echarts from '../../../../node_modules/echarts/dist/echarts.min.js'
 	import pagination from '../../../components/common/pagination.vue'
+	import importFile from '../../../components/common/importFile.vue'
 	import moment from 'moment'
 	import theme from '../../../assets/js/echarts.theme.js'
 	import { formatDate,moneyFormat } from '../../../util/index'
+
 	theme(echarts)
 
 	export default {
@@ -242,54 +246,55 @@
 				return this.$store.state.enterprise.listDayAmount || {}
 			},
 			account: function () {
-				return this.$store.state.item.authInfo && this.$store.state.item.authInfo || {}
+				return this.$store.state.item.authInfo && this.$store.state.item.authInfo || []
 			},
 			unitName: function () {
 				return this.unit == 1 ? '元' : '万元'
 			}
 		},
 		components: {
-			'pagination': pagination
+			'pagination': pagination,
+			importFile
 		},
 		methods: {
 			setTimeQuick(n) {
 				this.timeQuick = n
 				this.isTimeQuick = true
-				this.endTime = moment().toDate()
+				this.endTime = moment().format('YYYY-MM-DD 00:00:00')
 				switch (n) {
 					case 1:
-						this.startTime = moment().subtract(1, 'day').toDate()
+						this.startTime = moment().subtract(1, 'day').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 2:
-						this.startTime = moment().subtract(3, 'day').toDate()
+						this.startTime = moment().subtract(3, 'day').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 3:
-						this.startTime = moment().subtract(1, 'week').toDate()
+						this.startTime = moment().subtract(1, 'week').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 4:
-						this.startTime = moment().subtract(1, 'month').toDate()
+						this.startTime = moment().subtract(1, 'month').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 5:
-						this.startTime = moment().subtract(3, 'month').toDate()
+						this.startTime = moment().subtract(3, 'month').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 6:
-						this.startTime = moment().subtract(6, 'month').toDate()
+						this.startTime = moment().subtract(6, 'month').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 7:
-						this.startTime = moment().subtract(1, 'year').toDate()
+						this.startTime = moment().subtract(1, 'year').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 8:
-						this.startTime = moment().subtract(2, 'year').toDate()
+						this.startTime = moment().subtract(2, 'year').format('YYYY-MM-DD 00:00:00')
 						break;
 					case 9:
-						this.startTime = moment().subtract(3, 'year').toDate()
+						this.startTime = moment().subtract(3, 'year').format('YYYY-MM-DD 00:00:00')
 						break;
 					default:
 						break;
 				}
 				this.param = {
-					beginTime: this.startTime.toLocaleString(),
-					endTime: this.endTime.toLocaleString(),
+					beginTime: this.startTime,
+					endTime: this.endTime,
 					id: this.enterprise.id,
 					pageSize: 10,
 					pageNo: 1,
@@ -374,7 +379,7 @@
 				if (this.isTimeQuick) {
 					return
 				}
-				this.param.beginTime = v
+				this.param.beginTime = moment(v).format('YYYY-MM-DD 00:00:00')
 				this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
 					this.formatListData()
 					this.getTotalData()
@@ -385,7 +390,7 @@
 				if (this.isTimeQuick) {
 					return
 				}
-				this.param.endTime = v
+				this.param.endTime = moment(v).format('YYYY-MM-DD 00:00:00')
 				this.$store.dispatch('enterprise_getAccountDetail', this.param).then(() => {
 					this.formatListData()
 					this.getTotalData()
@@ -515,6 +520,7 @@
 			}
 		},
 		beforeMount() {
+			
 			this.setTimeQuick(4)
 		},
 		data() {
