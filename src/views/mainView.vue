@@ -77,6 +77,7 @@
 				</el-select>
 			</div>
 		</div>
+
 		<!--表格-->
 		<div class="my-table">
 			<el-table v-loading="tableloading" :data="itemManageList.list" stripe border style="width: 100%">
@@ -125,6 +126,7 @@
 				<el-table-column prop="" width="40"></el-table-column>
 			</el-table>
 		</div>
+		
 		<!--分页-->
 		<div class="page-box clearfix">
 			<div class="page-wrap">

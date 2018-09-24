@@ -85,6 +85,7 @@
 	</div>
 </template>
 <script>
+// 导入分页的组件
 import pagination from '../../components/common/pagination.vue'
 export default {
 	name: 'msgModel',
@@ -116,26 +117,7 @@ export default {
 	},
 	data() {
 		return {
-			title: '',
-			keyword: '',
-			totalList: 400,
-			templatId: '',
-			deletor: '',
-			msgModelparam: {},
-			delMsgModelparam: {},
-			msgModelById: {},
-			ltInfoTemplat: {},
-			currentPage: 1,
-			dialogMsgVisible: false,
-			ruleForm: {
-				templatId: '',
-				templatCode: '',
-				templatName: '',
-				templatType: '',
-				templatContent: '',
-				status: 1,
-				creator: ''
-			},
+			................................
 			rules: {
 				templatName: [
 					{ required: true, message: '请输入消息模板名称', trigger: 'blur' }
